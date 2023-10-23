@@ -26,9 +26,9 @@ spring:
         bucket: ssafy-last-project
 
 jwt:
-  secret-key:
-  access-token-valid-time:
-  refresh-token-valid-time:
+  secret-key: asdfasdfasdfasdfasdf
+  access-token-valid-time: 100000
+  refresh-token-valid-time: 10000
 
 #  data:
 #    redis:
