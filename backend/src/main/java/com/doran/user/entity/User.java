@@ -1,8 +1,11 @@
 package com.doran.user.entity;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.doran.user.type.Roles;
@@ -31,13 +34,15 @@ public class User extends BaseTimeEntity implements UserDetails {
 	@Column(name = "user_id")
 	private int id;
 	private String name;
-	
+
 	@Enumerated(EnumType.STRING)
 	private Roles userRole;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return null;
+		List<GrantedAuthority> authorities = new ArrayList<>();
+		authorities.add(new SimpleGrantedAuthority(this.userRole.getRole()));
+		return authorities;
 	}
 
 	@Override
