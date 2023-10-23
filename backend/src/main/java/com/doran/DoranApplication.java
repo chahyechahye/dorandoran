@@ -11,7 +11,7 @@ import jakarta.persistence.EntityManager;
 
 @SpringBootApplication(exclude = SecurityAutoConfiguration.class)
 public class DoranApplication {
-	//푸시테스트
+
 	public static void main(String[] args) {
 		SpringApplication.run(DoranApplication.class, args);
 	}
