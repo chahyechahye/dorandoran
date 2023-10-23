@@ -18,6 +18,11 @@ import lombok.extern.slf4j.Slf4j;
 public class UserService {
 	private final UserRepository userRepository;
 
+	//로컬테스트용 회원가입
+	public void joinUser(User user) {
+		userRepository.save(user);
+	}
+
 	//유저 조회 - id
 	public User findUser(int id) {
 		Optional<User> findUser = userRepository.findById(id);
