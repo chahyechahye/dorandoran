@@ -25,6 +25,11 @@ spring:
         project-id: rd-ssafy-project
         bucket: ssafy-last-project
 
+jwt:
+  secret-key:
+  access-token-valid-time:
+  refresh-token-valid-time:
+
 #  data:
 #    redis:
 #      port: 6379
