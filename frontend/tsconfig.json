@@ -1,15 +1,11 @@
 {
   "compilerOptions": {
     "baseUrl": ".", // 경로 시작 위치를 현재 위치로 설정
-      "paths": {
-        "@/*": ["src/*"] // @/로 시작하는 경로를 src/ 경로로 설정
-      },
+    "paths": {
+      "@/*": ["src/*"] // @/로 시작하는 경로를 src/ 경로로 설정
+    },
     "target": "es5", // 컴파일된 코드의 대상 JavaScript 버전을 es5로 설정합니다.
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ], // 사용 가능한 라이브러리와 환경을 지정합니다.
+    "lib": ["dom", "dom.iterable", "esnext"], // 사용 가능한 라이브러리와 환경을 지정합니다.
     "allowJs": true, // JavaScript 파일도 컴파일을 허용합니다.
     "skipLibCheck": true, // 라이브러리 검사를 건너뜁니다.
     "esModuleInterop": true, // CommonJS 및 ES 모듈 간의 상호 운용성을 허용합니다.
