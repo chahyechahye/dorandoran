@@ -14,6 +14,10 @@ const routes: RouteType[] = [
     path: "/",
     element: React.lazy(() => import("@/pages/main")),
   },
+  {
+    path: "/character",
+    element: React.lazy(() => import("@/pages/character")),
+  },
   // {
   //   path: "/",
   //   element: () => <Navigate replace to="/main" />,
