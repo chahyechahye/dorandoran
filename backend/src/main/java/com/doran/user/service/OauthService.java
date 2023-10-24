@@ -8,6 +8,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import com.doran.parent.type.Provider;
 import com.doran.user.dto.res.GetKakaoToken;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,6 +31,8 @@ public class OauthService {
 
 	@Value("${oauth.kakao.info-uri}")
 	private String infoUri;
+
+	private final UserService userService;
 
 	//카카오
 	//인가코드 -> 토큰 정보
@@ -78,5 +81,12 @@ public class OauthService {
 		log.info("nickname : {}", nickname);
 		log.info("email : {}", email);
 
+		loginOrSignUp(email, nickname);
+	}
+
+	//회원 가입 or 로그인
+	public void loginOrSignUp(String email, String nickname) {
+		log.info("회원 가입 or 로그인 진입");
+		userService.signUp(email, nickname, Provider.kakao);
 	}
 }

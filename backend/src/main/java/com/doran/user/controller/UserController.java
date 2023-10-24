@@ -25,7 +25,7 @@ public class UserController {
 	//부모 아이 상관없는 그냥 깡 유저 - admin 생성용
 	@PostMapping("")
 	public ResponseEntity join(@RequestBody UserJoinDto userJoinDto) {
-		userService.joinUser(userMapper.toUser(userJoinDto));
+		userService.signUp(userMapper.toUser(userJoinDto.getName(), userJoinDto.getUserRole()));
 
 		return ResponseEntity.ok("오키");
 	}
