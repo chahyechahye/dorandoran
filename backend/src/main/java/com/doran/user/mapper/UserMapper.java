@@ -2,11 +2,11 @@ package com.doran.user.mapper;
 
 import org.mapstruct.Mapper;
 
-import com.doran.user.dto.req.UserJoinDto;
 import com.doran.user.entity.User;
+import com.doran.user.type.Roles;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
-	User toUser(UserJoinDto userJoinDto);
+	User toUser(String name, Roles userRole);
 
 }
