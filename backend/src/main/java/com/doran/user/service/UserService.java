@@ -37,6 +37,7 @@ public class UserService {
 
 	//회원가입
 	public void signUp(String name, String email, Provider provider) {
+		log.info("회원 가입 진행");
 		log.info("유저 생성");
 		User parentUser = userMapper.toUser(name, Roles.PARENT);
 		User saveUser = signUp(parentUser);
@@ -55,6 +56,7 @@ public class UserService {
 	//있으면 로그인
 	//없으면 회원가입
 	public Optional<UserFindDto> findUser(String email, Provider provider) {
+		log.info("email, provider로 회원 조회 진행");
 		return userRepository.findUser(email, provider);
 	}
 
