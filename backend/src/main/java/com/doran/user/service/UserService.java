@@ -11,7 +11,7 @@ import com.doran.parent.ParentService;
 import com.doran.parent.entity.Parent;
 import com.doran.parent.mapper.ParentMapper;
 import com.doran.parent.type.Provider;
-import com.doran.user.dto.req.UserFindDto;
+import com.doran.user.dto.req.UserTokenBaseDto;
 import com.doran.user.entity.User;
 import com.doran.user.mapper.UserMapper;
 import com.doran.user.repository.UserRepository;
@@ -55,7 +55,7 @@ public class UserService {
 	//email로 회원 조회
 	//있으면 로그인
 	//없으면 회원가입
-	public Optional<UserFindDto> findUser(String email, Provider provider) {
+	public Optional<UserTokenBaseDto> findUser(String email, Provider provider) {
 		log.info("email, provider로 회원 조회 진행");
 		return userRepository.findUser(email, provider);
 	}

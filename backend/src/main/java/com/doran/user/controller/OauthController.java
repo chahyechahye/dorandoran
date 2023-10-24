@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.doran.user.dto.req.UserFindDto;
+import com.doran.user.dto.req.UserTokenBaseDto;
 import com.doran.user.service.KakaoService;
 import com.doran.user.service.OauthService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -30,7 +30,7 @@ public class OauthController {
 	public ResponseEntity kakao(@RequestParam String code, HttpServletResponse response) throws JsonProcessingException {
 		log.info("code : {}", code);
 		String token = kakaoService.getToken(code);
-		UserFindDto userInfo = kakaoService.getUserInfo(token);
+		UserTokenBaseDto userInfo = kakaoService.getUserInfo(token);
 
 		String accessToken = jwtProvider.createAccessToken(userInfo);
 		String refreshToken = jwtProvider.createRefreshToken(userInfo);

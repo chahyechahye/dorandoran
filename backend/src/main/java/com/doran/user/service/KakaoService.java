@@ -9,7 +9,7 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.doran.parent.type.Provider;
-import com.doran.user.dto.req.UserFindDto;
+import com.doran.user.dto.req.UserTokenBaseDto;
 import com.doran.user.dto.res.GetKakaoToken;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -62,7 +62,7 @@ public class KakaoService {
 	}
 
 	//토큰정보 -> 사용자 정보
-	public UserFindDto getUserInfo(String at) throws JsonProcessingException {
+	public UserTokenBaseDto getUserInfo(String at) throws JsonProcessingException {
 		WebClient webClient = WebClient.create();
 		//kakao_account.profile
 		String res = webClient.post()

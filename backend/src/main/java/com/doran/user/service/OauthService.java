@@ -5,7 +5,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.doran.parent.type.Provider;
-import com.doran.user.dto.req.UserFindDto;
+import com.doran.user.dto.req.UserTokenBaseDto;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,9 +17,9 @@ public class OauthService {
 	private final UserService userService;
 
 	//회원이 존재하지 않으면 회원가입
-	public UserFindDto getFindDto(String email, String nickname, Provider provider) {
+	public UserTokenBaseDto getFindDto(String email, String nickname, Provider provider) {
 		log.info("회원이 존재하지 않으면 회원가입");
-		Optional<UserFindDto> findUser = userService.findUser(email, provider);
+		Optional<UserTokenBaseDto> findUser = userService.findUser(email, provider);
 
 		return findUser.orElseGet(() -> {
 			userService.signUp(nickname, email, provider);

@@ -6,7 +6,7 @@ import static com.doran.user.entity.QUser.*;
 import java.util.Optional;
 
 import com.doran.parent.type.Provider;
-import com.doran.user.dto.req.UserFindDto;
+import com.doran.user.dto.req.UserTokenBaseDto;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
@@ -17,9 +17,9 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
 	private final JPAQueryFactory jpaQueryFactory;
 
 	@Override
-	public Optional<UserFindDto> findUser(String email, Provider provider) {
+	public Optional<UserTokenBaseDto> findUser(String email, Provider provider) {
 		return Optional.ofNullable(jpaQueryFactory
-			.select(Projections.fields(UserFindDto.class,
+			.select(Projections.fields(UserTokenBaseDto.class,
 				user.id.as("userId"),
 				parent.id.as("parentId"),
 				parent.provider,

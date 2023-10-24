@@ -7,12 +7,11 @@ import java.util.Date;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
-import com.doran.user.dto.req.UserFindDto;
+import com.doran.user.dto.req.UserTokenBaseDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.Authentication;
 
-import com.doran.user.entity.User;
 import com.doran.user.service.CustomUserDetailService;
 
 import io.jsonwebtoken.Claims;
@@ -49,7 +48,7 @@ public class JwtProvider {
 	}
 
 	//토큰생성 - 공통 코드
-	public String createToken(UserFindDto dto, long time) {
+	public String createToken(UserTokenBaseDto dto, long time) {
 		//토큰 제목
 		log.info("토큰 생성하러 들어감");
 		Claims claims = Jwts.claims();
@@ -59,7 +58,7 @@ public class JwtProvider {
 			.setSubject(Integer.toString(dto.getUserId()))
 			.setIssuedAt(now)
 			.setExpiration(new Date(now.getTime() + time));
-		
+
 		//value가 null인 경우 에러가 발생하지 않음
 		//value가 null인 경우 그냥 jwt에 들어가지 않음
 		//-> 부모, 아이 나눌 것 없이 유동적인 사용이 가능해보임
@@ -75,12 +74,12 @@ public class JwtProvider {
 	}
 
 	//엑세스 토큰 생성
-	public String createAccessToken(UserFindDto dto) {
+	public String createAccessToken(UserTokenBaseDto dto) {
 		return this.createToken(dto, accessTokenValidTime * 10);
 	}
 
 	//리프레시 토큰 생성
-	public String createRefreshToken(UserFindDto dto) {
+	public String createRefreshToken(UserTokenBaseDto dto) {
 		String refreshToken = this.createToken(dto, refreshTokenValidTime * 10);
 
 		//리프레시 토큰이 redis에 저장되는 로직

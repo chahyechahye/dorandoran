@@ -3,8 +3,8 @@ package com.doran.user.repository;
 import java.util.Optional;
 
 import com.doran.parent.type.Provider;
-import com.doran.user.dto.req.UserFindDto;
+import com.doran.user.dto.req.UserTokenBaseDto;
 
 public interface UserRepositoryCustom {
-	Optional<UserFindDto> findUser(String email, Provider provider);
+	Optional<UserTokenBaseDto> findUser(String email, Provider provider);
 }
