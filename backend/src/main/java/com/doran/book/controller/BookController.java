@@ -2,6 +2,7 @@ package com.doran.book.controller;
 
 import java.io.IOException;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -37,9 +38,12 @@ public class BookController {
         return CommonResponseEntity.getResponseEntity(SuccessCode.SUCCESS_CODE);
     }
 
-    //동화 조회
+    //동화 전체 조회
+    // 모든 동화 책, 제목, 표지, 저자
+    // 반환되는 책 수
     @GetMapping("")
-    ResponseEntity<?> getBook() {
-        return null;
+    ResponseEntity<?> getBookList() {
+        log.info("getBookList 컨트롤러 호출");
+        return CommonResponseEntity.getResponseEntity(SuccessCode.SUCCESS_CODE, bookService.getBookList());
     }
 }

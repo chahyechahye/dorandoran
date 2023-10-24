@@ -8,6 +8,7 @@ import lombok.Setter;
 @Setter
 @RequiredArgsConstructor
 public class BookResDto {
+    private String bookId;
     private String title;
     private String imgUrl;
     private String author;
