@@ -1,0 +1,15 @@
+@font-face {
+    font-family: "Binggrae";
+    src: local("Binggrae"), url("@/assets/fonts/Binggrae.otf");
+}
+
+@font-face {
+    font-family: "Binggrae";
+    src: local("Binggrae"), url("@/assets/fonts/Binggrae-Bold.otf");
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: "Katuri";
+    src: local("Katuri"), url('@/assets/fonts/Katuri.otf');
+}
