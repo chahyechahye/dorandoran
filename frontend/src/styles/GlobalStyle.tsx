@@ -5,7 +5,6 @@ const GlobalStyle = createGlobalStyle`
         padding: 0;
         margin: 0;
         box-sizing: border-box;
-        /* color: ${({ theme }) => theme.color.white}; */
         &::-webkit-scrollbar-track
         {
             -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
@@ -35,7 +34,7 @@ const GlobalStyle = createGlobalStyle`
     }
 
     body {
-        font-family: "Pretendard";
+        font-family: "Katuri";
         overflow: auto;
     }
 

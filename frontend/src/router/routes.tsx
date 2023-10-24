@@ -18,6 +18,14 @@ const routes: RouteType[] = [
     path: "/character",
     element: React.lazy(() => import("@/pages/common/character")),
   },
+  {
+    path: "/parent/login",
+    element: React.lazy(() => import("@/pages/parent/login")),
+  },
+  {
+    path: "/parent/main",
+    element: React.lazy(() => import("@/pages/parent/main")),
+  },
   // {
   //   path: "/",
   //   element: () => <Navigate replace to="/main" />,
