@@ -10,9 +10,9 @@ import lombok.Setter;
 @Setter
 public class UserTokenBaseDto {
 	private int userId;
-	private int parentId;
-	private int childId;
-	private int selectProfileId;
+	private Integer parentId;
+	private Integer childId;
+	private Integer selectProfileId;
 	private Provider provider;
 	private Roles userRole;
 }
