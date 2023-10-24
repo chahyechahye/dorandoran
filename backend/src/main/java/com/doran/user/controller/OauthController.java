@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.doran.user.dto.req.UserFindDto;
+import com.doran.user.service.KakaoService;
 import com.doran.user.service.OauthService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
@@ -18,13 +20,15 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/api/oauth")
 public class OauthController {
 	private final OauthService oauthService;
+	private final KakaoService kakaoService;
 
 	//oauth 테스트 - 카카오
 	@GetMapping("/kakao")
 	public ResponseEntity kakao(@RequestParam String code) throws JsonProcessingException {
 		log.info("code : {}", code);
-		String token = oauthService.getToken(code);
-		oauthService.getUserInfo(token);
+		String token = kakaoService.getToken(code);
+		UserFindDto userInfo = kakaoService.getUserInfo(token);
+
 		return null;
 	}
 }
