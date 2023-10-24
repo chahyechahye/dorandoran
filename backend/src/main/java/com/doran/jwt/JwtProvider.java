@@ -68,7 +68,7 @@ public class JwtProvider {
 		claims.put("userRole", dto.getUserRole());
 		claims.put("provider", dto.getProvider());
 
-		return Jwts.builder()
+		return "Bearer " + Jwts.builder()
 			.setClaims(claims)
 			.signWith(getSigningKey(secretKey), SignatureAlgorithm.HS256)
 			.compact();
