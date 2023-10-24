@@ -2,6 +2,7 @@ package com.doran.user.service;
 
 import java.util.Optional;
 
+import com.doran.child.service.ChildService;
 import org.springframework.stereotype.Service;
 
 import com.doran.exception.dto.CustomException;
@@ -27,6 +28,7 @@ public class UserService {
 	private final UserMapper userMapper;
 	private final ParentMapper parentMapper;
 	private final ParentService parentService;
+	private final ChildService childService;
 
 	//로컬테스트용 회원가입
 	public User signUp(User user) {
@@ -35,13 +37,18 @@ public class UserService {
 
 	//회원가입
 	public void signUp(String name, String email, Provider provider) {
-		User user = userMapper.toUser(name, Roles.PARENT);
+		log.info("유저 생성");
+		User parentUser = userMapper.toUser(name, Roles.PARENT);
+		User saveUser = signUp(parentUser);
 
-		User saveUser = signUp(user);
-
+		log.info("부모 생성");
 		Parent parent = parentMapper.toParent(email, provider);
 		parent.setUser(saveUser);
-		parentService.saveParent(parent);
+		Parent saveParent = parentService.saveParent(parent);
+
+		log.info("아이 생성");
+		User childUser = signUp(userMapper.toUser(name + "아이들", Roles.CHILD));
+		childService.saveChild(saveParent,childUser);
 	}
 
 	//email로 회원 조회
