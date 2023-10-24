@@ -12,8 +12,8 @@ interface DivProps {
 }
 
 const Div = styled.div<DivProps>`
-  width: 20vw;
-  max-width: 250px;
+  width: 40vw;
+  max-width: 500px;
   height: 75vh;
   background-size: auto 60%;
   background-position: 50% 50%;
@@ -41,7 +41,7 @@ const Content = styled.div`
   left: 0;
   width: 100%;
   text-align: center;
-  font-size: 60px;
+  font-size: 80px;
   font-weight: 900;
   color: white;
   text-shadow: 3px 3px #555;
@@ -52,7 +52,7 @@ const CharacterPage: React.FC = () => {
 
   const divs = [
     {
-      backgroundColor: "dodgerblue",
+      backgroundColor: "orange",
       backgroundImage: foxImage,
       content: "여울",
     },
@@ -62,7 +62,7 @@ const CharacterPage: React.FC = () => {
       content: "팡팡",
     },
     {
-      backgroundColor: "purple",
+      backgroundColor: "pink",
       backgroundImage: rabbitImage,
       content: "토리",
     },

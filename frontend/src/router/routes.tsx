@@ -12,11 +12,19 @@ interface RouteType {
 const routes: RouteType[] = [
   {
     path: "/",
-    element: React.lazy(() => import("@/pages/main")),
+    element: React.lazy(() => import("@/pages/common/main")),
   },
   {
     path: "/character",
-    element: React.lazy(() => import("@/pages/character")),
+    element: React.lazy(() => import("@/pages/common/character")),
+  },
+  {
+    path: "/parent/login",
+    element: React.lazy(() => import("@/pages/parent/login")),
+  },
+  {
+    path: "/parent/main",
+    element: React.lazy(() => import("@/pages/parent/main")),
   },
   // {
   //   path: "/",
