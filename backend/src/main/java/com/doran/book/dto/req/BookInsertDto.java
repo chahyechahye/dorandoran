@@ -1,5 +1,7 @@
 package com.doran.book.dto.req;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +12,7 @@ import lombok.Setter;
 @RequiredArgsConstructor
 public class BookInsertDto {
     private String title;
-    private String imgUrl;
+    private MultipartFile multipartFile;
     private String author;
     private String publisher;
 }

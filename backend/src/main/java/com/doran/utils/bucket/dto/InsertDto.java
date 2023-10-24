@@ -13,6 +13,5 @@ import lombok.Setter;
 @AllArgsConstructor
 public class InsertDto {
     private MultipartFile file;
-
     private String name;
 }
