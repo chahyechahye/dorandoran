@@ -1,5 +1,7 @@
 package com.doran.user.controller;
 
+import com.doran.jwt.JwtProvider;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,14 +23,21 @@ import lombok.extern.slf4j.Slf4j;
 public class OauthController {
 	private final OauthService oauthService;
 	private final KakaoService kakaoService;
+	private final JwtProvider jwtProvider;
 
 	//oauth 테스트 - 카카오
 	@GetMapping("/kakao")
-	public ResponseEntity kakao(@RequestParam String code) throws JsonProcessingException {
+	public ResponseEntity kakao(@RequestParam String code, HttpServletResponse response) throws JsonProcessingException {
 		log.info("code : {}", code);
 		String token = kakaoService.getToken(code);
 		UserFindDto userInfo = kakaoService.getUserInfo(token);
 
-		return null;
+		String accessToken = jwtProvider.createAccessToken(userInfo);
+		String refreshToken = jwtProvider.createRefreshToken(userInfo);
+
+		response.setHeader("accessToken",accessToken);
+		response.setHeader("refreshToken",refreshToken);
+
+		return ResponseEntity.ok("test 진행");
 	}
 }
