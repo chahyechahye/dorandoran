@@ -5,9 +5,9 @@ spring:
   profiles:
     active: local
   datasource:
-    url: jdbc:mysql://localhost:3306/doran?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Seoul
+    url: jdbc:mysql://k9b108.p.ssafy.io:3306/doran?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Seoul
     username: ssafy
-    password: ssafy
+    password: doran_b108
 
   jpa:
     properties:
