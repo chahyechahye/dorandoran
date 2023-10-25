@@ -3,6 +3,7 @@ import styled from "styled-components";
 export interface StyledLoginBoxProps {
   imgLink: string;
   text: string;
+  onClick: () => void;
 }
 
 const BoxContainer = styled.div`
@@ -32,10 +33,10 @@ const TextContainer = styled.div`
   margin: 2vh;
 `;
 
-const LoginBox = ({ imgLink, text }: StyledLoginBoxProps) => {
+const LoginBox = ({ imgLink, text, onClick }: StyledLoginBoxProps) => {
   return (
     <BoxContainer>
-      <ContentContainer>
+      <ContentContainer onClick={onClick}>
         <BoxImage src={imgLink}></BoxImage>
         <TextContainer>{text}</TextContainer>
       </ContentContainer>
