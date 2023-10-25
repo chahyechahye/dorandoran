@@ -2,16 +2,18 @@ package com.doran.jwt;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
+import java.util.Collections;
 import java.util.Date;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
-import com.doran.user.dto.req.UserTokenBaseDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 
+import com.doran.user.dto.req.UserTokenBaseDto;
 import com.doran.user.service.CustomUserDetailService;
 
 import io.jsonwebtoken.Claims;
@@ -94,13 +96,17 @@ public class JwtProvider {
 	}
 
 	//토큰 디코딩
-	public String getUserId(String token) {
+	public Claims getUserInfo(String token) {
 		JwtParser parser = Jwts.parserBuilder().setSigningKey(getSigningKey(secretKey)).build();
 
 		//토큰에서 바디를 꺼내 payload의 sub만 꺼냈음 -> 유저 식별자를 통해 db를 조회하기 위함
 		//payload의 내용이 충분히 있다면 db조회 과정을 생략하고 claim을 바로 사용해되나
 		//payload에 많은 정보가 들어가는 것은 보안적으로 불리하며 식별자를 통해 db를 한 번 조회하는 것이 깔끔하고 정확하다고 판단
-		return parser.parseClaimsJws(token).getBody().getSubject();
+		return parser.parseClaimsJws(BearerRemove(token)).getBody();
+	}
+
+	private String BearerRemove(String token) {
+		return token.substring("Bearer ".length());
 	}
 
 	//헤더에서 토큰 가져오기
@@ -116,10 +122,11 @@ public class JwtProvider {
 
 	//토큰 인증 정보 조회
 	public Authentication getAuthentication(String token) {
+		Claims userInfo = this.getUserInfo(token);
 		// UserDetails userDetails = customUserDetailService.loadUserByUsername(this.getUserId(token));
 		//
-		// return new UsernamePasswordAuthenticationToken(userDetails, "", Collections.emptyList());
-		return null;
+		return new UsernamePasswordAuthenticationToken(userInfo, "", Collections.emptyList());
+		// return null;
 	}
 
 	//토큰 유효성 검증
