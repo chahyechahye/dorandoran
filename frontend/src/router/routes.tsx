@@ -30,6 +30,10 @@ const routes: RouteType[] = [
     path: "/parent/main",
     element: React.lazy(() => import("@/pages/parent/main")),
   },
+  {
+    path: "/parent/profile",
+    element: React.lazy(() => import("@/pages/parent/profile")),
+  },
   // {
   //   path: "/",
   //   element: () => <Navigate replace to="/main" />,
