@@ -3,8 +3,11 @@ package com.doran.page.service;
 import java.io.IOException;
 import java.util.List;
 
+import com.doran.exception.dto.CustomException;
+import com.doran.exception.dto.ErrorCode;
 import com.doran.page.dto.res.PageListDto;
 import com.doran.page.dto.res.PageResDto;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,5 +52,11 @@ public class PageService {
 
         List<Page> pageList = pageRepository.findPagesByBookId(bookId);
         return new PageListDto(pageList.size(), pageMapper.toDtoList(pageList));
+    }
+
+    public int findPageIdByIdxAndBookId(int bookId, int idx) {
+        return pageRepository.findPageByBookIdAndIdx(bookId, idx)
+            .orElseThrow(() -> new CustomException(ErrorCode.BOOK_NOT_FOUND))
+            .getId();
     }
 }
