@@ -27,7 +27,7 @@ const LoginImage = styled.img`
   width: 30%;
   margin-bottom: 2%;
   box-shadow: rgba(0, 0, 0, 0.3) 0px 5px 15px;
-  border-radius: 30px;
+  border-radius: 2vh;
 `;
 
 const ParentLoginPage = () => {
