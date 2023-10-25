@@ -10,7 +10,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import com.doran.parent.type.Provider;
 import com.doran.user.dto.req.UserTokenBaseDto;
-import com.doran.user.dto.res.GetKakaoToken;
+import com.doran.user.dto.res.GetToken;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -47,12 +47,12 @@ public class KakaoService {
 
 		WebClient webClient = WebClient.create();
 
-		GetKakaoToken res = webClient.post()
+		GetToken res = webClient.post()
 			.uri(tokenUri)
 			.contentType(MediaType.APPLICATION_FORM_URLENCODED) //폼 데이터 형식
 			.body(BodyInserters.fromFormData(body)) //폼 데이터를 바디에 넣음
 			.retrieve()
-			.bodyToMono(GetKakaoToken.class)
+			.bodyToMono(GetToken.class)
 			.block();
 
 		log.info("res : {}", res.getAccess_token());
