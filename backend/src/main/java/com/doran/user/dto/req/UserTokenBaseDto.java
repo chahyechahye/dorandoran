@@ -8,9 +8,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UserFindDto {
+public class UserTokenBaseDto {
 	private int userId;
-	private int parentId;
+	private Integer parentId;
+	private Integer childId;
+	private Integer selectProfileId;
 	private Provider provider;
 	private Roles userRole;
 }
