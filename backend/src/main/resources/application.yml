@@ -12,9 +12,9 @@ spring:
     url: jdbc:mysql://k9b108.p.ssafy.io:3306/doran?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Seoul
     username: ssafy
     password: doran_b108
-#      url: jdbc:mysql://localhost:3306/doran?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Seoul
-#      username: ssafy
-#      password: ssafy
+  #      url: jdbc:mysql://localhost:3306/doran?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Seoul
+  #      username: ssafy
+  #      password: ssafy
 
 
   jpa:
@@ -42,7 +42,7 @@ oauth:
   kakao:
     api-key: f9a75e5f47148dc0aa986669c29c0d03
     token-uri: https://kauth.kakao.com/oauth/token
-    redirect-uri: http://localhost:8080/api/oauth/kakao
+    redirect-uri: https://localhost:8080/api/oauth/kakao
     info-uri: https://kapi.kakao.com/v2/user/me
   google:
     api-key: 671776662808-t5ihvqjf6v4nlbdqgihhrecoa4tfgns3.apps.googleusercontent.com
