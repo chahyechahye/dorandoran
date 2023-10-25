@@ -4,6 +4,7 @@ import logoImageSrc from "@/assets/img/logo/logo.png";
 import LoginBox from "@/components/loginBox";
 import child from "@/assets/img/login/child.png";
 import parent from "@/assets/img/login/parent.png";
+import { useNavigate } from "react-router-dom";
 
 const Background = styled.div`
   position: fixed;
@@ -30,13 +31,31 @@ const SelectContainer = styled.div`
 const ContentContainer = styled.div``;
 
 const MainPage = () => {
+  const navigate = useNavigate();
+
+  const goChild = () => {
+    navigate("/children/login");
+  };
+
+  const goParent = () => {
+    navigate("/parent/login");
+  };
+
   return (
     <Background>
       <ContentContainer>
         <LogoImage src={logoImageSrc} />
         <SelectContainer>
-          <LoginBox imgLink={child} text="아이"></LoginBox>
-          <LoginBox imgLink={parent} text="보호자"></LoginBox>
+          <LoginBox
+            imgLink={child}
+            text="아이"
+            onClick={() => goChild()}
+          ></LoginBox>
+          <LoginBox
+            imgLink={parent}
+            text="보호자"
+            onClick={() => goParent()}
+          ></LoginBox>
         </SelectContainer>
       </ContentContainer>
     </Background>
