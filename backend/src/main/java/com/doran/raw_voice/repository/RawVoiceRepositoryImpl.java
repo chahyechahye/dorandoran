@@ -4,6 +4,6 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class RawVoiceRepositoryImpl implements RawVoiceRepository{
+public class RawVoiceRepositoryImpl implements RawVoiceRepositoryCustom{
     private final JPAQueryFactory jpaQueryFactory;
 }

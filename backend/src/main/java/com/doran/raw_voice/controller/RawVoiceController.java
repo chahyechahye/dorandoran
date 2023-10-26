@@ -2,8 +2,8 @@ package com.doran.raw_voice.controller;
 
 import com.doran.raw_voice.dto.res.RawVoiceResDto;
 import com.doran.raw_voice.service.RawVoiceService;
-import com.doran.response.CommonResponseEntity;
-import com.doran.response.SuccessCode;
+import com.doran.utils.response.CommonResponseEntity;
+import com.doran.utils.response.SuccessCode;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
