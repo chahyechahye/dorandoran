@@ -1,5 +1,7 @@
 package com.doran.animal.entity;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,7 +24,10 @@ public class Animal {
 	@Column(name = "animal_id")
 	private int id;
 
+	@Column(nullable = false)
 	private String name;
 
+	@Column(nullable = false)
+	@ColumnDefault("https://storage.googleapis.com/ssafy-last-project/smile.png")
 	private String imgUrl;
 }

@@ -2,20 +2,16 @@ package com.doran.book.controller;
 
 import java.io.IOException;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.doran.book.dto.req.BookInsertDto;
 import com.doran.book.service.BookService;
-import com.doran.response.CommonResponseEntity;
-import com.doran.response.SuccessCode;
+import com.doran.utils.response.CommonResponseEntity;
+import com.doran.utils.response.SuccessCode;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

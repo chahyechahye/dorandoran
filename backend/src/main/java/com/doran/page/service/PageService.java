@@ -1,21 +1,20 @@
 package com.doran.page.service;
 
-import java.io.IOException;
 import java.util.List;
 
-import com.doran.page.dto.res.PageListDto;
-import com.doran.page.dto.res.PageResDto;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.doran.book.entity.Book;
 import com.doran.book.service.BookService;
 import com.doran.page.dto.req.PageInsertDto;
+import com.doran.page.dto.res.PageListDto;
 import com.doran.page.entity.Page;
 import com.doran.page.mapper.PageMapper;
 import com.doran.page.repository.PageRepository;
 import com.doran.utils.bucket.dto.InsertDto;
 import com.doran.utils.bucket.service.BucketService;
+import com.doran.utils.exception.dto.CustomException;
+import com.doran.utils.exception.dto.ErrorCode;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -49,5 +48,11 @@ public class PageService {
 
         List<Page> pageList = pageRepository.findPagesByBookId(bookId);
         return new PageListDto(pageList.size(), pageMapper.toDtoList(pageList));
+    }
+
+    public Page findPageIdByIdxAndBookId(int bookId, int idx) {
+        log.info("page 조회 서비스 호출");
+        return pageRepository.findPageByBookIdAndIdx(bookId, idx)
+                             .orElseThrow(() -> new CustomException(ErrorCode.BOOK_NOT_FOUND));
     }
 }

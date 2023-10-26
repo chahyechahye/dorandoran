@@ -1,6 +1,7 @@
 package com.doran.content.entity;
 
 import com.doran.page.entity.Page;
+import com.doran.processed_voice.entity.ProcessedVoice;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,10 +11,15 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "content")
+@Getter
+@Setter
 public class Content {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,4 +32,7 @@ public class Content {
 
     @Column(nullable = false)
     private String script;
+
+    @OneToOne(mappedBy = "content")
+    private ProcessedVoice processedVoice;
 }

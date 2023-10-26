@@ -4,19 +4,18 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.doran.exception.dto.CustomException;
-import com.doran.exception.dto.ErrorCode;
 import com.doran.utils.bucket.dto.InsertDto;
+import com.doran.utils.exception.dto.CustomException;
+import com.doran.utils.exception.dto.ErrorCode;
 import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
-import org.springframework.beans.factory.annotation.Value;
 
 @Service
 @RequiredArgsConstructor
@@ -37,8 +36,8 @@ public class BucketService {
             // Cloud에 이미지 업로드
             BlobInfo blobInfo = storage.create(
                 BlobInfo.newBuilder(bucket, uuid)
-                    .setContentType(ext)
-                    .build(),
+                        .setContentType(ext)
+                        .build(),
                 dto.getFile().getInputStream()
             );
 
