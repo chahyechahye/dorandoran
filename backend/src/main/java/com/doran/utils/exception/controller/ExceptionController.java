@@ -1,5 +1,6 @@
 package com.doran.utils.exception.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -12,10 +13,13 @@ import com.doran.utils.exception.dto.CustomException;
 import com.doran.utils.exception.dto.ErrorResponseEntity;
 
 @RestControllerAdvice
+@Slf4j
 public class ExceptionController {
 
     @ExceptionHandler(CustomException.class)
     public ResponseEntity<ErrorResponseEntity> ExceptionHandler(CustomException e) {
+        log.error("예외 발생 : {}", e.getMessage());
+        log.error("예외 내용 : ", e);
         return ErrorResponseEntity.toResponseEntity(e.getErrorCode());
     }
 

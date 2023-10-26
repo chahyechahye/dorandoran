@@ -31,7 +31,7 @@ public class TestController {
     @GetMapping("/redis")
     public ResponseEntity findInvite(@RequestParam("code") String code,
         @RequestParam("id") int id) {
-        inviteService.findCode("606777");
+        inviteService.findCode(code);
 
         Invite find = inviteService.findCode(id);
         log.info("코드 : {}", find.getCode());
