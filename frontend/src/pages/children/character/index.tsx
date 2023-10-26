@@ -40,7 +40,7 @@ const ClickButtonContainer = styled.div`
   margin-top: 7vh;
 `;
 
-const ChildrenLoginPage = () => {
+const ChildrenCharacterPage = () => {
   return (
     <Background>
       <ContentContainer>
@@ -64,4 +64,4 @@ const ChildrenLoginPage = () => {
   );
 };
 
-export default ChildrenLoginPage;
+export default ChildrenCharacterPage;
