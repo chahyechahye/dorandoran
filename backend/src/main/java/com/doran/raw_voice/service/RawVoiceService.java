@@ -3,13 +3,20 @@ package com.doran.raw_voice.service;
 import com.doran.exception.dto.CustomException;
 import com.doran.exception.dto.ErrorCode;
 import com.doran.raw_voice.RawVoiceMapper;
+import com.doran.raw_voice.dto.req.RawVoiceInsertDto;
+import com.doran.raw_voice.dto.res.RawVoiceListDto;
+import com.doran.raw_voice.dto.res.RawVoiceResDto;
 import com.doran.raw_voice.entity.RawVoice;
 import com.doran.raw_voice.repository.RawVoiceRepository;
+import com.doran.user.repository.UserRepository;
 import com.doran.utils.bucket.mapper.BucketMapper;
 import com.doran.utils.bucket.service.BucketService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -20,9 +27,25 @@ public class RawVoiceService {
     private final RawVoiceRepository rawVoiceRepository;
     private final RawVoiceMapper rawVoiceMapper;
 
+    // 목소리 검색
     public RawVoice findRawVoiceById(int rvId){
         return rawVoiceRepository.findById(rvId)
                 .orElseThrow(() -> new CustomException(ErrorCode.BOOK_NOT_FOUND));
     }
+
+    // 목소리 조회
+    public RawVoiceListDto getRawVoiceAll(){
+         List<RawVoice> rawVoiceList = rawVoiceRepository.findAll();
+         List<RawVoiceResDto> rawVoiceResDtoList = rawVoiceMapper.toDtoList(rawVoiceList);
+
+         return new RawVoiceListDto(rawVoiceResDtoList.size(), rawVoiceResDtoList);
+    }
+
+    // 목소리 추가 파일명 : user_id + "_" + 0000.mp3 , ex) 000001_0000.mp3
+//    public void insertRawVoice (RawVoiceInsertDto rawVoiceInsertDto) throws IOException {
+//
+//        String url = bucketService.insertFile(InsertD)
+//        RawVoice rawVoice = rawVoiceMapper.voiceInsertToRawVoice(rawVoiceInsertDto);
+//    }
 
 }

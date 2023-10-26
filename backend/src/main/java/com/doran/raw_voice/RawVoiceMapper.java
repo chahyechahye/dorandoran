@@ -10,9 +10,8 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface RawVoiceMapper {
-    RawVoice voiceInsertToRawVoice(RawVoiceInsertDto rawVoiceInsertDto, String voiceUrl);
-    @Mapping(source="id", target="rawVoiceId")
-    @Mapping(source="user.id", target="userId")
+//    RawVoice voiceInsertToRawVoice(RawVoiceInsertDto rawVoiceInsertDto, String voiceUrl);
+    @Mapping(source="id", target="rvId")
     RawVoiceResDto rawVoiceToResDto(RawVoice rawVoice);
     List<RawVoiceResDto> toDtoList(List<RawVoice> rawVoiceList);
 }

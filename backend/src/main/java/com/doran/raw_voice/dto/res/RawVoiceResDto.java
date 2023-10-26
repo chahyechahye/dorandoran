@@ -9,6 +9,5 @@ import lombok.Setter;
 @RequiredArgsConstructor
 public class RawVoiceResDto {
     String rvId;
-    String userId;
     String voiceUrl;
 }

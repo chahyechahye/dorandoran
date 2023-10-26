@@ -8,6 +8,5 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Getter @Setter @RequiredArgsConstructor
 public class RawVoiceInsertDto {
-    private Integer userId;
     private MultipartFile voiceUrl;
 }
