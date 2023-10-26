@@ -5,6 +5,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class GetKakaoToken {
+public class GetToken {
 	private String access_token;
 }

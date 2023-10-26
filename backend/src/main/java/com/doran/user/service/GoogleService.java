@@ -20,27 +20,29 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class KakaoService {
-	@Value("${oauth.kakao.api-key}")
+public class GoogleService {
+	@Value("${oauth.google.api-key}")
 	private String clientId;
 
-	@Value("${oauth.kakao.redirect-uri}")
+	@Value("${oauth.google.client-secret}")
+	private String clientSecret;
+
+	@Value("${oauth.google.redirect-uri}")
 	private String redirectUri;
 
-	@Value("${oauth.kakao.token-uri}")
+	@Value("${oauth.google.token-uri}")
 	private String tokenUri;
 
-	@Value("${oauth.kakao.info-uri}")
-	private String infoUri;
+	@Value("${oauth.google.resource-uri}")
+	private String resourceUri;
 
-	private final UserService userService;
 	private final OauthService oauthService;
 
-	//카카오
-	//인가코드 -> 토큰 정보
+	//토큰 받아오기
 	public String getToken(String code) {
 		MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
 		body.add("client_id", clientId);
+		body.add("client_secret", clientSecret);
 		body.add("redirect_uri", redirectUri);
 		body.add("code", code);
 		body.add("grant_type", "authorization_code");
@@ -55,34 +57,31 @@ public class KakaoService {
 			.bodyToMono(GetToken.class)
 			.block();
 
-		log.info("res : {}", res.getAccess_token());
+		log.info("accessToken : {}", res.getAccess_token());
 
-		//엑세스 토큰 반환
 		return res.getAccess_token();
 	}
 
-	//토큰정보 -> 사용자 정보
+	//test
 	public UserTokenBaseDto getUserInfo(String at) throws JsonProcessingException {
 		WebClient webClient = WebClient.create();
-		//kakao_account.profile
-		String res = webClient.post()
-			.uri(infoUri)
-			.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+
+		String res = webClient.get()
+			.uri(resourceUri)
 			.header("Authorization", "Bearer " + at)
-			.bodyValue("property_keys=[\"kakao_account.profile\",\"kakao_account.email\"]")
 			.retrieve()
 			.bodyToMono(String.class)
 			.block();
 
-		log.info("res : {}", res);
+		log.info("block : {}", res);
+
 		ObjectMapper mapper = new ObjectMapper();
+		String email = mapper.readTree(res).get("email").asText();
+		String name = mapper.readTree(res).get("name").asText();
 
-		String nickname = mapper.readTree(res).get("kakao_account").get("profile").get("nickname").asText();
-		String email = mapper.readTree(res).get("kakao_account").get("email").asText();
-
-		log.info("nickname : {}", nickname);
 		log.info("email : {}", email);
+		log.info("name : {}", name);
 
-		return oauthService.getFindDto(email, nickname, Provider.kakao);
+		return oauthService.getFindDto(email, name, Provider.goolge);
 	}
 }
