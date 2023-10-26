@@ -1,8 +1,10 @@
 import styled from "styled-components";
+import { useState } from "react";
 
 import LikeBook from "@/components/likeBook";
 import ProfileCircle from "@/components/profileCircle";
 import ParentCard from "@/components/parentCard";
+import Album from "@/components/album";
 
 import background from "@/assets/img/backgroundMain.jpg";
 
@@ -48,7 +50,27 @@ const Image = styled.img`
   padding-bottom: 7vh;
 `;
 
+const Overlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); // 반투명한 검은색 배경
+  z-index: 0; // 모달보다 낮은 z-index를 가지게 하여, 모달 뒤에 위치하게 합니다.
+`;
+
 const ParentMainPage = () => {
+  const [isOpenAlbum, setIsOpenAlbum] = useState(false);
+
+  const handleOpenAlbum = () => {
+    setIsOpenAlbum(true);
+  };
+
+  const handleCloseAlbum = () => {
+    setIsOpenAlbum(false);
+  };
+
   return (
     <>
       <Container>
@@ -59,10 +81,17 @@ const ParentMainPage = () => {
         <Image src={Logo} alt="Background" />
         <Content>
           <ParentCard img={tape} backgroundColor="#78BFFC" text="목소리 녹음" />
-          <ParentCard img={photo} backgroundColor="#FC7292" text="사진 보기" />
+          <ParentCard
+            img={photo}
+            backgroundColor="#FC7292"
+            text="사진 보기"
+            onClick={handleOpenAlbum}
+          />
           <ParentCard img={post} backgroundColor="#4FCDC7" text="편지 쓰기" />
         </Content>
       </Container>
+      {isOpenAlbum && <Overlay onClick={handleCloseAlbum} />}
+      {isOpenAlbum && <Album onClose={handleCloseAlbum} />}
     </>
   );
 };

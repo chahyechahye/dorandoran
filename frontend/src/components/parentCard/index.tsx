@@ -33,11 +33,12 @@ interface Props {
   img?: string;
   backgroundColor?: string;
   text?: string;
+  onClick?: () => void;
 }
 
-const ParentCard = ({ img, backgroundColor, text }: Props) => {
+const ParentCard = ({ img, backgroundColor, text, onClick }: Props) => {
   return (
-    <Card backgroundColor={backgroundColor}>
+    <Card backgroundColor={backgroundColor} onClick={onClick}>
       <Cassette img={img}></Cassette>
       <Text>{text}</Text>
     </Card>
