@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 import ChildCard from "@/components/childCard";
 import ProfileCircle from "@/components/profileCircle";
-import Album from "@/components/album";
 
 import background from "@/assets/img/backgroundMain.jpg";
 import Logo from "@/assets/img/Logo.png";
