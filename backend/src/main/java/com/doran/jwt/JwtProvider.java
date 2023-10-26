@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.doran.user.dto.req.UserTokenBaseDto;
 import com.doran.user.service.CustomUserDetailService;
@@ -122,10 +123,10 @@ public class JwtProvider {
 
 	//토큰 인증 정보 조회
 	public Authentication getAuthentication(String token) {
-		Claims userInfo = this.getUserInfo(token);
-		// UserDetails userDetails = customUserDetailService.loadUserByUsername(this.getUserId(token));
-		//
-		return new UsernamePasswordAuthenticationToken(userInfo, "", Collections.emptyList());
+		// Claims userInfo = this.getUserInfo(token);
+		UserDetails userDetails = customUserDetailService.loadUserByUsername(this.getUserInfo(token));
+
+		return new UsernamePasswordAuthenticationToken(userDetails, "", Collections.emptyList());
 		// return null;
 	}
 
