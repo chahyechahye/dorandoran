@@ -39,7 +39,7 @@ public enum ErrorCode {
     BUCKET_EXCEPTION(HttpStatus.CONFLICT, "BUCKET ERROR");
     ;
 
-    private final HttpStatus httpStatus;
-    private final String message;
+	private final HttpStatus httpStatus;
+	private final String message;
 
 }

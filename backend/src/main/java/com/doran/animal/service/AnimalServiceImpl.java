@@ -7,6 +7,8 @@ import com.doran.animal.dto.res.AnimalListDto;
 import com.doran.animal.entity.Animal;
 import com.doran.animal.mapper.AnimalMapper;
 import com.doran.animal.repository.AnimalRepository;
+import com.doran.exception.dto.CustomException;
+import com.doran.exception.dto.ErrorCode;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -23,12 +25,13 @@ public class AnimalServiceImpl implements AnimalService {
 
 	@Override
 	public AnimalDto selectAnimal(int id) {
-		Animal animal = animalRepository.selectAnimal(id).orElseThrow(() -> new IllegalArgumentException("잘못된 id입니다."));
+		Animal animal = animalRepository.selectAnimal(id)
+										.orElseThrow(() -> new CustomException(ErrorCode.ANIMAL_NOT_FOUND));
 		return animalMapper.toAnimalDto(animal.getId(), animal.getName(), animal.getImgUrl());
 	}
 
 	@Override
 	public AnimalListDto selectAllAnimal() {
-		return animalRepository.selectAllAnimal().orElseThrow(() -> new IllegalArgumentException("값이 비었습니다."));
+		return animalRepository.selectAllAnimal().orElseThrow(() -> new CustomException(ErrorCode.ANIMAL_NOT_FOUND));
 	}
 }
