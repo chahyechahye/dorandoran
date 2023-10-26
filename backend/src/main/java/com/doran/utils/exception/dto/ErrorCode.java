@@ -29,6 +29,9 @@ public enum ErrorCode {
 
     //추가할 것들은 여기에 작성해주세요.
 
+    //레디스 관련
+    INVITE_CODE_NOT_FOUND(HttpStatus.NOT_FOUND, "초대코드를 찾을 수 없습니다."),
+
     //utils
     FCMTOKEN_NOT_FOUND(HttpStatus.NOT_FOUND, "FCM 토큰 정보가 없습니다."),
 
