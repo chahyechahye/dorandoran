@@ -2,6 +2,7 @@ package com.doran.page.controller;
 
 import com.doran.page.dto.res.PageListDto;
 import com.doran.page.dto.res.PageResDto;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -39,11 +40,12 @@ public class PageController {
 
     // 페이지 조회
     @GetMapping("/{book_id}")
-    ResponseEntity<?> getPageList(@PathVariable(value = "book_id") int bookId)
-    {
+    ResponseEntity<?> getPageList(@PathVariable(value = "book_id") int bookId) {
         log.info("getPageList 컨트롤러 호출");
 
         PageListDto result = pageService.findPageByBookId(bookId);
         return CommonResponseEntity.getResponseEntity(SuccessCode.OK, result);
     }
+
+
 }

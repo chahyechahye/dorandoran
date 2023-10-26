@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.doran.book.BookMapper;
+import com.doran.book.mapper.BookMapper;
 import com.doran.book.dto.req.BookInsertDto;
 import com.doran.book.dto.res.BookListDto;
 import com.doran.book.dto.res.BookResDto;
