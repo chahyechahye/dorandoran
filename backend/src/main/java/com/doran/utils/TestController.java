@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.doran.animal.dto.res.AnimalDto;
@@ -27,13 +28,14 @@ public class TestController {
         return ResponseEntity.ok(animalService.selectAnimal(id));
     }
 
-    @GetMapping("/redis/id/{id}")
-    public ResponseEntity findInvite(@PathVariable int id) {
+    @GetMapping("/redis")
+    public ResponseEntity findInvite(@RequestParam("code") String code,
+        @RequestParam("id") int id) {
         inviteService.findCode("606777");
 
-        Invite code = inviteService.findCode(id);
-        log.info("코드 : {}", code.getCode());
-        log.info("유저id : {}", code.getUserId());
+        Invite find = inviteService.findCode(id);
+        log.info("코드 : {}", find.getCode());
+        log.info("유저id : {}", find.getUserId());
         return null;
     }
 }
