@@ -7,6 +7,7 @@ export interface StyledClickButtonProps {
   fontColor: string;
   fontSize: string;
   text: string;
+  onClick?: () => void;
 }
 
 const ClickContainer = styled.button<StyledClickButtonProps>`
@@ -28,6 +29,7 @@ const ClickButton = ({
   fontColor,
   fontSize,
   text,
+  onClick,
 }: StyledClickButtonProps) => {
   return (
     <ClickContainer
@@ -37,6 +39,7 @@ const ClickButton = ({
       fontColor={fontColor}
       fontSize={fontSize}
       text={text}
+      onClick={onClick}
     >
       {text}
     </ClickContainer>
