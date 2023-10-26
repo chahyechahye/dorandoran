@@ -18,7 +18,7 @@ public class ExceptionController {
 
     @ExceptionHandler(CustomException.class)
     public ResponseEntity<ErrorResponseEntity> ExceptionHandler(CustomException e) {
-        log.error("예외 발생 : {}", e.getMessage());
+        log.error("예외 발생 : {}", e.getErrorCode().getMessage());
         log.error("예외 내용 : ", e);
         return ErrorResponseEntity.toResponseEntity(e.getErrorCode());
     }
