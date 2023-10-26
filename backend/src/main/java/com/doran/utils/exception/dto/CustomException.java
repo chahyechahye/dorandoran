@@ -1,4 +1,4 @@
-package com.doran.exception.dto;
+package com.doran.utils.exception.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
