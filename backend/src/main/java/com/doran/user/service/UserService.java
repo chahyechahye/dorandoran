@@ -9,6 +9,7 @@ import com.doran.parent.ParentService;
 import com.doran.parent.entity.Parent;
 import com.doran.parent.mapper.ParentMapper;
 import com.doran.parent.type.Provider;
+import com.doran.redis.invite.service.InviteService;
 import com.doran.user.dto.req.UserTokenBaseDto;
 import com.doran.user.entity.User;
 import com.doran.user.mapper.UserMapper;
@@ -29,6 +30,7 @@ public class UserService {
     private final ParentMapper parentMapper;
     private final ParentService parentService;
     private final ChildService childService;
+    private final InviteService inviteService;
 
     //로컬테스트용 회원가입
     public User signUp(User user) {
@@ -41,6 +43,9 @@ public class UserService {
         log.info("유저 생성");
         User parentUser = userMapper.toUser(name, Roles.PARENT);
         User saveUser = signUp(parentUser);
+        log.info("유저id : {}", saveUser.getId());
+
+        inviteService.save(saveUser.getId());
 
         log.info("부모 생성");
         Parent parent = parentMapper.toParent(email, provider);
