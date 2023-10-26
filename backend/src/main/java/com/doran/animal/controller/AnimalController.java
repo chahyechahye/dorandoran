@@ -25,9 +25,4 @@ public class AnimalController {
 		return CommonResponseEntity.getResponseEntity(SuccessCode.OK, animalService.selectAllAnimal());
 	}
 
-	@PostMapping("")
-	public ResponseEntity<?> updateProfileAnimal() {
-		return ResponseEntity.ok().build();
-	}
-
 }
