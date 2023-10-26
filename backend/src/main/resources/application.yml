@@ -32,6 +32,11 @@ spring:
           location: rd-ssafy-project-ebd0eea46d3e.json
         project-id: rd-ssafy-project
         bucket: ssafy-last-project
+  data:
+    redis:
+      port: 6379
+      host: k9b108.p.ssafy.io
+      password: 'ssafy'
 
 jwt:
   secret-key: asdfasdfasdfasdfasdfasdasdsadasdasdasdqwvasdvwerfbasdf
@@ -51,8 +56,4 @@ oauth:
     resource-uri: https://www.googleapis.com/oauth2/v2/userinfo
     client-secret: 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
 
-#  data:
-#    redis:
-#      port: 6379
-#      host: j9b208.p.ssafy.io
-#      password: 'ssafy'
+
