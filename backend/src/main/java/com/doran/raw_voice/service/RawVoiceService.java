@@ -1,12 +1,10 @@
 package com.doran.raw_voice.service;
 
-import com.doran.raw_voice.RawVoiceMapper;
-import com.doran.raw_voice.dto.req.RawVoiceInsertDto;
+import com.doran.raw_voice.mapper.RawVoiceMapper;
 import com.doran.raw_voice.dto.res.RawVoiceListDto;
 import com.doran.raw_voice.dto.res.RawVoiceResDto;
 import com.doran.raw_voice.entity.RawVoice;
 import com.doran.raw_voice.repository.RawVoiceRepository;
-import com.doran.user.repository.UserRepository;
 import com.doran.utils.bucket.mapper.BucketMapper;
 import com.doran.utils.bucket.service.BucketService;
 import com.doran.utils.exception.dto.CustomException;
@@ -16,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.List;
 
 @Service

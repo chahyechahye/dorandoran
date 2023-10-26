@@ -1,4 +1,4 @@
-package com.doran.raw_voice;
+package com.doran.raw_voice.mapper;
 
 import com.doran.raw_voice.dto.req.RawVoiceInsertDto;
 import com.doran.raw_voice.dto.res.RawVoiceResDto;
