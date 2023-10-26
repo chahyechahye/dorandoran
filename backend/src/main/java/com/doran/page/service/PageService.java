@@ -54,9 +54,9 @@ public class PageService {
         return new PageListDto(pageList.size(), pageMapper.toDtoList(pageList));
     }
 
-    public int findPageIdByIdxAndBookId(int bookId, int idx) {
+    public Page findPageIdByIdxAndBookId(int bookId, int idx) {
+        log.info("page 조회 서비스 호출");
         return pageRepository.findPageByBookIdAndIdx(bookId, idx)
-            .orElseThrow(() -> new CustomException(ErrorCode.BOOK_NOT_FOUND))
-            .getId();
+            .orElseThrow(() -> new CustomException(ErrorCode.BOOK_NOT_FOUND));
     }
 }
