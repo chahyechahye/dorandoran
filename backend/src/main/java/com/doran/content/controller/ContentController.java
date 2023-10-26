@@ -18,6 +18,7 @@ import com.doran.content.dto.res.ContentResDto;
 import com.doran.content.service.ContentService;
 import com.doran.page.entity.Page;
 import com.doran.page.service.PageService;
+import com.doran.parent.service.ParentService;
 import com.doran.utils.common.UserInfo;
 import com.doran.utils.response.CommonResponseEntity;
 import com.doran.utils.response.SuccessCode;
@@ -32,10 +33,12 @@ import lombok.extern.slf4j.Slf4j;
 public class ContentController {
     private final ContentService contentService;
     private final PageService pageService;
+    private final ParentService parentService;
 
     // 컨텐츠 등록
     @PostMapping("/{book_id}")
-    ResponseEntity<?> insertContent(@PathVariable(value = "book_id") int bookId, @RequestBody ContentInsertDto contentInsertDto) {
+    ResponseEntity<?> insertContent(@PathVariable(value = "book_id") int bookId,
+        @RequestBody ContentInsertDto contentInsertDto) {
         int idx = contentInsertDto.getIdx();
         String script = contentInsertDto.getScript();
 
@@ -47,19 +50,15 @@ public class ContentController {
     //컨텐츠 조회(동화 낭독), (동화책 Id, 페이지 idx)
     @GetMapping("/{book_id}/{idx}")
     ResponseEntity<?> getContent(@PathVariable(value = "book_id") int bookId, @PathVariable int idx) {
-        UserInfo userInfo = (UserInfo)SecurityContextHolder.getContext()
-            .getAuthentication()
-            .getPrincipal();
-
-        // 부모인지 아이인지 체킹
-        // 아이라면 해당 부모의 UserId 끌고와야함 -> 일단 임시 땜빵
-        int userId = 1;
         log.info("getContent 컨트롤러 호출");
-        log.info("userId : " + userId);
+        UserInfo userInfo = (UserInfo)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        //idx로 pageId 추출 (idx)
         int pageId = pageService.findPageIdByIdxAndBookId(bookId, idx).getId();
-        List<ContentResDto> findContent = contentService.getContentWithVoice(userId, pageId);
+        int parentUserId = parentService.getParentUserId(userInfo.getUserId(), userInfo.getUserRole().getRole());
+
+        log.info("부모의 유저 아이디 : " + parentUserId);
+        List<ContentResDto> findContent = contentService.getContentWithVoice(parentUserId, pageId);
+
         return CommonResponseEntity.getResponseEntity(SuccessCode.SUCCESS_CODE, findContent);
     }
 }
