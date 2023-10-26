@@ -1,4 +1,4 @@
-package com.doran.book;
+package com.doran.book.mapper;
 
 import java.util.List;
 
