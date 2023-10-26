@@ -19,15 +19,15 @@ import lombok.Setter;
 @Setter
 public class Animal {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "animal_id")
-	private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "animal_id")
+    private int id;
 
-	@Column(nullable = false)
-	private String name;
+    @Column(nullable = false)
+    private String name;
 
-	@Column(nullable = false)
-	@ColumnDefault("https://storage.googleapis.com/ssafy-last-project/smile.png")
-	private String imgUrl;
+    @Column(nullable = false)
+    @ColumnDefault("'https://storage.googleapis.com/ssafy-last-project/smile.png'")
+    private String imgUrl;
 }
