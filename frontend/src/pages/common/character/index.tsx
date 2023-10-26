@@ -14,13 +14,13 @@ interface DivProps {
 const Div = styled.div<DivProps>`
   width: 40vw;
   max-width: 500px;
-  height: 75vh;
+  height: 65vh;
   background-size: auto 60%;
   background-position: 50% 50%;
   background-repeat: no-repeat;
   display: inline-block;
   margin: 0 0.5rem;
-  filter: grayscale(1) opacity(0.1) contrast(200%);
+  filter: grayscale(1) opacity(0.2) contrast(200%);
   transition: 0.5s;
   transform: skewY(-10deg);
   z-index: -1;
