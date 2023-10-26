@@ -18,9 +18,9 @@ import com.doran.content.dto.res.ContentResDto;
 import com.doran.content.service.ContentService;
 import com.doran.page.entity.Page;
 import com.doran.page.service.PageService;
-import com.doran.response.CommonResponseEntity;
-import com.doran.response.SuccessCode;
 import com.doran.utils.common.UserInfo;
+import com.doran.utils.response.CommonResponseEntity;
+import com.doran.utils.response.SuccessCode;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,8 +35,7 @@ public class ContentController {
 
     // 컨텐츠 등록
     @PostMapping("/{book_id}")
-    ResponseEntity<?> insertContent(@PathVariable(value = "book_id") int bookId,
-        @RequestBody ContentInsertDto contentInsertDto) {
+    ResponseEntity<?> insertContent(@PathVariable(value = "book_id") int bookId, @RequestBody ContentInsertDto contentInsertDto) {
         int idx = contentInsertDto.getIdx();
         String script = contentInsertDto.getScript();
 

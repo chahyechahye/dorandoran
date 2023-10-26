@@ -5,17 +5,17 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.doran.book.mapper.BookMapper;
 import com.doran.book.dto.req.BookInsertDto;
 import com.doran.book.dto.res.BookListDto;
 import com.doran.book.dto.res.BookResDto;
 import com.doran.book.entity.Book;
+import com.doran.book.mapper.BookMapper;
 import com.doran.book.repository.BookRepository;
-import com.doran.exception.dto.CustomException;
-import com.doran.exception.dto.ErrorCode;
 import com.doran.utils.bucket.dto.InsertDto;
 import com.doran.utils.bucket.mapper.BucketMapper;
 import com.doran.utils.bucket.service.BucketService;
+import com.doran.utils.exception.dto.CustomException;
+import com.doran.utils.exception.dto.ErrorCode;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +32,7 @@ public class BookService {
     //책 예외 체킹
     public Book findBookById(int bookId) {
         return bookRepository.findById(bookId)
-            .orElseThrow(() -> new CustomException(ErrorCode.BOOK_NOT_FOUND));
+                             .orElseThrow(() -> new CustomException(ErrorCode.BOOK_NOT_FOUND));
     }
 
     // 책 등록

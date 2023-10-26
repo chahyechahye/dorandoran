@@ -1,8 +1,9 @@
-package com.doran.exception.dto;
+package com.doran.utils.exception.dto;
+
+import org.springframework.http.HttpStatus;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.http.HttpStatus;
 
 @Getter
 @AllArgsConstructor
@@ -36,7 +37,10 @@ public enum ErrorCode {
     INPUT_EXCEPTION(HttpStatus.BAD_REQUEST, "입력값을 확인하세요"),
     KAKAO_ERROR(HttpStatus.BAD_REQUEST, "카카오 오류"),
     DATA_NOT_FOUND(HttpStatus.NOT_FOUND, "데이터가 존재하지 않습니다."),
-    BUCKET_EXCEPTION(HttpStatus.CONFLICT, "BUCKET ERROR");
+    BUCKET_EXCEPTION(HttpStatus.CONFLICT, "BUCKET ERROR"),
+
+    //동물
+    ANIMAL_NOT_FOUND(HttpStatus.NOT_FOUND, "동물이 존재하지 않습니다."),
     ;
 
     private final HttpStatus httpStatus;
