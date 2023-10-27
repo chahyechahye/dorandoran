@@ -48,6 +48,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-webflux:3.0.4'
     //문자 인증 API
     implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'//redis 사용
 }
 
 tasks.named('test') {
