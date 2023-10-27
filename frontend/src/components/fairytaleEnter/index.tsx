@@ -1,10 +1,15 @@
 import styled from "styled-components";
 import title from "@/assets/img/background.jpg";
+import { useEffect, useState } from "react";
 
 // Styled Components
 const CardContainer = styled.div`
+  position: fixed;
   margin: 0;
   padding: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
 `;
 
 const Card = styled.div`
@@ -22,7 +27,7 @@ const Card = styled.div`
     2vh 0 6vh rgba(0, 0, 0, 0.5);
   transition: 1s;
 
-  &:hover {
+  &.open {
     transform: translate(-50%, -50%) perspective(200vh) rotate(15deg) scale(1.2);
     box-shadow:
       inset 2vh 0 5vh rgba(0, 0, 0, 0.5),
@@ -61,7 +66,7 @@ const ImgBox = styled.div`
   transform-origin: left;
   transition: 0.7s;
 
-  ${Card}:hover & {
+  &.open {
     transform: rotateY(-135deg);
   }
 `;
@@ -74,7 +79,7 @@ const Bark = styled.div`
   opacity: 0;
   transition: 0.7s;
 
-  ${Card}:hover & {
+  &.open {
     opacity: 1;
     transition: 0.6s;
     box-shadow: 30vh 20vh 10vh rgba(0, 0, 0, 0.4) inset;
@@ -101,18 +106,30 @@ const Details = styled.img`
 `;
 
 // React Component
-const CardComponent = () => {
+const FariytaleEnter = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsOpen(true);
+    }, 1000); // 3초 후에 카드를 열도록 설정
+
+    return () => {
+      clearTimeout(timer); // 컴포넌트 언마운트 시 타이머 클리어
+    };
+  }, []);
+
   return (
     <CardContainer>
-      <Card>
-        <ImgBox>
-          <Bark></Bark>
-          <Img src={title} />
+      <Card className={isOpen ? "open" : ""}>
+        <ImgBox className={isOpen ? "open" : ""}>
+          <Bark className={isOpen ? "open" : ""}></Bark>
+          <Img src={title} className={isOpen ? "open" : ""} />
         </ImgBox>
-        <Details src={title}></Details>
+        <Details src={title} className={isOpen ? "open" : ""}></Details>
       </Card>
     </CardContainer>
   );
 };
 
-export default CardComponent;
+export default FariytaleEnter;
