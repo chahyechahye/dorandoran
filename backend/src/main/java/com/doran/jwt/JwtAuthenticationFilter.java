@@ -30,14 +30,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         log.info("accessToken : {}", accessToken);
         log.info("refreshToken : {}", refreshToken);
 
-        if (!accessToken.isEmpty() && jwtProvider.isTokenValid(accessToken)) {
+        if (accessToken != null && jwtProvider.isTokenValid(accessToken)) {
             log.info("엑세스 토큰 유효함");
 
             jwtProvider.checkBlackList(accessToken);
             log.info("블랙리스트에 없음");
 
             setAuthentication(accessToken);
-        } else if (!refreshToken.isEmpty() && jwtProvider.isTokenValid(refreshToken)) {
+        } else if (refreshToken != null && jwtProvider.isTokenValid(refreshToken)) {
             log.info("엑세스 토큰 유효하지 않음");
             log.info("리프레시 토큰은 살아있음 ");
             setAuthentication(refreshToken);
