@@ -51,10 +51,12 @@ public class ContentController {
     @GetMapping("/{book_id}/{idx}")
     ResponseEntity<?> getContent(@PathVariable(value = "book_id") int bookId, @PathVariable int idx) {
         log.info("getContent 컨트롤러 호출");
-        UserInfo userInfo = (UserInfo)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        //UserInfo userInfo = (UserInfo)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         int pageId = pageService.findPageIdByIdxAndBookId(bookId, idx).getId();
-        int parentUserId = parentService.getParentUserId(userInfo.getUserId(), userInfo.getUserRole().getRole());
+
+        int parentUserId = parentService.getParentUserId(5, "CHILD");
+        //int parentUserId = parentService.getParentUserId(userInfo.getUserId(), userInfo.getUserRole().getRole());
 
         log.info("부모의 유저 아이디 : " + parentUserId);
         List<ContentResDto> findContent = contentService.getContentWithVoice(parentUserId, pageId);
