@@ -5,12 +5,16 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.doran.animal.entity.Animal;
 import com.doran.animal.mapper.AnimalMapper;
+import com.doran.animal.repository.AnimalRepository;
+import com.doran.child.repository.ChildRepository;
 import com.doran.profile.dto.res.ProfileDto;
 import com.doran.profile.dto.res.ProfileListDto;
 import com.doran.profile.entity.Profile;
 import com.doran.profile.mapper.ProfileMapper;
 import com.doran.profile.repository.ProfileRepository;
+import com.doran.utils.common.UserInfo;
 import com.doran.utils.exception.dto.CustomException;
 import com.doran.utils.exception.dto.ErrorCode;
 
@@ -25,6 +29,8 @@ import lombok.extern.slf4j.Slf4j;
 public class ProfileServiceImpl implements ProfileService {
 
     private final ProfileRepository profileRepository;
+    private final AnimalRepository animalRepository;
+    private final ChildRepository childRepository;
     private final ProfileMapper profileMapper;
     private final AnimalMapper animalMapper;
 
@@ -36,6 +42,7 @@ public class ProfileServiceImpl implements ProfileService {
         for (Profile profile : profileList) {
             ProfileDto profileDto = profileMapper.toProfileDto(
                 profile.getId(),
+                childId,
                 animalMapper.toAnimalDto(
                     profile.getAnimal().getId(),
                     profile.getAnimal().getName(),
@@ -54,6 +61,7 @@ public class ProfileServiceImpl implements ProfileService {
 
         return profileMapper.toProfileDto(
             profile.getId(),
+            childId,
             animalMapper.toAnimalDto(
                 profile.getAnimal().getId(),
                 profile.getAnimal().getName(),
@@ -62,12 +70,27 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public void createChildProfile(int childId) {
+    public void createChildProfile(int childId, String name) {
+        Profile profile = new Profile();
+        profile.setAnimal(
+            animalRepository.selectAnimal(1).orElseThrow(() -> new CustomException(ErrorCode.ANIMAL_NOT_FOUND)));
+        int userId = childRepository.findChildToParentUserId(childId)
+                                    .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND)).getId();
+        profile.setChild(
+            childRepository.findById(userId).orElseThrow(() -> new CustomException(ErrorCode.CHILD_NOT_FOUND)));
 
+        profile.setName(name);
+        profileRepository.save(profile);
     }
 
     @Override
-    public void updateProfileAnimal(int animalId) {
-
+    public void updateProfileAnimal(UserInfo userInfo, int animalId) {
+        Profile profile = profileRepository.selectProfile(userInfo.getUserId(), userInfo.getSelectProfileId())
+                                           .orElseThrow(() -> new CustomException(
+                                               ErrorCode.PROFILE_NOT_FOUND));
+        Animal animal = animalRepository.selectAnimal(animalId)
+                                        .orElseThrow(() -> new CustomException(ErrorCode.ANIMAL_NOT_FOUND));
+        profile.setAnimal(animal);
+        profileRepository.save(profile);
     }
 }

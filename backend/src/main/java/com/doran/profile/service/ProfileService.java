@@ -2,6 +2,7 @@ package com.doran.profile.service;
 
 import com.doran.profile.dto.res.ProfileDto;
 import com.doran.profile.dto.res.ProfileListDto;
+import com.doran.utils.common.UserInfo;
 
 public interface ProfileService {
 
@@ -9,7 +10,7 @@ public interface ProfileService {
 
     ProfileDto selectProfile(int childId, int profileId);
 
-    void createChildProfile(int childId);
+    void createChildProfile(int childId, String name);
 
-    void updateProfileAnimal(int animalId);
+    void updateProfileAnimal(UserInfo userInfo, int animalId);
 }
