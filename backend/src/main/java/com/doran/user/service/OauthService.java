@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import com.doran.parent.type.Provider;
 import com.doran.user.dto.req.UserTokenBaseDto;
 import com.doran.user.type.Roles;
+import com.doran.utils.exception.dto.CustomException;
+import com.doran.utils.exception.dto.ErrorCode;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,4 +29,9 @@ public class OauthService {
             return userService.findUser(email, provider).get();
         });
     }
+
+    public UserTokenBaseDto getFindDto(int id, int profileId) {
+        return userService.findUser(id, profileId).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+    }
+
 }
