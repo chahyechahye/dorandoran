@@ -29,7 +29,6 @@ public class BookController {
     //@PreAuthorize("has") //권한 체킹
     ResponseEntity<?> insertBook(BookInsertDto bookInsertDto) throws IOException {
         log.info("insertBook 컨트롤러 호출");
-        //int userId = Integer.parseInt(SecurityContextHolder.getContext().getAuthentication().getName());
         bookService.insertBook(bookInsertDto);
         return CommonResponseEntity.getResponseEntity(SuccessCode.SUCCESS_CODE);
     }
