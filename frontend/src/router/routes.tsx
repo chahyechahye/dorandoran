@@ -19,6 +19,10 @@ const routes: RouteType[] = [
     element: React.lazy(() => import("@/pages/common/character")),
   },
   {
+    path: "/children/main",
+    element: React.lazy(() => import("@/pages/children/main")),
+  },
+  {
     path: "/children/login",
     element: React.lazy(() => import("@/pages/children/login")),
   },
@@ -42,10 +46,10 @@ const routes: RouteType[] = [
     path: "/parent/profile",
     element: React.lazy(() => import("@/pages/parent/profile")),
   },
-  // {
-  //   path: "/parent/record",
-  //   element: React.lazy(() => import("@/pages/parent/record")),
-  // },
+  {
+    path: "/parent/record",
+    element: React.lazy(() => import("@/pages/parent/record")),
+  },
   // {
   //   path: "/",
   //   element: () => <Navigate replace to="/main" />,
