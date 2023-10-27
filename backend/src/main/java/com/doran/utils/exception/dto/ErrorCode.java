@@ -24,6 +24,7 @@ public enum ErrorCode {
     INVALID_AUTH_CODE(HttpStatus.NOT_FOUND, "인증코드가 일치하지 않습니다."),
     DUPLICATE_USER(HttpStatus.CONFLICT, "이미 가입한 회원입니다."),
     INVALID_REFRESH_TOKEN(HttpStatus.NOT_FOUND, "RT를 찾을 수 없습니다."),
+    INVALID_ACCESS_TOKEN(HttpStatus.NOT_FOUND, "유효하지 않은 AT입니다."),
 
     //동화 관련 예외
     BOOK_NOT_FOUND(HttpStatus.NOT_FOUND, "해당하는 정보의 사용자를 찾을 수 없습니다."),
