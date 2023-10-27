@@ -26,6 +26,9 @@ public enum ErrorCode {
     INVALID_REFRESH_TOKEN(HttpStatus.NOT_FOUND, "RT를 찾을 수 없습니다."),
     INVALID_ACCESS_TOKEN(HttpStatus.NOT_FOUND, "유효하지 않은 AT입니다."),
 
+    //부모 관련 예외
+    PARENT_NOT_FOUND(HttpStatus.NOT_FOUND, "해당하는 정보의 부모를 찾을 수 없습니다."),
+
     //동화 관련 예외
     BOOK_NOT_FOUND(HttpStatus.NOT_FOUND, "해당하는 정보의 책을 찾을 수 없습니다."),
 
