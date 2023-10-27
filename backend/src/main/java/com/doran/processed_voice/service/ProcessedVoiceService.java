@@ -2,6 +2,7 @@ package com.doran.processed_voice.service;
 
 import java.util.List;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.doran.content.entity.Content;
@@ -18,6 +19,7 @@ import com.doran.utils.auth.Auth;
 import com.doran.utils.bucket.dto.InsertDto;
 import com.doran.utils.bucket.mapper.BucketMapper;
 import com.doran.utils.bucket.service.BucketService;
+import com.doran.utils.common.UserInfo;
 import com.doran.utils.exception.dto.CustomException;
 import com.doran.utils.exception.dto.ErrorCode;
 
@@ -52,7 +54,10 @@ public class ProcessedVoiceService {
 
     public void insertProcessedVoice(ProcessedVoiceInsertDto processedVoiceInsertDto){
         // 가공된 목소리 저장 이름은 userId_(m/f)_contentId.mp3 로 됨 - 유저아이디_성별_컨텐츠아이디.mp3
-        String name = Auth.getInfo().getUserId() + "_" + processedVoiceInsertDto.getVoiceType() + "_" + processedVoiceInsertDto.getContentId()+ ".mp3";
+
+        String name = "" + Auth.getInfo().getUserId() + "_" + processedVoiceInsertDto.getVoiceType() + "_" + processedVoiceInsertDto.getContentId()+ ".mp3";
+        System.out.println("contentId: "+ processedVoiceInsertDto.getContentId() + " " + processedVoiceInsertDto.getVoiceType());
+
         Content content = contentService.getContentById(processedVoiceInsertDto.getContentId());
         User user = userService.findUser(Auth.getInfo().getUserId());
 

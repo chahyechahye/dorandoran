@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,8 +28,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class ProcessedVoiceController {
     private final ProcessedVoiceService processedVoiceService;
-    private final ContentService contentService; // 가공된 목소리 저장을 위해 필요
-    private final UserService userService;
+    //private final ContentService contentService; // 가공된 목소리 저장을 위해 필요
+    //private final UserService userService;
 
     @GetMapping("")
     public ResponseEntity<?> getProcessedVoiceList() {
