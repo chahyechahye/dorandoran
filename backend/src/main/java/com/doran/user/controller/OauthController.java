@@ -11,6 +11,8 @@ import com.doran.user.dto.req.UserTokenBaseDto;
 import com.doran.user.service.GoogleService;
 import com.doran.user.service.KakaoService;
 import com.doran.user.service.OauthService;
+import com.doran.utils.response.CommonResponseEntity;
+import com.doran.utils.response.SuccessCode;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import jakarta.servlet.http.HttpServletResponse;
@@ -43,7 +45,7 @@ public class OauthController {
         response.setHeader("AccessToken", accessToken);
         response.setHeader("RefreshToken", refreshToken);
 
-        return ResponseEntity.ok("카카오 테스트");
+        return CommonResponseEntity.getResponseEntity(SuccessCode.OK, "카카오 로그인 성공");
     }
 
     //oauth - google
@@ -59,7 +61,7 @@ public class OauthController {
 
         response.setHeader("accessToken", accessToken);
         response.setHeader("refreshToken", refreshToken);
-        return ResponseEntity.ok("구글 테스트");
+        return CommonResponseEntity.getResponseEntity(SuccessCode.OK, "구글 로그인 성공");
     }
 
 }
