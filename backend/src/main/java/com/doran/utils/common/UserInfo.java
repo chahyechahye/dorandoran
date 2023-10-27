@@ -10,50 +10,50 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.doran.user.type.Roles;
 
-import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-@Builder
+@NoArgsConstructor
 public class UserInfo implements UserDetails {
-	private int userId;
-	private Integer selectProfileId;
-	private Roles userRole;
+    private int userId;
+    private Integer selectProfileId;
+    private Roles userRole;
 
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		List<GrantedAuthority> authorities = new ArrayList<>();
-		authorities.add(new SimpleGrantedAuthority(this.userRole.getRole()));
-		return authorities;
-	}
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(this.userRole.getRole()));
+        return authorities;
+    }
 
-	@Override
-	public String getPassword() {
-		return null;
-	}
+    @Override
+    public String getPassword() {
+        return null;
+    }
 
-	@Override
-	public String getUsername() {
-		return null;
-	}
+    @Override
+    public String getUsername() {
+        return null;
+    }
 
-	@Override
-	public boolean isAccountNonExpired() {
-		return false;
-	}
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
 
-	@Override
-	public boolean isAccountNonLocked() {
-		return false;
-	}
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
 
-	@Override
-	public boolean isCredentialsNonExpired() {
-		return false;
-	}
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
 
-	@Override
-	public boolean isEnabled() {
-		return false;
-	}
+    @Override
+    public boolean isEnabled() {
+        return false;
+    }
 }
