@@ -28,7 +28,9 @@ public enum ErrorCode {
     BOOK_NOT_FOUND(HttpStatus.NOT_FOUND, "해당하는 정보의 사용자를 찾을 수 없습니다."),
 
     // RawVoice (원본 목소리)관련 예외
-    RAW_VOICE_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 사용자의 정보를 찾을 수 없습니다."),
+    VOICE_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 사용자의 정보를 찾을 수 없습니다."),
+
+    // ProcessedVoice (변형된 목소리) 관련 예외
 
     //추가할 것들은 여기에 작성해주세요.
 
