@@ -49,7 +49,10 @@ public enum ErrorCode {
     ANIMAL_NOT_FOUND(HttpStatus.NOT_FOUND, "동물이 존재하지 않습니다."),
 
     //프로필
-    PROFILE_NOT_FOUND(HttpStatus.NOT_FOUND, "프로필이 존재하지 않습니다.");
+    PROFILE_NOT_FOUND(HttpStatus.NOT_FOUND, "프로필이 존재하지 않습니다."),
+
+    //아이
+    CHILD_NOT_FOUND(HttpStatus.NOT_FOUND, "아이가 존재하지 않습니다.");
 
     private final HttpStatus httpStatus;
     private final String message;
