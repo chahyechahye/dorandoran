@@ -14,7 +14,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 //60초 이후에 레디스에서 삭제 됨
-@RedisHash(value = "refreshToken", timeToLive = 60)
+@RedisHash(value = "refreshToken", timeToLive = 865)
 public class RefreshToken {
     @Id
     private String value;
