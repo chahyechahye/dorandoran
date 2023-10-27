@@ -26,10 +26,10 @@ public class ParentService {
         return role.equals("CHILD");
     }
 
-	public Parent findParentByChildUserId(int childUserId) {
-		return parentRepository.findParentByChildUserId(childUserId)
-			.orElseThrow(() -> new CustomException(ErrorCode.PARENT_NOT_FOUND));
-	}
+    public Parent findParentByChildUserId(int childUserId) {
+        return parentRepository.findParentByChildUserId(childUserId)
+            .orElseThrow(() -> new CustomException(ErrorCode.PARENT_NOT_FOUND));
+    }
 
     /*
     유저가 부모일 때 : 유저 ID 반납
@@ -38,6 +38,5 @@ public class ParentService {
     public int getParentUserId(int userId, String role) {
         return checkParent(role) ? userId : findParentByChildUserId(userId).getUser().getId();
     }
-
 
 }
