@@ -1,5 +1,7 @@
 package com.doran.user.service;
 
+import java.util.Optional;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -14,24 +16,18 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CustomUserDetailService {
 
-	public UserDetails loadUserByUsername(Claims userInfo) throws UsernameNotFoundException {
-		Object userRole = userInfo.get("userRole");
-		Roles roles = Roles.valueOf(userRole.toString());
+    public UserDetails loadUserByUsername(Claims userInfo) throws UsernameNotFoundException {
+        UserInfo build = new UserInfo();
 
-		int userId = (int)userInfo.get("userId");
-		int parentId = (int)userInfo.get("parentId");
-		// int selectProfileId = (int)userInfo.get("selectProfileId");
-		log.info("userId : {}", userId);
-		log.info("parentId : {}", parentId);
-		// log.info("selectProfileId : {}", selectProfileId);
+        Roles roles = Roles.valueOf(userInfo.get("userRole").toString());
+        build.setUserRole(roles);
+        build.setUserId((int)userInfo.get("userId"));
+        //있으면 넣고 없으면 안넣음
+        Optional.ofNullable(userInfo.get("selectProfileId"))
+            .ifPresent(v -> build.setSelectProfileId((int)v));
 
-		UserInfo build = UserInfo.builder()
-			.userId(userId)
-			.selectProfileId(null)
-			.userRole(roles)
-			.build();
-		log.info(build.toString());
+        log.info("userInfo : {}", build);
 
-		return build;
-	}
+        return build;
+    }
 }
