@@ -4,6 +4,8 @@ import castle from "@/assets/img/childMain/castle.png";
 import postOffice from "@/assets/img/childMain/postoffice.png";
 import camera from "@/assets/img/childMain/camera.png";
 import books from "@/assets/img/childMain/books.png";
+import character from "@/assets/img/fox.png";
+import ProfileCircle from "@/components/profileCircle";
 
 const Background = styled.div`
   position: fixed;
@@ -360,7 +362,20 @@ const Books = styled.img`
   left: 68%;
 `;
 
-// Now you can use these styled components in your React application.
+const Character = styled.img`
+  width: 15%;
+  position: absolute;
+  z-index: 6;
+  top: 71%;
+  left: 82%;
+`;
+
+const Profile = styled.div`
+  position: absolute;
+  z-index: 6;
+  top: 2%;
+  left: 90%;
+`;
 
 const ChildrenMainPage = () => {
   return (
@@ -392,6 +407,10 @@ const ChildrenMainPage = () => {
           <Books src={books} />
           <Camera src={camera} />
         </CastleContainer>
+        <Character src={character} />
+        <Profile>
+          <ProfileCircle />
+        </Profile>
       </ContentContainer>
     </Background>
   );
