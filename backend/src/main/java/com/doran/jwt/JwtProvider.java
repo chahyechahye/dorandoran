@@ -64,9 +64,7 @@ public class JwtProvider {
         //value가 null인 경우 그냥 jwt에 들어가지 않음
         //-> 부모, 아이 나눌 것 없이 유동적인 사용이 가능해보임
         claims.put("userRole", dto.getUserRole());
-        claims.put("provider", dto.getProvider());
         claims.put("userId", dto.getUserId());
-        claims.put("parentId", dto.getParentId());
         claims.put("childId", dto.getChildId());
         claims.put("selectProfileId", dto.getSelectProfileId());
 
