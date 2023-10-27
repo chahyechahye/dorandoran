@@ -38,10 +38,10 @@ public class UserService {
     }
 
     //회원가입
-    public void signUp(String name, String email, Provider provider) {
+    public void signUp(String name, String email, Provider provider, Roles roles) {
         log.info("회원 가입 진행");
         log.info("유저 생성");
-        User parentUser = userMapper.toUser(name, Roles.PARENT);
+        User parentUser = userMapper.toUser(name, roles);
         User saveUser = signUp(parentUser);
         log.info("유저id : {}", saveUser.getId());
 
