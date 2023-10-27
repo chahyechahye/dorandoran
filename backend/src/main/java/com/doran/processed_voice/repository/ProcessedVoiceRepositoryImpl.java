@@ -1,4 +1,11 @@
 package com.doran.processed_voice.repository;
 
-public class ProcessedVoiceRepositoryImpl {
+import com.querydsl.jpa.impl.JPAQueryFactory;
+
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
+public class ProcessedVoiceRepositoryImpl implements ProcessedVoiceRepositoryCustom{
+    private final JPAQueryFactory jpaQueryFactory;
+
 }
