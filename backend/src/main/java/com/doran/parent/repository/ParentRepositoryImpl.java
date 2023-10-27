@@ -20,6 +20,7 @@ public class ParentRepositoryImpl implements ParentRepositoryCustom {
             .select(parent)
             .from(child)
                 .join(child.parent, parent)
+                .where(child.user.id.eq(childUserId))
             .fetchOne()
         );
     }

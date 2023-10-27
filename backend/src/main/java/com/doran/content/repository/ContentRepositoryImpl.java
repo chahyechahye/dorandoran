@@ -26,8 +26,8 @@ public class ContentRepositoryImpl implements ContentRepositoryCustom {
                 ))
             .from(content)
             .leftJoin(content.processedVoice, processedVoice)
+            .on(processedVoice.user.id.eq(userId))
             .where(content.page.id.eq(pageId))
-            .where(processedVoice.user.id.eq(userId))
             .fetch();
     }
 }

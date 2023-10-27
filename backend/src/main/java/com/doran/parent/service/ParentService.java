@@ -36,7 +36,7 @@ public class ParentService {
     유저가 아이일 때 : 해당 부모의 유저 ID 반납
      */
     public int getParentUserId(int userId, String role) {
-        return checkParent(role) ? userId : findParentByChildUserId(userId).getUser().getId();
+        return checkParent(role) ? findParentByChildUserId(userId).getUser().getId() : userId;
     }
 
 }
