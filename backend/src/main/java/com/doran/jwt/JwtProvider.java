@@ -14,8 +14,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.doran.redis.balcklist.service.BlackListService;
+import com.doran.redis.refresh.service.RefreshTokenService;
 import com.doran.user.dto.req.UserTokenBaseDto;
 import com.doran.user.service.CustomUserDetailService;
+import com.doran.user.type.Roles;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
@@ -38,8 +41,8 @@ public class JwtProvider {
     private static final long refreshTokenValidTime = 10 * 24 * 60 * 60 * 1000L;
 
     private final CustomUserDetailService customUserDetailService;
-    // private final RefreshTokenRepository refreshTokenRepository;
-    // private final BlackListService blackListService;
+    private final RefreshTokenService refreshTokenService;
+    private final BlackListService blackListService;
 
     //키 생성
     private static Key getSigningKey(String secretKey) {
@@ -52,13 +55,8 @@ public class JwtProvider {
     public String createToken(UserTokenBaseDto dto, long time) {
         //토큰 제목
         log.info("토큰 생성하러 들어감");
-        Claims claims = Jwts.claims();
 
-        Date now = new Date();
-        claims
-            .setSubject(Integer.toString(dto.getUserId()))
-            .setIssuedAt(now)
-            .setExpiration(new Date(now.getTime() + time));
+        Claims claims = createClaims(dto, time);
 
         //value가 null인 경우 에러가 발생하지 않음
         //value가 null인 경우 그냥 jwt에 들어가지 않음
@@ -74,6 +72,22 @@ public class JwtProvider {
             .compact();
     }
 
+    public Claims createClaims(UserTokenBaseDto dto, long time) {
+        Claims claims = Jwts.claims();
+        Date now = new Date();
+
+        claims
+            .setSubject(Integer.toString(dto.getUserId()))
+            .setIssuedAt(now);
+
+        if (!dto.getUserRole().equals(Roles.CHILD)) {
+            claims
+                .setExpiration(new Date(now.getTime() + time));
+        }
+
+        return claims;
+    }
+
     //엑세스 토큰 생성
     public String createAccessToken(UserTokenBaseDto dto) {
         return this.createToken(dto, accessTokenValidTime);
@@ -83,11 +97,7 @@ public class JwtProvider {
     public String createRefreshToken(UserTokenBaseDto dto) {
         String refreshToken = this.createToken(dto, refreshTokenValidTime);
 
-        //리프레시 토큰이 redis에 저장되는 로직
-        // RefreshToken rt = new RefreshToken();
-        // rt.setRefreshValue(refreshToken);
-        // rt.setUserId(user.getUserId());
-        // refreshTokenRepository.save(rt);
+        refreshTokenService.save(refreshToken, dto.getUserId());
 
         return refreshToken;
     }
@@ -119,11 +129,9 @@ public class JwtProvider {
 
     //토큰 인증 정보 조회
     public Authentication getAuthentication(String token) {
-        // Claims userInfo = this.getUserInfo(token);
         UserDetails userDetails = customUserDetailService.loadUserByUsername(this.getUserInfo(token));
 
         return new UsernamePasswordAuthenticationToken(userDetails, "", Collections.emptyList());
-        // return null;
     }
 
     //토큰 유효성 검증
@@ -145,6 +153,6 @@ public class JwtProvider {
     //블랙리스트 테이블에서 엑세스 토큰 조회
     // -> 조회될 경우 요청 불가능 -> 이미 로그아웃을 해버린 유저
     public void checkBlackList(String accessToken) {
-        // blackListService.findBlackList(accessToken);
+        blackListService.findBlackList(accessToken);
     }
 }
