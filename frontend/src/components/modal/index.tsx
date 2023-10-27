@@ -35,11 +35,9 @@ const Title = styled.h1`
 
 const Subtitle = styled.p`
   width: 100%;
-  font-family: "Binggrae";
-  font-weight: bold;
   line-height: 5vh;
   /* text-align: justify; */
-  font-size: 2.5rem;
+  font-size: 3rem;
   color: #fff;
   margin: 3vh 0;
 `;
