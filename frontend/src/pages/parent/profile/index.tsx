@@ -113,7 +113,7 @@ const ParentProfilePage = () => {
         <Modal
           title="아이에게 보내기"
           subtitle="아이에게 초대코드를 보내서 동화책을 들려주세요"
-          placeholder="초대받을 사람의 전화번호를 입력해주세요"
+          placeholder="전화번호를 입력해주세요"
           buttonText="보내기"
           bgColor="#4FCDC7"
           buttonColor="#F65F5F"

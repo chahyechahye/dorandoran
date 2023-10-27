@@ -24,8 +24,10 @@ const scalingAnimation = keyframes`
 const Section = styled.section`
   height: 350px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-right: 20vh;
 `;
 
 const Voice = styled.div`
