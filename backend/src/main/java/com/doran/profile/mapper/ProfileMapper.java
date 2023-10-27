@@ -13,8 +13,9 @@ import com.doran.profile.dto.res.ProfileListDto;
 public interface ProfileMapper {
 
     @Mapping(source = "id", target = "id")
+    @Mapping(source = "childId", target = "childId")
     @Mapping(source = "name", target = "name")
-    ProfileDto toProfileDto(int id, AnimalDto animal, String name);
+    ProfileDto toProfileDto(int id, int childId, AnimalDto animal, String name);
 
     default ProfileListDto toProfileListDto(List<ProfileDto> profileListDto) {
         ProfileListDto temp = new ProfileListDto();
