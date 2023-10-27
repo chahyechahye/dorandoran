@@ -9,6 +9,8 @@ import com.doran.content.entity.Content;
 import com.doran.content.mapper.ContentMapper;
 import com.doran.content.repository.ContentRepository;
 import com.doran.page.entity.Page;
+import com.doran.utils.exception.dto.CustomException;
+import com.doran.utils.exception.dto.ErrorCode;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,5 +29,10 @@ public class ContentService {
 
     public List<ContentResDto> getContentWithVoice(int userId, int pageId) {
         return contentRepository.getContentWithVoice(userId, pageId);
+    }
+
+    public Content getContentById(int contentId){
+        return contentRepository.findById(contentId)
+            .orElseThrow(() -> new CustomException(ErrorCode.CONTENT_NOT_FOUND));
     }
 }
