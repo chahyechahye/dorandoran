@@ -6,10 +6,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.doran.jwt.JwtProvider;
+import com.doran.parent.type.Provider;
 import com.doran.user.dto.req.UserJoinDto;
-import com.doran.user.mapper.UserMapper;
-import com.doran.user.service.UserService;
+import com.doran.user.dto.req.UserTokenBaseDto;
+import com.doran.user.service.OauthService;
+import com.doran.utils.response.CommonResponseEntity;
+import com.doran.utils.response.SuccessCode;
 
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,15 +23,24 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequestMapping("/api/user")
 public class UserController {
-	private final UserService userService;
-	private final UserMapper userMapper;
+    private final OauthService oauthService;
+    private final JwtProvider jwtProvider;
 
-	//자체 회원가입 - 로컬 테스트용
-	//부모 아이 상관없는 그냥 깡 유저 - admin 생성용
-	@PostMapping("")
-	public ResponseEntity join(@RequestBody UserJoinDto userJoinDto) {
-		userService.signUp(userMapper.toUser(userJoinDto.getName(), userJoinDto.getUserRole()));
+    //자체 회원가입 - 로컬 테스트용
+    //부모 아이 상관없는 그냥 깡 유저 - admin 생성용
+    @PostMapping("")
+    public ResponseEntity join(@RequestBody UserJoinDto userJoinDto, HttpServletResponse response) {
+        UserTokenBaseDto findDto = oauthService.getFindDto(userJoinDto.getEmail(), userJoinDto.getName(),
+            Provider.local,
+            userJoinDto.getUserRole());
 
-		return ResponseEntity.ok("오키");
-	}
+        String accessToken = jwtProvider.createAccessToken(findDto);
+        String refreshToken = jwtProvider.createRefreshToken(findDto);
+
+        response.setHeader("AccessToken", accessToken);
+        response.setHeader("RefreshToken", refreshToken);
+
+        return CommonResponseEntity
+            .getResponseEntity(SuccessCode.OK);
+    }
 }

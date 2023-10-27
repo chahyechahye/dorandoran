@@ -6,6 +6,7 @@ import lombok.Getter;
 
 @Getter
 public class UserJoinDto {
-	private String name;
-	private Roles userRole;
+    private String name;
+    private String email;
+    private Roles userRole;
 }
