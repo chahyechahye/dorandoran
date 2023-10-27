@@ -65,6 +65,10 @@ public class UserService {
         return userRepository.findUser(email, provider);
     }
 
+    public Optional<UserTokenBaseDto> findUser(int userId, int profileId) {
+        return userRepository.findUser(userId, profileId);
+    }
+
     //유저 조회 - id
     public User findUser(int id) {
         Optional<User> findUser = userRepository.findById(id);

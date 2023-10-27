@@ -8,7 +8,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ProfileDto {
-	private int id;
-	private AnimalDto animal;
-	private String name;
+    private int id;
+    private int childId;
+    private AnimalDto animal;
+    private String name;
 }
