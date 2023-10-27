@@ -8,9 +8,8 @@ public class Auth {
 
     public static UserInfo getInfo() {
         return (UserInfo)SecurityContextHolder.getContext()
-                                              .getAuthentication()
-                                              .getPrincipal();
+            .getAuthentication()
+            .getPrincipal();
 
     }
-
 }
