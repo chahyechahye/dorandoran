@@ -25,9 +25,9 @@ public class ContentRepositoryImpl implements ContentRepositoryCustom {
                 processedVoice.voiceUrl.as("voiceUrl")
                 ))
             .from(content)
-            .join(content.processedVoice, processedVoice)
+            .leftJoin(content.processedVoice, processedVoice)
+            .on(processedVoice.user.id.eq(userId))
             .where(content.page.id.eq(pageId))
-            .where(processedVoice.user.id.eq(userId))
             .fetch();
     }
 }
