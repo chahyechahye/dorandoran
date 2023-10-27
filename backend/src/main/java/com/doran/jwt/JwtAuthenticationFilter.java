@@ -16,41 +16,38 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-	private final JwtProvider jwtProvider;
+    private final JwtProvider jwtProvider;
 
-	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-		FilterChain filterChain) throws
-		ServletException, IOException {
-		log.info("doFilter 메서드 실행");
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
+        FilterChain filterChain) throws
+        ServletException, IOException {
+        log.info("doFilter 메서드 실행");
 
-		String accessToken = jwtProvider.getAccessToken(request);
-		String refreshToken = jwtProvider.getRefreshToken(request);
+        String accessToken = jwtProvider.getAccessToken(request);
+        String refreshToken = jwtProvider.getRefreshToken(request);
 
-		log.info("accessToken : {}", accessToken);
-		log.info("refreshToken : {}", refreshToken);
+        log.info("accessToken : {}", accessToken);
+        log.info("refreshToken : {}", refreshToken);
 
-		if (accessToken != null) {
-			setAuthentication(accessToken);
-		}
+        if (accessToken != null && jwtProvider.isTokenValid(accessToken)) {
+            log.info("엑세스 토큰 유효함");
 
-		//엑세스 토큰이 유효한 경우
-		//임시 주석처리
-		// if (accessToken != null && jwtProvider.isTokenValid(accessToken)) {
-		// 	jwtProvider.checkBlackList(accessToken);
-		// 	log.info("엑세스 토큰 유효");
-		// 	setAuthentication(accessToken);
-		// } else if (refreshToken != null && jwtProvider.isTokenValid(refreshToken)) {
-		// 	log.info("엑세스 토큰 만료");
-		// 	log.info("리프레시 토큰 유효");
-		// 	setAuthentication(refreshToken);
-		// }
-		filterChain.doFilter(request, response);
-	}
+            jwtProvider.checkBlackList(accessToken);
+            log.info("블랙리스트에 없음");
 
-	//토큰에서 사용자 정보 추출 후 인메모리에 저장
-	private void setAuthentication(String token) {
-		Authentication authentication = jwtProvider.getAuthentication(token);
-		SecurityContextHolder.getContext().setAuthentication(authentication);
-	}
+            setAuthentication(accessToken);
+        } else if (refreshToken != null && jwtProvider.isTokenValid(refreshToken)) {
+            log.info("엑세스 토큰 유효하지 않음");
+            log.info("리프레시 토큰은 살아있음 ");
+            setAuthentication(refreshToken);
+        }
+        filterChain.doFilter(request, response);
+    }
+
+    //토큰에서 사용자 정보 추출 후 인메모리에 저장
+    private void setAuthentication(String token) {
+        Authentication authentication = jwtProvider.getAuthentication(token);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+    }
 }

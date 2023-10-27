@@ -19,8 +19,8 @@ public class RefreshTokenService {
     private final RefreshTokenMapper refreshTokenMapper;
 
     //리프레시 토큰 저장
-    public void save(String value) {
-        RefreshToken refreshToken = refreshTokenMapper.toRefreshToken(value);
+    public void save(String value, int userId) {
+        RefreshToken refreshToken = refreshTokenMapper.toRefreshToken(value, userId);
 
         refreshTokenRepository.save(refreshToken);
     }
