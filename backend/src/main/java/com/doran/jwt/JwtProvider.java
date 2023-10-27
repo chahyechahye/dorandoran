@@ -2,7 +2,6 @@ package com.doran.jwt;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
-import java.util.Collections;
 import java.util.Date;
 
 import javax.crypto.SecretKey;
@@ -109,10 +108,10 @@ public class JwtProvider {
         //토큰에서 바디를 꺼내 payload의 sub만 꺼냈음 -> 유저 식별자를 통해 db를 조회하기 위함
         //payload의 내용이 충분히 있다면 db조회 과정을 생략하고 claim을 바로 사용해되나
         //payload에 많은 정보가 들어가는 것은 보안적으로 불리하며 식별자를 통해 db를 한 번 조회하는 것이 깔끔하고 정확하다고 판단
-        return parser.parseClaimsJws(BearerRemove(token)).getBody();
+        return parser.parseClaimsJws(bearerRemove(token)).getBody();
     }
 
-    private String BearerRemove(String token) {
+    private String bearerRemove(String token) {
         return token.substring("Bearer ".length());
     }
 
@@ -131,12 +130,14 @@ public class JwtProvider {
     public Authentication getAuthentication(String token) {
         UserDetails userDetails = customUserDetailService.loadUserByUsername(this.getUserInfo(token));
 
-        return new UsernamePasswordAuthenticationToken(userDetails, "", Collections.emptyList());
+        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
     //토큰 유효성 검증
     //유효성 검사 성공 true 실패 false
     public boolean isTokenValid(String token) {
+        token = bearerRemove(token);
+
         try {
             Claims claims = Jwts.parserBuilder()
                 .setSigningKey(getSigningKey(secretKey))
