@@ -1,5 +1,10 @@
 package com.doran.utils;
 
+import com.doran.jwt.JwtProvider;
+import com.doran.redis.refresh.key.RefreshToken;
+import com.doran.redis.refresh.service.RefreshTokenService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +33,8 @@ public class TestController {
     private final AnimalService animalService;
     private final InviteService inviteService;
     private final BlackListService blackListService;
+    private final JwtProvider jwtProvider;
+    private final RefreshTokenService refreshTokenService;
 
     @GetMapping("/animal/{id}")
     public ResponseEntity<AnimalDto> selectAnimal(@PathVariable int id) {
@@ -45,8 +52,20 @@ public class TestController {
         return null;
     }
 
+    @GetMapping("/redis/refresh")
+    public ResponseEntity refresh(HttpServletRequest request) {
+        String refreshToken = jwtProvider.getRefreshToken(request);
+        RefreshToken refresh = refreshTokenService.findRefresh(refreshToken);
+        log.info("유저 id : {}", refresh.getUserId());
+        log.info("리프레시 값: {}", refresh.getValue());
+
+        return CommonResponseEntity
+                .getResponseEntity(SuccessCode.OK);
+    }
+
     @PostMapping("/redis/blacklist/{accesstoken}")
     public ResponseEntity blackList(@PathVariable String accesstoken) {
+
         log.info("AccessToken : {}", accesstoken);
         blackListService.save(accesstoken);
 
