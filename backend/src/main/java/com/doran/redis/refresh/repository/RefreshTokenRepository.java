@@ -9,5 +9,5 @@ import com.doran.redis.refresh.key.RefreshToken;
 
 @Repository
 public interface RefreshTokenRepository extends CrudRepository<RefreshToken, String> {
-    Optional<RefreshToken> findRefreshTokenByUserId(int userId);
+    Optional<RefreshToken> findRefreshTokenByValue(String value);
 }
