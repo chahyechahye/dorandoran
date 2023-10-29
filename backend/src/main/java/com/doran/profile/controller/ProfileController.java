@@ -2,7 +2,6 @@ package com.doran.profile.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -68,8 +67,8 @@ public class ProfileController {
      * userInfo : 로그인된 CHILD 계정
      * profile : 선택한 profileId
      */
-    @PostMapping("/change/{profile}")
-    public ResponseEntity<?> changeProfile(@PathVariable ChangeProfileDto req, HttpServletResponse response) {
+    @PostMapping("/change")
+    public ResponseEntity<?> changeProfile(@RequestBody ChangeProfileDto req, HttpServletResponse response) {
 
         UserInfo userInfo = Auth.getInfo();
         UserTokenBaseDto findDto = oauthService.getFindDto(userInfo.getUserId(), req.getProfileId());
