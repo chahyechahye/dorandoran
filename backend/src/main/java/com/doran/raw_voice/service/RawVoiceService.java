@@ -1,10 +1,15 @@
 package com.doran.raw_voice.service;
 
+import com.doran.raw_voice.dto.req.RawVoiceInsertDto;
 import com.doran.raw_voice.mapper.RawVoiceMapper;
 import com.doran.raw_voice.dto.res.RawVoiceListDto;
 import com.doran.raw_voice.dto.res.RawVoiceResDto;
 import com.doran.raw_voice.entity.RawVoice;
 import com.doran.raw_voice.repository.RawVoiceRepository;
+import com.doran.user.entity.User;
+import com.doran.user.repository.UserRepository;
+import com.doran.utils.auth.Auth;
+import com.doran.utils.bucket.dto.InsertDto;
 import com.doran.utils.bucket.mapper.BucketMapper;
 import com.doran.utils.bucket.service.BucketService;
 import com.doran.utils.exception.dto.CustomException;
@@ -24,6 +29,7 @@ public class RawVoiceService {
     private final BucketService bucketService;
     private final RawVoiceRepository rawVoiceRepository;
     private final RawVoiceMapper rawVoiceMapper;
+    private final UserRepository userRepository;
 
     // 목소리 검색
     public RawVoice findRawVoiceById(int rvId){
@@ -39,11 +45,15 @@ public class RawVoiceService {
          return new RawVoiceListDto(rawVoiceResDtoList.size(), rawVoiceResDtoList);
     }
 
-    // 목소리 추가 파일명 : user_id + "_" + 0000.mp3 , ex) 000001_0000.mp3
-//    public void insertRawVoice (RawVoiceInsertDto rawVoiceInsertDto) throws IOException {
-//
-//        String url = bucketService.insertFile(InsertD)
-//        RawVoice rawVoice = rawVoiceMapper.voiceInsertToRawVoice(rawVoiceInsertDto);
-//    }
+    // 목소리 추가
+    // 파일명 : user_id + "_" + 0000.mp3 , ex) 000001_0000.mp3
+   public void insertRawVoice (RawVoiceInsertDto rawVoiceInsertDto) {
+        String name = String.valueOf(Auth.getInfo().getUserId()) + "_" + rawVoiceInsertDto.getName();
+        String voiceUrl = bucketService.insertFile(new InsertDto(rawVoiceInsertDto.getVoice(),name));
+        User user = userRepository.findById(Auth.getInfo().getUserId())
+            .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+        RawVoice rawVoice = rawVoiceMapper.voiceInsertToRawVoice(user,voiceUrl);
+        rawVoiceRepository.save(rawVoice);
+   }
 
 }
