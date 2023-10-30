@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.doran.book.entity.Book;
 import com.doran.book.service.BookService;
-import com.doran.page.dto.req.PageInsertDto;
+import com.doran.content.dto.req.ContentInsertDto;
 import com.doran.page.dto.res.PageListDto;
 import com.doran.page.entity.Page;
 import com.doran.page.mapper.PageMapper;
@@ -30,17 +30,17 @@ public class PageService {
 
     //파일 이름 어떻게 저장 될지 협의 필요함. idx와 bookId를 조합해서 이미지의 이름을 만들면 좋을거같음. 해당 메소드는 이를 위해 만들어놓은 메소드
     //일단 요로코롬 만들고 DB에는 uuid가 저장되게끔 구현함
-    public InsertDto convertInsertDto(PageInsertDto pageInsertDto) {
-        return new InsertDto(pageInsertDto.getMultipartFile(), String.valueOf(pageInsertDto.getIdx()));
+    public InsertDto convertInsertDto(ContentInsertDto dto) {
+        return new InsertDto(dto.getMultipartFile(), String.valueOf(dto.getIdx()));
     }
 
     //동일 페이지에 이미지 업로드시 덮어씌워야함.
-    public void insertPage(int bookId, PageInsertDto pageInsertDto) {
+    public Page insertPage(int bookId, ContentInsertDto dto) {
         Book book = bookService.findBookById(bookId);
-        String imgUrl = bucketService.insertFile(convertInsertDto(pageInsertDto));
+        String imgUrl = bucketService.insertFile(convertInsertDto(dto));
 
-        Page page = pageMapper.pageInsertToPage(book, imgUrl, pageInsertDto.getIdx());
-        pageRepository.save(page);
+        Page page = pageMapper.pageInsertToPage(book, imgUrl, dto.getIdx());
+        return pageRepository.save(page);
     }
 
     public PageListDto findPageByBookId(int bookId) {
@@ -53,6 +53,6 @@ public class PageService {
     public Page findPageIdByIdxAndBookId(int bookId, int idx) {
         log.info("page 조회 서비스 호출");
         return pageRepository.findPageByBookIdAndIdx(bookId, idx)
-                             .orElseThrow(() -> new CustomException(ErrorCode.BOOK_NOT_FOUND));
+            .orElseThrow(() -> new CustomException(ErrorCode.BOOK_NOT_FOUND));
     }
 }
