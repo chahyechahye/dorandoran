@@ -1,4 +1,4 @@
-package com.doran.child;
+package com.doran.child.mapper;
 
 import com.doran.child.entity.Child;
 import com.doran.parent.entity.Parent;
