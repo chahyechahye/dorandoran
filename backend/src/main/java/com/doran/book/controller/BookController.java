@@ -3,6 +3,7 @@ package com.doran.book.controller;
 import java.io.IOException;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +27,7 @@ public class BookController {
 
     // 동화 등록
     @PostMapping("")
-    //@PreAuthorize("has") //권한 체킹
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     ResponseEntity<?> insertBook(BookInsertDto bookInsertDto) throws IOException {
         log.info("insertBook 컨트롤러 호출");
         bookService.insertBook(bookInsertDto);
