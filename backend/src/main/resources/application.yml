@@ -9,12 +9,12 @@ spring:
   profiles:
     active: local
   datasource:
-    url: jdbc:mysql://k9b108.p.ssafy.io:3306/doran?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Seoul
-    username: ssafy
-    password: doran_b108
-#        url: jdbc:mysql://localhost:3306/doran?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Seoul
-#        username: ssafy
-#        password: ssafy
+#    url: jdbc:mysql://k9b108.p.ssafy.io:3306/doran?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Seoul
+#    username: ssafy
+#    password: doran_b108
+        url: jdbc:mysql://localhost:3306/doran?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Seoul
+        username: ssafy
+        password: ssafy
 
 
   jpa:
