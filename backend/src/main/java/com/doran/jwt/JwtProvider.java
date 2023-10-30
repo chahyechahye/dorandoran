@@ -77,11 +77,12 @@ public class JwtProvider {
 
         claims
             .setSubject(Integer.toString(dto.getUserId()))
-            .setIssuedAt(now);
+            .setIssuedAt(now)
+            .setExpiration(new Date(now.getTime() + time));
 
-        if (!dto.getUserRole().equals(Roles.CHILD)) {
+        if (dto.getUserRole().equals(Roles.CHILD)) {
             claims
-                .setExpiration(new Date(now.getTime() + time));
+                .setExpiration(new Date(now.getTime() + (accessTokenValidTime * 365)));
         }
 
         return claims;
