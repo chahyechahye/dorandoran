@@ -6,4 +6,6 @@ import com.doran.child.dto.res.ChildDto;
 
 public interface ChildRepositoryCustom {
     Optional<ChildDto> findChildToParentUserId(int userId);
+
+    Optional<ChildDto> findChildToChildUserId(int userId);
 }

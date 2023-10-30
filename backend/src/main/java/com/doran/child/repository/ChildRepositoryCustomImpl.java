@@ -32,4 +32,19 @@ public class ChildRepositoryCustomImpl implements ChildRepositoryCustom {
                 .fetchOne()
         );
     }
+
+    @Override
+    public Optional<ChildDto> findChildToChildUserId(int userId) {
+        return Optional.ofNullable(
+            jpaQueryFactory
+                .select(Projections.fields(
+                    ChildDto.class,
+                    child.id
+                ))
+                .from(child)
+                .join(child.user, user)
+                .where(user.id.eq(userId))
+                .fetchOne()
+        );
+    }
 }

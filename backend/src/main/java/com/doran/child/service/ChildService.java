@@ -2,9 +2,9 @@ package com.doran.child.service;
 
 import org.springframework.stereotype.Service;
 
-import com.doran.child.ChildMapper;
 import com.doran.child.dto.res.ChildDto;
 import com.doran.child.entity.Child;
+import com.doran.child.mapper.ChildMapper;
 import com.doran.child.repository.ChildRepository;
 import com.doran.parent.entity.Parent;
 import com.doran.user.entity.User;
@@ -27,6 +27,11 @@ public class ChildService {
 
     public ChildDto findChildByParentUserId(int userId) {
         return childRepository.findChildToParentUserId(userId)
+                              .orElseThrow(() -> new CustomException(ErrorCode.CHILD_NOT_FOUND));
+    }
+
+    public ChildDto findChildByChildUSerId(int userId) {
+        return childRepository.findChildToChildUserId(userId)
                               .orElseThrow(() -> new CustomException(ErrorCode.CHILD_NOT_FOUND));
     }
 }
