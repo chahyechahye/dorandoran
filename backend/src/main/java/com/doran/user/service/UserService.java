@@ -5,9 +5,9 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.doran.child.service.ChildService;
-import com.doran.parent.service.ParentService;
 import com.doran.parent.entity.Parent;
 import com.doran.parent.mapper.ParentMapper;
+import com.doran.parent.service.ParentService;
 import com.doran.parent.type.Provider;
 import com.doran.redis.invite.service.InviteService;
 import com.doran.user.dto.req.UserTokenBaseDto;
@@ -65,8 +65,8 @@ public class UserService {
         return userRepository.findUser(email, provider);
     }
 
-    public Optional<UserTokenBaseDto> findUser(int userId, int profileId) {
-        return userRepository.findUser(userId, profileId);
+    public Optional<UserTokenBaseDto> findUser(int childId, int profileId) {
+        return userRepository.findUser(childId, profileId);
     }
 
     //유저 조회 - id

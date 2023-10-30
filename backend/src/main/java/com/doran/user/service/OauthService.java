@@ -30,8 +30,9 @@ public class OauthService {
         });
     }
 
-    public UserTokenBaseDto getFindDto(int id, int profileId) {
-        return userService.findUser(id, profileId).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+    public UserTokenBaseDto getFindDto(int childId, int profileId) {
+        return userService.findUser(childId, profileId)
+                          .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
     }
 
 }

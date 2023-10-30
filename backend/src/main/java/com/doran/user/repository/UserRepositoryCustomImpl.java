@@ -34,7 +34,7 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
     }
 
     @Override
-    public Optional<UserTokenBaseDto> findUser(int id, int profileId) {
+    public Optional<UserTokenBaseDto> findUser(int childId, int profileId) {
         return Optional.ofNullable(
             jpaQueryFactory
                 .select(Projections.fields(UserTokenBaseDto.class,
@@ -44,7 +44,7 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
                     user.userRole))
                 .from(profile)
                 .join(profile.child, child)
-                .where(profile.child.id.eq(id),
+                .where(profile.child.id.eq(childId),
                     profile.id.eq(profileId))
                 .fetchOne());
     }
