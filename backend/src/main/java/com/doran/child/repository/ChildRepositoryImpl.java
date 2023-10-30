@@ -19,8 +19,8 @@ public class ChildRepositoryImpl implements ChildRepositoryCustom {
         return Optional.ofNullable(jpaQueryFactory
             .select(child)
             .from(parent)
-            .join(parent.child, child)
-            .where(child.user.id.eq(parentUserId))
+            .leftJoin(parent.child, child)
+            .where(parent.user.id.eq(parentUserId))
             .fetchOne()
         );
     }

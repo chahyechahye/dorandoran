@@ -36,7 +36,7 @@ public class AlbumController {
     private final AlbumMapper albumMapper;
 
     //앨범 등록
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<?> insertAlbum(MultipartFile multipartFile) {
         UserInfo userInfo = Auth.getInfo();
         Parent findParent = null;
@@ -44,9 +44,11 @@ public class AlbumController {
 
         // 부모아이디, 자식 아이디 조회
         if (parentService.checkParent(userInfo.getUserRole().getRole())) { // 아이일때
+            log.info("아이로 등록");
             findParent = parentService.findParentByChildUserId(userInfo.getUserId());
             findChild = findParent.getChild();
         } else {
+            log.info("부모로 등록");
             findChild = childService.findChildByParentUserId(userInfo.getUserId());
             findParent = findChild.getParent();
         }
