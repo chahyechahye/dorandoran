@@ -45,12 +45,12 @@ oauth:
   kakao:
     api-key: f9a75e5f47148dc0aa986669c29c0d03
     token-uri: https://kauth.kakao.com/oauth/token
-    redirect-uri: https://localhost:8080/api/oauth/kakao
+    redirect-uri: https://dorandoran.site/api/oauth/kakao
     info-uri: https://kapi.kakao.com/v2/user/me
   google:
     api-key: 671776662808-t5ihvqjf6v4nlbdqgihhrecoa4tfgns3.apps.googleusercontent.com
     token-uri: https://oauth2.googleapis.com/token
-    redirect-uri: https://localhost:8080/api/oauth/google
+    redirect-uri: https://dorandoran.site/api/oauth/google
     resource-uri: https://www.googleapis.com/oauth2/v2/userinfo
     client-secret: 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
 
