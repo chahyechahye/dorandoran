@@ -37,4 +37,7 @@ public class Album extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "child_id")
     private Child child;
+
+    @Column(name = "img_url", nullable = false)
+    private String imgUrl;
 }

@@ -28,7 +28,7 @@ public class RawVoiceService {
     // 목소리 검색
     public RawVoice findRawVoiceById(int rvId){
         return rawVoiceRepository.findById(rvId)
-                .orElseThrow(() -> new CustomException(ErrorCode.RAW_VOICE_NOT_FOUND));
+                .orElseThrow(() -> new CustomException(ErrorCode.VOICE_NOT_FOUND));
     }
 
     // 목소리 조회

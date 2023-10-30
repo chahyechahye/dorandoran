@@ -13,5 +13,6 @@ public interface BucketMapper {
     @Mapping(source = "multipartFile", target = "file")
     InsertDto bookInsertToBucket(BookInsertDto bookInsertDto);
 
+    @Mapping(source = "multipartFile", target = "file")
     InsertDto toInsertDto(MultipartFile multipartFile, String name);
 }

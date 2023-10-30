@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.doran.album.entity.Album;
+import com.doran.album.mapper.AlbumMapper;
 import com.doran.album.service.AlbumService;
 import com.doran.child.entity.Child;
 import com.doran.child.service.ChildService;
@@ -32,10 +34,10 @@ public class AlbumController {
     private final ParentService parentService;
     private final ChildService childService;
     private final BucketMapper bucketMapper;
+    private final AlbumMapper albumMapper;
 
     //앨범 등록
-    @PostMapping("/")
-    //@PreAuthorize()
+    @PostMapping("")
     public ResponseEntity<?> insertAlbum(MultipartFile multipartFile) {
         UserInfo userInfo = Auth.getInfo();
         Parent findParent = null;
@@ -43,17 +45,17 @@ public class AlbumController {
 
         // 부모아이디, 자식 아이디 조회
         if (parentService.checkParent(userInfo.getUserRole().getRole())) { // 아이일때
+            log.info("아이로 등록");
             findParent = parentService.findParentByChildUserId(userInfo.getUserId());
-            findChild = findParent.getChild();
+            findChild = childService.findChildEntityByChildUserId(userInfo.getUserId());
         } else {
-            findChild = childService.findChildByParentUserId(userInfo.getUserId());
+            log.info("부모로 등록");
+            findChild = childService.findChildEntityByParentUserId(userInfo.getUserId());
             findParent = findChild.getParent();
         }
-        // 버킷 저장
-        bucketService.insertFile(bucketMapper.toInsertDto(multipartFile, "album"));
 
-        // db 저장
-        //albumService.save();
+        String imgUrl = bucketService.insertFile(bucketMapper.toInsertDto(multipartFile, "album"));
+        albumService.save(albumMapper.toAlbum(findParent, findChild, imgUrl));
 
         return CommonResponseEntity.getResponseEntity(SuccessCode.SUCCESS_CODE, null);
     }

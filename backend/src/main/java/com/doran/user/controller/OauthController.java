@@ -10,7 +10,6 @@ import com.doran.jwt.JwtProvider;
 import com.doran.user.dto.req.UserTokenBaseDto;
 import com.doran.user.service.GoogleService;
 import com.doran.user.service.KakaoService;
-import com.doran.user.service.OauthService;
 import com.doran.utils.response.CommonResponseEntity;
 import com.doran.utils.response.SuccessCode;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -24,7 +23,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequestMapping("/api/oauth")
 public class OauthController {
-    private final OauthService oauthService;
     private final KakaoService kakaoService;
     private final GoogleService googleService;
     private final JwtProvider jwtProvider;
