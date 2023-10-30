@@ -1,5 +1,6 @@
 package com.doran.profile.repository;
 
+import static com.doran.child.entity.QChild.*;
 import static com.doran.profile.entity.QProfile.*;
 
 import java.util.List;
@@ -26,13 +27,14 @@ public class ProfileRepositoryCustomImpl implements ProfileRepositoryCustom {
     }
 
     @Override
-    public Optional<Profile> selectProfile(int childId, int profileId) {
+    public Optional<Profile> selectProfile(int childUserId, int profileId) {
 
         return Optional.ofNullable(
             jpaQueryFactory
                 .select(profile)
                 .from(profile)
-                .where(profile.id.eq(profileId), profile.child.id.eq(childId))
+                .join(profile.child, child)
+                .where(profile.id.eq(profileId), child.user.id.eq(childUserId))
                 .fetchOne()
         );
     }

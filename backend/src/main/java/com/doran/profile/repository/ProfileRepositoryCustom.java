@@ -9,6 +9,6 @@ public interface ProfileRepositoryCustom {
 
     List<Profile> selectAllProfile(int childId);
 
-    Optional<Profile> selectProfile(int childId, int profileId);
+    Optional<Profile> selectProfile(int childUserId, int profileId);
 
 }
