@@ -1,9 +1,13 @@
 package com.doran.letter.entity;
 
+import java.time.LocalDateTime;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+
 import com.doran.parent.entity.Parent;
 import com.doran.profile.entity.Profile;
-import com.google.type.Date;
-import com.google.type.DateTime;
+import com.doran.utils.sens.BaseTimeEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,15 +17,19 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
-@RequiredArgsConstructor
-public class Letter {
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name="letter")
+public class Letter extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="letter_id")
@@ -40,11 +48,13 @@ public class Letter {
     @Column(name="content_url")
     private String contentUrl;
 
+    @CreatedDate
     @Column(name="created_date")
-    private DateTime createdDate;
+    private LocalDateTime createdDate;
 
+    @LastModifiedDate
     @Column(name="read_date")
-    private DateTime readDate;
+    private LocalDateTime readDate;
 
     @Column(name="sender_id")
     private int senderId;
