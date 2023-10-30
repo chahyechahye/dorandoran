@@ -89,7 +89,7 @@ public class ProfileController {
     @PostMapping("/login")
     public ResponseEntity<?> loginProfile(@RequestBody ProfileLoginDto req, HttpServletResponse response) {
 
-        UserTokenBaseDto findDto = oauthService.getFindDto(req.getId(), req.getProfileId());
+        UserTokenBaseDto findDto = oauthService.getFindDto(req.getChildId(), req.getProfileId());
 
         String accessToken = jwtProvider.createAccessToken(findDto);
         String refreshToken = jwtProvider.createRefreshToken(findDto);
