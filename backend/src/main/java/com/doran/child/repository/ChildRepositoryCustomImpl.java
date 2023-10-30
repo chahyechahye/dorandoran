@@ -22,13 +22,14 @@ public class ChildRepositoryCustomImpl implements ChildRepositoryCustom {
     public Optional<Child> findChildEntityByParentUserId(int parentUserId) {
         return Optional.ofNullable(jpaQueryFactory
             .select(child)
-            .from(parent)
-            .leftJoin(parent.child, child)
-            .join(child.user)
+            .from(child)
+            .leftJoin(child.parent, parent)
+            .leftJoin(parent.user, user)
             .where(user.id.eq(parentUserId))
             .fetchOne()
         );
     }
+
 
     @Override
     public Optional<ChildDto> findChildToParentUserId(int userId) {
@@ -45,6 +46,17 @@ public class ChildRepositoryCustomImpl implements ChildRepositoryCustom {
                 .fetchOne()
         );
     }
+
+    @Override
+    public Optional<Child> findChildEntityByChildUserId(int childUserId) {
+        return Optional.ofNullable(jpaQueryFactory
+            .select(child)
+            .from(child)
+            .join(child.user, user)
+            .where(user.id.eq(childUserId))
+            .fetchOne());
+    }
+
 
     @Override
     public Optional<ChildDto> findChildToChildUserId(int userId) {

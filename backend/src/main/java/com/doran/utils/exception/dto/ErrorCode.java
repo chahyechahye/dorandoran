@@ -29,9 +29,6 @@ public enum ErrorCode {
     //부모 관련 예외
     PARENT_NOT_FOUND(HttpStatus.NOT_FOUND, "해당하는 정보의 부모를 찾을 수 없습니다."),
 
-    //자식 관련 예외
-    CHILD_NOT_FOUND(HttpStatus.NOT_FOUND, "해당하는 정보의 자식을 찾을 수 없습니다."),
-
     //동화 관련 예외
     BOOK_NOT_FOUND(HttpStatus.NOT_FOUND, "해당하는 정보의 책을 찾을 수 없습니다."),
     CONTENT_NOT_FOUND(HttpStatus.NOT_FOUND, "해당하는 페이지 내용을 찾을 수 없습니다."),

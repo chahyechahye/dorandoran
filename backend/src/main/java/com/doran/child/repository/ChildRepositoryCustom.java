@@ -10,4 +10,5 @@ public interface ChildRepositoryCustom {
 
     Optional<ChildDto> findChildToChildUserId(int userId);
     Optional<Child> findChildEntityByParentUserId(int parentUserId);
+    Optional<Child> findChildEntityByChildUserId(int childUserId);
 }

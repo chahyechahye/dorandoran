@@ -47,7 +47,7 @@ public class AlbumController {
         if (parentService.checkParent(userInfo.getUserRole().getRole())) { // 아이일때
             log.info("아이로 등록");
             findParent = parentService.findParentByChildUserId(userInfo.getUserId());
-            findChild = findParent.getChild();
+            findChild = childService.findChildEntityByChildUserId(userInfo.getUserId());
         } else {
             log.info("부모로 등록");
             findChild = childService.findChildEntityByParentUserId(userInfo.getUserId());
