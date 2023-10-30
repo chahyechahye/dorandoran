@@ -34,8 +34,6 @@ public class FavoriteController {
     @GetMapping("")
     public ResponseEntity<?> findChildFavoriteBook(@RequestParam int profileId) {
 
-        UserInfo userInfo = Auth.getInfo();
-
         BookListDto bookListDto = favoriteService.findChildFavoriteBook(profileId);
 
         return CommonResponseEntity.getResponseEntity(SuccessCode.OK, bookListDto);
