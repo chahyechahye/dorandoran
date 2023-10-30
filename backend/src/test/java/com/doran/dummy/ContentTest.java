@@ -1,5 +1,6 @@
 package com.doran.dummy;
 
+import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.jupiter.api.Test;
@@ -24,26 +25,17 @@ public class ContentTest {
         int bookId = 1;
         //임시 이미지
         String imgUrl = "https://storage.cloud.google.com/ssafy-last-project/4302f8be-34c1-4072-a3aa-b4c69d85c6e4";
-        AtomicInteger idx = new AtomicInteger(1);
+        AtomicInteger idx = new AtomicInteger(21);
 
         System.out.println("test 중");
         String[] scripts = makeScripts();
 
-        for (String script : scripts) {
-            Page page = pageService.insertPage(bookId, imgUrl, idx.getAndIncrement());
+        Arrays.stream(scripts)
+            .forEach(s -> {
+                Page page = pageService.insertPage(bookId, imgUrl, idx.getAndIncrement());
 
-            contentService.insertContent(page, script);
-            System.out.println("저장 완");
-        }
-
-        // Stream<Object> objectStream = Arrays.stream(scripts)
-        //     .map(s -> {
-        //         Page page = pageService.insertPage(bookId, imgUrl, idx.getAndIncrement());
-        //
-        //         contentService.insertContent(page, s);
-        //         System.out.println("저장 완");
-        //         return null;
-        //     });
+                contentService.insertContent(page, s);
+            });
 
     }
 
