@@ -1,6 +1,7 @@
 package com.doran.profile.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,7 +15,10 @@ import com.doran.jwt.JwtProvider;
 import com.doran.profile.dto.req.ChangeProfileAnimalDto;
 import com.doran.profile.dto.req.ChangeProfileDto;
 import com.doran.profile.dto.req.CreateProfileDto;
+import com.doran.profile.dto.req.ProfileGetDto;
 import com.doran.profile.dto.req.ProfileLoginDto;
+import com.doran.profile.dto.res.ProfileDto;
+import com.doran.profile.dto.res.ProfileListDto;
 import com.doran.profile.service.ProfileService;
 import com.doran.redis.invite.key.Invite;
 import com.doran.redis.invite.service.InviteService;
@@ -97,5 +101,27 @@ public class ProfileController {
         response.setHeader("AccessToken", accessToken);
 
         return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_PARENT')")
+    @GetMapping("/list")
+    public ResponseEntity<?> getProfileList() {
+
+        UserInfo userInfo = Auth.getInfo();
+
+        ChildDto childDto = childService.findChildByParentUserId(userInfo.getUserId());
+
+        ProfileListDto profileListDto = profileService.selectAllProfile(childDto.getId());
+
+        return CommonResponseEntity.getResponseEntity(SuccessCode.OK, profileListDto);
+    }
+
+    @PreAuthorize("hasRole('ROLE_PARENT')")
+    @GetMapping("/info")
+    public ResponseEntity<?> getProfileInfo(@RequestBody ProfileGetDto req) {
+
+        ProfileDto profileDto = profileService.selectProfile(req.getProfileId());
+
+        return CommonResponseEntity.getResponseEntity(SuccessCode.OK, profileDto);
     }
 }
