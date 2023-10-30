@@ -9,6 +9,8 @@ import java.util.Optional;
 
 import com.doran.parent.type.Provider;
 import com.doran.user.dto.req.UserTokenBaseDto;
+import com.doran.user.type.Roles;
+import com.doran.utils.common.UserInfo;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
@@ -47,5 +49,33 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
                 .where(profile.child.id.eq(childId),
                     profile.id.eq(profileId))
                 .fetchOne());
+    }
+
+    @Override
+    public Optional<UserInfo> findUser(int userId, Roles roles) {
+        return Optional.ofNullable(jpaQueryFactory
+            .select(Projections.fields(UserInfo.class,
+                user.id.as("userId"),
+                user.userRole))
+            .from(user)
+            .where(user.id.eq(userId),
+                user.userRole.eq(roles))
+            .fetchOne());
+    }
+
+    @Override
+    public Optional<UserInfo> findUser(int userId, int profileId, Roles roles) {
+        return Optional.ofNullable(jpaQueryFactory
+            .select(Projections.fields(UserInfo.class,
+                user.id.as("userId"),
+                profile.id.as("selectProfileId"),
+                user.userRole))
+            .from(profile)
+            .join(profile.child, child)
+            .join(child.user, user)
+            .where(profile.id.eq(profileId),
+                user.id.eq(userId),
+                user.userRole.eq(roles))
+            .fetchOne());
     }
 }
