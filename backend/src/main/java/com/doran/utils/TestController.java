@@ -36,11 +36,13 @@ public class TestController {
     @GetMapping("/redis")
     public ResponseEntity findInvite(@RequestParam("code") String code,
         @RequestParam("id") int id) {
-        inviteService.findCode(code);
+        Invite findCode = inviteService.findCode(code);
+        log.info("코드 : {}", findCode.getCode());
+        log.info("유저id : {}", findCode.getUserId());
 
-        Invite find = inviteService.findCode(id);
-        log.info("코드 : {}", find.getCode());
-        log.info("유저id : {}", find.getUserId());
+        Invite findId = inviteService.findCode(id);
+        log.info("코드 : {}", findId.getCode());
+        log.info("유저id : {}", findId.getUserId());
         return null;
     }
 

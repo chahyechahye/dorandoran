@@ -32,11 +32,11 @@ public class InviteService {
     }
 
     //조회
-    public void findCode(String code) {
+    public Invite findCode(String code) {
         log.info("코드로 조회 : {}", code);
         Optional<Invite> findInvite = inviteRepository.findById(code);
 
-        validCode(findInvite);
+        return validCode(findInvite);
     }
 
     public Invite findCode(int userId) {
