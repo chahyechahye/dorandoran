@@ -71,7 +71,10 @@ public class ProfileController {
     public ResponseEntity<?> changeProfile(@RequestBody ChangeProfileDto req, HttpServletResponse response) {
 
         UserInfo userInfo = Auth.getInfo();
-        UserTokenBaseDto findDto = oauthService.getFindDto(userInfo.getUserId(), req.getProfileId());
+
+        ChildDto childDto = childService.findChildByChildUSerId(userInfo.getUserId());
+
+        UserTokenBaseDto findDto = oauthService.getFindDto(childDto.getId(), req.getProfileId());
 
         String accessToken = jwtProvider.createAccessToken(findDto);
 
