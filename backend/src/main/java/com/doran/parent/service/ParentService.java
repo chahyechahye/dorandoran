@@ -23,7 +23,7 @@ public class ParentService {
     }
 
     public Boolean checkParent(String role) {
-        return role.equals("CHILD");
+        return role.equals("ROLE_CHILD");
     }
 
     public Parent findParentByChildUserId(int childUserId) {
