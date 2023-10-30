@@ -1,10 +1,7 @@
 package com.doran.letter.entity;
 
-import org.springframework.data.annotation.CreatedDate;
-
 import com.doran.parent.entity.Parent;
 import com.doran.profile.entity.Profile;
-import com.doran.utils.sens.BaseTimeEntity;
 import com.google.type.Date;
 import com.google.type.DateTime;
 
@@ -24,7 +21,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @RequiredArgsConstructor
-public class Letter extends BaseTimeEntity {
+public class Letter {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="letter_id")
@@ -43,7 +40,6 @@ public class Letter extends BaseTimeEntity {
     @Column(name="content_url")
     private String contentUrl;
 
-    @CreatedDate
     @Column(name="created_date")
     private DateTime createdDate;
 
