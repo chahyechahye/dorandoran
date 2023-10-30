@@ -43,6 +43,13 @@ public class PageService {
         return pageRepository.save(page);
     }
 
+    public Page insertPage(int bookId, String imgUrl, int idx) {
+        Book book = bookService.findBookById(bookId);
+
+        Page page = pageMapper.pageInsertToPage(book, imgUrl, idx);
+        return pageRepository.save(page);
+    }
+
     public PageListDto findPageByBookId(int bookId) {
         bookService.findBookById(bookId);
 
