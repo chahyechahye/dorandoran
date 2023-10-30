@@ -1,5 +1,6 @@
 package com.doran.parent.entity;
 
+import com.doran.child.entity.Child;
 import com.doran.parent.type.Provider;
 import com.doran.user.entity.User;
 
@@ -32,4 +33,7 @@ public class Parent {
 	@OneToOne
 	@JoinColumn(name = "user_id")
 	private User user;
+
+	@OneToOne(mappedBy = "parent")
+	private Child child;
 }
