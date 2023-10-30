@@ -18,6 +18,7 @@ import com.doran.content.service.ContentService;
 import com.doran.page.entity.Page;
 import com.doran.page.service.PageService;
 import com.doran.parent.service.ParentService;
+import com.doran.utils.auth.Auth;
 import com.doran.utils.common.UserInfo;
 import com.doran.utils.response.CommonResponseEntity;
 import com.doran.utils.response.SuccessCode;
@@ -52,7 +53,7 @@ public class ContentController {
     ResponseEntity<?> getContent(@PathVariable(value = "book_id") int bookId, @PathVariable int idx) {
         log.info("getContent 컨트롤러 호출");
 
-        UserInfo userInfo = (UserInfo)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserInfo userInfo = Auth.getInfo();
         int pageId = pageService.findPageIdByIdxAndBookId(bookId, idx).getId();
         int parentUserId = parentService.getParentUserId(userInfo.getUserId(), userInfo.getUserRole().getRole());
 

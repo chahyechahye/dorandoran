@@ -20,9 +20,8 @@ public class Auth {
             throw new CustomException(ErrorCode.USER_NOT_FOUND);
         }
         return (UserInfo)SecurityContextHolder.getContext()
-                                              .getAuthentication()
-                                              .getPrincipal();
+            .getAuthentication()
+            .getPrincipal();
 
     }
-
 }
