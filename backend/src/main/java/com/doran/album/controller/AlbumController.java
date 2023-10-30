@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.doran.album.entity.Album;
 import com.doran.album.mapper.AlbumMapper;
 import com.doran.album.service.AlbumService;
 import com.doran.child.entity.Child;
@@ -49,7 +50,7 @@ public class AlbumController {
             findChild = findParent.getChild();
         } else {
             log.info("부모로 등록");
-            findChild = childService.findChildByParentUserId(userInfo.getUserId());
+            findChild = childService.findChildEntityByParentUserId(userInfo.getUserId());
             findParent = findChild.getParent();
         }
 

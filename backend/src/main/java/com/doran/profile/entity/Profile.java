@@ -30,8 +30,6 @@ public class Profile {
 
 	private String name;
 
-	private String imgUrl;
-
 	@ManyToOne
 	@JoinColumn(name = "child_id")
 	private Child child;
