@@ -25,7 +25,7 @@ public class ContentTest {
         int bookId = 1;
         //임시 이미지
         String imgUrl = "https://storage.cloud.google.com/ssafy-last-project/4302f8be-34c1-4072-a3aa-b4c69d85c6e4";
-        AtomicInteger idx = new AtomicInteger(21);
+        AtomicInteger idx = new AtomicInteger(1);
 
         System.out.println("test 중");
         String[] scripts = makeScripts();
