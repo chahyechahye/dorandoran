@@ -13,9 +13,16 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "processed_voice")
+@RequiredArgsConstructor
 public class ProcessedVoice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -19,23 +19,22 @@ public class RefreshTokenService {
     private final RefreshTokenMapper refreshTokenMapper;
 
     //리프레시 토큰 저장
-    public void save(String value) {
-        RefreshToken refreshToken = refreshTokenMapper.toRefreshToken(value);
+    public void save(String value, int userId) {
+        RefreshToken refreshToken = refreshTokenMapper.toRefreshToken(value, userId);
 
         refreshTokenRepository.save(refreshToken);
     }
 
     //리프레시 토큰 조회 (토큰 값으로)
-    public RefreshToken findRefresh(String value) {
-        Optional<RefreshToken> findRefresh = refreshTokenRepository.findById(value);
+    public RefreshToken findRefresh(int userId) {
+        Optional<RefreshToken> findRefresh = refreshTokenRepository.findById(String.valueOf(userId));
 
         return validRefresh(findRefresh);
     }
 
     //리프레시 토큰 조회 (userId로)
-    public RefreshToken findRefresh(int userId) {
-        Optional<RefreshToken> findRefresh = refreshTokenRepository.findRefreshTokenByUserId(userId);
-
+    public RefreshToken findRefresh(String value) {
+        Optional<RefreshToken> findRefresh = refreshTokenRepository.findRefreshTokenByValue(value);
         return validRefresh(findRefresh);
     }
 
