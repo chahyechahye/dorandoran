@@ -13,4 +13,6 @@ public interface ProfileService {
     void createChildProfile(int childId, String name);
 
     void updateProfileAnimal(UserInfo userInfo, int animalId);
+
+    ProfileDto selectProfile(int profileId);
 }
