@@ -74,10 +74,8 @@ public class ProfileController {
         UserTokenBaseDto findDto = oauthService.getFindDto(userInfo.getUserId(), req.getProfileId());
 
         String accessToken = jwtProvider.createAccessToken(findDto);
-        String refreshToken = jwtProvider.createRefreshToken(findDto);
 
         response.setHeader("AccessToken", accessToken);
-        response.setHeader("RefreshToken", refreshToken);
 
         return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
     }
@@ -92,10 +90,8 @@ public class ProfileController {
         UserTokenBaseDto findDto = oauthService.getFindDto(req.getChildId(), req.getProfileId());
 
         String accessToken = jwtProvider.createAccessToken(findDto);
-        String refreshToken = jwtProvider.createRefreshToken(findDto);
 
         response.setHeader("AccessToken", accessToken);
-        response.setHeader("RefreshToken", refreshToken);
 
         return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
     }
