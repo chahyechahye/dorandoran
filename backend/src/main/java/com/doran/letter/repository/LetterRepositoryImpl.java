@@ -4,6 +4,8 @@ import static com.doran.letter.entity.QLetter.*;
 
 import java.util.List;
 
+import org.hamcrest.core.IsNull;
+
 import com.doran.letter.entity.Letter;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
@@ -26,7 +28,8 @@ public class LetterRepositoryImpl implements LetterRepositoryCustom{
         return jpaQueryFactory
             .selectFrom(letter)
             .where(letter.receiverId.eq(parentId),
-                letter.createdDate.eq(letter.modifiedDate))
+                letter.createdDate.eq(letter.modifiedDate),
+                letter.parent.isNull())
             .limit(1)
             .fetchOne();
     }
@@ -44,7 +47,8 @@ public class LetterRepositoryImpl implements LetterRepositoryCustom{
         return jpaQueryFactory
             .selectFrom(letter)
             .where(letter.receiverId.eq(profileId),
-                letter.createdDate.eq(letter.modifiedDate))
+                letter.createdDate.eq(letter.modifiedDate),
+                letter.parent.isNotNull())
             .limit(1)
             .fetchOne();
     }
