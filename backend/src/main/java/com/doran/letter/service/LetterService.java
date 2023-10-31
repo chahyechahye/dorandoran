@@ -1,8 +1,11 @@
 package com.doran.letter.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.doran.letter.dto.req.LetterInsertDto;
+import com.doran.letter.dto.res.LetterResDto;
 import com.doran.letter.entity.Letter;
 import com.doran.letter.mapper.LetterMapper;
 import com.doran.letter.repository.LetterRepository;
@@ -32,9 +35,20 @@ public class LetterService{
     private final LetterMapper letterMapper;
     private final LetterRepository letterRepository;
     // 부모한테 보낸 편지 조회
-
-    // 자식(Profile)한테 보낸 편지 조회
-
+    public LetterResDto getParentLetter(int userId){
+        Parent parent = parentService.findParentByUserId(userId);
+        // List<Letter> result = letterRepository.findAllLetterByParentId(parent.getId());
+        Letter letter = letterRepository.findLetterByParentId(parent.getId());
+        LetterResDto letterResDto = letterMapper.parentLetterToResDto(letter);
+        return letterResDto;
+    }
+    // 아이(Profile)한테 보낸 편지 조회
+    public LetterResDto getChildLetter(int profileId){
+        Profile profile = profileService.findProfileById(profileId);
+        Letter letter = letterRepository.findLetterByProfileId(profileId);
+        LetterResDto letterResDto = letterMapper.childLetterToResDto(letter);
+        return letterResDto;
+    }
     // 편지 등록
     public Letter insertLetter(LetterInsertDto letterInsertDto){
         UserInfo userInfo = Auth.getInfo();
