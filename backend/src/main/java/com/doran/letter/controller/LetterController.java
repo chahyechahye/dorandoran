@@ -47,15 +47,15 @@ public class LetterController {
         Profile profile = null;
         if(parentService.checkParent(userInfo.getUserRole().getRole())){
             // 보내는 사람 프로필(아이), 받는 사람 부모일 때
-            parent = parentRepository.findById(letterInsertDto.getReceiverId())
+            parent = parentRepository.findParentByProfileId(letterInsertDto.getProfileId())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
-            profile = profileRepository.findById(letterInsertDto.getSenderId())
+            profile = profileRepository.findById(letterInsertDto.getProfileId())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
         }else{
             // 보내는 사람 부모, 받는 사람 프로필(아이)일 때
             parent = parentRepository.findParentByUserId(userInfo.getUserId())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
-            profile = profileRepository.findById(letterInsertDto.getReceiverId())
+            profile = profileRepository.findById(letterInsertDto.getProfileId())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
         }
         String contentUrl = bucketService.insertFile(bucketMapper.toInsertDto(letterInsertDto.getContent(), "letter"));
