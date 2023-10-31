@@ -4,6 +4,8 @@ import castle from "@/assets/img/childMain/castle.png";
 import postOffice from "@/assets/img/childMain/postoffice.png";
 import camera from "@/assets/img/childMain/camera.png";
 import books from "@/assets/img/childMain/books.png";
+import character from "@/assets/img/fox.png";
+import ProfileCircle from "@/components/profileCircle";
 
 const Background = styled.div`
   position: fixed;
@@ -124,64 +126,6 @@ const Cloud = styled.div`
     animation: ${cloudAnimation} 10s linear infinite;
   }
 `;
-
-/*----------------------------------
-	Ground
-----------------------------------*/
-// const Ground = styled.div`
-//   position: absolute;
-//   width: 120%;
-//   height: 100vh;
-//   border-radius: 100%;
-//   background: #5b916e;
-//   bottom: -90vh;
-// `;
-
-// /*----------------------------------
-// 	Tree
-// ----------------------------------*/
-// const Tree = styled.div`
-//   width: 10vh;
-//   height: 50vh;
-//   background: #c0b088;
-//   z-index: 1;
-//   display: block;
-//   position: absolute;
-//   transform: rotate(6deg);
-//   bottom: 20vh;
-// `;
-
-// const Leaves = styled.div`
-//   content: "";
-//   background: #349638;
-//   border-radius: 100%;
-//   width: 70vh;
-//   top: -20vh;
-//   height: 30vh;
-//   position: absolute;
-//   left: -30vh;
-//   z-index: 1;
-
-//   &:before {
-//     content: "";
-//     background: #349638;
-//     border-radius: 100%;
-//     width: 53vh;
-//     top: -9vh;
-//     left: 9vh;
-//   }
-
-//   &:after {
-//     content: "";
-//     background: #349638;
-//     border-radius: 100%;
-//     width: 34vh;
-//     top: -14vh;
-//     left: 19vh;
-//   }
-// `;
-
-// Repeat for other trees.
 
 /*----------------------------------
 	Airplane
@@ -360,7 +304,20 @@ const Books = styled.img`
   left: 68%;
 `;
 
-// Now you can use these styled components in your React application.
+const Character = styled.img`
+  width: 15%;
+  position: absolute;
+  z-index: 6;
+  top: 71%;
+  left: 82%;
+`;
+
+const Profile = styled.div`
+  position: absolute;
+  z-index: 6;
+  top: 2%;
+  left: 90%;
+`;
 
 const ChildrenMainPage = () => {
   return (
@@ -392,6 +349,10 @@ const ChildrenMainPage = () => {
           <Books src={books} />
           <Camera src={camera} />
         </CastleContainer>
+        <Character src={character} />
+        <Profile>
+          <ProfileCircle />
+        </Profile>
       </ContentContainer>
     </Background>
   );
