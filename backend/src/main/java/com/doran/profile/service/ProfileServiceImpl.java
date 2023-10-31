@@ -70,6 +70,12 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
+    public Profile findProfileById(int profileId){
+        return profileRepository.findById(profileId)
+            .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+    }
+
+    @Override
     public void createChildProfile(int childId, String name) {
         Profile profile = new Profile();
         profile.setAnimal(
@@ -93,4 +99,5 @@ public class ProfileServiceImpl implements ProfileService {
         profile.setAnimal(animal);
         profileRepository.save(profile);
     }
+
 }
