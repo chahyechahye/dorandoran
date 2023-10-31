@@ -1,11 +1,15 @@
 package com.doran.letter.controller;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.doran.letter.dto.req.LetterInsertDto;
+import com.doran.letter.dto.res.LetterResDto;
 import com.doran.letter.entity.Letter;
 import com.doran.letter.mapper.LetterMapper;
 import com.doran.letter.service.LetterService;
@@ -31,10 +35,22 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/api/letter")
 @RequiredArgsConstructor
 public class LetterController {
+    private final ParentService parentService;
     private final LetterService letterService;
     // 편지 조회
-
-
+    @GetMapping("")
+    public ResponseEntity<?> getLetterList(){
+        LetterResDto result = null;
+        UserInfo userInfo= Auth.getInfo();
+        if(!parentService.checkParent(userInfo.getUserRole().getRole())){
+            // 부모의 편지 반환
+            result = letterService.getParentLetter(userInfo.getUserId());
+        }else{
+            // 아이의 편지 반환
+            result = letterService.getChildLetter(userInfo.getSelectProfileId());
+        }
+        return CommonResponseEntity.getResponseEntity(SuccessCode.SUCCESS_CODE, result);
+    }
     // 편지 등록
     @PostMapping("")
     public ResponseEntity<?> insertLetter(LetterInsertDto letterInsertDto){
