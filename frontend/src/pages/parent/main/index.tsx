@@ -5,6 +5,7 @@ import LikeBook from "@/components/likeBook";
 import ProfileCircle from "@/components/profileCircle";
 import ParentCard from "@/components/parentCard";
 import Album from "@/components/album";
+import LikeBookList from "@/components/likeBookList";
 
 import background from "@/assets/img/backgroundMain.jpg";
 
@@ -62,6 +63,7 @@ const Overlay = styled.div`
 
 const ParentMainPage = () => {
   const [isOpenAlbum, setIsOpenAlbum] = useState(false);
+  const [isOpenLikeBook, setIsOpenLikeBook] = useState(false);
 
   const handleOpenAlbum = () => {
     setIsOpenAlbum(true);
@@ -71,12 +73,20 @@ const ParentMainPage = () => {
     setIsOpenAlbum(false);
   };
 
+  const handleOpenLikeBook = () => {
+    setIsOpenLikeBook(true);
+  };
+
+  const handleCloseLikeBook = () => {
+    setIsOpenLikeBook(false);
+  };
+
   return (
     <>
       <Container>
         <Header>
           <ProfileCircle />
-          <LikeBook />
+          <LikeBook onClick={handleOpenLikeBook} />
         </Header>
         <Image src={Logo} alt="Background" />
         <Content>
@@ -92,6 +102,20 @@ const ParentMainPage = () => {
       </Container>
       {isOpenAlbum && <Overlay onClick={handleCloseAlbum} />}
       {isOpenAlbum && <Album onClose={handleCloseAlbum} />}
+      {isOpenLikeBook && (
+        <div
+          style={{
+            width: "100%",
+            height: "100vh",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <LikeBookList />
+        </div>
+      )}
+      {isOpenLikeBook && <Overlay onClick={handleCloseLikeBook} />}
     </>
   );
 };
