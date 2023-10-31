@@ -10,7 +10,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class LetterResDto {
-    private String title;
     private String sender; // 편지 작성자
     private String contentUrl;
     private DateTime createdDate; // 작성 날짜

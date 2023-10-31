@@ -11,5 +11,5 @@ import lombok.Setter;
 @AllArgsConstructor
 public class LetterInsertDto {
     private MultipartFile content;
-    private int profileId; // 아이의 프로필 id 필요
+    private int profileId; // 아이의 프로필 id 필요 (송 수신 둘다)
 }

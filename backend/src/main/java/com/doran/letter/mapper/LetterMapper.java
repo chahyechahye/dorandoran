@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 @Mapper(componentModel = "spring")
 public interface LetterMapper {
     @Mapping(source="parent.id", target = "id", ignore = true)
-    Letter insertLettertoLetter(LetterInsertDto letterInsertDto, Parent parent, Profile profile, String contentUrl);
+    Letter insertLettertoLetter(LetterInsertDto letterInsertDto, Parent parent, Profile profile, String contentUrl, int receiverId, int senderId);
 
 
 }
