@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.doran.content.dto.req.ContentInsertDto;
+import com.doran.page.dto.req.PageInsertDto;
 import com.doran.page.dto.res.PageListDto;
 import com.doran.page.service.PageService;
 import com.doran.utils.response.CommonResponseEntity;
@@ -28,9 +28,9 @@ public class PageController {
     // 동화책의 페이지 등록
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/{book_id}")
-    ResponseEntity<?> insertPage(@PathVariable(value = "book_id") int bookId, ContentInsertDto contentInsertDto) {
+    ResponseEntity<?> insertPage(@PathVariable(value = "book_id") int bookId, PageInsertDto pageInsertDto) {
         log.info("insertPage 컨트롤러 호출");
-        pageService.insertPage(bookId, contentInsertDto);
+        pageService.insertPage(bookId, pageInsertDto);
 
         return CommonResponseEntity.getResponseEntity(SuccessCode.SUCCESS_CODE);
     }

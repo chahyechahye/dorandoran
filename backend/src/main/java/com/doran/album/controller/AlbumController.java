@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
@@ -71,7 +73,7 @@ public class AlbumController {
         int userId = Auth.getInfo().getUserId();
         String role = Auth.getInfo().getUserRole().getRole();
 
-        int parentUserId = parentService.getParentUserId(userId,role);
+        int parentUserId = parentService.getParentUserId(userId, role);
         List<Album> albumList = albumService.findAlbumByParentUserId(parentUserId);
         List<AlbumResDto> albumResDtoList = albumMapper.toDtoList(albumList);
 
@@ -79,4 +81,10 @@ public class AlbumController {
     }
 
     //앨범 삭제
+    @PreAuthorize("hasRole('ROLE_PARENT')")
+    @DeleteMapping("/{album_id}")
+    public ResponseEntity<?> deleteAlbum(@PathVariable("album_id") int albumId) {
+        albumService.deleteAlbum(albumId);
+        return CommonResponseEntity.getResponseEntity(SuccessCode.SUCCESS_CODE, null);
+    }
 }

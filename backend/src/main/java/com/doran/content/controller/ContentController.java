@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.doran.content.dto.req.ContentInsertDto;
@@ -37,15 +38,12 @@ public class ContentController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/{book_id}")
     ResponseEntity<?> insertContent(@PathVariable(value = "book_id") int bookId,
-        ContentInsertDto contentInsertDto) {
-
-        //페이지 저장
-        Page page = pageService.insertPage(bookId, contentInsertDto);
-
+        @RequestBody ContentInsertDto contentInsertDto) {
+        int idx = contentInsertDto.getIdx();
         String script = contentInsertDto.getScript();
 
-        //컨텐츠 저장
-        contentService.insertContent(page, script);
+        Page findPage = pageService.findPageIdByIdxAndBookId(bookId, idx);
+        contentService.insertContent(findPage, script);
         return CommonResponseEntity.getResponseEntity(SuccessCode.SUCCESS_CODE);
     }
 

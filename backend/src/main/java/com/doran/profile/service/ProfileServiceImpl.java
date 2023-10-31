@@ -100,4 +100,18 @@ public class ProfileServiceImpl implements ProfileService {
         profileRepository.save(profile);
     }
 
+    @Override
+    public ProfileDto selectProfile(int profileId) {
+
+        Profile profile = profileRepository.findById(profileId)
+                                           .orElseThrow(() -> new CustomException(ErrorCode.PROFILE_NOT_FOUND));
+        return profileMapper.toProfileDto(
+            profile.getId(),
+            profile.getChild().getId(),
+            animalMapper.toAnimalDto(
+                profile.getAnimal().getId(),
+                profile.getAnimal().getName(),
+                profile.getAnimal().getImgUrl()),
+            profile.getName());
+    }
 }
