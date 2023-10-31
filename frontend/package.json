@@ -19,6 +19,8 @@
     "react-scripts": "5.0.1",
     "recoil": "^0.7.7",
     "styled-components": "^6.1.0",
+    "swiper": "^6.8.4",
+    "three": "^0.158.0",
     "v6": "^0.0.0",
     "web-vitals": "^2.1.4"
   },
@@ -48,6 +50,7 @@
   },
   "devDependencies": {
     "@types/styled-components": "^5.1.29",
+    "@types/three": "^0.158.1",
     "eslint": "^8.51.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-import": "^2.28.1",

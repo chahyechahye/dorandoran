@@ -12,9 +12,9 @@ const StyledImage = styled.img`
   width: 6vh;
 `;
 
-const LikeBook = () => {
+const LikeBook = ({ onClick }: { onClick?: () => void }) => {
   return (
-    <Container>
+    <Container onClick={onClick}>
       <StyledImage src={likeBook} alt="Background" />
     </Container>
   );
