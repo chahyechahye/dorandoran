@@ -32,7 +32,7 @@ public class BookService {
     //책 예외 체킹
     public Book findBookById(int bookId) {
         return bookRepository.findById(bookId)
-                             .orElseThrow(() -> new CustomException(ErrorCode.BOOK_NOT_FOUND));
+            .orElseThrow(() -> new CustomException(ErrorCode.BOOK_NOT_FOUND));
     }
 
     // 책 등록
@@ -47,9 +47,7 @@ public class BookService {
 
     //책 조회
     public BookListDto getBookList() {
-        List<Book> bookList = bookRepository.findAll();
-        List<BookResDto> bookResDtoList = bookMapper.toDtoList(bookList);
-
+        List<BookResDto> bookResDtoList = bookRepository.findBookWithPageCnt();
         return new BookListDto(bookResDtoList.size(), bookResDtoList);
     }
 }
