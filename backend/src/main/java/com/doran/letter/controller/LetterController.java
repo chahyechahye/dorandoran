@@ -49,6 +49,7 @@ public class LetterController {
             // 아이의 편지 반환
             result = letterService.getChildLetter(userInfo.getSelectProfileId());
         }
+        if(result == null) throw new CustomException(ErrorCode.LETTER_NOT_FOUND);
         return CommonResponseEntity.getResponseEntity(SuccessCode.SUCCESS_CODE, result);
     }
     // 편지 등록

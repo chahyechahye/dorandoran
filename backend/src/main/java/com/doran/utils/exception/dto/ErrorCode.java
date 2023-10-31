@@ -38,6 +38,8 @@ public enum ErrorCode {
 
     // ProcessedVoice (변형된 목소리) 관련 예외
 
+    // 편지 관련 예외
+    LETTER_NOT_FOUND(HttpStatus.NOT_FOUND, "읽지 않은 편지가 없습니다."),
     //추가할 것들은 여기에 작성해주세요.
 
     //레디스 관련
