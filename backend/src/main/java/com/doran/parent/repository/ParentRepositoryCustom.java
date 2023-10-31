@@ -6,4 +6,5 @@ import com.doran.parent.entity.Parent;
 
 public interface ParentRepositoryCustom {
     Optional<Parent> findParentByChildUserId(int childUserId);
+    Optional<Parent> findParentByUserId(int userId);
 }

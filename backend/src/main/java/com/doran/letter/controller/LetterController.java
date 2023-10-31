@@ -53,7 +53,7 @@ public class LetterController {
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
         }else{
             // 보내는 사람 부모, 받는 사람 프로필(아이)일 때
-            parent = parentRepository.findById(letterInsertDto.getSenderId())
+            parent = parentRepository.findParentByUserId(userInfo.getUserId())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
             profile = profileRepository.findById(letterInsertDto.getReceiverId())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));

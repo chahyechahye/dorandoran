@@ -24,4 +24,14 @@ public class ParentRepositoryImpl implements ParentRepositoryCustom {
             .fetchOne()
         );
     }
+
+    @Override
+    public Optional<Parent> findParentByUserId(int userId){
+        return Optional.ofNullable(jpaQueryFactory
+            .select(parent)
+            .from(parent)
+            .where(parent.user.id.eq(userId))
+            .fetchOne()
+        );
+    }
 }
