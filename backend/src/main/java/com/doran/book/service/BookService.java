@@ -36,13 +36,13 @@ public class BookService {
     }
 
     // 책 등록
-    public void insertBook(BookInsertDto bookInsertDto) throws IOException {
+    public Book insertBook(BookInsertDto bookInsertDto) throws IOException {
         //버킷 업로드
         InsertDto insertDto = bucketMapper.bookInsertToBucket(bookInsertDto);
         String imgUrl = bucketService.insertFile(insertDto);
 
         // DB 업로드
-        bookRepository.save(bookMapper.bookInsertToBook(bookInsertDto, imgUrl));
+        return bookRepository.save(bookMapper.bookInsertToBook(bookInsertDto, imgUrl));
     }
 
     //책 조회
