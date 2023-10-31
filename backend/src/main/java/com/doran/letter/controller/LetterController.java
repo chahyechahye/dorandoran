@@ -40,17 +40,9 @@ public class LetterController {
     // 편지 조회
     @GetMapping("")
     public ResponseEntity<?> getLetterList(){
-        LetterResDto result = null;
         UserInfo userInfo= Auth.getInfo();
-        if(!parentService.checkParent(userInfo.getUserRole().getRole())){
-            // 부모의 편지 반환
-            result = letterService.getParentLetter(userInfo.getUserId());
-        }else{
-            // 아이의 편지 반환
-            result = letterService.getChildLetter(userInfo.getSelectProfileId());
-        }
-        if(result == null) throw new CustomException(ErrorCode.LETTER_NOT_FOUND);
-        return CommonResponseEntity.getResponseEntity(SuccessCode.SUCCESS_CODE, result);
+        LetterResDto letterResDto = letterService.getLetter(userInfo.getUserId());
+        return CommonResponseEntity.getResponseEntity(SuccessCode.SUCCESS_CODE, letterResDto);
     }
     // 편지 등록
     @PostMapping("")
