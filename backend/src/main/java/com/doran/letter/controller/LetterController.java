@@ -38,19 +38,21 @@ public class LetterController {
     private final LetterMapper letterMapper;
     private final LetterService letterService;
     // 편지 조회
+
+
     // 편지 등록
     public ResponseEntity<?> insertLetter(LetterInsertDto letterInsertDto){
         UserInfo userInfo = Auth.getInfo();
         Parent parent = null;
         Profile profile = null;
         if(parentService.checkParent(userInfo.getUserRole().getRole())){
-            // 보내는 사람 아이, 받는 사람 부모일 때
+            // 보내는 사람 프로필(아이), 받는 사람 부모일 때
             parent = parentRepository.findById(letterInsertDto.getReceiverId())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
             profile = profileRepository.findById(letterInsertDto.getSenderId())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
         }else{
-            // 보내는 사람 부모, 받는 사람 아이일 때
+            // 보내는 사람 부모, 받는 사람 프로필(아이)일 때
             parent = parentRepository.findById(letterInsertDto.getSenderId())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
             profile = profileRepository.findById(letterInsertDto.getReceiverId())

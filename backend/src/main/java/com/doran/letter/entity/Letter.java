@@ -43,8 +43,6 @@ public class Letter extends BaseTimeEntity {
     @JoinColumn(name="profile_id")
     private Profile profile;
 
-    private String title;
-
     @Column(name="content_url")
     private String contentUrl;
 
