@@ -3,15 +3,13 @@ package com.doran.content.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.doran.content.dto.req.ContentInsertDto;
 import com.doran.content.dto.res.ContentResDto;
@@ -19,6 +17,7 @@ import com.doran.content.service.ContentService;
 import com.doran.page.entity.Page;
 import com.doran.page.service.PageService;
 import com.doran.parent.service.ParentService;
+import com.doran.utils.auth.Auth;
 import com.doran.utils.common.UserInfo;
 import com.doran.utils.response.CommonResponseEntity;
 import com.doran.utils.response.SuccessCode;
@@ -36,6 +35,7 @@ public class ContentController {
     private final ParentService parentService;
 
     // 컨텐츠 등록
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/{book_id}")
     ResponseEntity<?> insertContent(@PathVariable(value = "book_id") int bookId,
         @RequestBody ContentInsertDto contentInsertDto) {
@@ -52,7 +52,7 @@ public class ContentController {
     ResponseEntity<?> getContent(@PathVariable(value = "book_id") int bookId, @PathVariable int idx) {
         log.info("getContent 컨트롤러 호출");
 
-        UserInfo userInfo = (UserInfo)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserInfo userInfo = Auth.getInfo();
         int pageId = pageService.findPageIdByIdxAndBookId(bookId, idx).getId();
         int parentUserId = parentService.getParentUserId(userInfo.getUserId(), userInfo.getUserRole().getRole());
 

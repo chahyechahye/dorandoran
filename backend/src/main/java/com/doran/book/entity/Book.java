@@ -25,9 +25,9 @@ public class Book {
     @Column(name = "img_url", nullable = false)
     private String imgUrl;
 
-    @Column(name = "author", nullable = false)
+    @Column(name = "author", nullable = true)
     private String author;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String publisher;
 }

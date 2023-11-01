@@ -1,5 +1,7 @@
 package com.doran.parent.service;
 
+import java.util.ArrayList;
+
 import org.springframework.stereotype.Service;
 
 import com.doran.child.repository.ChildRepository;
@@ -23,14 +25,21 @@ public class ParentService {
     }
 
     public Boolean checkParent(String role) {
-        return role.equals("CHILD");
+        return role.equals("ROLE_CHILD");
     }
 
     public Parent findParentByChildUserId(int childUserId) {
         return parentRepository.findParentByChildUserId(childUserId)
             .orElseThrow(() -> new CustomException(ErrorCode.PARENT_NOT_FOUND));
     }
-
+    public Parent findParentByUserId(int userId){
+        return parentRepository.findParentByUserId(userId)
+            .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+    }
+    public Parent findParentByProfileId(int profileId){
+        return parentRepository.findParentByProfileId(profileId)
+            .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+    }
     /*
     유저가 부모일 때 : 유저 ID 반납
     유저가 아이일 때 : 해당 부모의 유저 ID 반납
