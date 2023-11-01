@@ -25,9 +25,9 @@ const Plus = styled.span`
   color: white;
 `;
 
-const ProfileCircle = () => {
+const ProfileCircle = ({ onClick }: { onClick?: () => void }) => {
   return (
-    <OuterCircle>
+    <OuterCircle onClick={onClick}>
       <InnerCircle>
         <Plus>+</Plus>
       </InnerCircle>
