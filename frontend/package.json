@@ -50,6 +50,7 @@
   },
   "devDependencies": {
     "@types/styled-components": "^5.1.29",
+    "@types/swiper": "^6.0.0",
     "@types/three": "^0.158.1",
     "eslint": "^8.51.0",
     "eslint-config-prettier": "^9.0.0",
