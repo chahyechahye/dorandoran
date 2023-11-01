@@ -8,7 +8,5 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class ProcessedVoiceResDto {
-    int pvId;
-    int contentId;
     String voiceUrl;
 }
