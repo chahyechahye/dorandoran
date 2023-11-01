@@ -12,5 +12,5 @@ import lombok.Setter;
 public class ProcessedVoiceInsertDto {
     private int contentId;
     private int userId; // 누구 목소리로 변형된 것인지 판별
-    private MultipartFile voice;
+    private MultipartFile file;
 }

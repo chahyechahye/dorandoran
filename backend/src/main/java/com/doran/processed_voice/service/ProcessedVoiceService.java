@@ -2,7 +2,6 @@ package com.doran.processed_voice.service;
 
 import java.util.List;
 
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.doran.content.entity.Content;
@@ -15,11 +14,9 @@ import com.doran.processed_voice.mapper.ProcessedVoiceMapper;
 import com.doran.processed_voice.repository.ProcessedVoiceRepository;
 import com.doran.user.entity.User;
 import com.doran.user.service.UserService;
-import com.doran.utils.auth.Auth;
 import com.doran.utils.bucket.dto.InsertDto;
 import com.doran.utils.bucket.mapper.BucketMapper;
 import com.doran.utils.bucket.service.BucketService;
-import com.doran.utils.common.UserInfo;
 import com.doran.utils.exception.dto.CustomException;
 import com.doran.utils.exception.dto.ErrorCode;
 
@@ -34,6 +31,7 @@ public class ProcessedVoiceService {
     private final ProcessedVoiceRepository processedVoiceRepository;
     private final ContentService contentService;
     private final UserService userService;
+    private final BucketMapper bucketMapper;
     private final BucketService bucketService;
 
 
@@ -55,7 +53,7 @@ public class ProcessedVoiceService {
     public void insertProcessedVoice(ProcessedVoiceInsertDto processedVoiceInsertDto){
         Content content = contentService.getContentById(processedVoiceInsertDto.getContentId());
         User user = userService.findUser(processedVoiceInsertDto.getUserId());
-        InsertDto insertDto = new InsertDto(processedVoiceInsertDto.getVoice(), "processed_voice");
+        InsertDto insertDto = bucketMapper.toInsertDto(processedVoiceInsertDto.getFile(), "processed_voice");
         String voiceUrl = bucketService.insertFile(insertDto);
         ProcessedVoice processedVoice = processedVoiceMapper.toProcessedVoice(content,user,voiceUrl);
         processedVoiceRepository.save(processedVoice);
