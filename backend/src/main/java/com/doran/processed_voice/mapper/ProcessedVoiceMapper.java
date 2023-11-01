@@ -12,14 +12,10 @@ import com.doran.user.entity.User;
 
 @Mapper(componentModel = "spring")
 public interface ProcessedVoiceMapper {
-    @Mapping(source="id", target="pvId")
-    @Mapping(source="content.id", target="contentId")
     ProcessedVoiceResDto pvToResDto(ProcessedVoice processedVoice);
     List<ProcessedVoiceResDto> toDtoList(List<ProcessedVoice> processedVoiceList);
 
-    @Mapping(source = "content", target = "content")
-    @Mapping(source = "user", target = "user")
-    @Mapping(source = "content.id", target = "id", ignore = true)
+    @Mapping(target = "id", ignore = true)
     ProcessedVoice toProcessedVoice(Content content, User user, String voiceUrl);
 
 }

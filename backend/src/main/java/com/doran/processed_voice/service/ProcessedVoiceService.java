@@ -2,11 +2,12 @@ package com.doran.processed_voice.service;
 
 import java.util.List;
 
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.doran.content.entity.Content;
 import com.doran.content.service.ContentService;
+import com.doran.parent.entity.Parent;
+import com.doran.parent.repository.ParentRepository;
 import com.doran.processed_voice.dto.req.ProcessedVoiceInsertDto;
 import com.doran.processed_voice.dto.res.ProcessedVoiceListDto;
 import com.doran.processed_voice.dto.res.ProcessedVoiceResDto;
@@ -19,7 +20,6 @@ import com.doran.utils.auth.Auth;
 import com.doran.utils.bucket.dto.InsertDto;
 import com.doran.utils.bucket.mapper.BucketMapper;
 import com.doran.utils.bucket.service.BucketService;
-import com.doran.utils.common.UserInfo;
 import com.doran.utils.exception.dto.CustomException;
 import com.doran.utils.exception.dto.ErrorCode;
 
@@ -34,14 +34,23 @@ public class ProcessedVoiceService {
     private final ProcessedVoiceRepository processedVoiceRepository;
     private final ContentService contentService;
     private final UserService userService;
+    private final ParentRepository parentRepository;
+    private final BucketMapper bucketMapper;
     private final BucketService bucketService;
 
 
-
-    // 가공된 목소리 검색
-    public ProcessedVoiceResDto getProcessedVoiceById(int pvId){ // 사용자 전용
-        ProcessedVoice processedVoice = processedVoiceRepository.findById(pvId)
+    // 가공된 목소리 검색 - 관리자
+    public ProcessedVoiceResDto getProcessedVoiceForAdmin(int userId, int contentId){
+        ProcessedVoice processedVoice = processedVoiceRepository.findVoiceByParentIdAndContentId(userId,contentId)
             .orElseThrow(()-> new CustomException(ErrorCode.VOICE_NOT_FOUND));
+        return processedVoiceMapper.pvToResDto(processedVoice);
+    }
+    // 가공된 목소리 검색 - 아이
+    public ProcessedVoiceResDto getProcessedVoiceById(int contentId){ // 아이 전용
+        Parent parent = parentRepository.findParentByChildUserId(Auth.getInfo().getUserId())
+            .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+        ProcessedVoice processedVoice = processedVoiceRepository.findVoiceByParentIdAndContentId(parent.getUser().getId(),contentId)
+            .orElseThrow(() -> new CustomException(ErrorCode.VOICE_NOT_FOUND));
         return processedVoiceMapper.pvToResDto(processedVoice);
     }
 
@@ -53,15 +62,9 @@ public class ProcessedVoiceService {
     }
 
     public void insertProcessedVoice(ProcessedVoiceInsertDto processedVoiceInsertDto){
-        // 가공된 목소리 저장 이름은 userId_(m/f)_contentId.mp3 로 됨 - 유저아이디_성별_컨텐츠아이디.mp3
-
-        String name = "" + Auth.getInfo().getUserId() + "_" + processedVoiceInsertDto.getVoiceType() + "_" + processedVoiceInsertDto.getContentId()+ ".mp3";
-        // log.info("contentId: "+ processedVoiceInsertDto.getContentId() + " " + processedVoiceInsertDto.getVoiceType());
-
         Content content = contentService.getContentById(processedVoiceInsertDto.getContentId());
-        User user = userService.findUser(Auth.getInfo().getUserId());
-
-        InsertDto insertDto = new InsertDto(processedVoiceInsertDto.getVoice(), name);
+        User user = userService.findUser(processedVoiceInsertDto.getUserId());
+        InsertDto insertDto = bucketMapper.toInsertDto(processedVoiceInsertDto.getFile(), "processed_voice");
         String voiceUrl = bucketService.insertFile(insertDto);
         ProcessedVoice processedVoice = processedVoiceMapper.toProcessedVoice(content,user,voiceUrl);
         processedVoiceRepository.save(processedVoice);
