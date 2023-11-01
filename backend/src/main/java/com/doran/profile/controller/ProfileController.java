@@ -20,6 +20,7 @@ import com.doran.profile.dto.req.ProfileLoginDto;
 import com.doran.profile.dto.res.ProfileDto;
 import com.doran.profile.dto.res.ProfileListDto;
 import com.doran.profile.service.ProfileService;
+import com.doran.redis.balcklist.service.BlackListService;
 import com.doran.redis.invite.key.Invite;
 import com.doran.redis.invite.service.InviteService;
 import com.doran.user.dto.req.UserTokenBaseDto;
@@ -29,6 +30,7 @@ import com.doran.utils.common.UserInfo;
 import com.doran.utils.response.CommonResponseEntity;
 import com.doran.utils.response.SuccessCode;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,6 +46,7 @@ public class ProfileController {
     private final ChildService childService;
     private final OauthService oauthService;
     private final JwtProvider jwtProvider;
+    private final BlackListService blackListService;
 
     @GetMapping("")
     public ResponseEntity<?> childProfileList(@RequestParam String code) {
@@ -72,8 +75,11 @@ public class ProfileController {
      * profile : 선택한 profileId
      */
     @PostMapping("/change")
-    public ResponseEntity<?> changeProfile(@RequestBody ChangeProfileDto req, HttpServletResponse response) {
-
+    public ResponseEntity<?> changeProfile(@RequestBody ChangeProfileDto req, HttpServletResponse response,
+        HttpServletRequest request) {
+        String oldAt = jwtProvider.getAccessToken(request);
+        blackListService.save(oldAt);
+        
         UserInfo userInfo = Auth.getInfo();
 
         ChildDto childDto = childService.findChildByChildUSerId(userInfo.getUserId());
