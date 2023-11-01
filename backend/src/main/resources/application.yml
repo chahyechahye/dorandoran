@@ -9,17 +9,17 @@ spring:
   profiles:
     active: local
   datasource:
-    #    url: jdbc:mysql://k9b108.p.ssafy.io:3306/doran?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Seoul
-    #    username: ssafy
-    #    password: doran_b108
-    url: jdbc:mysql://localhost:3306/doran?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Seoul
+    url: jdbc:mysql://k9b108.p.ssafy.io:3306/doran?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Seoul
     username: ssafy
-    password: ssafy
+    password: doran_b108
+  #    url: jdbc:mysql://localhost:3306/doran?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Seoul
+  #    username: ssafy
+  #    password: ssafy
 
   rabbitmq:
     host: k9b108.p.ssafy.io
-    port: 15672
-    username: admin
+    port: 5672
+    username: username
     password: password
 
 
@@ -69,7 +69,5 @@ rabbitmq:
   queue:
     model: model.req
     voice: voice.req
-    hong: hong.req
-    han: han.req
 
 
