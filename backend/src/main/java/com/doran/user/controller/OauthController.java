@@ -38,10 +38,8 @@ public class OauthController {
         UserTokenBaseDto userInfo = kakaoService.getUserInfo(token);
 
         String accessToken = jwtProvider.createAccessToken(userInfo);
-        String refreshToken = jwtProvider.createRefreshToken(userInfo);
 
         response.setHeader("AccessToken", accessToken);
-        response.setHeader("RefreshToken", refreshToken);
 
         return CommonResponseEntity.getResponseEntity(SuccessCode.OK, "카카오 로그인 성공");
     }
@@ -55,10 +53,8 @@ public class OauthController {
         UserTokenBaseDto userInfo = googleService.getUserInfo(token);
 
         String accessToken = jwtProvider.createAccessToken(userInfo);
-        String refreshToken = jwtProvider.createRefreshToken(userInfo);
 
         response.setHeader("accessToken", accessToken);
-        response.setHeader("refreshToken", refreshToken);
         return CommonResponseEntity.getResponseEntity(SuccessCode.OK, "구글 로그인 성공");
     }
 
