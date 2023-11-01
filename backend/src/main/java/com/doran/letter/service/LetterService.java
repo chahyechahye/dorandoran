@@ -37,11 +37,12 @@ public class LetterService{
     private final LetterRepository letterRepository;
     // 편지 조회
     public LetterResDto getLetter(int userId){
-        Letter letter = letterRepository.findLetterByUserId(userId)
-            .orElseThrow(()-> new CustomException(ErrorCode.LETTER_NOT_FOUND));
+        List<Letter> unreadLetterList = letterRepository.findAllUnreadLetter(userId);
+        if(unreadLetterList.size() == 0) throw new CustomException(ErrorCode.LETTER_NOT_FOUND);
+        Letter letter = unreadLetterList.get(0);
         letter.setModifiedDate(LocalDateTime.now());
         letterRepository.save(letter);
-        LetterResDto letterResDto = letterMapper.parentLetterToResDto(letter);
+        LetterResDto letterResDto = letterMapper.letterToResDto(letter,unreadLetterList.size()-1);
         return letterResDto;
     }
     // 편지 등록
