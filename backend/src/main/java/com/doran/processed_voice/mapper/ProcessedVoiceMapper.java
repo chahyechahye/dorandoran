@@ -12,7 +12,6 @@ import com.doran.user.entity.User;
 
 @Mapper(componentModel = "spring")
 public interface ProcessedVoiceMapper {
-    @Mapping(source="id", target="pvId")
     ProcessedVoiceResDto pvToResDto(ProcessedVoice processedVoice);
     List<ProcessedVoiceResDto> toDtoList(List<ProcessedVoice> processedVoiceList);
 
