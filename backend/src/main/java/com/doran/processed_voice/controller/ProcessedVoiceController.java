@@ -22,8 +22,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class ProcessedVoiceController {
     private final ProcessedVoiceService processedVoiceService;
-    //private final ContentService contentService; // 가공된 목소리 저장을 위해 필요
-    //private final UserService userService;
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("")
