@@ -34,12 +34,6 @@ public class RabbitMQConfig {
     @Value("${rabbitmq.queue.voice}")
     private String voiceQue;
 
-    @Value("${rabbitmq.queue.han}")
-    private String hanQue;
-
-    @Value("${rabbitmq.queue.hong}")
-    private String hongQue;
-
     @Bean
     public Queue modelQue() {
         return new Queue(modelQue, true);
@@ -48,16 +42,6 @@ public class RabbitMQConfig {
     @Bean
     public Queue voiceQue() {
         return new Queue(voiceQue, true);
-    }
-
-    @Bean
-    public Queue hanQue() {
-        return new Queue(hanQue, true);
-    }
-
-    @Bean
-    public Queue hongQue() {
-        return new Queue(hongQue, true);
     }
 
     @Bean
