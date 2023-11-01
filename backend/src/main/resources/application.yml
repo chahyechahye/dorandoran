@@ -68,6 +68,8 @@ oauth:
 rabbitmq:
   queue:
     model: model.req
-    voice : voice.req
+    voice: voice.req
+    hong: hong.req
+    han: han.req
 
 
