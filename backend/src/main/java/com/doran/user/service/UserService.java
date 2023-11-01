@@ -17,6 +17,7 @@ import com.doran.user.repository.UserRepository;
 import com.doran.user.type.Roles;
 import com.doran.utils.exception.dto.CustomException;
 import com.doran.utils.exception.dto.ErrorCode;
+import com.doran.utils.sens.Naver_Sens_V2;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -74,5 +75,13 @@ public class UserService {
         Optional<User> findUser = userRepository.findById(id);
 
         return findUser.orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+    }
+
+    //초대코드 전송
+    public void sendMessage(String code, String tel) {
+        log.info("메세지 보내러 들어옴");
+        Naver_Sens_V2 message = new Naver_Sens_V2();
+
+        message.send_msg(tel, code);
     }
 }
