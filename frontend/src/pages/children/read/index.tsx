@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import background from "@/assets/img/bookview.png";
-import DogLike from "@/components/dog";
+import arrowLeft from "@/assets/img/fairytale/arrowLeft.png";
+import arrowRight from "@/assets/img/fairytale/arrowRight.png";
 
 const Background = styled.div`
   position: fixed;
@@ -35,13 +36,30 @@ const TextBox = styled.div`
   text-shadow: 0.04em 0.04em 0.04em rgba(0, 0, 0, 0.4);
 `;
 
+const ArrowBox = styled.div`
+  position: absolute;
+  top: 42%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 3%;
+`;
+
+const ArrowLeft = styled.img``;
+
+const ArrowRight = styled.img``;
+
 const ChildrenProfilePage = () => {
   return (
     <Background>
       <ContentContainer>
+        <ArrowBox>
+          <ArrowLeft src={arrowLeft} />
+          <ArrowRight src={arrowRight} />
+        </ArrowBox>
         <TextContainer>
           <TextBox>거북이와 토끼가 경주를 시작했어요!</TextBox>
-          <DogLike />
         </TextContainer>
       </ContentContainer>
     </Background>

@@ -6,6 +6,10 @@ import camera from "@/assets/img/childMain/camera.png";
 import books from "@/assets/img/childMain/books.png";
 import character from "@/assets/img/fox.png";
 import ProfileCircle from "@/components/profileCircle";
+import Lottie from "lottie-react";
+import letterEffect from "@/assets/img/gif/letter.json";
+import letterImage from "@/assets/img/letter/letterImage.png";
+import { useState } from "react";
 
 const Background = styled.div`
   position: fixed;
@@ -144,7 +148,7 @@ const planeFlyAnimation = keyframes`
   }
   100% {
     left: -10%;
-    transform: scale(1.4) rotateY(180deg);
+    transform: scale(4) rotateY(180deg);
   }
 `;
 
@@ -283,25 +287,25 @@ const Castle = styled.img`
 `;
 
 const Camera = styled.img`
-  width: 20%;
+  width: 22%;
   z-index: 5;
   position: absolute;
-  top: 50%;
-  left: 43%;
+  top: 35%;
+  left: 44%;
 `;
 const PostOffice = styled.img`
   width: 24%;
   position: absolute;
   z-index: 5;
-  top: 35%;
-  left: 14%;
+  top: 20%;
+  left: 12%;
 `;
 const Books = styled.img`
-  width: 18%;
+  width: 20%;
   position: absolute;
   z-index: 5;
-  top: 24%;
-  left: 68%;
+  top: 17%;
+  left: 71%;
 `;
 
 const Character = styled.img`
@@ -319,10 +323,61 @@ const Profile = styled.div`
   left: 90%;
 `;
 
+const LetterGif = styled.div<{ isLetter: boolean }>`
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 8;
+  display: ${(props) => (props.isLetter ? "block" : "none")};
+`;
+
+const LetterRead = styled.img`
+  top: 10%;
+  left: 12%;
+  width: 80%;
+  height: 80%;
+  position: absolute;
+  z-index: 8;
+`;
+
+const LetterImg = styled.img`
+  top: 20%;
+  left: 28%;
+  width: 50%;
+  height: 50%;
+  position: absolute;
+  z-index: 7;
+`;
+
 const ChildrenMainPage = () => {
+  const [isLetter, setIsLetter] = useState(false);
+  const [isEnvelope, setIsEnvelope] = useState(false);
+  const [readLetter, setReadLetter] = useState(false);
+
+  const openLetter = () => {
+    setIsLetter(true);
+    setIsEnvelope(true);
+
+    setTimeout(() => {
+      setIsLetter(false);
+    }, 3000);
+  };
+
+  const clickLetter = () => {
+    setIsEnvelope(false);
+    setReadLetter(true);
+  };
+
   return (
     <Background>
       <ContentContainer>
+        <LetterGif isLetter={isLetter}>
+          {isLetter && <Lottie animationData={letterEffect} />}
+        </LetterGif>
+        {isEnvelope && <LetterImg src={letterImage} onClick={clickLetter} />}
+        {readLetter && <LetterRead src={postOffice} />}
         <Container>
           <Cloud />
           <Cloud />
@@ -345,7 +400,7 @@ const ChildrenMainPage = () => {
         </Airplane>
         <CastleContainer>
           <Castle src={castle} />
-          <PostOffice src={postOffice} />
+          <PostOffice src={postOffice} onClick={openLetter} />
           <Books src={books} />
           <Camera src={camera} />
         </CastleContainer>
