@@ -30,14 +30,23 @@ public class ProcessedVoiceController {
         return CommonResponseEntity.getResponseEntity(SuccessCode.SUCCESS_CODE,
             processedVoiceService.getProcessedVoiceList());
     }
+    @PreAuthorize("hasRole('ROLE_ADMIN')") // admin Test 전용
+    @GetMapping("/{content_id}/{parent_user_id}")
+    public ResponseEntity<?> getProcessedVoiceForAdmin(@PathVariable(value = "content_id") int contentId,
+                                                    @PathVariable(value = "parent_user_id") int userId){
+        log.info("가공된 목소리 검색 - 관리자용");
+        return CommonResponseEntity.getResponseEntity(SuccessCode.SUCCESS_CODE,
+            processedVoiceService.getProcessedVoiceForAdmin(userId,contentId));
+    }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/{pv_id}")
-    public ResponseEntity<?> getProcessedVoice(@PathVariable(value = "pv_id") int pvId) {
+    @PreAuthorize("hasRole('ROLE_CHILD')") // 아이가 동화책 읽을 때 목소리 호출
+    @GetMapping("/{content_id}")
+    public ResponseEntity<?> getProcessedVoice(@PathVariable(value = "content_id") int contentId) {
         log.info("가공된 목소리 검색");
         return CommonResponseEntity.getResponseEntity(SuccessCode.SUCCESS_CODE,
-            processedVoiceService.getProcessedVoiceById(pvId));
+            processedVoiceService.getProcessedVoiceById(contentId));
     }
+
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("")
