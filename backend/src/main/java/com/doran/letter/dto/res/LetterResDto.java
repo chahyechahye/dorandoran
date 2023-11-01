@@ -11,6 +11,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class LetterResDto {
+    private int unreadCount;
     private String contentUrl;
     private LocalDateTime createdDate; // 작성 날짜
 
