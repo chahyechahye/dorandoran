@@ -3,6 +3,8 @@ package com.doran.raw_voice.mapper;
 import com.doran.raw_voice.dto.req.RawVoiceInsertDto;
 import com.doran.raw_voice.dto.res.RawVoiceResDto;
 import com.doran.raw_voice.entity.RawVoice;
+import com.doran.user.entity.User;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -14,4 +16,7 @@ public interface RawVoiceMapper {
     @Mapping(source="id", target="rvId")
     RawVoiceResDto rawVoiceToResDto(RawVoice rawVoice);
     List<RawVoiceResDto> toDtoList(List<RawVoice> rawVoiceList);
+
+    @Mapping(target="id", ignore = true)
+    RawVoice voiceInsertToRawVoice(User user,String voiceUrl);
 }
