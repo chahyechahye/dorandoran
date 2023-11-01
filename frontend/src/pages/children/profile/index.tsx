@@ -2,6 +2,7 @@ import styled from "styled-components";
 import background from "@/assets/img/background/background.jpg";
 import ChildCard from "@/components/childCard";
 import Face from "@/assets/img/smile.png";
+import { useNavigate } from "react-router-dom";
 
 const Background = styled.div`
   position: fixed;
@@ -24,6 +25,12 @@ const ContentContainer = styled.div`
 `;
 
 const ChildrenProfilePage = () => {
+  const navigate = useNavigate();
+
+  const goMain = () => {
+    navigate("/children/main");
+  };
+
   return (
     <Background>
       <ContentContainer>
@@ -31,6 +38,7 @@ const ChildrenProfilePage = () => {
           img={Face}
           backgroundColor="#26C917"
           text="손수형"
+          onClick={goMain}
         ></ChildCard>
       </ContentContainer>
     </Background>
