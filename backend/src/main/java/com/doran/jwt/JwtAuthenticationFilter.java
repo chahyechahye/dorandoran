@@ -6,6 +6,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.doran.redis.refresh.service.RefreshTokenService;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtProvider jwtProvider;
+    private final RefreshTokenService refreshTokenService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
@@ -25,10 +30,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         log.info("doFilter 메서드 실행");
 
         String accessToken = jwtProvider.getAccessToken(request);
-        String refreshToken = jwtProvider.getRefreshToken(request);
 
         log.info("accessToken : {}", accessToken);
-        log.info("refreshToken : {}", refreshToken);
+
+        Claims userInfo = null;
 
         if (accessToken != null && jwtProvider.isTokenValid(accessToken)) {
             log.info("엑세스 토큰 유효함");
@@ -37,9 +42,26 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             log.info("블랙리스트에 없음");
 
             setAuthentication(accessToken);
-        } else if (refreshToken != null && jwtProvider.isTokenValid(refreshToken)) {
-            log.info("엑세스 토큰 유효하지 않음");
-            log.info("리프레시 토큰은 살아있음 ");
+        } else if (accessToken != null) {
+            log.info("엑세스 만료됨");
+            jwtProvider.checkBlackList(accessToken);
+            log.info("블랙리스트에 없음");
+
+            try {
+                jwtProvider.getUserInfo(accessToken);
+            } catch (ExpiredJwtException e) {
+                log.info("엑세스 유효하지 않음");
+                userInfo = e.getClaims();
+            }
+
+            int userId = (int)userInfo.get("userId");
+            log.info("userId : {}", userId);
+
+            String refreshToken = refreshTokenService.findRefresh(userId).getValue();
+
+            jwtProvider.isTokenValid(refreshToken);
+            log.info("리프레시 토큰 유효함");
+
             setAuthentication(refreshToken);
         }
         filterChain.doFilter(request, response);
