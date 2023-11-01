@@ -48,8 +48,7 @@ public class RawVoiceService {
     // 목소리 추가
     // 파일명 : user_id + "_" + 0000.mp3 , ex) 000001_0000.mp3
    public void insertRawVoice (RawVoiceInsertDto rawVoiceInsertDto) {
-        String name = String.valueOf(Auth.getInfo().getUserId()) + "_" + rawVoiceInsertDto.getName();
-        String voiceUrl = bucketService.insertFile(new InsertDto(rawVoiceInsertDto.getVoice(),name));
+        String voiceUrl = bucketService.insertFile(new InsertDto(rawVoiceInsertDto.getFile(),"raw_voice"));
         User user = userRepository.findById(Auth.getInfo().getUserId())
             .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
         RawVoice rawVoice = rawVoiceMapper.voiceInsertToRawVoice(user,voiceUrl);
