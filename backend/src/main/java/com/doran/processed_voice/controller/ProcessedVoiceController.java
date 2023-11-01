@@ -25,6 +25,7 @@ public class ProcessedVoiceController {
     //private final ContentService contentService; // 가공된 목소리 저장을 위해 필요
     //private final UserService userService;
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("")
     public ResponseEntity<?> getProcessedVoiceList() {
         log.info("가공된 목소리 조회");
@@ -32,6 +33,7 @@ public class ProcessedVoiceController {
             processedVoiceService.getProcessedVoiceList());
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/{pv_id}")
     public ResponseEntity<?> getProcessedVoice(@PathVariable(value = "pv_id") int pvId) {
         log.info("가공된 목소리 검색");
