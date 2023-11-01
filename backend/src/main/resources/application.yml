@@ -9,12 +9,18 @@ spring:
   profiles:
     active: local
   datasource:
-    url: jdbc:mysql://k9b108.p.ssafy.io:3306/doran?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Seoul
+    #    url: jdbc:mysql://k9b108.p.ssafy.io:3306/doran?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Seoul
+    #    username: ssafy
+    #    password: doran_b108
+    url: jdbc:mysql://localhost:3306/doran?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Seoul
     username: ssafy
-    password: doran_b108
-#          url: jdbc:mysql://localhost:3306/doran?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Seoul
-#          username: ssafy
-#          password: ssafy
+    password: ssafy
+
+  rabbitmq:
+    host: k9b108.p.ssafy.io
+    port: 15672
+    username: admin
+    password: password
 
 
   jpa:
@@ -58,5 +64,10 @@ oauth:
     redirect-uri: https://dorandoran.site/api/oauth/google
     resource-uri: https://www.googleapis.com/oauth2/v2/userinfo
     client-secret: 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
+
+rabbitmq:
+  queue:
+    model: model.req
+    voice : voice.req
 
 
