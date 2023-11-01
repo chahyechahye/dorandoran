@@ -10,6 +10,7 @@ import Lottie from "lottie-react";
 import letterEffect from "@/assets/img/gif/letter.json";
 import letterImage from "@/assets/img/letter/letterImage.png";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Background = styled.div`
   position: fixed;
@@ -356,6 +357,12 @@ const ChildrenMainPage = () => {
   const [isEnvelope, setIsEnvelope] = useState(false);
   const [readLetter, setReadLetter] = useState(false);
 
+  const navigate = useNavigate();
+
+  const goFairytale = () => {
+    navigate("/children/fairytale");
+  };
+
   const openLetter = () => {
     setIsLetter(true);
     setIsEnvelope(true);
@@ -401,7 +408,7 @@ const ChildrenMainPage = () => {
         <CastleContainer>
           <Castle src={castle} />
           <PostOffice src={postOffice} onClick={openLetter} />
-          <Books src={books} />
+          <Books src={books} onClick={goFairytale} />
           <Camera src={camera} />
         </CastleContainer>
         <Character src={character} />

@@ -2,6 +2,7 @@ import styled from "styled-components";
 import background from "@/assets/img/background/background.jpg";
 import logoImageSrc from "@/assets/img/logo/logo.png";
 import ClickButton from "@/components/clickButton";
+import { useNavigate } from "react-router-dom";
 
 const Background = styled.div`
   position: fixed;
@@ -44,6 +45,12 @@ const InviteCode = styled.input`
 `;
 
 const ChildrenLoginPage = () => {
+  const navigate = useNavigate();
+
+  const goMain = () => {
+    navigate("/children/profile");
+  };
+
   return (
     <Background>
       <ContentContainer>
@@ -56,6 +63,7 @@ const ChildrenLoginPage = () => {
           fontColor="white"
           fontSize="3vh"
           text="모험을 떠나요"
+          onClick={goMain}
         ></ClickButton>
       </ContentContainer>
     </Background>
