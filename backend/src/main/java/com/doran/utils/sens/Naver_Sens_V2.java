@@ -1,10 +1,5 @@
 package com.doran.utils.sens;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
@@ -15,13 +10,19 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 public class Naver_Sens_V2 {
     @SuppressWarnings("unchecked")
-    public void     send_msg(String tel, String rand) {
+    public void send_msg(String tel, String rand) {
         // 호스트 URL
         String hostNameUrl = "https://sens.apigw.ntruss.com";
         // 요청 URL
-        String requestUrl= "/sms/v2/services/";
+        String requestUrl = "/sms/v2/services/";
         // 요청 URL Type
         String requestUrlType = "/messages";
         // 개인 인증키
@@ -40,21 +41,21 @@ public class Naver_Sens_V2 {
         // JSON 을 활용한 body data 생성
         JSONObject bodyJson = new JSONObject();
         JSONObject toJson = new JSONObject();
-        JSONArray  toArr = new JSONArray();
+        JSONArray toArr = new JSONArray();
 
         // 난수와 함께 전송
-        toJson.put("content","Going 본인인증 ["+rand+"]");
-        toJson.put("to",tel);
+        toJson.put("content", "도란도란 초대코드 : [" + rand + "]");
+        toJson.put("to", tel);
         toArr.add(toJson);
 
         // 메시지 Type (sms | lms)
-        bodyJson.put("type","sms");
-        bodyJson.put("contentType","COMM");
-        bodyJson.put("countryCode","82");
+        bodyJson.put("type", "sms");
+        bodyJson.put("contentType", "COMM");
+        bodyJson.put("countryCode", "82");
         bodyJson.put("content", "test");
 
         // 발신번호 * 사전에 인증/등록된 번호만 사용할 수 있습니다.
-        bodyJson.put("from","01091235632");
+        bodyJson.put("from", "01091235632");
         bodyJson.put("messages", toArr);
 
         String body = bodyJson.toJSONString();
@@ -71,7 +72,8 @@ public class Naver_Sens_V2 {
             con.setRequestProperty("content-type", "application/json");
             con.setRequestProperty("x-ncp-apigw-timestamp", timestamp);
             con.setRequestProperty("x-ncp-iam-access-key", accessKey);
-            con.setRequestProperty("x-ncp-apigw-signature-v2", makeSignature(requestUrl, timestamp, method, accessKey, secretKey));
+            con.setRequestProperty("x-ncp-apigw-signature-v2",
+                makeSignature(requestUrl, timestamp, method, accessKey, secretKey));
             con.setRequestMethod(method);
             con.setDoOutput(true);
             DataOutputStream wr = new DataOutputStream(con.getOutputStream());
@@ -82,8 +84,8 @@ public class Naver_Sens_V2 {
 
             int responseCode = con.getResponseCode();
             BufferedReader br;
-            System.out.println("responseCode" +" " + responseCode);
-            if(responseCode==202) { // 정상 호출
+            System.out.println("responseCode" + " " + responseCode);
+            if (responseCode == 202) { // 정상 호출
                 br = new BufferedReader(new InputStreamReader(con.getInputStream()));
             } else {  // 에러 발생
                 br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
@@ -104,25 +106,25 @@ public class Naver_Sens_V2 {
     }
 
     public static String makeSignature(
-            String url,
-            String timestamp,
-            String method,
-            String accessKey,
-            String secretKey
+        String url,
+        String timestamp,
+        String method,
+        String accessKey,
+        String secretKey
     ) throws NoSuchAlgorithmException, InvalidKeyException {
 
         String space = " ";
         String newLine = "\n";
 
         String message = new StringBuilder()
-                .append(method)
-                .append(space)
-                .append(url)
-                .append(newLine)
-                .append(timestamp)
-                .append(newLine)
-                .append(accessKey)
-                .toString();
+            .append(method)
+            .append(space)
+            .append(url)
+            .append(newLine)
+            .append(timestamp)
+            .append(newLine)
+            .append(accessKey)
+            .toString();
 
         SecretKeySpec signingKey;
         String encodeBase64String;
@@ -135,7 +137,6 @@ public class Naver_Sens_V2 {
         } catch (UnsupportedEncodingException e) {
             encodeBase64String = e.toString();
         }
-
 
         return encodeBase64String;
     }

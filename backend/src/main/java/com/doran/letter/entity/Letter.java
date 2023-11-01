@@ -46,14 +46,6 @@ public class Letter extends BaseTimeEntity {
     @Column(name="content_url")
     private String contentUrl;
 
-    @CreatedDate
-    @Column(name="created_date")
-    private LocalDateTime createdDate;
-
-    @LastModifiedDate
-    @Column(name="read_date")
-    private LocalDateTime readDate;
-
     @Column(name="sender_id")
     private int senderId;
 

@@ -11,7 +11,7 @@ import static com.doran.profile.entity.QProfile.*;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class ParentRepositoryImpl implements ParentRepositoryCustom {
+public class ParentRepositoryCustomImpl implements ParentRepositoryCustom {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override

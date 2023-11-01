@@ -13,6 +13,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.doran.jwt.JwtAuthenticationFilter;
 import com.doran.jwt.JwtProvider;
+import com.doran.redis.refresh.service.RefreshTokenService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class SecurityConfig {
     private final JwtProvider jwtProvider;
+    private final RefreshTokenService refreshTokenService;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -36,10 +38,11 @@ public class SecurityConfig {
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .authorizeHttpRequests()
-            .requestMatchers("api/test/**", "api/oauth/**", "api/user").permitAll()
+            .requestMatchers("api/test/**", "api/oauth/**", "api/user/**").permitAll()
             .requestMatchers("api/**").permitAll()
             .and()
-            .addFilterBefore(new JwtAuthenticationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class);
+            .addFilterBefore(new JwtAuthenticationFilter(jwtProvider, refreshTokenService),
+                UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
