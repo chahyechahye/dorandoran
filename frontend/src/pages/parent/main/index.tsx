@@ -6,6 +6,7 @@ import ProfileCircle from "@/components/profileCircle";
 import ParentCard from "@/components/parentCard";
 import Album from "@/components/album";
 import LikeBookList from "@/components/likeBookList";
+import { useNavigate } from "react-router-dom";
 
 import background from "@/assets/img/backgroundMain.jpg";
 
@@ -62,6 +63,7 @@ const Overlay = styled.div`
 `;
 
 const ParentMainPage = () => {
+  const navigate = useNavigate();
   const [isOpenAlbum, setIsOpenAlbum] = useState(false);
   const [isOpenLikeBook, setIsOpenLikeBook] = useState(false);
 
@@ -81,16 +83,29 @@ const ParentMainPage = () => {
     setIsOpenLikeBook(false);
   };
 
+  const goProfile = () => {
+    navigate("/parent/profile");
+  };
+
+  const goRecord = () => {
+    navigate("/parent/record");
+  };
+
   return (
     <>
       <Container>
         <Header>
-          <ProfileCircle />
+          <ProfileCircle onClick={goProfile} />
           <LikeBook onClick={handleOpenLikeBook} />
         </Header>
         <Image src={Logo} alt="Background" />
         <Content>
-          <ParentCard img={tape} backgroundColor="#78BFFC" text="목소리 녹음" />
+          <ParentCard
+            img={tape}
+            backgroundColor="#78BFFC"
+            text="목소리 녹음"
+            onClick={goRecord}
+          />
           <ParentCard
             img={photo}
             backgroundColor="#FC7292"
