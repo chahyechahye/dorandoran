@@ -7,9 +7,8 @@ import com.doran.raw_voice.dto.res.RawVoiceResDto;
 import com.doran.raw_voice.entity.RawVoice;
 import com.doran.raw_voice.repository.RawVoiceRepository;
 import com.doran.user.entity.User;
-import com.doran.user.repository.UserRepository;
+import com.doran.user.service.UserService;
 import com.doran.utils.auth.Auth;
-import com.doran.utils.bucket.dto.InsertDto;
 import com.doran.utils.bucket.mapper.BucketMapper;
 import com.doran.utils.bucket.service.BucketService;
 import com.doran.utils.exception.dto.CustomException;
@@ -25,11 +24,11 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class RawVoiceService {
-    private final BucketMapper bucketMapper; // Google cloud domain url , UUID
+    private final BucketMapper bucketMapper;
     private final BucketService bucketService;
     private final RawVoiceRepository rawVoiceRepository;
     private final RawVoiceMapper rawVoiceMapper;
-    private final UserRepository userRepository;
+    private final UserService userService;
 
     // 목소리 검색
     public RawVoice findRawVoiceById(int rvId){
@@ -45,12 +44,10 @@ public class RawVoiceService {
          return new RawVoiceListDto(rawVoiceResDtoList.size(), rawVoiceResDtoList);
     }
 
-    // 목소리 추가
-    // 파일명 : user_id + "_" + 0000.mp3 , ex) 000001_0000.mp3
+    // 목소리 등록
    public void insertRawVoice (RawVoiceInsertDto rawVoiceInsertDto) {
-        String voiceUrl = bucketService.insertFile(new InsertDto(rawVoiceInsertDto.getFile(),"raw_voice"));
-        User user = userRepository.findById(Auth.getInfo().getUserId())
-            .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+        String voiceUrl = bucketService.insertFile(bucketMapper.toInsertDto(rawVoiceInsertDto.getFile(),"raw_voice"));
+        User user = userService.findUser(Auth.getInfo().getUserId());
         RawVoice rawVoice = rawVoiceMapper.voiceInsertToRawVoice(user,voiceUrl);
         rawVoiceRepository.save(rawVoice);
    }
