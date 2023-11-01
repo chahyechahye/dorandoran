@@ -1,13 +1,33 @@
 import React, { useEffect, useState } from "react";
 import gsap from "gsap";
 import styled, { keyframes, css } from "styled-components";
+import FariytaleEnter from "@/components/fairytaleEnter";
 
 import RT from "@/assets/img/RT.png";
 import AX from "@/assets/img/Ax.png";
 import Pig from "@/assets/img/Pig.png";
 import Frog from "@/assets/img/Frog.png";
 
-import { background } from "@/assets/img/backgroundRecord.jpg";
+import movables from "@/assets/img/movables.png";
+import character from "@/assets/img/fox.png";
+
+// import { background } from "@/assets/img/backgroundRecord.jpg";
+
+const Character = styled.img`
+  width: 15%;
+  position: absolute;
+  z-index: 6;
+  top: 71%;
+  left: 82%;
+`;
+
+const Movables = styled.img`
+  width: 100%;
+  position: fixed;
+  z-index: 5;
+  bottom: 0;
+  left: 0;
+`;
 
 const Container = styled.div`
   position: fixed;
@@ -224,6 +244,11 @@ const CardTitle = styled.h2`
 const FairyTalePage = () => {
   const [activeCardClass, setActiveCardClass] =
     useState<keyof typeof cardColors>("card00");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
 
   const cardColors = {
     card00: "#5a88d9",
@@ -437,51 +462,58 @@ const FairyTalePage = () => {
   }, []);
 
   return (
-    <Container style={{ background: cardColors[activeCardClass] || "#fff" }}>
-      <Wrapper>
-        <Title>어느 동화책을 읽고싶니?</Title>
-        <Cards className="cards">
-          <CardButton className="btn prev">
-            <span>Prev</span>
-          </CardButton>
-          <CardButton className="btn next">
-            <span>Next</span>
-          </CardButton>
-          <div className="card card00">
-            <CardContent>
-              <CardCircle></CardCircle>
-              <Image src={RT} alt="RT" /> {/* RT 이미지 경로로 변경 */}
-              <CardTitle>토끼와 거북이</CardTitle>
-              <p className="card-subtitle">Whatever, Ill be at Moes.</p>
-            </CardContent>
-          </div>
-          <div className="card card01">
-            <CardContent>
-              <CardCircle></CardCircle>
-              <Image src={AX} alt="RT" /> {/* RT 이미지 경로로 변경 */}
-              <CardTitle>금도끼 은도끼</CardTitle>
-              <p className="card-subtitle">Whatever, Ill be at Moes.</p>
-            </CardContent>
-          </div>
-          <div className="card card02">
-            <CardContent>
-              <CardCircle></CardCircle>
-              <Image src={Frog} alt="RT" /> {/* RT 이미지 경로로 변경 */}
-              <CardTitle>개구리 왕자</CardTitle>
-              <p className="card-subtitle">Whatever, Ill be at Moes.</p>
-            </CardContent>
-          </div>
-          <div className="card card03">
-            <CardContent>
-              <CardCircle></CardCircle>
-              <Image src={Pig} alt="RT" /> {/* RT 이미지 경로로 변경 */}
-              <CardTitle>아기돼지 삼형제</CardTitle>
-              <p className="card-subtitle">Whatever, Ill be at Moes.</p>
-            </CardContent>
-          </div>
-        </Cards>
-      </Wrapper>
-    </Container>
+    <>
+      <Container style={{ background: cardColors[activeCardClass] || "#fff" }}>
+        <Wrapper>
+          <Title>어느 동화책을 읽고싶니?</Title>
+          <Cards className="cards">
+            <CardButton className="btn prev">
+              <span>Prev</span>
+            </CardButton>
+            <CardButton className="btn next">
+              <span>Next</span>
+            </CardButton>
+            <div className="card card00">
+              <CardContent>
+                <CardCircle></CardCircle>
+                <Image src={RT} alt="RT" onClick={openModal} />
+                {/* RT 이미지 경로로 변경 */}
+                <CardTitle>토끼와 거북이</CardTitle>
+                <p className="card-subtitle">Whatever, Ill be at Moes.</p>
+              </CardContent>
+            </div>
+            <div className="card card01">
+              <CardContent>
+                <CardCircle></CardCircle>
+                <Image src={AX} alt="RT" /> {/* RT 이미지 경로로 변경 */}
+                <CardTitle>금도끼 은도끼</CardTitle>
+                <p className="card-subtitle">Whatever, Ill be at Moes.</p>
+              </CardContent>
+            </div>
+            <div className="card card02">
+              <CardContent>
+                <CardCircle></CardCircle>
+                <Image src={Frog} alt="RT" /> {/* RT 이미지 경로로 변경 */}
+                <CardTitle>개구리 왕자</CardTitle>
+                <p className="card-subtitle">Whatever, Ill be at Moes.</p>
+              </CardContent>
+            </div>
+            <div className="card card03">
+              <CardContent>
+                <CardCircle></CardCircle>
+                <Image src={Pig} alt="RT" /> {/* RT 이미지 경로로 변경 */}
+                <CardTitle>아기돼지 삼형제</CardTitle>
+                <p className="card-subtitle">Whatever, Ill be at Moes.</p>
+              </CardContent>
+            </div>
+          </Cards>
+        </Wrapper>
+
+        <Character src={character} />
+        <Movables src={movables} />
+      </Container>
+      {isModalOpen && <FariytaleEnter />}
+    </>
   );
 };
 

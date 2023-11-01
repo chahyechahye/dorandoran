@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import { Route, Routes } from "react-router-dom";
+import LoadingPage from "@/pages/common/loading";
 
 type DashboardLayout = any;
 
@@ -66,6 +67,11 @@ const routes: RouteType[] = [
     path: "/test",
     element: React.lazy(() => import("@/pages/parent/test")),
   },
+  {
+    path: "/oauth/redirect",
+    element: React.lazy(() => import("@/pages/common/redirect")),
+  },
+
   // {
   //   path: "/",
   //   element: () => <Navigate replace to="/main" />,
@@ -78,7 +84,7 @@ const routes: RouteType[] = [
 
 const RenderRoutes = () => {
   return (
-    <React.Suspense fallback={<div>loading...</div>}>
+    <React.Suspense fallback={<LoadingPage />}>
       <Routes>
         {routes.map((route, i) => {
           const RouteElement = route.element;

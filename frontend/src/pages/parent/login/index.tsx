@@ -31,10 +31,21 @@ const LoginImage = styled.img`
 `;
 
 const ParentLoginPage = () => {
+  const onSocialButtonClick = () => {
+    const OAUTH2_REDIERECT_URI = `${process.env.REACT_APP_BASE_URL}/oauth/redirect`;
+    const API_KEY = "f9a75e5f47148dc0aa986669c29c0d03";
+    const AUTH_URL = `${process.env.REACT_APP_BASE_URL}?response_type=code&client_id=${API_KEY}&redirect_uri=${OAUTH2_REDIERECT_URI}&response_type=code`;
+    window.location.href = AUTH_URL;
+  };
+
   return (
     <Container>
       <Image src={Logo} alt="Background" />
-      <LoginImage src={kakaoLogo} alt="Background" />
+      <LoginImage
+        src={kakaoLogo}
+        alt="Background"
+        onClick={onSocialButtonClick}
+      />
       <LoginImage src={googleLogo} alt="Background" />
     </Container>
   );

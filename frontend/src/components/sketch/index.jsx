@@ -187,12 +187,12 @@ const DrawingApp = () => {
 
   const toggleEraser = () => {
     // If we're currently not using the eraser
-    if (currentColorIndex !== 9) {
+    if (currentColorIndex !== 8) {
       // Save the current color and thickness
       setPreviousColorIndex(currentColorIndex);
 
       // Set to eraser mode
-      setCurrentColorIndex(9);
+      setCurrentColorIndex(8);
       setPencilThickness(pencilPathDefaults.maxThickness);
     } else {
       // If we're currently using the eraser, revert to the previous color and thickness
