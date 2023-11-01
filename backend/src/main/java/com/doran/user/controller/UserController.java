@@ -8,9 +8,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.doran.jwt.JwtProvider;
 import com.doran.parent.type.Provider;
+import com.doran.redis.invite.service.InviteService;
+import com.doran.user.dto.req.InviteReqDto;
 import com.doran.user.dto.req.UserJoinDto;
 import com.doran.user.dto.req.UserTokenBaseDto;
 import com.doran.user.service.OauthService;
+import com.doran.user.service.UserService;
+import com.doran.utils.auth.Auth;
+import com.doran.utils.common.UserInfo;
 import com.doran.utils.response.CommonResponseEntity;
 import com.doran.utils.response.SuccessCode;
 
@@ -25,6 +30,8 @@ import lombok.extern.slf4j.Slf4j;
 public class UserController {
     private final OauthService oauthService;
     private final JwtProvider jwtProvider;
+    private final UserService userService;
+    private final InviteService inviteService;
 
     //자체 회원가입 - 로컬 테스트용
     //부모 아이 상관없는 그냥 깡 유저 - admin 생성용
@@ -42,5 +49,14 @@ public class UserController {
 
         return CommonResponseEntity
             .getResponseEntity(SuccessCode.OK);
+    }
+
+    @PostMapping("/message")
+    public ResponseEntity invite(@RequestBody InviteReqDto dto) {
+        UserInfo info = Auth.getInfo();
+        String code = inviteService.findCode(info.getUserId()).getCode();
+        userService.sendMessage(code, dto.getTel());
+
+        return CommonResponseEntity.getResponseEntity(SuccessCode.OK, "초대코드 전송 완료");
     }
 }
