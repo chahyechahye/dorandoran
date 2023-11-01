@@ -17,5 +17,6 @@ public interface RawVoiceMapper {
     RawVoiceResDto rawVoiceToResDto(RawVoice rawVoice);
     List<RawVoiceResDto> toDtoList(List<RawVoice> rawVoiceList);
 
+    @Mapping(target="id", ignore = true)
     RawVoice voiceInsertToRawVoice(User user,String voiceUrl);
 }
