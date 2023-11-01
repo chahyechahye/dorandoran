@@ -7,4 +7,5 @@ import com.doran.letter.entity.Letter;
 
 public interface LetterRepositoryCustom {
     Optional<Letter> findLetterByUserId(int userId);
+    List<Letter> findAllUnreadLetter(int userId);
 }

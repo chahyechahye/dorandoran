@@ -29,4 +29,13 @@ public class LetterRepositoryCustomImpl implements LetterRepositoryCustom{
                 .limit(1)
             .fetchOne());
     }
+
+    @Override
+    public List<Letter> findAllUnreadLetter(int userId){
+        return jpaQueryFactory
+            .selectFrom(letter)
+            .where(letter.receiverId.eq(userId),
+                letter.createdDate.eq(letter.modifiedDate))
+            .fetch();
+    }
 }

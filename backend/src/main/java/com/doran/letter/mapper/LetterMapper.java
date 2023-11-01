@@ -18,8 +18,7 @@ public interface LetterMapper {
 
 
 
-    LetterResDto parentLetterToResDto(Letter letter);
-    LetterResDto childLetterToResDto(Letter letter);
+    LetterResDto letterToResDto(Letter letter, int unreadCount);
 
 
 }
