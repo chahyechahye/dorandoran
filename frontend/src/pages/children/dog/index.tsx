@@ -1,27 +1,32 @@
 import { useState } from "react";
 import styled, { keyframes, css } from "styled-components";
+import redHeart from "@/assets/img/dogModal/redheart.png";
+import greyHeart from "@/assets/img/dogModal/greyheart.png";
+import arrowLeft from "@/assets/img/fairytale/arrowLeft.png";
+import arrowRight from "@/assets/img/fairytale/arrowRight.png";
+import ReplayModal from "@/components/replayModal";
 
 const orange = "#F7AA2B";
 const brown = "#CB7A1D";
 const nonWhite = "#FEFEFE";
 const red = "#F5534F";
 const grey = "#e8e7ec";
+const darkblue = "#757599";
 const blue = "#5777C9";
 const dark = "#451d1c";
 
 const Background = styled.div<{ isHovered: boolean; isDisliked: boolean }>`
   position: fixed;
-  top: 20%;
-  left: 20%;
-  width: 60%;
-  height: 60%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background-size: cover;
   background-color: ${(props) =>
-    props.isDisliked ? grey : props.isHovered ? red : blue};
+    props.isDisliked ? darkblue : props.isHovered ? red : blue};
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 2.5vh;
   transition: background-color 0.3s ease;
 `;
 
@@ -66,6 +71,7 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: center;
   overflow-y: hidden;
+  margin-top: 15vh;
   width: 100%;
   height: 100%;
 `;
@@ -432,10 +438,10 @@ const Dog = styled.div<{ isHovered: boolean; isDisliked: boolean }>`
 `;
 
 const Button = styled.button`
-  width: 6.8vh;
-  height: 6.8vh;
+  width: 25vh;
+  height: 25vh;
   position: absolute;
-  top: 50%;
+  top: 45%;
   margin-top: -3.4vh;
   padding-top: 1vh;
   outline: none;
@@ -476,12 +482,12 @@ const ButtonDislike = styled(Button)`
     content: "";
     position: absolute;
     transform: translate(-50%, -50%) rotate(-45deg);
-    top: 50%;
-    left: 50%;
-    width: 0.6vh;
-    height: 3.8vh;
+    top: 45%;
+    left: 49%;
+    width: 1vh;
+    height: 15vh;
     background: #b5b5b5;
-    border: 0.2vh solid ${nonWhite};
+    border: 0.5vh solid ${nonWhite};
   }
 
   .heart::before,
@@ -490,86 +496,73 @@ const ButtonDislike = styled(Button)`
   }
 `;
 
-const Heart = styled.div`
+const Heart = styled.img`
   position: relative;
   display: inline-block;
-  width: 3.6vh;
-  height: 3vh;
-  background-color: ${red};
-  ${transition}
-
-  &::before,
-  &::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    border-radius: 2vh 2vh 0 0;
-    width: 1.8vh;
-    height: 2.8vh;
-    background-color: ${red};
-    transform: rotate(45deg);
-    transform-origin: 100% 100%;
-  }
-
-  &::after {
-    left: 1.8vh;
-    transform: rotate(-45deg);
-    transform-origin: 0 100%;
-  }
+  top: 15%;
+  width: 15vh;
+  height: 15vh;
 `;
 
-const DisHeart = styled.div`
+const DisHeart = styled.img`
   position: relative;
   display: inline-block;
-  width: 3.6vh;
-  height: 3vh;
-  ${transition}
+  top: 15%;
+  width: 15vh;
+  height: 15vh;
+`;
 
-  &::before,
-  &::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    border-radius: 2vh 2vh 0 0;
-    width: 1.8vh;
-    height: 2.8vh;
-    background-color: ${red};
-    transform: rotate(45deg);
-    transform-origin: 100% 100%;
-  }
+const QuestionBook = styled.div`
+  font-size: 9vh;
+  position: absolute;
+  top: 12%;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+`;
 
-  &::after {
-    left: 1.8vh;
-    transform: rotate(-45deg);
-    transform-origin: 0 100%;
-  }
+const QuestionText = styled.div`
+  font-size: 6vh;
+  margin-top: 11vh;
+  font-family: katuri;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 `;
 
 const DogLike = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [isDisliked, setIsDisliked] = useState(false);
+  const [isReplayModal, setIsReplayModal] = useState(false);
 
   const handleButtonLike = () => {
     setIsHovered(!isHovered);
     setIsDisliked(false);
+
+    setTimeout(() => {
+      setIsReplayModal(true);
+    }, 1250);
   };
 
   const handleButtonDislike = () => {
     setIsDisliked(!isDisliked);
     setIsHovered(false);
+
+    setTimeout(() => {
+      setIsReplayModal(true);
+    }, 1250);
   };
 
   return (
     <Background isHovered={isHovered} isDisliked={isDisliked}>
+      <QuestionBook>동화책 재밌었나요?</QuestionBook>
       <ContentContainer>
         <Wrapper>
           <ButtonLike className="btn-like" onClick={handleButtonLike}>
-            <Heart className="heart" />
+            <Heart className="heart" src={redHeart} />
+            <QuestionText>재밌어요!</QuestionText>
           </ButtonLike>
           <ButtonDislike className="btn-dislike" onClick={handleButtonDislike}>
-            <DisHeart className="heart" />
+            <DisHeart className="heart" src={greyHeart} />
+            <QuestionText>별로예요..</QuestionText>
           </ButtonDislike>
           <CardContainer className="card-container">
             <Dog isHovered={isHovered} isDisliked={isDisliked} className="dog">
@@ -592,6 +585,7 @@ const DogLike = () => {
             </Dog>
           </CardContainer>
         </Wrapper>
+        {isReplayModal && <ReplayModal />}
       </ContentContainer>
     </Background>
   );
