@@ -53,15 +53,9 @@ public class ProcessedVoiceService {
     }
 
     public void insertProcessedVoice(ProcessedVoiceInsertDto processedVoiceInsertDto){
-        // 가공된 목소리 저장 이름은 userId_(m/f)_contentId.mp3 로 됨 - 유저아이디_성별_컨텐츠아이디.mp3
-
-        String name = "" + Auth.getInfo().getUserId() + "_" + processedVoiceInsertDto.getVoiceType() + "_" + processedVoiceInsertDto.getContentId()+ ".mp3";
-        // log.info("contentId: "+ processedVoiceInsertDto.getContentId() + " " + processedVoiceInsertDto.getVoiceType());
-
         Content content = contentService.getContentById(processedVoiceInsertDto.getContentId());
-        User user = userService.findUser(Auth.getInfo().getUserId());
-
-        InsertDto insertDto = new InsertDto(processedVoiceInsertDto.getVoice(), name);
+        User user = userService.findUser(processedVoiceInsertDto.getUserId());
+        InsertDto insertDto = new InsertDto(processedVoiceInsertDto.getVoice(), "processed_voice");
         String voiceUrl = bucketService.insertFile(insertDto);
         ProcessedVoice processedVoice = processedVoiceMapper.toProcessedVoice(content,user,voiceUrl);
         processedVoiceRepository.save(processedVoice);
