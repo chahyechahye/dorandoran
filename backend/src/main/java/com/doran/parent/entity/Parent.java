@@ -1,5 +1,6 @@
 package com.doran.parent.entity;
 
+import com.doran.child.entity.Child;
 import com.doran.parent.type.Provider;
 import com.doran.user.entity.User;
 

@@ -30,6 +30,8 @@ public class PageService {
 
     //파일 이름 어떻게 저장 될지 협의 필요함. idx와 bookId를 조합해서 이미지의 이름을 만들면 좋을거같음. 해당 메소드는 이를 위해 만들어놓은 메소드
     //일단 요로코롬 만들고 DB에는 uuid가 저장되게끔 구현함
+    //파일 이름 어떻게 저장 될지 협의 필요함. idx와 bookId를 조합해서 이미지의 이름을 만들면 좋을거같음. 해당 메소드는 이를 위해 만들어놓은 메소드
+    //일단 요로코롬 만들고 DB에는 uuid가 저장되게끔 구현함
     public InsertDto convertInsertDto(PageInsertDto pageInsertDto) {
         return new InsertDto(pageInsertDto.getMultipartFile(), String.valueOf(pageInsertDto.getIdx()));
     }
@@ -43,6 +45,13 @@ public class PageService {
         pageRepository.save(page);
     }
 
+    public Page insertPage(int bookId, String imgUrl, int idx) {
+        Book book = bookService.findBookById(bookId);
+
+        Page page = pageMapper.pageInsertToPage(book, imgUrl, idx);
+        return pageRepository.save(page);
+    }
+
     public PageListDto findPageByBookId(int bookId) {
         bookService.findBookById(bookId);
 
@@ -53,6 +62,6 @@ public class PageService {
     public Page findPageIdByIdxAndBookId(int bookId, int idx) {
         log.info("page 조회 서비스 호출");
         return pageRepository.findPageByBookIdAndIdx(bookId, idx)
-                             .orElseThrow(() -> new CustomException(ErrorCode.BOOK_NOT_FOUND));
+            .orElseThrow(() -> new CustomException(ErrorCode.BOOK_NOT_FOUND));
     }
 }

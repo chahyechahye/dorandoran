@@ -38,6 +38,8 @@ public enum ErrorCode {
 
     // ProcessedVoice (변형된 목소리) 관련 예외
 
+    // 편지 관련 예외
+    LETTER_NOT_FOUND(HttpStatus.NOT_FOUND, "읽지 않은 편지가 없습니다."),
     //추가할 것들은 여기에 작성해주세요.
 
     //레디스 관련
@@ -55,7 +57,17 @@ public enum ErrorCode {
 
     //동물
     ANIMAL_NOT_FOUND(HttpStatus.NOT_FOUND, "동물이 존재하지 않습니다."),
-    ;
+
+    //프로필
+    PROFILE_NOT_FOUND(HttpStatus.NOT_FOUND, "프로필이 존재하지 않습니다."),
+
+    //앨범
+    ALBUM_NOT_FOUND(HttpStatus.NOT_FOUND, "앨범이 존재하지 않습니다."),
+    
+    //아이
+    CHILD_NOT_FOUND(HttpStatus.NOT_FOUND, "아이가 존재하지 않습니다.");
+    
+    
 
     private final HttpStatus httpStatus;
     private final String message;

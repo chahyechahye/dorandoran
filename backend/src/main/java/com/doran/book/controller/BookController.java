@@ -3,12 +3,14 @@ package com.doran.book.controller;
 import java.io.IOException;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.doran.book.dto.req.BookInsertDto;
+import com.doran.book.entity.Book;
 import com.doran.book.service.BookService;
 import com.doran.utils.response.CommonResponseEntity;
 import com.doran.utils.response.SuccessCode;
@@ -26,11 +28,11 @@ public class BookController {
 
     // 동화 등록
     @PostMapping("")
-    //@PreAuthorize("has") //권한 체킹
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     ResponseEntity<?> insertBook(BookInsertDto bookInsertDto) throws IOException {
         log.info("insertBook 컨트롤러 호출");
-        bookService.insertBook(bookInsertDto);
-        return CommonResponseEntity.getResponseEntity(SuccessCode.SUCCESS_CODE);
+        Book book = bookService.insertBook(bookInsertDto);
+        return CommonResponseEntity.getResponseEntity(SuccessCode.SUCCESS_CODE, book.getId());
     }
 
     //동화 전체 조회
