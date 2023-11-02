@@ -70,4 +70,11 @@ rabbitmq:
     model: model.req
     voice: voice.req
 
+auth:
+  ignore-url: api/oauth/**, api/user/**
+  #  단일 권한이 필요한 경우
+  parent:
+  child:
+  ADMIN:
+#
 

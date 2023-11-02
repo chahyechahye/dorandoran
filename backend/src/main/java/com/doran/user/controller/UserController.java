@@ -42,10 +42,8 @@ public class UserController {
             userJoinDto.getUserRole());
 
         String accessToken = jwtProvider.createAccessToken(findDto);
-        String refreshToken = jwtProvider.createRefreshToken(findDto);
 
         response.setHeader("AccessToken", accessToken);
-        response.setHeader("RefreshToken", refreshToken);
 
         return CommonResponseEntity
             .getResponseEntity(SuccessCode.OK);

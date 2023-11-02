@@ -14,6 +14,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.doran.jwt.JwtAuthenticationFilter;
 import com.doran.jwt.JwtProvider;
 import com.doran.redis.refresh.service.RefreshTokenService;
+import com.doran.utils.exception.auth.CustomAccessDeniedHandler;
+import com.doran.utils.exception.auth.CustomAuthenticationEntryPoint;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +28,8 @@ import lombok.extern.slf4j.Slf4j;
 public class SecurityConfig {
     private final JwtProvider jwtProvider;
     private final RefreshTokenService refreshTokenService;
+    private final CustomAuthenticationEntryPoint authenticationEntryPoint;
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -37,9 +41,14 @@ public class SecurityConfig {
             .csrf().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
+            .exceptionHandling()
+            .accessDeniedHandler(customAccessDeniedHandler)
+            .authenticationEntryPoint(authenticationEntryPoint)
+            .and()
             .authorizeHttpRequests()
-            .requestMatchers("api/test/**", "api/oauth/**", "api/user/**").permitAll()
-            .requestMatchers("api/**").permitAll()
+            .requestMatchers("api/oauth/**", "api/user/**").permitAll()
+            // .requestMatchers("api/test/auth").hasRole("PARENT")
+            .requestMatchers("api/test/auth").hasRole("ADMIN")
             .and()
             .addFilterBefore(new JwtAuthenticationFilter(jwtProvider, refreshTokenService),
                 UsernamePasswordAuthenticationFilter.class);
