@@ -2,6 +2,7 @@ import styled from "styled-components";
 import background from "@/assets/img/background/background.jpg";
 import CharacterPage from "@/pages/common/character";
 import ClickButton from "@/components/clickButton";
+import { useNavigate } from "react-router-dom";
 
 const Background = styled.div`
   position: fixed;
@@ -41,6 +42,12 @@ const ClickButtonContainer = styled.div`
 `;
 
 const ChildrenCharacterPage = () => {
+  const navigate = useNavigate();
+
+  const goMain = () => {
+    navigate("/children/main");
+  };
+
   return (
     <Background>
       <ContentContainer>
@@ -56,6 +63,7 @@ const ChildrenCharacterPage = () => {
               fontColor="white"
               fontSize="4.5vh"
               text="이 친구랑 놀래요!"
+              onClick={goMain}
             ></ClickButton>
           </ClickButtonContainer>
         </CharacterModal>
