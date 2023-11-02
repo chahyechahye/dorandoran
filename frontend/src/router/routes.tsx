@@ -44,8 +44,8 @@ const routes: RouteType[] = [
     element: React.lazy(() => import("@/pages/children/read")),
   },
   {
-    path: "/children/dog",
-    element: React.lazy(() => import("@/pages/children/dog")),
+    path: "/children/like",
+    element: React.lazy(() => import("@/pages/children/like")),
   },
   {
     path: "/parent/login",
