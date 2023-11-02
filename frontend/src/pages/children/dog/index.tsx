@@ -2,8 +2,8 @@ import { useState } from "react";
 import styled, { keyframes, css } from "styled-components";
 import redHeart from "@/assets/img/dogModal/redheart.png";
 import greyHeart from "@/assets/img/dogModal/greyheart.png";
-import arrowLeft from "@/assets/img/fairytale/arrowLeft.png";
-import arrowRight from "@/assets/img/fairytale/arrowRight.png";
+// import arrowLeft from "@/assets/img/fairytale/arrowLeft.png";
+// import arrowRight from "@/assets/img/fairytale/arrowRight.png";
 import ReplayModal from "@/components/replayModal";
 
 const orange = "#F7AA2B";

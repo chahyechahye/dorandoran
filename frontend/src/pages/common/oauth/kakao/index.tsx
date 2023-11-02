@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import LoadingPage from "@/pages/common/loading";
 import axios from "axios";
 
@@ -20,4 +19,4 @@ const KakaoRedirect = () => {
   );
 };
 
-export default RedirectPage;
+export default KakaoRedirect;
