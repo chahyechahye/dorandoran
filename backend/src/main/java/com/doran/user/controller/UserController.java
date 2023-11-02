@@ -1,6 +1,7 @@
 package com.doran.user.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,6 +50,7 @@ public class UserController {
             .getResponseEntity(SuccessCode.OK);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_PARENT')")
     @PostMapping("/message")
     public ResponseEntity invite(@RequestBody InviteReqDto dto) {
         UserInfo info = Auth.getInfo();
