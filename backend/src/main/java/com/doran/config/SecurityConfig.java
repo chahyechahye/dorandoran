@@ -1,5 +1,6 @@
 package com.doran.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -14,7 +15,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.doran.jwt.JwtAuthenticationFilter;
 import com.doran.jwt.JwtProvider;
 import com.doran.redis.refresh.service.RefreshTokenService;
-import com.doran.utils.exception.auth.CustomAccessDeniedHandler;
 import com.doran.utils.exception.auth.CustomAuthenticationEntryPoint;
 
 import lombok.RequiredArgsConstructor;
@@ -29,7 +29,8 @@ public class SecurityConfig {
     private final JwtProvider jwtProvider;
     private final RefreshTokenService refreshTokenService;
     private final CustomAuthenticationEntryPoint authenticationEntryPoint;
-    private final CustomAccessDeniedHandler customAccessDeniedHandler;
+    @Value("${auth.ignore-url}")
+    private String[] ignores;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -41,14 +42,13 @@ public class SecurityConfig {
             .csrf().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
+            .formLogin().disable()
             .exceptionHandling()
-            .accessDeniedHandler(customAccessDeniedHandler)
             .authenticationEntryPoint(authenticationEntryPoint)
             .and()
             .authorizeHttpRequests()
-            .requestMatchers("api/oauth/**", "api/user/**").permitAll()
-            // .requestMatchers("api/test/auth").hasRole("PARENT")
-            .requestMatchers("api/test/auth").hasRole("ADMIN")
+            .requestMatchers(ignores).permitAll()
+            .anyRequest().authenticated()
             .and()
             .addFilterBefore(new JwtAuthenticationFilter(jwtProvider, refreshTokenService),
                 UsernamePasswordAuthenticationFilter.class);
