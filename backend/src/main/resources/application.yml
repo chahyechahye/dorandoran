@@ -55,6 +55,7 @@ spring:
 jwt:
   secret-key: asdfasdfasdfasdfasdfasdasdsadasdasdasdqwvasdvwerfbasdf
 
+
 oauth:
   kakao:
     api-key: f9a75e5f47148dc0aa986669c29c0d03
