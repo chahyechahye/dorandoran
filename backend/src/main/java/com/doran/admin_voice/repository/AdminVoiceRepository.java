@@ -6,6 +6,5 @@ import org.springframework.stereotype.Repository;
 import com.doran.admin_voice.entity.AdminVoice;
 
 @Repository
-
 public interface AdminVoiceRepository extends JpaRepository<AdminVoice, Integer>, AdminVoiceRepositoryCustom{
 }
