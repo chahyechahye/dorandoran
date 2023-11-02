@@ -5,5 +5,5 @@ import java.util.List;
 import com.doran.content.dto.res.ContentResDto;
 
 public interface ContentRepositoryCustom {
-    List<ContentResDto> getContentWithVoice(int userId, int pageId);
+    List<ContentResDto> getContentWithVoice(int userId, Integer pageId);
 }

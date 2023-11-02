@@ -27,7 +27,7 @@ public class ContentService {
         contentRepository.save(content);
     }
 
-    public List<ContentResDto> getContentWithVoice(int userId, int pageId) {
+    public List<ContentResDto> getContentWithVoice(int userId, Integer pageId) {
         return contentRepository.getContentWithVoice(userId, pageId);
     }
 

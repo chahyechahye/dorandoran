@@ -1,15 +1,14 @@
-package com.doran.page.dto.res;
+package com.doran.page.dto.req;
 
-import com.doran.content.dto.res.ContentResDto;
-
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@RequiredArgsConstructor
-public class PageResDto {
+@AllArgsConstructor
+public class PageFindDto {
     private int pageId;
     private int idx;
     private String imgUrl;
