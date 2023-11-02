@@ -6,7 +6,7 @@ import ProfileCircle from "@/components/profileCircle";
 import Modal from "@/components/modal";
 import ClickButton from "@/components/clickButton";
 
-import background from "@/assets/img/backgroundMain.jpg";
+import background from "@/assets/img/background/backgroundMain.jpg";
 import Logo from "@/assets/img/Logo.png";
 import smile from "@/assets/img/smile.png";
 

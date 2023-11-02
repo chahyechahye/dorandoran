@@ -10,18 +10,18 @@ import exitBtn from "@/assets/img/exitBtn.png";
 const Container = styled.div`
   min-height: 100vh;
   color: #fff;
-  perspective: 600px;
+  perspective: 70vh;
   overflow: hidden;
 `;
 
 const Book = styled.div`
   position: absolute;
-  left: 50%;
-  top: 45%;
+  left: 75vh;
+  top: 55vh;
   transform: rotateX(4deg) translateY(-3%) translate(-50%, -50%);
   width: 145vh;
   height: 90vh;
-  max-height: 1200px;
+  max-height: 120vh;
 
   &::before {
     border-top-right-radius: 16px 6px;
@@ -64,8 +64,8 @@ const PageLeft = styled.div`
 
   img {
     max-width: 40%;
-    min-width: 48px;
-    max-height: 200px;
+    min-width: 4.8vh;
+    max-height: 13vh;
     width: auto;
     height: auto;
     background-color: #fff;
@@ -85,8 +85,8 @@ const PageLeft = styled.div`
 const PageRight = styled.div`
   img {
     position: absolute;
-    left: 40%;
-    top: 50%;
+    left: 30vh;
+    top: 36vh;
     transform: translate(-50%, -50%);
     max-width: 70%;
     max-height: 70%;
@@ -129,7 +129,14 @@ const Image = styled.img`
   margin: 0vh 3vh;
 `;
 
-const ExitBtn = styled.img``;
+const ExitBtn = styled.img`
+  width: 15vh;
+`;
+
+const ImageBtn = styled.img`
+  width: 30vh;
+  margin: 0vh 7vh;
+`;
 
 const Album = ({ onClose }: { onClose: () => void }) => {
   const sources = [
@@ -164,7 +171,7 @@ const Album = ({ onClose }: { onClose: () => void }) => {
           onClick={onClose}
         >
           <ExitBtn src={exitBtn}></ExitBtn>
-          <p style={{ fontSize: "90px" }}>나가기</p>
+          <p style={{ fontSize: "7vh" }}>나가기</p>
         </div>
       </Header>
       <Book>
@@ -191,8 +198,8 @@ const Album = ({ onClose }: { onClose: () => void }) => {
         </PageRight>
       </Book>
       <Bottom>
-        <Image src={registBtn} alt="regist" />
-        <Image src={deleteBtn} alt="regist" />
+        <ImageBtn src={registBtn} alt="regist" />
+        <ImageBtn src={deleteBtn} alt="regist" />
       </Bottom>
     </Container>
   );

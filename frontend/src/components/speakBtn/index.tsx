@@ -25,7 +25,7 @@ const scalingAnimation = keyframes`
 `;
 
 const Section = styled.section`
-  height: 350px;
+  height: 25vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -46,8 +46,8 @@ const Voice = styled.div`
 `;
 
 const Circle1 = styled.div`
-  height: 50px;
-  width: 50px;
+  height: 4vh;
+  width: 4vh;
   border-radius: 50%;
   background-color: #d9d9d9;
   position: absolute;
@@ -56,8 +56,8 @@ const Circle1 = styled.div`
 `;
 
 const Circle2 = styled.div`
-  height: 50px;
-  width: 50px;
+  height: 4vh;
+  width: 4vh;
   border-radius: 50%;
   background-color: #d9d9d9;
   position: absolute;

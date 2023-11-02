@@ -5,11 +5,12 @@ const RecordBox = () => {
     <div
       style={{
         position: "relative",
-        fontSize: "4vh",
+        fontSize: "3.5vh",
         background: "#78BFFC",
         color: "#fff",
-        padding: "7vh 10vh",
+        padding: "6vh 10vh",
         borderRadius: "3vh",
+        marginBottom: "2vh",
         width: "100vh",
         maxWidth: "160vh",
       }}
@@ -21,15 +22,15 @@ const RecordBox = () => {
       <div
         style={{
           position: "absolute",
-          right: 30,
+          right: "1vh",
           top: "50%",
           transform: "translate(-50%, -50%)",
         }}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="50"
-          height="70"
+          width="4vh"
+          height="4vh"
           viewBox="0 0 25 32"
           fill="none"
         >
