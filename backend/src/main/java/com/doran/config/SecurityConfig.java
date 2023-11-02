@@ -1,5 +1,6 @@
 package com.doran.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -14,6 +15,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.doran.jwt.JwtAuthenticationFilter;
 import com.doran.jwt.JwtProvider;
 import com.doran.redis.refresh.service.RefreshTokenService;
+import com.doran.utils.exception.auth.CustomAuthenticationEntryPoint;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +28,9 @@ import lombok.extern.slf4j.Slf4j;
 public class SecurityConfig {
     private final JwtProvider jwtProvider;
     private final RefreshTokenService refreshTokenService;
+    private final CustomAuthenticationEntryPoint authenticationEntryPoint;
+    @Value("${auth.ignore-url}")
+    private String[] ignores;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -37,9 +42,13 @@ public class SecurityConfig {
             .csrf().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
+            .formLogin().disable()
+            .exceptionHandling()
+            .authenticationEntryPoint(authenticationEntryPoint)
+            .and()
             .authorizeHttpRequests()
-            .requestMatchers("api/test/**", "api/oauth/**", "api/user/**").permitAll()
-            .requestMatchers("api/**").permitAll()
+            .requestMatchers(ignores).permitAll()
+            .anyRequest().authenticated()
             .and()
             .addFilterBefore(new JwtAuthenticationFilter(jwtProvider, refreshTokenService),
                 UsernamePasswordAuthenticationFilter.class);

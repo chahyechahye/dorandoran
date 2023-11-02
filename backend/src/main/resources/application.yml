@@ -48,6 +48,9 @@ spring:
     multipart:
       max-request-size: 10MB
       max-file-size: 10MB
+  security:
+    user:
+      password: 11
 
 jwt:
   secret-key: asdfasdfasdfasdfasdfasdasdsadasdasdasdqwvasdvwerfbasdf
@@ -72,4 +75,6 @@ rabbitmq:
     model: model.req
     voice: voice.req
 
+auth:
+  ignore-url: api/oauth/**, api/user/**, api/profile/login
 

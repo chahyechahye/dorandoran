@@ -1,8 +1,8 @@
 package com.doran.utils.exception.controller;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import com.doran.utils.exception.dto.CustomException;
+import com.doran.utils.exception.dto.ErrorCode;
 import com.doran.utils.exception.dto.ErrorResponseEntity;
+
+import lombok.extern.slf4j.Slf4j;
 
 @RestControllerAdvice
 @Slf4j
@@ -39,4 +42,9 @@ public class ExceptionController {
         return ResponseEntity.status(404).body(e.getMessage());
     }
 
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ErrorResponseEntity> customAccessDeniedHandler(AccessDeniedException e) {
+        log.info("인가 에러 발생");
+        return ErrorResponseEntity.toResponseEntity(ErrorCode.AUTHENTICATION_FORBIDDEN);
+    }
 }
