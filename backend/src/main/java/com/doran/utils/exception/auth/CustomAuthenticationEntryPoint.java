@@ -25,17 +25,29 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
     public void commence(HttpServletRequest request, HttpServletResponse response,
         AuthenticationException authException) throws IOException, ServletException {
         log.info("인증 에러 발생");
+        String ex = response.getHeader("ex");
+        log.info("ex : {}", ex);
 
         ObjectMapper objectMapper = new ObjectMapper();
         response.setCharacterEncoding("utf-8");
-        response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        ResponseEntity<ErrorResponseEntity> responseEntity = null;
 
-        ResponseEntity<ErrorResponseEntity> responseEntity = ErrorResponseEntity.toResponseEntity(
-            ErrorCode.USER_UNAUTHORIZED);
+        if (ex != null && ex.equals("407")) {
+            log.info("리프레시 토큰까지 만료되었음");
+            log.info("강제 로그아웃 진행");
+            response.setStatus(HttpStatus.PROXY_AUTHENTICATION_REQUIRED.value());
+            responseEntity = ErrorResponseEntity.toResponseEntity(
+                ErrorCode.EXPIRATION_REFRESH_TOKEN);
+        } else {
+            log.info("401 에러 진행");
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+            responseEntity = ErrorResponseEntity.toResponseEntity(
+                ErrorCode.USER_UNAUTHORIZED);
+        }
+
         String responseBody = objectMapper.writeValueAsString(responseEntity.getBody());
 
         response.getWriter().write(responseBody);
-
     }
 }
