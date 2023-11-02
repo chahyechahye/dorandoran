@@ -93,4 +93,11 @@ public class TestController {
         return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
     }
 
+    @PostMapping("/auth")
+    public ResponseEntity oauth4() {
+        log.info("들어옴");
+
+        return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
+    }
+
 }
