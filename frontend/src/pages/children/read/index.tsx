@@ -2,6 +2,7 @@ import styled from "styled-components";
 import background from "@/assets/img/bookview.png";
 import arrowLeft from "@/assets/img/fairytale/arrowLeft.png";
 import arrowRight from "@/assets/img/fairytale/arrowRight.png";
+import { useNavigate } from "react-router-dom";
 
 const Background = styled.div`
   position: fixed;
@@ -51,12 +52,18 @@ const ArrowLeft = styled.img``;
 const ArrowRight = styled.img``;
 
 const ChildrenProfilePage = () => {
+  const navigate = useNavigate();
+
+  const goLike = () => {
+    navigate("/children/like");
+  };
+
   return (
     <Background>
       <ContentContainer>
         <ArrowBox>
           <ArrowLeft src={arrowLeft} />
-          <ArrowRight src={arrowRight} />
+          <ArrowRight src={arrowRight} onClick={goLike} />
         </ArrowBox>
         <TextContainer>
           <TextBox>거북이와 토끼가 경주를 시작했어요!</TextBox>
