@@ -4,6 +4,7 @@ import background from "@/assets/img/background.jpg";
 import Logo from "@/assets/img/Logo.png";
 import kakaoLogo from "@/assets/img/kakao.png";
 import googleLogo from "@/assets/img/google.png";
+import axios from "axios";
 
 const Container = styled.div`
   position: fixed;
@@ -31,10 +32,21 @@ const LoginImage = styled.img`
 `;
 
 const ParentLoginPage = () => {
-  const onSocialButtonClick = () => {
-    const OAUTH2_REDIERECT_URI = `${process.env.REACT_APP_BASE_URL}/oauth/redirect`;
-    const API_KEY = "f9a75e5f47148dc0aa986669c29c0d03";
-    const AUTH_URL = `${process.env.REACT_APP_BASE_URL}?response_type=code&client_id=${API_KEY}&redirect_uri=${OAUTH2_REDIERECT_URI}&response_type=code`;
+  const onSocialKakaoClick = () => {
+    const clientId = `${process.env.REACT_APP_RESTAPI_KAKAO_APP_KEY}`;
+    const REDIRECT_URL = `${process.env.REACT_APP_BASE_URL}/oauth/redirect/kakao`;
+
+    const AUTH_URL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${clientId}&redirect_uri=${REDIRECT_URL}`;
+
+    window.location.href = AUTH_URL;
+  };
+
+  const onSocialGoogleClick = () => {
+    const clientId = `${process.env.REACT_APP_RESTAPI_KAKAO_APP_KEY}`;
+    const REDIRECT_URL = `${process.env.REACT_APP_BASE_URL}/oauth/redirect/google`;
+
+    const AUTH_URL = `https://accounts.google.com/o/oauth2/auth?client_id=${clientId}&redirect_uri=${REDIRECT_URL}&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile`;
+
     window.location.href = AUTH_URL;
   };
 
@@ -44,9 +56,13 @@ const ParentLoginPage = () => {
       <LoginImage
         src={kakaoLogo}
         alt="Background"
-        onClick={onSocialButtonClick}
+        onClick={onSocialKakaoClick}
       />
-      <LoginImage src={googleLogo} alt="Background" />
+      <LoginImage
+        src={googleLogo}
+        alt="Background"
+        onClick={onSocialGoogleClick}
+      />
     </Container>
   );
 };
