@@ -1,0 +1,24 @@
+package com.doran.utils.rabbitmq.service;
+
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.stereotype.Service;
+
+import com.doran.utils.rabbitmq.dto.res.ModelResMessage;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@Service
+@RequiredArgsConstructor
+public class ModelSubService {
+    private final
+
+    @RabbitListener(queues = "model.res")
+    public void subscribeModelQue(ModelResMessage modelResMessage)
+    {
+        // 목소리 생성완료 알림
+
+        // 가공 목소리 생성 요청
+    }
+}
