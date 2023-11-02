@@ -15,13 +15,15 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
-@Table("admin_voice")
+@Table(name = "admin_voice")
 @AllArgsConstructor
+@NoArgsConstructor
 public class AdminVoice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,6 +38,6 @@ public class AdminVoice {
     private String voiceUrl;
 
     @Enumerated(EnumType.STRING)
-    private Genders gender;
+    private Genders voiceGender;
 
 }
