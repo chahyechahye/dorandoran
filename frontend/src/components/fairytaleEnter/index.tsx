@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import title from "@/assets/img/background.jpg";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 // Styled Components
 const CardContainer = styled.div`
@@ -109,6 +110,8 @@ const Details = styled.img`
 const FariytaleEnter = () => {
   const [isOpen, setIsOpen] = useState(false);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsOpen(true);
@@ -118,6 +121,18 @@ const FariytaleEnter = () => {
       clearTimeout(timer); // 컴포넌트 언마운트 시 타이머 클리어
     };
   }, []);
+
+  useEffect(() => {
+    if (isOpen) {
+      const navigationTimer = setTimeout(() => {
+        navigate("/children/read");
+      }, 2000);
+
+      return () => {
+        clearTimeout(navigationTimer);
+      };
+    }
+  }, [isOpen, navigate]);
 
   return (
     <CardContainer>

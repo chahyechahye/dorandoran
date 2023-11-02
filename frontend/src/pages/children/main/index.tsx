@@ -352,6 +352,16 @@ const LetterImg = styled.img`
   z-index: 7;
 `;
 
+const BlackGround = styled.div`
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 25%);
+  position: absolute;
+  z-index: 7;
+`;
+
 const ChildrenMainPage = () => {
   const [isLetter, setIsLetter] = useState(false);
   const [isEnvelope, setIsEnvelope] = useState(false);
@@ -377,9 +387,18 @@ const ChildrenMainPage = () => {
     setReadLetter(true);
   };
 
+  const CloseLetter = () => {
+    setIsLetter(false);
+    setIsEnvelope(false);
+    setReadLetter(false);
+  };
+
   return (
     <Background>
       <ContentContainer>
+        {(isLetter || isEnvelope || readLetter) && (
+          <BlackGround onClick={CloseLetter} />
+        )}
         <LetterGif isLetter={isLetter}>
           {isLetter && <Lottie animationData={letterEffect} />}
         </LetterGif>
