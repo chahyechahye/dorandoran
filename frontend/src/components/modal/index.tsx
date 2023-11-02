@@ -21,14 +21,14 @@ const Container = styled.div`
 
 const ModalWrapper = styled.div<{ bgColor: string }>`
   background-color: ${(props) => props.bgColor || "#fc7292"};
-  width: 80vh;
-  padding: 3vh;
+  width: 90vh;
+  padding: 4vh;
   border-radius: 1.5vh;
   position: relative;
 `;
 
 const Title = styled.h1`
-  font-size: 6rem;
+  font-size: 8vh;
   color: #fff;
   margin: 1vh 0;
 `;
@@ -36,8 +36,7 @@ const Title = styled.h1`
 const Subtitle = styled.p`
   width: 100%;
   line-height: 5vh;
-  /* text-align: justify; */
-  font-size: 3rem;
+  font-size: 4vh;
   color: #fff;
   margin: 3vh 0;
 `;
@@ -49,22 +48,22 @@ const InputContainer = styled.div`
 `;
 
 const Input = styled.input`
-  padding: 30px;
+  padding: 3vh;
   width: 70%;
   border: none;
   border-radius: 1vh;
   outline: none;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
-  font-size: 48px;
+  font-size: 4vh;
   font-family: "Katuri";
 `;
 
 const Button = styled.div`
-  padding: 30px 40px;
+  padding: 2.5vh 3.5vh;
   background-color: ${(props) => props.color || "#78bff0"};
   color: #fff;
-  font-size: 48px;
-  margin-left: 10px;
+  font-size: 4.8vh;
+  margin-left: 1vh;
   border-radius: 1vh;
 `;
 

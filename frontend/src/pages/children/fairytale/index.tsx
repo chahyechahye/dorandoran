@@ -132,7 +132,7 @@ const Wrapper = styled.div`
 `;
 
 const Title = styled.h1`
-  font-size: 100px;
+  font-size: 8vh;
   text-align: center;
   margin-top: 10vh;
   transition: 1.5s all;

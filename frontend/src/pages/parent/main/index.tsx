@@ -8,7 +8,7 @@ import Album from "@/components/album";
 import LikeBookList from "@/components/likeBookList";
 import { useNavigate } from "react-router-dom";
 
-import background from "@/assets/img/backgroundMain.jpg";
+import background from "@/assets/img/background/backgroundMain.jpg";
 
 import photo from "@/assets/img/photo.png";
 import tape from "@/assets/img/tape.png";
