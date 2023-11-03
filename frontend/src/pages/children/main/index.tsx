@@ -12,17 +12,14 @@ import letterImage from "@/assets/img/letter/letterImage.png";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Background = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
+import movables from "@/assets/img/movables.png";
+
+const Movables = styled.img`
   width: 100%;
-  height: 100%;
-  background-image: url(${background});
-  background-size: cover;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  position: absolute;
+  z-index: 2;
+  bottom: 0;
+  left: 0;
 `;
 
 const ContentContainer = styled.div`
@@ -394,7 +391,7 @@ const ChildrenMainPage = () => {
   };
 
   return (
-    <Background>
+    <>
       <ContentContainer>
         {(isLetter || isEnvelope || readLetter) && (
           <BlackGround onClick={CloseLetter} />
@@ -430,12 +427,13 @@ const ChildrenMainPage = () => {
           <Books src={books} onClick={goFairytale} />
           <Camera src={camera} />
         </CastleContainer>
-        <Character src={character} />
         <Profile>
           <ProfileCircle />
         </Profile>
       </ContentContainer>
-    </Background>
+      <Character src={character} />
+      <Movables src={movables} />
+    </>
   );
 };
 
