@@ -68,15 +68,15 @@ public class PageService {
         List<Page> pageResult = findPageByBookId(bookId);
         //List<ContentResDto> contentResult = contentService.getContentWithVoice(userId, null, bookId);
 
-        List<PageDetailDto> list = new ArrayList<>(pageResult.size());
-        for (int i = 0; i < pageResult.size(); i ++)
-        {
-            int pageId = pageResult.get(i).getId();
-            List<ContentResDto> contentResult = contentService.getContentWithVoice(userId, pageId, bookId);
-
-            list.add(pageMapper.toDetailDto(pageResult.get(i),contentResult));
-        }
-        return list;
+        // List<PageDetailDto> list = new ArrayList<>(pageResult.size());
+        // for (int i = 0; i < pageResult.size(); i ++)
+        // {
+        //     int pageId = pageResult.get(i).getId();
+        //     List<ContentResDto> contentResult = contentService.getContentWithVoice(userId, pageId, bookId);
+        //
+        //     list.add(pageMapper.toDetailDto(pageResult.get(i),contentResult));
+        // }
+        return pageRepository.findPageDetailByUserIdAndBookId(userId,bookId);
     }
 
     public PageListDto findPageByBookIdWithSize(int bookId) {
