@@ -1,5 +1,7 @@
 package com.doran.raw_voice.dto.res;
 
+import com.doran.utils.common.Genders;
+
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -8,6 +10,7 @@ import lombok.Setter;
 @Setter
 @RequiredArgsConstructor
 public class RawVoiceResDto {
-    String rvId;
-    String voiceUrl;
+    private int rvId;
+    private String voiceUrl;
+    private Genders gender;
 }
