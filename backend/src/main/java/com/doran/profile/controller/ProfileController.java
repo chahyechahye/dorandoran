@@ -56,6 +56,7 @@ public class ProfileController {
             profileService.selectAllProfile(childDto.getId()));
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_PARENT')")
     @PostMapping("")
     public ResponseEntity<?> createChildProfile(@RequestBody CreateProfileDto req) {
         UserInfo userInfo = Auth.getInfo();
@@ -63,6 +64,7 @@ public class ProfileController {
         return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_CHILD')")
     @PostMapping("/animal")
     public ResponseEntity<?> updateProfileAnimal(@RequestBody ChangeProfileAnimalDto req) {
         UserInfo userInfo = Auth.getInfo();
@@ -74,12 +76,13 @@ public class ProfileController {
      * userInfo : 로그인된 CHILD 계정
      * profile : 선택한 profileId
      */
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_CHILD')")
     @PostMapping("/change")
     public ResponseEntity<?> changeProfile(@RequestBody ChangeProfileDto req, HttpServletResponse response,
         HttpServletRequest request) {
         String oldAt = jwtProvider.getAccessToken(request);
         blackListService.save(oldAt);
-        
+
         UserInfo userInfo = Auth.getInfo();
 
         ChildDto childDto = childService.findChildByChildUSerId(userInfo.getUserId());
@@ -109,7 +112,7 @@ public class ProfileController {
         return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
     }
 
-    @PreAuthorize("hasRole('ROLE_PARENT')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_PARENT')")
     @GetMapping("/list")
     public ResponseEntity<?> getProfileList() {
 
@@ -122,7 +125,7 @@ public class ProfileController {
         return CommonResponseEntity.getResponseEntity(SuccessCode.OK, profileListDto);
     }
 
-    @PreAuthorize("hasRole('ROLE_PARENT')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_PARENT')")
     @GetMapping("/info")
     public ResponseEntity<?> getProfileInfo(@RequestBody ProfileGetDto req) {
 

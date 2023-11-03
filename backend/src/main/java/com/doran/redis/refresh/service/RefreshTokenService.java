@@ -26,10 +26,8 @@ public class RefreshTokenService {
     }
 
     //리프레시 토큰 조회 (토큰 값으로)
-    public RefreshToken findRefresh(int userId) {
-        Optional<RefreshToken> findRefresh = refreshTokenRepository.findById(String.valueOf(userId));
-
-        return validRefresh(findRefresh);
+    public Optional<RefreshToken> findRefresh(int userId) {
+        return refreshTokenRepository.findById(String.valueOf(userId));
     }
 
     //리프레시 토큰 조회 (userId로)

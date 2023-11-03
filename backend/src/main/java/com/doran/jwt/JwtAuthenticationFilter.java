@@ -7,6 +7,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.doran.redis.refresh.service.RefreshTokenService;
+import com.doran.user.mapper.UserMapper;
+import com.doran.utils.common.UserInfo;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -22,15 +24,16 @@ import lombok.extern.slf4j.Slf4j;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtProvider jwtProvider;
     private final RefreshTokenService refreshTokenService;
+    private final UserMapper userMapper;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
         FilterChain filterChain) throws
         ServletException, IOException {
         log.info("doFilter 메서드 실행");
+        log.info("지금부터 인증 과정을 시작해볼게용~");
 
         String accessToken = jwtProvider.getAccessToken(request);
-
         log.info("accessToken : {}", accessToken);
 
         Claims userInfo = null;
@@ -50,20 +53,35 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             try {
                 jwtProvider.getUserInfo(accessToken);
             } catch (ExpiredJwtException e) {
-                log.info("엑세스 유효하지 않음");
+                log.info("엑세스에서 사용자 정보만 빼옴");
                 userInfo = e.getClaims();
             }
 
             int userId = (int)userInfo.get("userId");
             log.info("userId : {}", userId);
+            
+            refreshTokenService.findRefresh(userId).ifPresentOrElse(
+                refreshToken -> {
+                    if (jwtProvider.isTokenValid(refreshToken.getValue())) {
+                        log.info("리프레시 토큰 유효함");
 
-            String refreshToken = refreshTokenService.findRefresh(userId).getValue();
+                        UserInfo principal = (UserInfo)jwtProvider.getAuthentication(refreshToken.getValue())
+                            .getPrincipal();
+                        log.info("엑세스 재발급 유저 정보 : {}", principal.toString());
+                        String newAt = jwtProvider.createAccessToken(userMapper.toUserTokenBaseDto(principal));
 
-            jwtProvider.isTokenValid(refreshToken);
-            log.info("리프레시 토큰 유효함");
+                        setAuthentication(newAt);
+                        response.setHeader("AccessToken", newAt);
+                        log.info("알아서 재발급 진행");
+                    } else {
+                        response.setHeader("ex", "407");
+                    }
 
-            setAuthentication(refreshToken);
+                },
+                () -> response.setHeader("ex", "407")
+            );
         }
+        log.info("여까지 옴");
         filterChain.doFilter(request, response);
     }
 

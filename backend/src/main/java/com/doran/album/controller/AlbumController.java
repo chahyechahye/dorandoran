@@ -23,7 +23,6 @@ import com.doran.parent.service.ParentService;
 import com.doran.utils.auth.Auth;
 import com.doran.utils.bucket.mapper.BucketMapper;
 import com.doran.utils.bucket.service.BucketService;
-import com.doran.utils.common.UserInfo;
 import com.doran.utils.response.CommonResponseEntity;
 import com.doran.utils.response.SuccessCode;
 
@@ -81,7 +80,7 @@ public class AlbumController {
     }
 
     //앨범 삭제
-    @PreAuthorize("hasRole('ROLE_PARENT')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_PARENT')")
     @DeleteMapping("/{album_id}")
     public ResponseEntity<?> deleteAlbum(@PathVariable("album_id") int albumId) {
         albumService.deleteAlbum(albumId);

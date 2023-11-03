@@ -30,7 +30,7 @@ public class FavoriteController {
     private final ChildService childService;
     private final FavoriteService favoriteService;
 
-    @PreAuthorize("hasRole('ROLE_PARENT')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_PARENT')")
     @GetMapping("")
     public ResponseEntity<?> findChildFavoriteBook(@RequestParam int profileId) {
 
@@ -39,7 +39,7 @@ public class FavoriteController {
         return CommonResponseEntity.getResponseEntity(SuccessCode.OK, bookListDto);
     }
 
-    @PreAuthorize("hasRole('ROLE_CHILD')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_CHILD')")
     @PostMapping("")
     public ResponseEntity<?> saveChildFavoriteBook(@RequestBody FavoriteReqDto req) {
 
