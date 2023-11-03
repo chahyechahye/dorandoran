@@ -1,10 +1,9 @@
 import styled from "styled-components";
 
-import background from "@/assets/img/background.jpg";
+import background from "@/assets/img/background/background.jpg";
 import Logo from "@/assets/img/Logo.png";
 import kakaoLogo from "@/assets/img/kakao.png";
 import googleLogo from "@/assets/img/google.png";
-import axios from "axios";
 
 const Container = styled.div`
   position: fixed;

@@ -499,7 +499,7 @@ const ButtonDislike = styled(Button)`
 const Heart = styled.img`
   position: relative;
   display: inline-block;
-  top: 15%;
+  top: 4.5vh;
   width: 15vh;
   height: 15vh;
 `;
@@ -507,7 +507,7 @@ const Heart = styled.img`
 const DisHeart = styled.img`
   position: relative;
   display: inline-block;
-  top: 15%;
+  top: 4.5vh;
   width: 15vh;
   height: 15vh;
 `;

@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import title from "@/assets/img/background.jpg";
+import background from "@/assets/img/background/background.jpg";
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -139,9 +140,9 @@ const FariytaleEnter = () => {
       <Card className={isOpen ? "open" : ""}>
         <ImgBox className={isOpen ? "open" : ""}>
           <Bark className={isOpen ? "open" : ""}></Bark>
-          <Img src={title} className={isOpen ? "open" : ""} />
+          <Img src={background} className={isOpen ? "open" : ""} />
         </ImgBox>
-        <Details src={title} className={isOpen ? "open" : ""}></Details>
+        <Details src={background} className={isOpen ? "open" : ""}></Details>
       </Card>
     </CardContainer>
   );

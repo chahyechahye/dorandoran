@@ -6,7 +6,7 @@ import RecordBtn from "@/components/recordBtn";
 import SpeakBtn from "@/components/speakBtn";
 import Modal from "@/components/modal";
 
-import background from "@/assets/img/backgroundRecord.jpg";
+import background from "@/assets/img/background/backgroundRecord.jpg";
 import Logo from "@/assets/img/Logo.png";
 
 const Container = styled.div`
@@ -65,7 +65,7 @@ const ParentLoginPage = () => {
             backgroundColor: "#F65F5F",
             padding: "1.2vh 2vh",
             borderRadius: "2vh",
-            margin: "3vh 0vh",
+            margin: "2vh 0vh",
           }}
         >
           22/300
