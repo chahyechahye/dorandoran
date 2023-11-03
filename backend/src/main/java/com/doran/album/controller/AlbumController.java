@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.doran.album.dto.req.AlbumReqDto;
 import com.doran.album.dto.res.AlbumResDto;
 import com.doran.album.entity.Album;
 import com.doran.album.mapper.AlbumMapper;
@@ -43,9 +44,15 @@ public class AlbumController {
 
     //앨범 등록
     @PostMapping("")
-    public ResponseEntity<?> insertAlbum(MultipartFile multipartFile) {
+    public ResponseEntity<?> insertAlbum(AlbumReqDto albumReqDto) {
         int userId = Auth.getInfo().getUserId();
         String role = Auth.getInfo().getUserRole().getRole();
+
+        if (albumReqDto != null) {
+            log.info(albumReqDto.getMultipartFile().getContentType());
+        } else
+            log.info("응애 널이에용");
+
         Parent findParent = null;
         Child findChild = null;
 
@@ -60,7 +67,7 @@ public class AlbumController {
             findParent = findChild.getParent();
         }
 
-        String imgUrl = bucketService.insertFile(bucketMapper.toInsertDto(multipartFile, "album"));
+        String imgUrl = bucketService.insertFile(bucketMapper.toInsertDto(albumReqDto.getMultipartFile(), "album"));
         albumService.save(albumMapper.toAlbum(findParent, findChild, imgUrl));
 
         return CommonResponseEntity.getResponseEntity(SuccessCode.SUCCESS_CODE, null);
