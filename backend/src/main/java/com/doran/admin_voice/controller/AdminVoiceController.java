@@ -13,7 +13,7 @@ import com.doran.admin_voice.dto.req.AdminVoiceInsertDto;
 import com.doran.admin_voice.dto.res.AdminVoiceResDto;
 import com.doran.admin_voice.dto.res.AdminVoiceResDtoList;
 import com.doran.admin_voice.service.AdminVoiceService;
-import com.doran.admin_voice.type.Genders;
+import com.doran.utils.common.Genders;
 import com.doran.utils.response.CommonResponseEntity;
 import com.doran.utils.response.SuccessCode;
 
