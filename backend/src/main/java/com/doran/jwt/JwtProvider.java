@@ -119,7 +119,7 @@ public class JwtProvider {
     //헤더에서 토큰 가져오기
     public String getAccessToken(HttpServletRequest request) {
 
-        return request.getHeader("AccessToken");
+        return request.getHeader("Authorization");
     }
 
     public String getRefreshToken(HttpServletRequest request) {
