@@ -35,6 +35,10 @@ public class RawVoiceService {
         return rawVoiceRepository.findById(rvId)
                 .orElseThrow(() -> new CustomException(ErrorCode.VOICE_NOT_FOUND));
     }
+    public RawVoiceListDto getRawVoiceByUserId(int userId){
+        List<RawVoiceResDto> rawVoiceResDtoList = rawVoiceRepository.findRawVoiceByUserId(userId);
+        return rawVoiceMapper.listToResListDto(rawVoiceResDtoList,rawVoiceResDtoList.size());
+    }
 
     // 목소리 조회
     public RawVoiceListDto getRawVoiceAll(){
@@ -48,7 +52,7 @@ public class RawVoiceService {
    public void insertRawVoice (RawVoiceInsertDto rawVoiceInsertDto) {
         String voiceUrl = bucketService.insertFile(bucketMapper.toInsertDto(rawVoiceInsertDto.getFile(),"raw_voice"));
         User user = userService.findUser(Auth.getInfo().getUserId());
-        RawVoice rawVoice = rawVoiceMapper.voiceInsertToRawVoice(user,voiceUrl);
+        RawVoice rawVoice = rawVoiceMapper.voiceInsertToRawVoice(user,voiceUrl,rawVoiceInsertDto.getGender());
         rawVoiceRepository.save(rawVoice);
    }
 
