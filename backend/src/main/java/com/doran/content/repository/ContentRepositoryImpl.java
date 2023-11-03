@@ -18,7 +18,7 @@ public class ContentRepositoryImpl implements ContentRepositoryCustom {
 
     //해당 페이지의 스크립트와 목소리 반환
     @Override
-    public List<ContentResDto> getContentWithVoice(int userId, Integer pageId) {
+    public List<ContentResDto> getContentWithVoice(int userId, Integer pageId, Integer bookId) {
         return jpaQueryFactory
             .select(Projections.fields(ContentResDto.class,
                 content.id.as("content_id"),
@@ -29,6 +29,7 @@ public class ContentRepositoryImpl implements ContentRepositoryCustom {
             .leftJoin(content.processedVoice, processedVoice)
             .on(processedVoice.user.id.eq(userId))
             .where(pageIdEq(pageId))
+            .where(bookIdEq(bookId))
             .fetch();
     }
 
@@ -36,7 +37,7 @@ public class ContentRepositoryImpl implements ContentRepositoryCustom {
         return id != null ? content.page.id.eq(id) : null;
     }
     private static BooleanExpression bookIdEq(Integer id) {
-        return id != null ? content.page.id.eq(id) : null;
+        return id != null ? content.page.book.id.eq(id) : null;
     }
 
 }

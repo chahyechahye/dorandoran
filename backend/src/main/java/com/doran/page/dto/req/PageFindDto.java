@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class PageFindDto {
-    private int pageId;
-    private int idx;
-    private String imgUrl;
+    private int bookId;
+    private String gender;
+    //FEMALE, MALE
 }

@@ -3,6 +3,7 @@ package com.doran.page.mapper;
 import com.doran.content.dto.res.ContentResDto;
 import com.doran.page.dto.res.PageDetailDto;
 import com.doran.page.dto.res.PageResDto;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -26,17 +27,16 @@ public interface PageMapper {
     List<PageResDto> toDtoList(List<Page> pageList);
 
     @Mapping(source = "page.id", target = "pageId")
-    PageDetailDto toDetailDto(Page page, ContentResDto contentResDto);
+    PageDetailDto toDetailDto(Page page, List<ContentResDto> contentResDto);
 
-
-    default List<PageDetailDto> toDetailDtoList(List<Page> pageList, List<ContentResDto> contentResDto) {
-        List<PageDetailDto> list = new ArrayList<PageDetailDto>( pageList.size() );
-
-        for ( int i = 0; i < pageList.size() ; i ++ ) {
-            list.add( toDetailDto( pageList.get(i), contentResDto.get(i) ));
-        }
-
-        return list;
-    }
+    // default List<PageDetailDto> toDetailDtoList(List<Page> pageList, List<ContentResDto> contentResDto) {
+    //     List<PageDetailDto> list = new ArrayList<PageDetailDto>(pageList.size());
+    //
+    //     for (int i = 0; i < pageList.size(); i++) {
+    //         list.add(toDetailDto(pageList.get(i), contentResDto.get(i)));
+    //     }
+    //
+    //     return list;
+    // }
 
 }

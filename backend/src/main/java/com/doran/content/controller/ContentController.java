@@ -57,7 +57,7 @@ public class ContentController {
         int parentUserId = parentService.getParentUserId(userInfo.getUserId(), userInfo.getUserRole().getRole());
 
         log.info("부모의 유저 아이디 : " + parentUserId);
-        List<ContentResDto> findContent = contentService.getContentWithVoice(parentUserId, pageId);
+        List<ContentResDto> findContent = contentService.getContentWithVoice(parentUserId, pageId,null);
 
         return CommonResponseEntity.getResponseEntity(SuccessCode.SUCCESS_CODE, findContent);
     }

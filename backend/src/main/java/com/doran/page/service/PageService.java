@@ -1,5 +1,6 @@
 package com.doran.page.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -63,11 +64,19 @@ public class PageService {
         return pageRepository.findPagesByBookId(bookId);
     }
 
-    public List<PageDetailDto> getPageAll(int bookId) {
+    public List<PageDetailDto> getPageAll(int userId, int bookId) {
         List<Page> pageResult = findPageByBookId(bookId);
-        List<ContentResDto> contentResult = contentService.getContentWithVoice(bookId, null);
+        //List<ContentResDto> contentResult = contentService.getContentWithVoice(userId, null, bookId);
 
-        return pageMapper.toDetailDtoList(pageResult, contentResult);
+        List<PageDetailDto> list = new ArrayList<>(pageResult.size());
+        for (int i = 0; i < pageResult.size(); i ++)
+        {
+            int pageId = pageResult.get(i).getId();
+            List<ContentResDto> contentResult = contentService.getContentWithVoice(userId, pageId, bookId);
+
+            list.add(pageMapper.toDetailDto(pageResult.get(i),contentResult));
+        }
+        return list;
     }
 
     public PageListDto findPageByBookIdWithSize(int bookId) {
