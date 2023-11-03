@@ -2,6 +2,7 @@ package com.doran.profile.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -133,4 +134,13 @@ public class ProfileController {
 
         return CommonResponseEntity.getResponseEntity(SuccessCode.OK, profileDto);
     }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_PARENT')")
+    @DeleteMapping()
+    public ResponseEntity<?> deleteProfile(@RequestBody ProfileGetDto req) {
+        profileService.deleteProfile(req.getProfileId());
+
+        return CommonResponseEntity.getResponseEntity(SuccessCode.OK, "정상적으로 삭제되었습니다.");
+    }
+
 }

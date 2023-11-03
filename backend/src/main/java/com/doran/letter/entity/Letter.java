@@ -1,10 +1,5 @@
 package com.doran.letter.entity;
 
-import java.time.LocalDateTime;
-
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-
 import com.doran.parent.entity.Parent;
 import com.doran.profile.entity.Profile;
 import com.doran.utils.sens.BaseTimeEntity;
@@ -28,28 +23,28 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="letter")
+@Table(name = "letter")
 public class Letter extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="letter_id")
+    @Column(name = "letter_id")
     private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="parent_id")
+    @JoinColumn(name = "parent_id")
     private Parent parent;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="profile_id")
+    @JoinColumn(name = "profile_id")
     private Profile profile;
 
-    @Column(name="content_url")
+    @Column(name = "content_url")
     private String contentUrl;
 
-    @Column(name="sender_id")
+    @Column(name = "sender_id")
     private int senderId;
 
-    @Column(name="receiver_id")
+    @Column(name = "receiver_id")
     private int receiverId;
 
 }
