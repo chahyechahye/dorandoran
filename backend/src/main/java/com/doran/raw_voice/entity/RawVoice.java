@@ -1,9 +1,12 @@
 package com.doran.raw_voice.entity;
 
 import com.doran.user.entity.User;
+import com.doran.utils.common.Genders;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -31,4 +34,8 @@ public class RawVoice {
 
     @Column(name = "voice_url", nullable = false)
     private String voiceUrl;
+
+    @Column(name = "voice_gender")
+    @Enumerated(EnumType.STRING)
+    private Genders voiceGender;
 }
