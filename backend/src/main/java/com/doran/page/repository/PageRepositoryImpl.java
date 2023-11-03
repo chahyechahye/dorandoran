@@ -47,6 +47,7 @@ public class PageRepositoryImpl implements PageRepositoryCustom {
                     page.imgUrl.as("imgUrl"),
                     list(
                         Projections.fields(ContentResDto.class,
+                            processedVoice.id.as("pv_id"),
                             content.id.as("content_id"),
                             content.script.as("script"),
                             processedVoice.voiceUrl.as("voiceUrl")

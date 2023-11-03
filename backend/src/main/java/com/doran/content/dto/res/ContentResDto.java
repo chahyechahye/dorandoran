@@ -12,6 +12,6 @@ import lombok.Setter;
 public class ContentResDto {
     private int content_id;
     private String script;
-    private int pv_id; //processed_id
+    private Integer pv_id; //processed_id
     private String voiceUrl;
 }
