@@ -23,10 +23,11 @@ public enum ErrorCode {
     INVALID_PHONE_NUMBER(HttpStatus.BAD_REQUEST, "유효하지 않은 전화번호 입니다."),
     INVALID_AUTH_CODE(HttpStatus.NOT_FOUND, "인증코드가 일치하지 않습니다."),
     DUPLICATE_USER(HttpStatus.CONFLICT, "이미 가입한 회원입니다."),
-    INVALID_REFRESH_TOKEN(HttpStatus.NOT_FOUND, "RT를 찾을 수 없습니다."),
+    INVALID_REFRESH_TOKEN(HttpStatus.PROXY_AUTHENTICATION_REQUIRED, "RT를 찾을 수 없습니다."),
     INVALID_ACCESS_TOKEN(HttpStatus.NOT_FOUND, "유효하지 않은 AT입니다."),
     AUTHENTICATION_FORBIDDEN(HttpStatus.FORBIDDEN, "권한이 없습니다."),
     USER_UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "인증되지 않은 사용자입니다."),
+    EXPIRATION_REFRESH_TOKEN(HttpStatus.PROXY_AUTHENTICATION_REQUIRED, "리프레시 토큰 만료"),
 
     //부모 관련 예외
     PARENT_NOT_FOUND(HttpStatus.NOT_FOUND, "해당하는 정보의 부모를 찾을 수 없습니다."),

@@ -15,6 +15,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.doran.jwt.JwtAuthenticationFilter;
 import com.doran.jwt.JwtProvider;
 import com.doran.redis.refresh.service.RefreshTokenService;
+import com.doran.user.mapper.UserMapper;
 import com.doran.utils.exception.auth.CustomAuthenticationEntryPoint;
 
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,7 @@ public class SecurityConfig {
     private final JwtProvider jwtProvider;
     private final RefreshTokenService refreshTokenService;
     private final CustomAuthenticationEntryPoint authenticationEntryPoint;
+    private final UserMapper userMapper;
     @Value("${auth.ignore-url}")
     private String[] ignores;
 
@@ -50,7 +52,7 @@ public class SecurityConfig {
             .requestMatchers(ignores).permitAll()
             .anyRequest().authenticated()
             .and()
-            .addFilterBefore(new JwtAuthenticationFilter(jwtProvider, refreshTokenService),
+            .addFilterBefore(new JwtAuthenticationFilter(jwtProvider, refreshTokenService, userMapper),
                 UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
