@@ -20,44 +20,24 @@ public class AdminVoiceRepositoryCustomImpl implements AdminVoiceRepositoryCusto
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public Optional<AdminVoice> findMaleAdminVoiceByContentId(int contentId){
+    public Optional<AdminVoice> findAdminVoiceByContentId(Genders gender,int contentId){
         return Optional.ofNullable(jpaQueryFactory
             .selectFrom(adminVoice)
             .where(adminVoice.content.id.eq(contentId),
-                adminVoice.gender.eq(Genders.MALE))
+                adminVoice.voiceGender.eq(gender))
             .fetchOne()
         );
-    }
-    @Override
-    public Optional<AdminVoice> findFemaleAdminVoiceByContentId(int contentId){
-        return Optional.ofNullable(jpaQueryFactory
-            .selectFrom(adminVoice)
-            .where(adminVoice.content.id.eq(contentId),
-                adminVoice.gender.eq(Genders.FEMALE))
-            .fetchOne()
-        );
-    }
-    @Override
-    public List<AdminVoice> findMaleAdminVoiceByBookId(int bookId){
-        return jpaQueryFactory
-            .select(adminVoice)
-            .from(adminVoice)
-            .leftJoin(content).on(adminVoice.content.eq(content))
-            .leftJoin(page).on(content.page.eq(page))
-            .where(page.book.id.eq(bookId),
-                adminVoice.gender.eq(Genders.MALE))
-            .fetch();
     }
     // 책 단위 여성 관리자 목소리 호출
     @Override
-    public List<AdminVoice> findFemaleAdminVoiceByBookId(int bookId){
+    public List<AdminVoice> findAdminVoiceByBookId(Genders gender, int bookId){
         return jpaQueryFactory
             .select(adminVoice)
             .from(adminVoice)
             .leftJoin(content).on(adminVoice.content.eq(content))
             .leftJoin(page).on(content.page.eq(page))
             .where(page.book.id.eq(bookId),
-                adminVoice.gender.eq(Genders.FEMALE))
+                adminVoice.voiceGender.eq(gender))
             .fetch();
     }
 }
