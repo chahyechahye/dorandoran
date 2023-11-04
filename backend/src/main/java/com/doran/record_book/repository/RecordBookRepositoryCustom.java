@@ -2,9 +2,13 @@ package com.doran.record_book.repository;
 
 import java.util.List;
 
-import com.querydsl.core.Tuple;
+import com.doran.record_book.dto.res.ScriptDto;
 
 public interface RecordBookRepositoryCustom {
 
-    List<Tuple> findToTalPage();
+    List<Long> findToTalPage(List<String> bookName);
+
+    List<String> findBookName();
+
+    List<ScriptDto> findScript(String bookName);
 }

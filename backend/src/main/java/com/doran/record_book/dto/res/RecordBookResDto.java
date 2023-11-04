@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RecordBookResDto {
-    private List<Integer> totalScriptList;
+    private List<Long> totalScriptList;
 
     private List<BookDto> bookList;
 
