@@ -76,5 +76,5 @@ rabbitmq:
     voice: voice.req
 
 auth:
-  ignore-url: api/oauth/**, api/user/**, api/profile/login
+  ignore-url: api/oauth/**, api/user/**, api/profile/login, api/profile
 

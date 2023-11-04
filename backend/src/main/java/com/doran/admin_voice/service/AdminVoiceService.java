@@ -11,7 +11,7 @@ import com.doran.admin_voice.dto.res.AdminVoiceResDtoList;
 import com.doran.admin_voice.entity.AdminVoice;
 import com.doran.admin_voice.mapper.AdminVoiceMapper;
 import com.doran.admin_voice.repository.AdminVoiceRepository;
-import com.doran.admin_voice.type.Genders;
+import com.doran.utils.common.Genders;
 import com.doran.content.entity.Content;
 import com.doran.content.service.ContentService;
 import com.doran.utils.bucket.mapper.BucketMapper;

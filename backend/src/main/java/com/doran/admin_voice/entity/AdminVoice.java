@@ -1,13 +1,12 @@
 package com.doran.admin_voice.entity;
 
-import com.doran.admin_voice.type.Genders;
+import com.doran.utils.common.Genders;
 import com.doran.content.entity.Content;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;

@@ -21,9 +21,9 @@ public class DoranApplication {
         SpringApplication.run(DoranApplication.class, args);
     }
 
-    @Bean
-    JPAQueryFactory jpaQueryFactory(EntityManager entityManager) {
-        return new JPAQueryFactory(entityManager);
-    }
+    // @Bean
+    // JPAQueryFactory jpaQueryFactory(EntityManager entityManager) {
+    //     return new JPAQueryFactory(entityManager);
+    // }
 
 }

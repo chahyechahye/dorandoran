@@ -70,7 +70,7 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public Profile findProfileById(int profileId){
+    public Profile findProfileById(int profileId) {
         return profileRepository.findById(profileId)
             .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
     }
@@ -81,7 +81,7 @@ public class ProfileServiceImpl implements ProfileService {
         profile.setAnimal(
             animalRepository.selectAnimal(1).orElseThrow(() -> new CustomException(ErrorCode.ANIMAL_NOT_FOUND)));
         int userId = childRepository.findChildToParentUserId(childId)
-                                    .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND)).getId();
+            .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND)).getId();
         profile.setChild(
             childRepository.findById(userId).orElseThrow(() -> new CustomException(ErrorCode.CHILD_NOT_FOUND)));
 
@@ -92,10 +92,10 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public void updateProfileAnimal(UserInfo userInfo, int animalId) {
         Profile profile = profileRepository.selectProfile(userInfo.getUserId(), userInfo.getSelectProfileId())
-                                           .orElseThrow(() -> new CustomException(
-                                               ErrorCode.PROFILE_NOT_FOUND));
+            .orElseThrow(() -> new CustomException(
+                ErrorCode.PROFILE_NOT_FOUND));
         Animal animal = animalRepository.selectAnimal(animalId)
-                                        .orElseThrow(() -> new CustomException(ErrorCode.ANIMAL_NOT_FOUND));
+            .orElseThrow(() -> new CustomException(ErrorCode.ANIMAL_NOT_FOUND));
         profile.setAnimal(animal);
         profileRepository.save(profile);
     }
@@ -104,7 +104,7 @@ public class ProfileServiceImpl implements ProfileService {
     public ProfileDto selectProfile(int profileId) {
 
         Profile profile = profileRepository.findById(profileId)
-                                           .orElseThrow(() -> new CustomException(ErrorCode.PROFILE_NOT_FOUND));
+            .orElseThrow(() -> new CustomException(ErrorCode.PROFILE_NOT_FOUND));
         return profileMapper.toProfileDto(
             profile.getId(),
             profile.getChild().getId(),
@@ -113,5 +113,10 @@ public class ProfileServiceImpl implements ProfileService {
                 profile.getAnimal().getName(),
                 profile.getAnimal().getImgUrl()),
             profile.getName());
+    }
+
+    @Override
+    public void deleteProfile(int profileId) {
+        profileRepository.deleteById(profileId);
     }
 }

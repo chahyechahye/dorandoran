@@ -10,6 +10,7 @@ public interface ProfileService {
     ProfileListDto selectAllProfile(int childId);
 
     ProfileDto selectProfile(int childId, int profileId);
+
     Profile findProfileById(int profileId);
 
     void createChildProfile(int childId, String name);
@@ -17,4 +18,6 @@ public interface ProfileService {
     void updateProfileAnimal(UserInfo userInfo, int animalId);
 
     ProfileDto selectProfile(int profileId);
+
+    void deleteProfile(int profileId);
 }

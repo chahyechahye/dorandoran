@@ -8,9 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.doran.admin_voice.entity.AdminVoice;
-import com.doran.admin_voice.type.Genders;
-import com.doran.utils.exception.dto.CustomException;
-import com.doran.utils.exception.dto.ErrorCode;
+import com.doran.utils.common.Genders;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;

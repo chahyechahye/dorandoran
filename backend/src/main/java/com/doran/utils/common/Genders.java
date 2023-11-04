@@ -1,4 +1,4 @@
-package com.doran.admin_voice.type;
+package com.doran.utils.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -2,7 +2,7 @@ package com.doran.admin_voice.dto.req;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import com.doran.admin_voice.type.Genders;
+import com.doran.utils.common.Genders;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
