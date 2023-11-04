@@ -1,5 +1,9 @@
 package com.doran.user.controller;
 
+import com.doran.child.dto.res.ChildDto;
+import com.doran.child.service.ChildService;
+import com.doran.profile.dto.res.ProfileListDto;
+import com.doran.profile.service.ProfileService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,6 +37,8 @@ public class UserController {
     private final JwtProvider jwtProvider;
     private final UserService userService;
     private final InviteService inviteService;
+    private final ChildService childService;
+    private final ProfileService profileService;
 
     //자체 회원가입 - 로컬 테스트용
     //부모 아이 상관없는 그냥 깡 유저 - admin 생성용
@@ -46,8 +52,12 @@ public class UserController {
 
         response.setHeader("AccessToken", accessToken);
 
+        ChildDto childDto = childService.findChildByParentUserId(findDto.getUserId());
+
+        ProfileListDto profileListDto = profileService.selectAllProfile(childDto.getId());
+
         return CommonResponseEntity
-            .getResponseEntity(SuccessCode.OK);
+            .getResponseEntity(SuccessCode.OK,profileListDto);
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_PARENT')")

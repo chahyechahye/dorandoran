@@ -6,7 +6,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.doran.child.dto.res.ChildDto;
+import com.doran.child.service.ChildService;
 import com.doran.jwt.JwtProvider;
+import com.doran.profile.dto.res.ProfileListDto;
+import com.doran.profile.service.ProfileService;
 import com.doran.user.dto.req.UserTokenBaseDto;
 import com.doran.user.service.GoogleService;
 import com.doran.user.service.KakaoService;
@@ -26,6 +30,8 @@ public class OauthController {
     private final KakaoService kakaoService;
     private final GoogleService googleService;
     private final JwtProvider jwtProvider;
+    private final ChildService childService;
+    private final ProfileService profileService;
 
     //oauth 테스트 - 카카오
     //로직 똑같은데 나눠야 하는 이유가 있는가??
@@ -41,7 +47,11 @@ public class OauthController {
 
         response.setHeader("AccessToken", accessToken);
 
-        return CommonResponseEntity.getResponseEntity(SuccessCode.OK, "카카오 로그인 성공");
+        ChildDto childDto = childService.findChildByParentUserId(userInfo.getUserId());
+
+        ProfileListDto profileListDto = profileService.selectAllProfile(childDto.getId());
+
+        return CommonResponseEntity.getResponseEntity(SuccessCode.OK, profileListDto);
     }
 
     //oauth - google
@@ -55,7 +65,11 @@ public class OauthController {
         String accessToken = jwtProvider.createAccessToken(userInfo);
 
         response.setHeader("accessToken", accessToken);
-        return CommonResponseEntity.getResponseEntity(SuccessCode.OK, "구글 로그인 성공");
+
+        ChildDto childDto = childService.findChildByParentUserId(userInfo.getUserId());
+
+        ProfileListDto profileListDto = profileService.selectAllProfile(childDto.getId());
+        return CommonResponseEntity.getResponseEntity(SuccessCode.OK, profileListDto);
     }
 
 }
