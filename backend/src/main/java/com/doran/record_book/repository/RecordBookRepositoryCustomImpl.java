@@ -4,6 +4,7 @@ import static com.doran.record_book.entity.QRecordBook.*;
 
 import java.util.List;
 
+import com.querydsl.core.Tuple;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
@@ -14,9 +15,10 @@ public class RecordBookRepositoryCustomImpl implements RecordBookRepositoryCusto
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<Long> findToTalPage() {
+    public List<Tuple> findToTalPage() {
         return jpaQueryFactory
-            .select(recordBook.count())
+            .select(recordBook.count(),
+                recordBook.title)
             .from(recordBook)
             .where(recordBook.title.in(
                 JPAExpressions

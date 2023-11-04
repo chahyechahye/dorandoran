@@ -1,6 +1,9 @@
 package com.doran.dummy;
 
+import static com.doran.record_book.entity.QRecordBook.*;
+
 import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.jupiter.api.Test;
@@ -10,6 +13,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.doran.content.service.ContentService;
 import com.doran.page.entity.Page;
 import com.doran.page.service.PageService;
+import com.doran.record_book.repository.RecordBookRepository;
+import com.querydsl.core.Tuple;
 
 @SpringBootTest
 public class ContentTest {
@@ -18,6 +23,19 @@ public class ContentTest {
 
     @Autowired
     ContentService contentService;
+    @Autowired
+    RecordBookRepository recordBookRepository;
+
+    @Test
+    void ttttttt() {
+        List<Tuple> toTalPage = recordBookRepository.findToTalPage();
+
+        for (Tuple tuple : toTalPage) {
+            System.out.println(tuple.get(recordBook.count()));
+            System.out.println(tuple.get(recordBook.title));
+            
+        }
+    }
 
     @Test
     public void test() {
