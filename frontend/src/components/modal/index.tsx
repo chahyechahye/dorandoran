@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import { usePostMessage } from "@/apis/parents/profile/Mutations/usePostMessage";
 
 interface ModalProps {
   title: string;
@@ -10,6 +11,8 @@ interface ModalProps {
   buttonColor: string;
   showInput?: boolean;
   onClose: () => void;
+  onNameChange?: (name: string) => void;
+  onButtonClick?: () => void;
 }
 
 const Container = styled.div`
@@ -82,6 +85,8 @@ const Modal = ({
   buttonColor,
   showInput = true,
   onClose,
+  onNameChange = (name: string) => {},
+  onButtonClick,
 }: ModalProps) => {
   const formattedSubtitle = subtitle.split("\n").map((line, idx) => (
     <React.Fragment key={idx}>
@@ -89,6 +94,16 @@ const Modal = ({
       {idx !== subtitle.split("\n").length - 1 && <br />}
     </React.Fragment>
   ));
+  const [phone, setPhone] = useState("");
+
+  const sendMessage = usePostMessage();
+
+  const handleSendMessage = () => {
+    sendMessage.mutateAsync({
+      tel: phone,
+    });
+    onClose();
+  };
 
   return (
     <Container>
@@ -97,8 +112,29 @@ const Modal = ({
         <Subtitle>{formattedSubtitle}</Subtitle>
         {showInput && (
           <InputContainer>
-            <Input type="text" placeholder={placeholder} />
-            <Button color={buttonColor}>{buttonText}</Button>
+            {buttonText === "보내기" ? (
+              <>
+                <Input
+                  type="text"
+                  placeholder={placeholder}
+                  onChange={(e) => setPhone(e.target.value)} // Call the onNameChange callback
+                />
+                <Button color={buttonColor} onClick={handleSendMessage}>
+                  {buttonText}
+                </Button>
+              </>
+            ) : (
+              <>
+                <Input
+                  type="text"
+                  placeholder={placeholder}
+                  onChange={(e) => onNameChange(e.target.value)} // Call the onNameChange callback
+                />
+                <Button color={buttonColor} onClick={onButtonClick}>
+                  {buttonText}
+                </Button>
+              </>
+            )}
           </InputContainer>
         )}
         <CloseIcon

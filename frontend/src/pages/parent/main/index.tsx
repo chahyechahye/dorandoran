@@ -64,6 +64,7 @@ const Overlay = styled.div`
 
 const ParentMainPage = () => {
   const navigate = useNavigate();
+
   const [isOpenAlbum, setIsOpenAlbum] = useState(false);
   const [isOpenLikeBook, setIsOpenLikeBook] = useState(false);
 

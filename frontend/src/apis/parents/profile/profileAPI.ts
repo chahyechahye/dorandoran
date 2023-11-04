@@ -1,5 +1,9 @@
 import { instance } from "@/apis/instance";
-import { ProfileProps, ProfileChangeProps } from "@/types/parent/profileType";
+import {
+  ProfileProps,
+  ProfileChangeProps,
+  MessageProps,
+} from "@/types/parent/profileType";
 
 const postProfile = async (name: ProfileProps) => {
   try {
@@ -7,6 +11,15 @@ const postProfile = async (name: ProfileProps) => {
     return response.data;
   } catch {
     console.log(new Error("api 연동 오류 - postProfile"));
+  }
+};
+
+const postMessage = async (tel: MessageProps) => {
+  try {
+    const response = await instance.post("/user/message", tel);
+    return response.data;
+  } catch {
+    console.log(new Error("api 연동 오류 - postMessage"));
   }
 };
 
@@ -28,4 +41,4 @@ const getProfileList = async () => {
   }
 };
 
-export { postProfile, postProfileChange, getProfileList };
+export { postProfile, postProfileChange, postMessage, getProfileList };

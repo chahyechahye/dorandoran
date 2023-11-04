@@ -41,7 +41,7 @@ const ParentLoginPage = () => {
   };
 
   const onSocialGoogleClick = () => {
-    const clientId = `${process.env.REACT_APP_RESTAPI_KAKAO_APP_KEY}`;
+    const clientId = `${process.env.REACT_APP_RESTAPI_GOOGLE_APP_KEY}`;
     const REDIRECT_URL = `${process.env.REACT_APP_BASE_URL}/oauth/redirect/google`;
 
     const AUTH_URL = `https://accounts.google.com/o/oauth2/auth?client_id=${clientId}&redirect_uri=${REDIRECT_URL}&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile`;

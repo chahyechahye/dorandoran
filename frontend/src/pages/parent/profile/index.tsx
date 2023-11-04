@@ -1,6 +1,10 @@
 import styled from "styled-components";
 import { useState } from "react";
 
+import { usePostProfile } from "@/apis/parents/profile/Mutations/usePostProfile";
+import { usePostProfileChange } from "@/apis/parents/profile/Mutations/usePostProfileChange";
+import { useGetProfileList } from "@/apis/parents/profile/Queries/useGetProfileList";
+
 import ChildCard from "@/components/childCard";
 import ProfileCircle from "@/components/profileCircle";
 import Modal from "@/components/modal";
@@ -8,7 +12,16 @@ import ClickButton from "@/components/clickButton";
 
 import background from "@/assets/img/background/backgroundMain.jpg";
 import Logo from "@/assets/img/Logo.png";
-import smile from "@/assets/img/smile.png";
+
+interface ProfileProps {
+  id: number;
+  animal: {
+    id: number;
+    name: string;
+    imgUrl: string;
+  };
+  name: string;
+}
 
 const Container = styled.div`
   position: fixed;
@@ -47,8 +60,14 @@ const Overlay = styled.div`
 `;
 
 const ParentProfilePage = () => {
+  const [childName, setChildName] = useState("");
   const [isRegistModalOpen, setIsRegistModalOpen] = useState(false); // 모달의 상태를 관리하는 state
   const [isSendInviteCode, setIsSendInviteCode] = useState(false);
+
+  const ProfileList: ProfileProps[] = useGetProfileList().data.profileList;
+
+  const createProfile = usePostProfile();
+  const changeProfile = usePostProfileChange();
 
   const OpenRegistModal = () => {
     setIsRegistModalOpen(true); // ProfileCircle을 클릭하면 모달을 엽니다.
@@ -63,25 +82,55 @@ const ParentProfilePage = () => {
     setIsSendInviteCode(false);
   };
 
+  const handleChangeProfile = (profileId: number) => {
+    changeProfile.mutateAsync({
+      profileId: profileId,
+    });
+
+    setChildName("");
+    window.location.href = "/parent/main";
+  };
+
+  const handleButtonClick = () => {
+    createProfile.mutateAsync({
+      name: childName,
+    });
+
+    setChildName("");
+    setIsRegistModalOpen(false);
+  };
+
   return (
     <>
       <Container>
         <Image src={Logo} alt="Background" />
         <Content>
-          <ChildCard img={smile} backgroundColor="#78BFFC" text="손수형" />
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              width: "30vh",
-              height: "30vh",
-              paddingBottom: "12vh",
-            }}
-            onClick={OpenRegistModal}
-          >
-            <ProfileCircle />
-          </div>
+          {ProfileList &&
+            ProfileList.length > 0 &&
+            ProfileList.map((child: ProfileProps) => (
+              <ChildCard
+                key={child.id}
+                img={child.animal.imgUrl}
+                backgroundColor="#78BFFC"
+                text={child.name}
+                onClick={handleChangeProfile}
+              />
+            ))}
+          {ProfileList.length !== 4 && (
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: "30vh",
+                height: "30vh",
+                paddingBottom: "12vh",
+              }}
+              onClick={OpenRegistModal}
+            >
+              <ProfileCircle />
+            </div>
+          )}
         </Content>
         <ClickButton
           width="60vh"
@@ -99,7 +148,7 @@ const ParentProfilePage = () => {
       {/* 오버레이 렌더링 */}
       {isRegistModalOpen && (
         <Modal
-          title="아이디 등록하기"
+          title="아이 등록하기"
           subtitle="아이 이름을 입력하여 아이를 등록해주세요"
           placeholder="아이의 이름을 입력하세요"
           buttonText="생성하기"
@@ -107,6 +156,8 @@ const ParentProfilePage = () => {
           buttonColor="#78bff0"
           showInput={true}
           onClose={handleCloseModal} // 모달 닫기를 위한 함수를 전달합니다.
+          onNameChange={setChildName}
+          onButtonClick={handleButtonClick}
         />
       )}
       {isSendInviteCode && (
