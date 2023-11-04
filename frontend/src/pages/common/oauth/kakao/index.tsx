@@ -8,7 +8,8 @@ const KakaoRedirect = () => {
   axios
     .get(`${process.env.REACT_APP_BASE_URL}/api/oauth/kakao?code=${code}`)
     .then((res) => {
-      localStorage.setItem("accesstoken", res.headers.accesstoken);
+      localStorage.setItem("accessToken", res.headers.accesstoken);
+      console.log(res);
       window.location.href = "/parent/main";
     });
 
