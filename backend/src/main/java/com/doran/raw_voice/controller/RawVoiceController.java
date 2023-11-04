@@ -55,8 +55,11 @@ public class RawVoiceController {
 
     //녹음 완료 요청 API
     @GetMapping("/complete")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_PARENT')") // 관리자, 부모만 등록 가능
     public ResponseEntity<?> completeRecord() {
         log.info("녹음 완료 요청 컨트롤러");
+        int userId = Auth.getInfo().getUserId();
+        log.info("해당 유저의 녹음이 완료되었습니다. " + String.valueOf(userId));
 
         //model pub 호출
 
@@ -65,6 +68,7 @@ public class RawVoiceController {
 
     //모델 생성시 알림이 갈 번호 등록
     @PostMapping("/tel")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_PARENT')") // 관리자, 부모만 등록 가능
     public ResponseEntity<?> insertTel(@RequestBody TelInsertDto telInsertDto) {
         log.info("번호 등록 컨트롤러");
         //redis 저장
