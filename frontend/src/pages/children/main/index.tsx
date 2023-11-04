@@ -1,5 +1,4 @@
 import styled, { keyframes } from "styled-components";
-import background from "@/assets/img/background/childMain.png";
 import castle from "@/assets/img/childMain/castle.png";
 import postOffice from "@/assets/img/childMain/postoffice.png";
 import camera from "@/assets/img/childMain/camera.png";
