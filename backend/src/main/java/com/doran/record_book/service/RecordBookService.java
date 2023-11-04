@@ -1,13 +1,14 @@
 package com.doran.record_book.service;
 
-import static com.doran.record_book.entity.QRecordBook.*;
-
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.doran.record_book.dto.res.BookDto;
+import com.doran.record_book.dto.res.RecordBookResDto;
+import com.doran.record_book.dto.res.ScriptDto;
 import com.doran.record_book.repository.RecordBookRepository;
-import com.querydsl.core.Tuple;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,11 +20,23 @@ public class RecordBookService {
     private final RecordBookRepository recordBookRepository;
 
     //책 리스트 조회
-    public void findBookTitleList() {
-        List<Tuple> toTalPage = recordBookRepository.findToTalPage();
+    public RecordBookResDto findBookTitleList() {
+        RecordBookResDto recordBookResDto = new RecordBookResDto();
+        List<String> bookName = recordBookRepository.findBookName();
+        List<Long> totalScriptList = recordBookRepository.findToTalPage(bookName);
 
-        for (Tuple tuple : toTalPage) {
-            tuple.get(recordBook.count());
+        recordBookResDto.setTotalScriptList(totalScriptList);
+        List<BookDto> bookDtoList = new ArrayList<>();
+
+        for (String s : bookName) {
+            BookDto bookDto = new BookDto();
+            List<ScriptDto> script = recordBookRepository.findScript(s);
+            bookDto.setTitle(s);
+            bookDto.setScriptList(script);
+            bookDtoList.add(bookDto);
         }
+        recordBookResDto.setBookList(bookDtoList);
+        return recordBookResDto;
     }
+
 }
