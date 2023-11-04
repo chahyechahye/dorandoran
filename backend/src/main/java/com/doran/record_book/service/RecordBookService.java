@@ -38,5 +38,18 @@ public class RecordBookService {
         recordBookResDto.setBookList(bookDtoList);
         return recordBookResDto;
     }
+    
+    //페이지 수 조회
+    public long findTotalScript(String bookName) {
+        Long totalScript = recordBookRepository.findTotalScript(bookName);
+
+        Optional.ofNullable(totalScript).ifPresentOrElse(
+            aLong -> {},
+            () -> {
+                throw new CustomException(ErrorCode.SCRIPT_NOT_FOUND)
+            }
+        );
+        return totalScript;
+    }
 
 }
