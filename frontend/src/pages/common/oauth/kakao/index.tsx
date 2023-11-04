@@ -10,7 +10,7 @@ const KakaoRedirect = () => {
     .then((res) => {
       localStorage.setItem("accessToken", res.headers.accesstoken);
       console.log(res.data.profileList);
-      // console.log(res.data.profileList[0]);
+      console.log(res.data);
       window.location.href = "/parent/main";
     });
 
