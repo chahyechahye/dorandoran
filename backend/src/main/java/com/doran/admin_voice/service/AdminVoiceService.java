@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.doran.admin_voice.dto.req.AdminVoiceInsertDto;
 import com.doran.admin_voice.dto.res.AdminVoiceResDto;
-import com.doran.admin_voice.dto.res.AdminVoiceResDtoList;
 import com.doran.admin_voice.entity.AdminVoice;
 import com.doran.admin_voice.mapper.AdminVoiceMapper;
 import com.doran.admin_voice.repository.AdminVoiceRepository;
@@ -38,13 +37,9 @@ public class AdminVoiceService {
             .orElseThrow(() -> new CustomException(ErrorCode.VOICE_NOT_FOUND)));
     }
     // book (동화책)단위 관리자 목소리 -> 뭔가 쓸일이 있을 거 같아서 일단 만듦
-    public AdminVoiceResDtoList findAdminVoiceByBookId(Genders gender, int bookId){
+    public List<AdminVoiceResDto> findAdminVoiceByBookId(Genders gender, int bookId){
         List<AdminVoice> result = adminVoiceRepository.findAdminVoiceByBookId(gender, bookId);
-        List<AdminVoiceResDto> adminVoiceResDtoList = new ArrayList<>();
-        for(AdminVoice adminVoice : result){
-            adminVoiceResDtoList.add(adminVoiceMapper.toResDto(adminVoice));
-        }
-        return adminVoiceMapper.toResDtoList(adminVoiceResDtoList, adminVoiceResDtoList.size());
+        return adminVoiceMapper.toResDtoList(result);
     }
     public void insertAdminVoice(AdminVoiceInsertDto adminVoiceInsertDto){
         Content content = contentService.getContentById(adminVoiceInsertDto.getContentId());
