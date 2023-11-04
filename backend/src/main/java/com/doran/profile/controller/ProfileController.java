@@ -76,7 +76,6 @@ public class ProfileController {
      * userInfo : 로그인된 CHILD 계정
      * profile : 선택한 profileId
      */
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_CHILD')")
     @PostMapping("/change")
     public ResponseEntity<?> changeProfile(@RequestBody ChangeProfileDto req, HttpServletResponse response,
         HttpServletRequest request) {
