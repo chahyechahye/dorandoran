@@ -10,9 +10,9 @@ const getAlbumList = async () => {
   }
 };
 
-const deleteAlbum = async (albumId: AlbumProps) => {
+const deleteAlbum = async (albumId: number) => {
   try {
-    const response = await instance.get(`/album/${albumId}`);
+    const response = await instance.delete(`/album/${albumId}`);
     return response.data;
   } catch {
     console.log(new Error("api 연동 오류 - deleteAlbum"));
