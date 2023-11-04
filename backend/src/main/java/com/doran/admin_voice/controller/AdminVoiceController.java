@@ -1,5 +1,7 @@
 package com.doran.admin_voice.controller;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.doran.admin_voice.dto.req.AdminVoiceInsertDto;
 import com.doran.admin_voice.dto.res.AdminVoiceResDto;
-import com.doran.admin_voice.dto.res.AdminVoiceResDtoList;
 import com.doran.admin_voice.service.AdminVoiceService;
 import com.doran.utils.common.Genders;
 import com.doran.utils.response.CommonResponseEntity;
@@ -41,8 +42,7 @@ public class AdminVoiceController {
     public ResponseEntity<?> getAdminVoiceByBookId(@PathVariable(value="book_id") int bookId,
                                                 @RequestParam(name="gender") Genders gender){
         log.info("Query start " + bookId + " " + gender);
-        AdminVoiceResDtoList adminVoiceResDtoList = adminVoiceService.findAdminVoiceByBookId(gender,bookId);
-        log.info("Query end");
+        List<AdminVoiceResDto> adminVoiceResDtoList = adminVoiceService.findAdminVoiceByBookId(gender,bookId);
         return CommonResponseEntity.getResponseEntity(SuccessCode.SUCCESS_CODE,adminVoiceResDtoList);
     }
     // 관리자 목소리 등록
