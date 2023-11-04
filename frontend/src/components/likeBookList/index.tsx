@@ -27,7 +27,7 @@ const StyledMain = styled.main`
   padding-inline: 2.3em;
   align-items: center;
   justify-content: center;
-  background-color: #1f5875;
+  background-color: #78bffc;
   border-radius: 5vh;
   overflow: hidden;
   z-index: 1;
