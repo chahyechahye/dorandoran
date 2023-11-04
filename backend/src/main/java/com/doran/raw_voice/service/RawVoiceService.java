@@ -55,5 +55,18 @@ public class RawVoiceService {
         RawVoice rawVoice = rawVoiceMapper.voiceInsertToRawVoice(user,voiceUrl,rawVoiceInsertDto.getGender());
         rawVoiceRepository.save(rawVoice);
    }
+    //목소리 조회 (유저 아이디)
+    public List<RawVoice> findRawVoiceByUserId(int userId) {
+        if (rawVoiceRepository.findRawVoiceByUserId(userId).size() == 0)
+            throw new CustomException(ErrorCode.VOICE_NOT_FOUND);
+        return rawVoiceRepository.findRawVoiceByUserId(userId);
+    }
+
+    // 목소리 추가 파일명 : user_id + "_" + 0000.mp3 , ex) 000001_0000.mp3
+    //    public void insertRawVoice (RawVoiceInsertDto rawVoiceInsertDto) throws IOException {
+    //
+    //        String url = bucketService.insertFile(InsertD)
+    //        RawVoice rawVoice = rawVoiceMapper.voiceInsertToRawVoice(rawVoiceInsertDto);
+    //    }
 
 }
