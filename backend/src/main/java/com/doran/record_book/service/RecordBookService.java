@@ -23,7 +23,6 @@ public class RecordBookService {
 
     //책 리스트 조회
     public RecordBookResDto findBookTitleList() {
-        RecordBookResDto res = new RecordBookResDto();
         List<String> bookName = recordBookRepository.findBookName();
         List<Long> totalScript = findTotalScript(bookName);
 
