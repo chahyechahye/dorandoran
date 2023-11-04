@@ -57,7 +57,6 @@ public class ProfileController {
             profileService.selectAllProfile(childDto.getId()));
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_PARENT')")
     @PostMapping("")
     public ResponseEntity<?> createChildProfile(@RequestBody CreateProfileDto req) {
         UserInfo userInfo = Auth.getInfo();
