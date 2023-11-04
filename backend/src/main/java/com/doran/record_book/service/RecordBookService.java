@@ -1,6 +1,5 @@
 package com.doran.record_book.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -8,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.doran.record_book.dto.res.BookDto;
 import com.doran.record_book.dto.res.RecordBookResDto;
 import com.doran.record_book.dto.res.ScriptDto;
+import com.doran.record_book.mapper.RecordBookMapper;
 import com.doran.record_book.repository.RecordBookRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -18,38 +18,29 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class RecordBookService {
     private final RecordBookRepository recordBookRepository;
+    private final RecordBookCaching recordBookCaching;
+    private final RecordBookMapper recordBookMapper;
 
     //책 리스트 조회
     public RecordBookResDto findBookTitleList() {
-        RecordBookResDto recordBookResDto = new RecordBookResDto();
+        RecordBookResDto res = new RecordBookResDto();
         List<String> bookName = recordBookRepository.findBookName();
-        List<Long> totalScriptList = recordBookRepository.findToTalPage(bookName);
+        List<Long> totalScript = findTotalScript(bookName);
 
-        recordBookResDto.setTotalScriptList(totalScriptList);
-        List<BookDto> bookDtoList = new ArrayList<>();
+        List<BookDto> bookList = bookName.stream()
+            .map(name -> {
+                log.info("캐싱된 데이터 있으면 쿼리 발생하지 않음");
+                List<ScriptDto> script = recordBookCaching.findScript(name);
+                return recordBookMapper.toBookDto(name, script);
+            })
+            .toList();
 
-        for (String s : bookName) {
-            BookDto bookDto = new BookDto();
-            List<ScriptDto> script = recordBookRepository.findScript(s);
-            bookDto.setTitle(s);
-            bookDto.setScriptList(script);
-            bookDtoList.add(bookDto);
-        }
-        recordBookResDto.setBookList(bookDtoList);
-        return recordBookResDto;
+        return recordBookMapper.toResDto(totalScript, bookList);
     }
-    
-    //페이지 수 조회
-    public long findTotalScript(String bookName) {
-        Long totalScript = recordBookRepository.findTotalScript(bookName);
 
-        Optional.ofNullable(totalScript).ifPresentOrElse(
-            aLong -> {},
-            () -> {
-                throw new CustomException(ErrorCode.SCRIPT_NOT_FOUND)
-            }
-        );
-        return totalScript;
+    //페이지 수 조회
+    public List<Long> findTotalScript(List<String> bookName) {
+        return recordBookRepository.findToTalPage(bookName);
     }
 
 }
