@@ -10,6 +10,7 @@ import Frog from "@/assets/img/Frog.png";
 
 import movables from "@/assets/img/movables.png";
 import character from "@/assets/img/fox.png";
+import { useFairytaleList } from "@/apis/children/fairytale/Queries/useFariytaleList";
 
 // import { background } from "@/assets/img/backgroundRecord.jpg";
 
@@ -245,6 +246,8 @@ const FairyTalePage = () => {
   const [activeCardClass, setActiveCardClass] =
     useState<keyof typeof cardColors>("card00");
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const setFairytale = useFairytaleList();
 
   const openModal = () => {
     setIsModalOpen(true);

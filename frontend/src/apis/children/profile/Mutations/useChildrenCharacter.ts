@@ -4,7 +4,7 @@ import { postChildrenCharacter } from "@/apis/children/profile/profileAPI";
 const useChildrenCharacter = () => {
   const queryClient = useQueryClient();
 
-  return useMutation((animalId: number) => postChildrenCharacter(animalId), {
+  return useMutation((animalId: string) => postChildrenCharacter(animalId), {
     onSuccess: () => {
       queryClient.invalidateQueries(["ChildrenCharacter"]);
     },

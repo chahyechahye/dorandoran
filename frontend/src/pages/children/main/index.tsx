@@ -10,6 +10,9 @@ import letterEffect from "@/assets/img/gif/letter.json";
 import letterImage from "@/assets/img/letter/letterImage.png";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useFairytaleList } from "@/apis/children/fairytale/Queries/useFariytaleList";
+import { useRecoilState } from "recoil";
+import { bookListState } from "@/states/children/info";
 
 import movables from "@/assets/img/movables.png";
 
@@ -357,6 +360,15 @@ const BlackGround = styled.div`
   position: absolute;
   z-index: 7;
 `;
+
+interface FairytaleListProps {
+  bookId: number;
+  title: string;
+  imgUrl: string;
+  author: null;
+  publisher: null;
+  totalPageCnt: number;
+}
 
 const ChildrenMainPage = () => {
   const [isLetter, setIsLetter] = useState(false);
