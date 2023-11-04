@@ -5,7 +5,7 @@ import { AlbumProps } from "@/types/parent/albumType";
 // 일기 삭제
 const useDeleteAlbum = () => {
   const queryCilent = useQueryClient();
-  return useMutation((albumId: AlbumProps) => deleteAlbum(albumId), {
+  return useMutation((albumId: number) => deleteAlbum(albumId), {
     onSuccess: () => {
       queryCilent.invalidateQueries(["AlbumList"]);
       console.log("deleteAlbum Success");
