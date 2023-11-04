@@ -1,11 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
+
+import { usePostAlbum } from "@/apis/common/album/Mutations/usePostAlbum";
+import { useGetAlbumList } from "@/apis/common/album/Queries/useGetAlbumList";
 
 import bookLeft from "@/assets/img/bookLeft.png";
 import bookRight from "@/assets/img/bookRight.png";
 import registBtn from "@/assets/img/registBtn.png";
 import deleteBtn from "@/assets/img/deleteBtn.png";
 import exitBtn from "@/assets/img/exitBtn.png";
+import { useDeleteAlbum } from "@/apis/common/album/Mutations/useDeleteAlbum";
+
+// Define the type for your AlbumList items
+interface AlbumItem {
+  albumId: number;
+  imgUrl: string;
+}
 
 const Container = styled.div`
   min-height: 100vh;
@@ -88,8 +98,8 @@ const PageRight = styled.div`
     left: 30vh;
     top: 36vh;
     transform: translate(-50%, -50%);
-    max-width: 70%;
-    max-height: 70%;
+    max-width: 50vh;
+    max-height: 50vh;
     opacity: 0;
     transition:
       0.8s,
@@ -125,10 +135,6 @@ const Header = styled.div`
   z-index: 1;
 `;
 
-const Image = styled.img`
-  margin: 0vh 3vh;
-`;
-
 const ExitBtn = styled.img`
   width: 15vh;
 `;
@@ -139,22 +145,45 @@ const ImageBtn = styled.img`
 `;
 
 const Album = ({ onClose }: { onClose: () => void }) => {
-  const sources = [
-    "https://orig00.deviantart.net/1dfd/f/2018/263/1/f/doro_by_kuvshinov_ilya-dcnbgw3.jpg",
-    "https://orig00.deviantart.net/edd6/f/2018/170/3/5/depth_of_field_by_kuvshinov_ilya-dcetf0p.jpg",
-    "https://orig00.deviantart.net/91c3/f/2018/170/1/9/boushi_by_kuvshinov_ilya-dcetfrj.jpg",
-    "https://orig00.deviantart.net/1cf2/f/2018/263/6/7/uesaka_sumire_album_cover_illustration_by_kuvshinov_ilya-dcnbfu8.jpg",
-    "https://orig00.deviantart.net/1dc6/f/2018/170/3/0/earring_by_kuvshinov_ilya-dceteuz.jpg",
-    "https://orig00.deviantart.net/3171/f/2018/170/0/5/hayashi_by_kuvshinov_ilya-dcetah7.jpg",
-    "https://orig00.deviantart.net/dc3b/f/2018/170/7/f/rose_by_kuvshinov_ilya-dcetaqj.jpg",
-    "https://img00.deviantart.net/e978/i/2018/170/0/f/sanpo_by_kuvshinov_ilya-dceta26.jpg",
-    "https://orig00.deviantart.net/bf7b/f/2018/170/9/2/my_artwork_collection_momentary_reprinted_by_kuvshinov_ilya-dcetaxx.jpg",
-  ];
+  const [activeAlbumId, setActiveAlbumId] = useState(0);
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const AlbumList = useGetAlbumList().data;
 
-  const [activeIndex, setActiveIndex] = useState(0);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  const handleImageClick = (index: number) => {
-    setActiveIndex(index);
+  const loadAlbum = usePostAlbum();
+  const deleteAlbum = useDeleteAlbum();
+
+  const handleImageClick = (albumId: number) => {
+    setActiveAlbumId(albumId);
+  };
+
+  const handleImageUpload = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click(); // Trigger the file input
+    }
+  };
+
+  const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setSelectedImage(file);
+    }
+  };
+
+  useEffect(() => {
+    if (selectedImage) {
+      const formData = new FormData();
+      formData.append("multipartFile", selectedImage);
+
+      loadAlbum.mutateAsync(formData);
+
+      setSelectedImage(null);
+    }
+  }, [selectedImage, loadAlbum]);
+
+  const handleImageDelete = () => {
+    deleteAlbum.mutateAsync(activeAlbumId);
   };
 
   return (
@@ -176,31 +205,38 @@ const Album = ({ onClose }: { onClose: () => void }) => {
       </Header>
       <Book>
         <PageLeft>
-          {sources.map((source, index) => (
+          {AlbumList.map((item: AlbumItem) => (
             <img
-              key={index}
-              src={source}
-              alt={`Image ${index}`}
-              className={index === activeIndex ? "active" : ""}
-              onClick={() => handleImageClick(index)}
+              key={item.albumId}
+              src={item.imgUrl}
+              alt={`Image ${item.albumId}`}
+              className={item.albumId === activeAlbumId ? "active" : ""}
+              onClick={() => handleImageClick(item.albumId)}
             />
           ))}
         </PageLeft>
         <PageRight>
-          {sources.map((source, index) => (
+          {AlbumList.map((item: AlbumItem) => (
             <img
-              key={index}
-              src={source}
-              alt={`Image ${index}`}
-              className={index === activeIndex ? "active" : ""}
+              key={item.albumId}
+              src={item.imgUrl}
+              alt={`Image ${item.albumId}`}
+              className={item.albumId === activeAlbumId ? "active" : ""}
             />
           ))}
         </PageRight>
       </Book>
       <Bottom>
-        <ImageBtn src={registBtn} alt="regist" />
-        <ImageBtn src={deleteBtn} alt="regist" />
+        <ImageBtn src={registBtn} alt="regist" onClick={handleImageUpload} />
+        <ImageBtn src={deleteBtn} alt="delete" onClick={handleImageDelete} />
       </Bottom>
+      <input
+        type="file"
+        accept="image/*"
+        style={{ display: "none" }}
+        onChange={handleFileInputChange}
+        ref={fileInputRef}
+      />
     </Container>
   );
 };
