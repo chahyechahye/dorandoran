@@ -7,6 +7,8 @@ import ParentCard from "@/components/parentCard";
 import Album from "@/components/album";
 import LikeBookList from "@/components/likeBookList";
 import { useNavigate } from "react-router-dom";
+import { profileState } from "@/states/children/info";
+import { useRecoilValue } from "recoil";
 
 import background from "@/assets/img/background/backgroundMain.jpg";
 
@@ -64,6 +66,7 @@ const Overlay = styled.div`
 
 const ParentMainPage = () => {
   const navigate = useNavigate();
+  const profileData = useRecoilValue(profileState);
 
   const [isOpenAlbum, setIsOpenAlbum] = useState(false);
   const [isOpenLikeBook, setIsOpenLikeBook] = useState(false);
@@ -96,7 +99,11 @@ const ParentMainPage = () => {
     <>
       <Container>
         <Header>
-          <ProfileCircle onClick={goProfile} />
+          <ProfileCircle
+            onClick={goProfile}
+            profileImage={profileData.animal.imgUrl}
+            profileName={profileData.name}
+          />
           <LikeBook onClick={handleOpenLikeBook} />
         </Header>
         <Image src={Logo} alt="Background" />
