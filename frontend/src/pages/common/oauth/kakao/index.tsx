@@ -9,7 +9,8 @@ const KakaoRedirect = () => {
     .get(`${process.env.REACT_APP_BASE_URL}/api/oauth/kakao?code=${code}`)
     .then((res) => {
       localStorage.setItem("accessToken", res.headers.accesstoken);
-      console.log(res);
+      console.log(res.data.profileList);
+      console.log(res.data.profileList[0]);
       window.location.href = "/parent/main";
     });
 
