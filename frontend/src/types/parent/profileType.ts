@@ -6,4 +6,8 @@ interface ProfileChangeProps {
   profileId: number;
 }
 
-export type { ProfileProps, ProfileChangeProps };
+interface MessageProps {
+  tel: string;
+}
+
+export type { ProfileProps, ProfileChangeProps, MessageProps };

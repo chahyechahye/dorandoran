@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const Container = styled.div<{ onClick?: () => void }>`
+const Container = styled.div<{ onClick?: (data: any) => void }>`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -39,7 +39,7 @@ interface Props {
   img?: string;
   backgroundColor?: string;
   text?: string;
-  onClick?: () => void;
+  onClick?: (data: any) => void;
 }
 
 const ChildCard = ({ img, backgroundColor, text, onClick }: Props) => {
