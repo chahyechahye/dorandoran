@@ -3,6 +3,12 @@ import background from "@/assets/img/background/background.jpg";
 import logoImageSrc from "@/assets/img/logo/logo.png";
 import ClickButton from "@/components/clickButton";
 import { useNavigate } from "react-router-dom";
+import { useChildrenCode } from "@/apis/children/profile/Queries/useChildrenCode";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { ChildrenInfoState, profileListState } from "@/states/children/info";
+import { useEffect, useState } from "react";
+import { postChildrenLogin } from "@/apis/children/profile/profileAPI";
+import { useChildrenLogin } from "@/apis/children/profile/Mutations/useChildrenLogin";
 
 const Background = styled.div`
   position: fixed;
@@ -36,9 +42,12 @@ const InviteCode = styled.input`
   border-radius: 5vh;
   border-color: transparent;
   box-shadow: 0 0 1vh rgba(0, 0, 0, 0.1);
+  padding-left: 3vh;
+  font-size: 2.5vh;
+  font-family: Katuri;
+  color: #eb9f4a;
   &::placeholder {
-    padding-left: 3vh;
-    font-size: 2vh;
+    font-size: 2.5vh;
     font-family: Katuri;
     color: #999999;
   }
@@ -47,15 +56,32 @@ const InviteCode = styled.input`
 const ChildrenLoginPage = () => {
   const navigate = useNavigate();
 
-  const goMain = () => {
-    navigate("/children/profile");
+  const [code, setCode] = useState("");
+  const [input, setInput] = useState("");
+
+  const setChildrenCode = useChildrenCode(Number(code));
+  const [profileList, setProfileList] = useRecoilState(profileListState);
+
+  useEffect(() => {
+    if (setChildrenCode) {
+      setProfileList(setChildrenCode.data.profileList);
+      navigate("/children/profile");
+    }
+  }, [setChildrenCode, setProfileList, navigate]);
+
+  const getChildrenCodeHandler = () => {
+    setCode(input);
   };
 
   return (
     <Background>
       <ContentContainer>
         <LogoImage src={logoImageSrc} />
-        <InviteCode placeholder="초대코드"></InviteCode>
+        <InviteCode
+          placeholder="초대코드"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+        ></InviteCode>
         <ClickButton
           width="33vh"
           height="6.5vh"
@@ -63,7 +89,7 @@ const ChildrenLoginPage = () => {
           fontColor="white"
           fontSize="3vh"
           text="모험을 떠나요"
-          onClick={goMain}
+          onClick={getChildrenCodeHandler}
         ></ClickButton>
       </ContentContainer>
     </Background>
