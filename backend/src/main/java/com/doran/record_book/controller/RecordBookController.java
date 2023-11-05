@@ -1,10 +1,19 @@
 package com.doran.record_book.controller;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.doran.book.entity.Book;
+import com.doran.book.service.BookService;
+import com.doran.content.service.ContentService;
+import com.doran.page.entity.Page;
+import com.doran.page.service.PageService;
 import com.doran.record_book.dto.res.RecordBookResDto;
 import com.doran.record_book.service.RecordBookService;
 import com.doran.utils.response.CommonResponseEntity;
@@ -20,6 +29,9 @@ import lombok.extern.slf4j.Slf4j;
 public class RecordBookController {
 
     private final RecordBookService recordBookService;
+    private final BookService bookService;
+    private final PageService pageService;
+    private final ContentService contentService;
 
     //스크립트 전체 조회
     @GetMapping()
@@ -27,9 +39,21 @@ public class RecordBookController {
         long start = System.currentTimeMillis();
 
         RecordBookResDto bookTitleList = recordBookService.findBookTitleList();
-        
+
         log.info("걸린 시간(ms) : {}", System.currentTimeMillis() - start);
 
         return CommonResponseEntity.getResponseEntity(SuccessCode.OK, bookTitleList);
+    }
+
+    //스크립트 등록
+    @PostMapping("/{book-id}")
+    public ResponseEntity postScript(@PathVariable("book-id") int bookId) {
+        Book findBook = bookService.findBookById(bookId);
+        List<Page> pageList = pageService.findPageByBookId(bookId);
+
+        List<String> contentByPageList = contentService.findContentByPageList(pageList);
+
+        recordBookService.regist(contentByPageList, findBook.getTitle());
+        return CommonResponseEntity.getResponseEntity(SuccessCode.OK, "등록 완료");
     }
 }

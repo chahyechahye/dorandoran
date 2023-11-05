@@ -1,12 +1,14 @@
 package com.doran.record_book.service;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.springframework.stereotype.Service;
 
 import com.doran.record_book.dto.res.BookDto;
 import com.doran.record_book.dto.res.RecordBookResDto;
 import com.doran.record_book.dto.res.ScriptDto;
+import com.doran.record_book.entity.RecordBook;
 import com.doran.record_book.mapper.RecordBookMapper;
 import com.doran.record_book.repository.RecordBookRepository;
 
@@ -40,6 +42,20 @@ public class RecordBookService {
     //페이지 수 조회
     public List<Long> findTotalScript(List<String> bookName) {
         return recordBookRepository.findToTalPage(bookName);
+    }
+
+    public void regist(List<String> scriptList, String title) {
+        AtomicInteger scriptNum = new AtomicInteger(1);
+
+        List<RecordBook> list = scriptList.stream()
+            .map(s -> recordBookMapper.toRecordBook(title, s, scriptNum.getAndIncrement()))
+            .toList();
+
+        recordBookRepository.saveAll(list);
+    }
+
+    public List<ScriptDto> findScript(String title) {
+        return recordBookRepository.findScript(title);
     }
 
 }

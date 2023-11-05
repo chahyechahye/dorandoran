@@ -1,16 +1,72 @@
 package com.doran.dummy;
 
+import java.util.List;
+
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.doran.book.entity.Book;
+import com.doran.book.service.BookService;
+import com.doran.content.repository.ContentRepository;
+import com.doran.content.service.ContentService;
+import com.doran.page.entity.Page;
+import com.doran.page.service.PageService;
+import com.doran.record_book.dto.res.ScriptDto;
 import com.doran.record_book.entity.RecordBook;
 import com.doran.record_book.repository.RecordBookRepository;
+import com.doran.record_book.service.RecordBookService;
 
 @SpringBootTest
 public class ScriptTest {
     @Autowired
     RecordBookRepository recordBookRepository;
+    @Autowired
+    PageService pageService;
+    @Autowired
+    ContentRepository contentRepository;
+    @Autowired
+    BookService bookService;
+    @Autowired
+    ContentService contentService;
+    @Autowired
+    RecordBookService recordBookService;
+
+    @Test
+    @DisplayName("대본 등록 api test")
+    @Transactional
+    public void regist() {
+        int bookId = 25;
+        Book findBook = bookService.findBookById(bookId);
+        List<Page> pageList = pageService.findPageByBookId(bookId);
+
+        List<String> contentByPageList = contentService.findContentByPageList(pageList);
+
+        recordBookService.regist(contentByPageList, findBook.getTitle());
+
+        List<ScriptDto> script = recordBookService.findScript(findBook.getTitle());
+
+        for (ScriptDto scriptDto : script) {
+            System.out.println(scriptDto.getScript());
+            System.out.println(scriptDto.getScriptNum());
+        }
+    }
+
+    @Test
+    public void tttt() {
+        List<Page> pageByBookId = pageService.findPageByBookId(2);
+
+        for (Page page : pageByBookId) {
+            System.out.println(page.getIdx());
+        }
+        System.out.println("//////////////////////");
+        List<String> contentByPageList = contentRepository.findContentByPageList(pageByBookId);
+        for (String s : contentByPageList) {
+            System.out.println(s);
+        }
+    }
 
     @Test
     public void test() {
