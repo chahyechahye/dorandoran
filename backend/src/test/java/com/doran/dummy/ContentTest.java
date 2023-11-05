@@ -23,7 +23,7 @@ public class ContentTest {
     ContentService contentService;
     @Autowired
     RecordBookRepository recordBookRepository;
-
+    
     @Test
     void ttttttt() {
         List<String> bookName = recordBookRepository.findBookName();

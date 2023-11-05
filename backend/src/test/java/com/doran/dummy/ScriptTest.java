@@ -13,6 +13,11 @@ public class ScriptTest {
     RecordBookRepository recordBookRepository;
 
     @Test
+    public void tttt() {
+        
+    }
+
+    @Test
     public void test() {
         int scriptNum = 1;
         String title = "개구리 왕자";
