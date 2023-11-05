@@ -41,7 +41,7 @@ public class Profile {
     @JoinColumn(name = "child_id")
     private Child child;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "animal_id")
     private Animal animal;
 
