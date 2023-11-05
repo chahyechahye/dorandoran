@@ -9,6 +9,7 @@ import java.util.Optional;
 
 import com.doran.parent.type.Provider;
 import com.doran.user.dto.req.UserTokenBaseDto;
+import com.doran.user.entity.User;
 import com.doran.user.type.Roles;
 import com.doran.utils.common.UserInfo;
 import com.querydsl.core.types.Projections;
@@ -76,6 +77,25 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
             .where(profile.id.eq(profileId),
                 user.id.eq(userId),
                 user.userRole.eq(roles))
+            .fetchOne());
+    }
+    @Override
+    public Optional<User> findUserByParentId(int parentId){
+        return Optional.ofNullable(jpaQueryFactory
+            .select(user)
+            .from(user)
+            .leftJoin(parent).on(user.eq(parent.user))
+            .where(parent.id.eq(parentId))
+            .fetchOne());
+    }
+    @Override
+    public Optional<User> findUserByProfileId(int profileId){
+        return Optional.ofNullable(jpaQueryFactory
+            .select(user)
+            .from(user)
+            .leftJoin(child).on(user.eq(child.user))
+            .leftJoin(profile).on(child.eq(profile.child))
+            .where(profile.id.eq(profileId))
             .fetchOne());
     }
 }
