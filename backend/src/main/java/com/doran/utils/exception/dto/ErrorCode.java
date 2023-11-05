@@ -68,7 +68,10 @@ public enum ErrorCode {
     ALBUM_NOT_FOUND(HttpStatus.NOT_FOUND, "앨범이 존재하지 않습니다."),
 
     //아이
-    CHILD_NOT_FOUND(HttpStatus.NOT_FOUND, "아이가 존재하지 않습니다.");
+    CHILD_NOT_FOUND(HttpStatus.NOT_FOUND, "아이가 존재하지 않습니다."),
+
+    //스크립트
+    SCRIPT_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 스크립트가 존재하지 않습니다.");
 
     private final HttpStatus httpStatus;
     private final String message;
