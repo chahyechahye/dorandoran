@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.doran.book.entity.Book;
 import com.doran.book.service.BookService;
 import com.doran.content.service.ContentService;
 import com.doran.page.entity.Page;
@@ -47,8 +48,12 @@ public class RecordBookController {
     //스크립트 등록
     @PostMapping("/{book-id}")
     public ResponseEntity postScript(@PathVariable("book-id") int bookId) {
-        // Book findBook = bookService.findBookById(bookId);
-        List<Page> pageByBookId = pageService.findPageByBookId(bookId);
-        return null;
+        Book findBook = bookService.findBookById(bookId);
+        List<Page> pageList = pageService.findPageByBookId(bookId);
+
+        List<String> contentByPageList = contentService.findContentByPageList(pageList);
+
+        recordBookService.regist(contentByPageList, findBook.getTitle());
+        return CommonResponseEntity.getResponseEntity(SuccessCode.OK, "등록 완료");
     }
 }
