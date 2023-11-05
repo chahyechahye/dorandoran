@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.doran.raw_voice.dto.res.RawVoiceResDto;
 import com.doran.raw_voice.entity.RawVoice;
 import com.doran.raw_voice.repository.RawVoiceRepository;
 import com.doran.utils.bucket.dto.InsertDto;
@@ -21,9 +22,9 @@ public class BucketTest {
 
     @Test
     public void insertTest() {
-        List<RawVoice> rawVoiceList = rawVoiceRepository.findRawVoiceByUserId(3);
+        List<RawVoiceResDto> rawVoiceList = rawVoiceRepository.findRawVoiceByUserId(3);
 
-        for (RawVoice r : rawVoiceList)
+        for (RawVoiceResDto r : rawVoiceList)
         {
             log.info(r.getVoiceUrl());
         }
