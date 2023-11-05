@@ -3,6 +3,7 @@ package com.doran.letter.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,6 +45,13 @@ public class LetterController {
         LetterResDto letterResDto = letterService.getLetter(userInfo.getUserId());
         return CommonResponseEntity.getResponseEntity(SuccessCode.SUCCESS_CODE, letterResDto);
     }
+    // 읽기 않은 편지 개수 (차감 안됨)
+    @GetMapping("/count")
+    public ResponseEntity<?> getLetterCount(){
+        UserInfo userInfo = Auth.getInfo();
+        return CommonResponseEntity.getResponseEntity(SuccessCode.SUCCESS_CODE, letterService.getUnreadLetterCount(userInfo.getUserId()));
+    }
+
     // 편지 등록
     @PostMapping("")
     public ResponseEntity<?> insertLetter(LetterInsertDto letterInsertDto){
