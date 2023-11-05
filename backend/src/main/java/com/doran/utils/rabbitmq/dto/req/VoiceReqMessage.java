@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.doran.admin_voice.dto.res.AdminFindResDto;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,6 +23,5 @@ import lombok.extern.slf4j.Slf4j;
 @ToString
 public class VoiceReqMessage {
     private int userId;
-    private int bookId;
-    private List<String> script;
+    private List<AdminFindResDto> list;
 }
