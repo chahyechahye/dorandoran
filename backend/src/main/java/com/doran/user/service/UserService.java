@@ -17,6 +17,7 @@ import com.doran.user.repository.UserRepository;
 import com.doran.user.type.Roles;
 import com.doran.utils.exception.dto.CustomException;
 import com.doran.utils.exception.dto.ErrorCode;
+import com.doran.utils.sens.MessageType;
 import com.doran.utils.sens.Naver_Sens_V2;
 
 import lombok.RequiredArgsConstructor;
@@ -82,6 +83,6 @@ public class UserService {
         log.info("메세지 보내러 들어옴");
         Naver_Sens_V2 message = new Naver_Sens_V2();
 
-        message.send_msg(tel, code);
+        message.send_msg(tel, code, MessageType.INVITE);
     }
 }
