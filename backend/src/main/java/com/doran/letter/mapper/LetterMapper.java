@@ -5,6 +5,7 @@ import org.mapstruct.Mapping;
 
 import com.doran.letter.dto.req.LetterInsertDto;
 import com.doran.letter.dto.res.LetterResDto;
+import com.doran.letter.dto.res.UnreadLetterResDto;
 import com.doran.letter.entity.Letter;
 import com.doran.parent.entity.Parent;
 import com.doran.profile.entity.Profile;
@@ -16,6 +17,7 @@ public interface LetterMapper {
     @Mapping(target = "id", ignore = true)
     Letter insertLettertoLetter(LetterInsertDto letterInsertDto, Parent parent, Profile profile, String contentUrl, int receiverId, int senderId);
 
+    UnreadLetterResDto letterToUnreadResDto(Integer size);
 
 
     LetterResDto letterToResDto(Letter letter, int unreadCount);
