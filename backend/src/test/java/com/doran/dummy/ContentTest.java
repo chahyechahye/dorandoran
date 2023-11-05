@@ -1,6 +1,7 @@
 package com.doran.dummy;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.jupiter.api.Test;
@@ -10,6 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.doran.content.service.ContentService;
 import com.doran.page.entity.Page;
 import com.doran.page.service.PageService;
+import com.doran.record_book.dto.res.ScriptDto;
+import com.doran.record_book.repository.RecordBookRepository;
 
 @SpringBootTest
 public class ContentTest {
@@ -18,6 +21,29 @@ public class ContentTest {
 
     @Autowired
     ContentService contentService;
+    @Autowired
+    RecordBookRepository recordBookRepository;
+
+    @Test
+    void ttttttt() {
+        List<String> bookName = recordBookRepository.findBookName();
+
+        for (String s : bookName) {
+            System.out.println(s);
+        }
+
+        // List<Long> toTalPage = recordBookRepository.findToTalPage(bookName);
+        // for (Long aLong : toTalPage) {
+        //     System.out.println(aLong);
+        // }
+
+        for (String s : bookName) {
+            List<ScriptDto> script = recordBookRepository.findScript(s);
+            for (ScriptDto scriptDto : script) {
+                System.out.println(scriptDto);
+            }
+        }
+    }
 
     @Test
     public void test() {
