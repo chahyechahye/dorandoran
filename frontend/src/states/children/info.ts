@@ -7,7 +7,6 @@ const { persistAtom } = recoilPersist();
 export const ChildrenInfoState = atom<number>({
   key: "ChildrenInfoState",
   default: 0,
-  effects_UNSTABLE: [persistAtom],
 });
 
 export const bookListState = atom({

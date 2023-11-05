@@ -24,7 +24,7 @@ const Container = styled.div`
 
 const ModalWrapper = styled.div<{ bgColor: string }>`
   background-color: ${(props) => props.bgColor || "#fc7292"};
-  width: 90vh;
+  width: 100vh;
   padding: 4vh;
   border-radius: 1.5vh;
   position: relative;
@@ -38,7 +38,7 @@ const Title = styled.h1`
 
 const Subtitle = styled.p`
   width: 100%;
-  line-height: 5vh;
+  line-height: 8vh;
   font-size: 4vh;
   color: #fff;
   margin: 3vh 0;

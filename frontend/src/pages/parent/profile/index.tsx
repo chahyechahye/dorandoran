@@ -2,8 +2,11 @@ import styled from "styled-components";
 import { useState } from "react";
 
 import { usePostProfile } from "@/apis/parents/profile/Mutations/usePostProfile";
-import { usePostProfileChange } from "@/apis/parents/profile/Mutations/usePostProfileChange";
 import { useGetProfileList } from "@/apis/parents/profile/Queries/useGetProfileList";
+import { useSetRecoilState } from "recoil";
+import { profileState } from "@/states/children/info";
+import { ChildrenProfileProps } from "@/types/children/profileType";
+import { useNavigate } from "react-router-dom";
 
 import ChildCard from "@/components/childCard";
 import ProfileCircle from "@/components/profileCircle";
@@ -12,16 +15,6 @@ import ClickButton from "@/components/clickButton";
 
 import background from "@/assets/img/background/backgroundMain.jpg";
 import Logo from "@/assets/img/Logo.png";
-
-interface ProfileProps {
-  id: number;
-  animal: {
-    id: number;
-    name: string;
-    imgUrl: string;
-  };
-  name: string;
-}
 
 const Container = styled.div`
   position: fixed;
@@ -60,14 +53,16 @@ const Overlay = styled.div`
 `;
 
 const ParentProfilePage = () => {
+  const navigate = useNavigate();
   const [childName, setChildName] = useState("");
   const [isRegistModalOpen, setIsRegistModalOpen] = useState(false); // 모달의 상태를 관리하는 state
   const [isSendInviteCode, setIsSendInviteCode] = useState(false);
+  const setProfileData = useSetRecoilState(profileState);
 
-  const ProfileList: ProfileProps[] = useGetProfileList().data.profileList;
+  const ProfileList: ChildrenProfileProps[] =
+    useGetProfileList().data.profileList;
 
   const createProfile = usePostProfile();
-  const changeProfile = usePostProfileChange();
 
   const OpenRegistModal = () => {
     setIsRegistModalOpen(true); // ProfileCircle을 클릭하면 모달을 엽니다.
@@ -82,16 +77,13 @@ const ParentProfilePage = () => {
     setIsSendInviteCode(false);
   };
 
-  const handleChangeProfile = (profileId: number) => {
-    changeProfile.mutateAsync({
-      profileId: profileId,
-    });
-
+  const handleChangeProfile = (child: ChildrenProfileProps) => {
+    setProfileData(child);
     setChildName("");
-    window.location.href = "/parent/main";
+    navigate("/parent/main");
   };
 
-  const handleButtonClick = () => {
+  const handleRegistChild = () => {
     createProfile.mutateAsync({
       name: childName,
     });
@@ -107,13 +99,13 @@ const ParentProfilePage = () => {
         <Content>
           {ProfileList &&
             ProfileList.length > 0 &&
-            ProfileList.map((child: ProfileProps) => (
+            ProfileList.map((child: ChildrenProfileProps) => (
               <ChildCard
                 key={child.id}
                 img={child.animal.imgUrl}
                 backgroundColor="#78BFFC"
                 text={child.name}
-                onClick={handleChangeProfile}
+                onClick={() => handleChangeProfile(child)}
               />
             ))}
           {ProfileList.length !== 4 && (
@@ -128,7 +120,7 @@ const ParentProfilePage = () => {
               }}
               onClick={OpenRegistModal}
             >
-              <ProfileCircle />
+              <ProfileCircle profileImage="" />
             </div>
           )}
         </Content>
@@ -157,7 +149,7 @@ const ParentProfilePage = () => {
           showInput={true}
           onClose={handleCloseModal} // 모달 닫기를 위한 함수를 전달합니다.
           onNameChange={setChildName}
-          onButtonClick={handleButtonClick}
+          onButtonClick={handleRegistChild}
         />
       )}
       {isSendInviteCode && (

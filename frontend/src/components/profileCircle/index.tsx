@@ -25,13 +25,37 @@ const Plus = styled.span`
   color: white;
 `;
 
-const ProfileCircle = ({ onClick }: { onClick?: () => void }) => {
+const Name = styled.p`
+  color: #312070;
+  font-size: 30px;
+`;
+
+const ProfileImage = styled.img`
+  width: 7vh;
+`;
+
+const ProfileCircle = ({
+  onClick,
+  profileImage,
+  profileName,
+}: {
+  onClick?: () => void;
+  profileImage?: string;
+  profileName?: string;
+}) => {
   return (
-    <OuterCircle onClick={onClick}>
-      <InnerCircle>
-        <Plus>+</Plus>
-      </InnerCircle>
-    </OuterCircle>
+    <div>
+      <OuterCircle onClick={onClick}>
+        <InnerCircle>
+          {profileImage === "" ? (
+            <Plus>+</Plus>
+          ) : (
+            <ProfileImage src={profileImage} />
+          )}
+        </InnerCircle>
+      </OuterCircle>
+      <Name>{profileName}</Name>
+    </div>
   );
 };
 
