@@ -75,6 +75,8 @@ rabbitmq:
   queue:
     model: model.req
     voice: voice.req
+    model_res_test: model.res
+    voice_res_test: voice.res
 
 auth:
   ignore-url: api/oauth/**, api/user/**, api/profile/login, api/profile
