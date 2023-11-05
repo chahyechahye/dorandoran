@@ -11,13 +11,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.doran.content.dto.res.ContentResDto;
 import com.doran.content.service.ContentService;
 import com.doran.page.dto.req.PageFindDto;
 import com.doran.page.dto.req.PageInsertDto;
 import com.doran.page.dto.res.PageDetailDto;
 import com.doran.page.dto.res.PageListDto;
-import com.doran.page.entity.Page;
 import com.doran.page.service.PageService;
 import com.doran.utils.auth.Auth;
 import com.doran.utils.response.CommonResponseEntity;
@@ -55,13 +53,11 @@ public class PageController {
     }
 
     //페이지 조회 with 컨텐츠, url
-    @GetMapping("/all")
-    ResponseEntity<?> getPageListWithContent(@RequestBody PageFindDto pageFindDto)
-    {
+    @PostMapping("/all")
+    ResponseEntity<?> getPageListWithContent(@RequestBody PageFindDto pageFindDto) {
         int userId = Auth.getInfo().getUserId();
         log.info("getPageListWithContent 컨트롤러 호출 ");
-        List<PageDetailDto> result = pageService.getPageAll(userId,pageFindDto.getBookId());
-
+        List<PageDetailDto> result = pageService.getPageAll(userId, pageFindDto.getBookId());
 
         return CommonResponseEntity.getResponseEntity(SuccessCode.SUCCESS_CODE, result);
     }
