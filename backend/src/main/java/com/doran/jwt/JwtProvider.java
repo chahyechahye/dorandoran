@@ -35,9 +35,9 @@ public class JwtProvider {
     @Value("${jwt.secret-key}")
     private String secretKey;
 
-    private static final long accessTokenValidTime = 5 * 24 * 60 * 60 * 1000L;
-
-    private static final long refreshTokenValidTime = 10 * 24 * 60 * 60 * 1000L;
+    private static final long accessTokenValidTime = 15 * 24 * 60 * 60 * 1000L;
+    // private static final long accessTokenValidTime = 1000L;
+    private static final long refreshTokenValidTime = 30 * 24 * 60 * 60 * 1000L;
 
     private final CustomUserDetailService customUserDetailService;
     private final RefreshTokenService refreshTokenService;
