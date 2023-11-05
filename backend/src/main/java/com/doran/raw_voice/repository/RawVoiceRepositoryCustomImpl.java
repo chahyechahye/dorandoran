@@ -5,6 +5,7 @@ import static com.doran.raw_voice.entity.QRawVoice.*;
 import java.util.List;
 
 import com.doran.raw_voice.dto.res.RawVoiceResDto;
+import com.doran.raw_voice.entity.RawVoice;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
@@ -25,4 +26,5 @@ public class RawVoiceRepositoryCustomImpl implements RawVoiceRepositoryCustom {
             .where(rawVoice.user.id.eq(userId))
             .fetch();
     }
+
 }
