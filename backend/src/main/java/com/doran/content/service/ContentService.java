@@ -31,8 +31,12 @@ public class ContentService {
         return contentRepository.getContentWithVoice(userId, pageId, bookId);
     }
 
-    public Content getContentById(int contentId){
+    public Content getContentById(int contentId) {
         return contentRepository.findById(contentId)
             .orElseThrow(() -> new CustomException(ErrorCode.CONTENT_NOT_FOUND));
+    }
+
+    public List<String> findContentByPageList(List<Page> pageList) {
+        return contentRepository.findContentByPageList(pageList);
     }
 }
