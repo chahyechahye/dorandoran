@@ -188,6 +188,7 @@ const DrawingApp = () => {
   });
 
   const toggleEraser = () => {
+    clearCanvas();
     // If we're currently not using the eraser
     if (currentColorIndex !== 8) {
       // Save the current color and thickness
@@ -216,6 +217,8 @@ const DrawingApp = () => {
 
       const currentPoint = { x: xPos, y: yPos };
 
+      lastPoint.current = currentPoint;
+
       drawingCtxRef.current.beginPath();
       drawingCtxRef.current.fillStyle = colors[currentColorIndex];
       drawingCtxRef.current.globalAlpha = 0.9;
@@ -228,8 +231,6 @@ const DrawingApp = () => {
         false
       );
       drawingCtxRef.current.fill();
-
-      lastPoint.current = currentPoint; // Store in useRef
     },
     [
       setIsDrawing,
@@ -417,6 +418,7 @@ const DrawingApp = () => {
               setCurrentColorIndex(index);
               setPreviousColorIndex(index);
               setPencilThickness(pencilPathDefaults.minThickness);
+              clearCanvas();
             }}
           ></ColourItem>
         ))}
