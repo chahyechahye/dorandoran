@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { usePostMessage } from "@/apis/parents/profile/Mutations/usePostMessage";
+import { usePostAlarmMessage } from "@/apis/parents/record/Mutations/usePostAlarmMessage";
 
 interface ModalProps {
   title: string;
@@ -24,7 +25,7 @@ const Container = styled.div`
 
 const ModalWrapper = styled.div<{ bgColor: string }>`
   background-color: ${(props) => props.bgColor || "#fc7292"};
-  width: 90vh;
+  width: 100vh;
   padding: 4vh;
   border-radius: 1.5vh;
   position: relative;
@@ -38,7 +39,7 @@ const Title = styled.h1`
 
 const Subtitle = styled.p`
   width: 100%;
-  line-height: 5vh;
+  line-height: 8vh;
   font-size: 4vh;
   color: #fff;
   margin: 3vh 0;
@@ -97,11 +98,18 @@ const Modal = ({
   const [phone, setPhone] = useState("");
 
   const sendMessage = usePostMessage();
+  const sendAlarm = usePostAlarmMessage();
 
   const handleSendMessage = () => {
-    sendMessage.mutateAsync({
-      tel: phone,
-    });
+    if (buttonText === "보내기") {
+      sendMessage.mutateAsync({
+        tel: phone,
+      });
+    } else if (buttonText === "알림받기") {
+      sendAlarm.mutateAsync({
+        tel: phone,
+      });
+    }
     onClose();
   };
 
@@ -112,7 +120,7 @@ const Modal = ({
         <Subtitle>{formattedSubtitle}</Subtitle>
         {showInput && (
           <InputContainer>
-            {buttonText === "보내기" ? (
+            {buttonText === "보내기" || buttonText === "알림받기" ? (
               <>
                 <Input
                   type="text"

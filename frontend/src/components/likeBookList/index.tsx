@@ -2,20 +2,10 @@ import React, { useEffect, useState, useMemo } from "react";
 import styled from "styled-components";
 import Swiper from "swiper"; // Import Swiper and necessary modules
 
-import { useNavigate } from "react-router-dom";
-
-interface CreditCard {
-  id: number;
-  name: string;
-  company: string;
-  domestic: string;
-  overseas: string;
-  condition: string;
-  brandList: string[];
-  imagePath: string;
-  registerPath: string;
-  reason: string;
-}
+import { Book } from "@/types/parent/likeBookType";
+import { useGetFavoriteBook } from "@/apis/parents/likeBook/Queries/useGetFavoriteBook";
+import { profileState } from "@/states/children/info";
+import { useRecoilValue } from "recoil";
 
 const StyledMain = styled.main`
   position: relative;
@@ -69,7 +59,6 @@ const StyledSwiperContainer = styled.div`
 
   @media screen and (min-width: 960px) {
     width: 80%;
-    right: -60px;
   }
 `;
 
@@ -112,7 +101,7 @@ const StyledSwiperSlide = styled.div`
   }
 
   h2 {
-    font-size: 3em;
+    font-size: 4vh;
     margin-top: 0.625rem;
     letter-spacing: 0.8px;
   }
@@ -195,6 +184,7 @@ const Image = styled.img`
 `;
 
 const MainTitle = styled.div`
+  width: 120vh;
   font-size: 8vh;
   color: #fff;
   margin: 5vh 0px;
@@ -202,53 +192,19 @@ const MainTitle = styled.div`
 `;
 
 const LikeBookList = () => {
-  // const creditInfo = useRecoilValue(creditInfoState);
-  // const allCreditCard = useAllCreditCard(creditInfo);
-  const creditCardRes = useMemo(
-    () => [
-      {
-        id: 0,
-        name: "",
-        company: "",
-        domestic: "",
-        overseas: "",
-        condition: "",
-        brandList: [],
-        imagePath:
-          "https://images.unsplash.com/photo-1697468792373-ad4181550a5a?auto=format&fit=crop&q=80&w=2574&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        registerPath: "",
-        reason: "",
-      },
-      {
-        id: 1,
-        name: "",
-        company: "",
-        domestic: "",
-        overseas: "",
-        condition: "",
-        brandList: [],
-        imagePath:
-          "https://images.unsplash.com/photo-1698306790501-0b6a05c74abe?auto=format&fit=crop&q=80&w=2564&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        registerPath: "",
-        reason: "",
-      },
-    ],
-    []
-  );
+  const profileData = useRecoilValue(profileState);
+  const likeBookList = useGetFavoriteBook(profileData.id);
+  const FavoriteBook = useMemo(() => {
+    return likeBookList.data?.bookResDtoList || [];
+  }, [likeBookList.data]);
 
-  const navigate = useNavigate();
-
-  const [currentSlideIndex, setCurrentSlideIndex] = useState<CreditCard>({
-    id: 0,
-    name: "",
-    company: "",
-    domestic: "",
-    overseas: "",
-    condition: "",
-    brandList: [],
-    imagePath: "",
-    registerPath: "",
-    reason: "",
+  const [currentSlideIndex, setCurrentSlideIndex] = useState<Book>({
+    bookId: 0,
+    title: "",
+    imgUrl: "",
+    author: null,
+    publisher: null,
+    totalPageCnt: 0,
   });
 
   useEffect(() => {
@@ -301,14 +257,14 @@ const LikeBookList = () => {
         const slideNumber = parseInt(slideNumberMatch[1], 10); // 매칭된 숫자 부분 추출 및 정수로 변환
 
         // slideNumber에 해당하는 데이터 가져오기
-        const currentData = creditCardRes[slideNumber - 1]; // 슬라이드 인덱스는 0부터 시작하므로 배열 인덱스에 맞게 조정
+        const currentData = FavoriteBook[slideNumber - 1]; // 슬라이드 인덱스는 0부터 시작하므로 배열 인덱스에 맞게 조정
 
         // currentData를 원하는 방식으로 활용할 수 있습니다.
         console.log("Current Data:", currentData);
         setCurrentSlideIndex(currentData);
       }
     });
-  }, [creditCardRes]);
+  }, [FavoriteBook]);
 
   return (
     <StyledMain>
@@ -316,9 +272,9 @@ const LikeBookList = () => {
       <StyledSwiperContainer>
         <StyledSwiper className="swiper">
           <div className="swiper-wrapper">
-            {creditCardRes.map((item: CreditCard, index: number) => (
+            {FavoriteBook.map((item: Book, index: number) => (
               <StyledSwiperSlide
-                key={`slide-${item.id}`} // Use a unique key for each slide
+                key={`slide-${item.bookId}`} // Use a unique key for each slide
                 className={`swiper-slide swiper-slide--${index + 1}`}
                 style={{
                   position: "relative",
@@ -329,12 +285,12 @@ const LikeBookList = () => {
                 }}
               >
                 <Image
-                  src={item.imagePath}
+                  src={item.imgUrl}
                   style={{ width: "100%", borderRadius: "10px" }}
                 />
                 <Title>
-                  <h2>어린왕자</h2>
-                  <p>앙투안 드 생텍쥐페리</p>
+                  <h2>{item.title}</h2>
+                  <p>{item.author}</p>
                 </Title>
               </StyledSwiperSlide>
             ))}

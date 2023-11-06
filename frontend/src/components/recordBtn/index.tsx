@@ -64,11 +64,12 @@ const Circle2 = styled.div`
   animation-delay: 1s;
 `;
 
-const RecordBtn = () => {
+const RecordBtn = ({ onClick }: { onClick: () => void }) => {
   const [flag, setFlag] = useState(false);
 
   const handleClick = () => {
     setFlag(!flag);
+    onClick();
   };
 
   return (

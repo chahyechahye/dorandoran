@@ -2,4 +2,13 @@ interface LikeBookProps {
   profileId: number;
 }
 
-export type { LikeBookProps };
+interface Book {
+  bookId: number;
+  title: string;
+  imgUrl: string;
+  author: string | null;
+  publisher: string | null;
+  totalPageCnt: number;
+}
+
+export type { LikeBookProps, Book };
