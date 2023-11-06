@@ -1,0 +1,6 @@
+pika==1.3.2
+fastapi
+"uvicorn[standard]"
+uuid
+gradio
+gradio_client
