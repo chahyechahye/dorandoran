@@ -9,6 +9,7 @@ import com.doran.child.entity.Child;
 import com.doran.child.service.ChildService;
 import com.doran.letter.dto.req.LetterInsertDto;
 import com.doran.letter.dto.res.LetterResDto;
+import com.doran.letter.dto.res.LetterResDtoList;
 import com.doran.letter.dto.res.UnreadLetterResDto;
 import com.doran.letter.entity.Letter;
 import com.doran.letter.mapper.LetterMapper;
@@ -41,19 +42,18 @@ public class LetterService{
     private final BucketService bucketService;
     private final LetterMapper letterMapper;
     private final LetterRepository letterRepository;
-    // 편지 조회
-    public LetterResDto getLetter(int userId){
+    // 읽지 않은 편지 조회
+    public LetterResDtoList getLetterList(int userId){
         List<Letter> unreadLetterList = letterRepository.findAllUnreadLetter(userId);
-        if(unreadLetterList.isEmpty()) throw new CustomException(ErrorCode.LETTER_NOT_FOUND);
-        Letter letter = unreadLetterList.get(0);
+        List<LetterResDto> letterList = letterMapper.letterListToResDtoList(unreadLetterList);
+        return letterMapper.letterListToResDtoList(letterList, letterList.size());
+    }
+    // 읽은 편지 갱신
+    public void readLetter(int letterId){
+        Letter letter = letterRepository.findById(letterId)
+            .orElseThrow(() -> new CustomException(ErrorCode.LETTER_NOT_FOUND));
         letter.setModifiedDate(LocalDateTime.now());
         letterRepository.save(letter);
-        LetterResDto letterResDto = letterMapper.letterToResDto(letter,unreadLetterList.size()-1);
-        return letterResDto;
-    }
-    public UnreadLetterResDto getUnreadLetterCount(int userId){
-        List<Letter> unreadLetterList = letterRepository.findAllUnreadLetter(userId);
-        return letterMapper.letterToUnreadResDto(unreadLetterList.size());
     }
     // 편지 등록
     public Letter insertLetter(LetterInsertDto letterInsertDto){
