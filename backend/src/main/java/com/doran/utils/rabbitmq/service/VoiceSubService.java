@@ -21,7 +21,7 @@ public class VoiceSubService {
     private final Naver_Sens_V2 naverSensV2;
     private final TelService telService;
 
-    @RabbitListener(queues = "voice.res")
+    //@RabbitListener(queues = "voice.res")
     public void subscribeVoiceQue(VoiceResMessage voiceResMessage) {
         // 목소리 갱신
         processedVoiceService.saveAll(voiceResMessage);
