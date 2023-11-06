@@ -1,9 +1,9 @@
-import axios from "axios";
+import { instance } from "@/apis/instance";
+import { FairytaleSearchProps } from "@/types/children/fairytaleType";
 
 const getFairytaleList = async () => {
   try {
-    const response = await axios.get(`https://dorandoran.site/api/book`);
-    console.log("완료2");
+    const response = await instance.get(`/book`);
     return response.data;
   } catch (error) {
     console.error("API 연동 오류 - getFairytaleList:", error);
@@ -11,4 +11,13 @@ const getFairytaleList = async () => {
   }
 };
 
-export { getFairytaleList };
+const postFairytaleRead = async (FairytaleSearchData: FairytaleSearchProps) => {
+  try {
+    const response = await instance.post(`/page/all`, FairytaleSearchData);
+    return response.data;
+  } catch {
+    new Error("api 연동 오류 - postFairytaleRead");
+  }
+};
+
+export { getFairytaleList, postFairytaleRead };
