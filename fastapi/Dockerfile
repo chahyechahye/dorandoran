@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY /app /app
 
-RUN pip install --no-chache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 EXPOSE 8080
 
