@@ -361,15 +361,6 @@ const BlackGround = styled.div`
   z-index: 7;
 `;
 
-interface FairytaleListProps {
-  bookId: number;
-  title: string;
-  imgUrl: string;
-  author: null;
-  publisher: null;
-  totalPageCnt: number;
-}
-
 const ChildrenMainPage = () => {
   const [isLetter, setIsLetter] = useState(false);
   const [isEnvelope, setIsEnvelope] = useState(false);
