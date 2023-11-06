@@ -27,6 +27,9 @@ public class Animal {
     @Column(nullable = false)
     private String name;
 
+    @Column()
+    private String color;
+
     @Column(nullable = false)
     @ColumnDefault("'https://storage.googleapis.com/ssafy-last-project/smile.png'")
     private String imgUrl;

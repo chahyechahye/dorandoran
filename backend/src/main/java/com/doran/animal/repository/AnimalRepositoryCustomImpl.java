@@ -16,26 +16,27 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class AnimalRepositoryCustomImpl implements AnimalRepositoryCustom {
-	private final JPAQueryFactory jpaQueryFactory;
-	private final AnimalMapper animalMapper;
+    private final JPAQueryFactory jpaQueryFactory;
+    private final AnimalMapper animalMapper;
 
-	@Override
-	public Optional<Animal> selectAnimal(int id) {
-		return Optional.ofNullable(
-			jpaQueryFactory.select(animal)
-						   .from(animal)
-						   .where(animal.id.eq(id))
-						   .fetchOne());
-	}
+    @Override
+    public Optional<Animal> selectAnimal(int id) {
+        return Optional.ofNullable(
+            jpaQueryFactory.select(animal)
+                .from(animal)
+                .where(animal.id.eq(id))
+                .fetchOne());
+    }
 
-	@Override
-	public Optional<AnimalListDto> selectAllAnimal() {
-		List<AnimalDto> animalList = jpaQueryFactory.select(Projections.fields(
-														AnimalDto.class,
-														animal.id,
-														animal.name,
-														animal.imgUrl)).from(animal)
-													.fetch();
-		return Optional.ofNullable(animalMapper.toAnimalListDto(animalList));
-	}
+    @Override
+    public Optional<AnimalListDto> selectAllAnimal() {
+        List<AnimalDto> animalList = jpaQueryFactory
+            .select(Projections.fields(AnimalDto.class,
+                animal.id,
+                animal.name,
+                animal.imgUrl,
+                animal.color)).from(animal)
+            .fetch();
+        return Optional.ofNullable(animalMapper.toAnimalListDto(animalList));
+    }
 }
