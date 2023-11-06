@@ -32,12 +32,17 @@ public class BucketService {
             String ext = dto.getFile().getContentType(); // 파일의 형식 ex) JPG
 
             log.info("uuid : {}", uuid);
+            log.info("exd : {}", ext);
+
+            if (ext.equals("audio/wave")) {
+                ext = "audio/wav";
+            }
 
             // Cloud에 이미지 업로드
             BlobInfo blobInfo = storage.create(
                 BlobInfo.newBuilder(bucket, uuid)
-                        .setContentType(ext)
-                        .build(),
+                    .setContentType(ext)
+                    .build(),
                 dto.getFile().getInputStream()
             );
 
