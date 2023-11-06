@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.doran.admin_voice.dto.req.AdminVoiceInsertDto;
+import com.doran.admin_voice.dto.res.AdminFindResDto;
 import com.doran.admin_voice.dto.res.AdminVoiceResDto;
 import com.doran.admin_voice.entity.AdminVoice;
 import com.doran.admin_voice.mapper.AdminVoiceMapper;
@@ -48,5 +49,9 @@ public class AdminVoiceService {
         );
         AdminVoice adminVoice = adminVoiceMapper.dtoToEntity(adminVoiceInsertDto,voiceUrl,content);
         adminVoiceRepository.save(adminVoice);
+    }
+
+    public List<AdminFindResDto> findAdminVoiceAndBook() {
+        return adminVoiceRepository.findAdminVoiceAndBook();
     }
 }
