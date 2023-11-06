@@ -33,7 +33,7 @@ public class ModelPubService {
         List<RawVoiceResDto> rawVoiceResDtoList = rawVoiceService.findRawVoiceByUserId(userId);
         ModelReqMessage modelReqMessage = modelMapper.toReqMessage(userId, rawVoiceResDtoList);
 
-        log.info("입력값 확인" + modelReqMessage.getRawVoiceList().get(0).getVoiceUrl());
+        //log.info("입력값 확인" + modelReqMessage.getRawVoiceList().get(0).getVoiceUrl());
         log.info("모델 생성 요청 : " + modelReqMessage.getUserId());
 
         rabbitTemplate.convertAndSend(routingKey, modelReqMessage);
