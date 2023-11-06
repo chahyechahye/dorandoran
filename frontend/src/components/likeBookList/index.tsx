@@ -101,7 +101,7 @@ const StyledSwiperSlide = styled.div`
   }
 
   h2 {
-    font-size: 3em;
+    font-size: 4vh;
     margin-top: 0.625rem;
     letter-spacing: 0.8px;
   }
