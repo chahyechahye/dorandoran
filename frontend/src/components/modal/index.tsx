@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { usePostMessage } from "@/apis/parents/profile/Mutations/usePostMessage";
+import { usePostAlarmMessage } from "@/apis/parents/record/Mutations/usePostAlarmMessage";
 
 interface ModalProps {
   title: string;
@@ -97,11 +98,18 @@ const Modal = ({
   const [phone, setPhone] = useState("");
 
   const sendMessage = usePostMessage();
+  const sendAlarm = usePostAlarmMessage();
 
   const handleSendMessage = () => {
-    sendMessage.mutateAsync({
-      tel: phone,
-    });
+    if (buttonText === "보내기") {
+      sendMessage.mutateAsync({
+        tel: phone,
+      });
+    } else if (buttonText === "알림받기") {
+      sendAlarm.mutateAsync({
+        tel: phone,
+      });
+    }
     onClose();
   };
 
@@ -112,7 +120,7 @@ const Modal = ({
         <Subtitle>{formattedSubtitle}</Subtitle>
         {showInput && (
           <InputContainer>
-            {buttonText === "보내기" ? (
+            {buttonText === "보내기" || buttonText === "알림받기" ? (
               <>
                 <Input
                   type="text"
