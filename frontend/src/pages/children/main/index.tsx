@@ -427,7 +427,7 @@ const ChildrenMainPage = () => {
           <Castle src={castle} />
           <PostOffice src={postOffice} onClick={openLetter} />
           <Books src={books} onClick={goFairytale} />
-          <Camera src={camera} />
+          <Camera src={camera} onClick={() => navigate("/sketch")} />
         </CastleContainer>
         <Profile>
           <ProfileCircle />
