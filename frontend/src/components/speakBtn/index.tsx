@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
 
 import offSpeaker from "@/assets/img/offSpeaker.png";
@@ -31,9 +31,12 @@ const Section = styled.section`
   align-items: center;
 `;
 
-const Voice = styled.div`
+const Voice = styled.div<{ disabled?: boolean }>`
   z-index: 2;
-  background: linear-gradient(to bottom, #ffd580 5%, #ffb016 100%);
+  background: ${(props) =>
+    !props.disabled
+      ? "linear-gradient(to bottom, #ffd580 5%, #ffb016 100%)"
+      : "#d9d9d9"};
   border-radius: 200px;
   padding: 1vh;
   animation: ${phoneAnimation} 1s cubic-bezier(0.12, 0.7, 0.74, 0.71) infinite
@@ -43,6 +46,7 @@ const Voice = styled.div`
   align-items: center;
   box-shadow: 0px 10px 14px -7px #777777;
   cursor: pointer;
+  transition: background 0.3s ease; // Add this line for a smooth transition
 `;
 
 const Circle1 = styled.div`
@@ -65,16 +69,33 @@ const Circle2 = styled.div`
   animation-delay: 1s;
 `;
 
-const SpeakBtn = () => {
+const SpeakBtn = ({
+  onClick,
+  disabled,
+  soundEnd,
+}: {
+  onClick: () => void;
+  disabled: boolean;
+  soundEnd: boolean;
+}) => {
   const [flag, setFlag] = useState(false);
 
+  useEffect(() => {
+    if (soundEnd) {
+      setFlag(false);
+    }
+  }, [soundEnd]);
+
   const handleClick = () => {
-    setFlag(!flag);
+    if (!flag && !disabled) {
+      setFlag(true);
+      onClick();
+    }
   };
 
   return (
     <Section>
-      <Voice onClick={handleClick}>
+      <Voice disabled={disabled} onClick={handleClick}>
         {flag ? (
           <img
             src={onSpeaker}
