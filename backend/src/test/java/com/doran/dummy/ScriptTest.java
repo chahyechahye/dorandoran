@@ -1,7 +1,10 @@
 package com.doran.dummy;
 
+import static com.doran.content.entity.QContent.*;
+
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +21,15 @@ import com.doran.record_book.dto.res.ScriptDto;
 import com.doran.record_book.entity.RecordBook;
 import com.doran.record_book.repository.RecordBookRepository;
 import com.doran.record_book.service.RecordBookService;
+import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.querydsl.jpa.impl.JPAUpdateClause;
+
+import jakarta.persistence.EntityManager;
 
 @SpringBootTest
 public class ScriptTest {
+    JPAQueryFactory jpaQueryFactory;
     @Autowired
     RecordBookRepository recordBookRepository;
     @Autowired
@@ -33,12 +42,19 @@ public class ScriptTest {
     ContentService contentService;
     @Autowired
     RecordBookService recordBookService;
+    @Autowired
+    EntityManager entityManager;
+
+    @BeforeEach
+    public void init() {
+        jpaQueryFactory = new JPAQueryFactory(entityManager);
+    }
 
     @Test
     @DisplayName("대본 등록 api test")
     @Transactional
     public void regist() {
-        int bookId = 25;
+        int bookId = 26;
         Book findBook = bookService.findBookById(bookId);
         List<Page> pageList = pageService.findPageByBookId(bookId);
 
@@ -55,14 +71,52 @@ public class ScriptTest {
     }
 
     @Test
-    public void tttt() {
-        List<Page> pageByBookId = pageService.findPageByBookId(2);
+    @DisplayName("벌크 연산 테스트")
+    // @jakarta.transaction.Transactional
+    @Transactional
+    public void bulk() {
+        JPAUpdateClause jpaUpdateClause = new JPAUpdateClause(entityManager, content);
+        long updatedCount = jpaUpdateClause.set(content.script,
+                Expressions.stringTemplate(
+                    "replace(replace(replace(replace({0}, {1}, {2}), {3}, {4}), {5}, {6}) ,{7}, {8})",
+                    content.script,
+                    Expressions.constant("“"),
+                    Expressions.constant("\""),
+                    Expressions.constant("”"),
+                    Expressions.constant("\""),
+                    Expressions.constant("‘"),
+                    Expressions.constant("'"),
+                    Expressions.constant("’"),
+                    Expressions.constant("'")))
+            .where(content.id.eq(411))
+            .execute();
 
-        for (Page page : pageByBookId) {
-            System.out.println(page.getIdx());
-        }
-        System.out.println("//////////////////////");
-        List<String> contentByPageList = contentRepository.findContentByPageList(pageByBookId);
+        // Content contentById = contentService.getContentById(411);
+        //
+        // System.out.println("아이디 : " + contentById.getId());
+        // System.out.println("스크립트 : " + contentById.getScript());
+        //
+        // Content contentById2 = contentService.getContentById(954);
+        //
+        // System.out.println("아이디 : " + contentById2.getId());
+        // System.out.println("스크립트 : " + contentById2.getScript());
+
+    }
+
+    @Test
+    @DisplayName("따옴표 정제 테스트")
+    @Transactional
+    public void replace() {
+        List<Page> findPage = pageService.findPageByBookId(26);
+        List<String> contentByPageList = contentService.findContentByPageList(findPage);
+
+        contentByPageList
+            .replaceAll(s -> s
+                .replace("“", "\"")
+                .replace("”", "\"")
+                .replace("‘", "'")
+                .replace("’", "'"));
+
         for (String s : contentByPageList) {
             System.out.println(s);
         }
@@ -70,6 +124,7 @@ public class ScriptTest {
 
     @Test
     public void test() {
+
         int scriptNum = 1;
         String title = "개구리 왕자";
 

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -57,8 +58,16 @@ public class ContentController {
         int parentUserId = parentService.getParentUserId(userInfo.getUserId(), userInfo.getUserRole().getRole());
 
         log.info("부모의 유저 아이디 : " + parentUserId);
-        List<ContentResDto> findContent = contentService.getContentWithVoice(parentUserId, pageId,null);
+        List<ContentResDto> findContent = contentService.getContentWithVoice(parentUserId, pageId, null);
 
         return CommonResponseEntity.getResponseEntity(SuccessCode.SUCCESS_CODE, findContent);
+    }
+
+    //따옴표 전부 치환
+    @PutMapping()
+    public ResponseEntity update() {
+        contentService.updateContent();
+
+        return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
     }
 }

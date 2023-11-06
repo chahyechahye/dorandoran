@@ -9,4 +9,6 @@ public interface ContentRepositoryCustom {
     List<ContentResDto> getContentWithVoice(int userId, Integer pageId, Integer bookId);
 
     List<String> findContentByPageList(List<Page> pageList);
+
+    void updateScript();
 }

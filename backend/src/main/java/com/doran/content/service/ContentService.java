@@ -12,6 +12,7 @@ import com.doran.page.entity.Page;
 import com.doran.utils.exception.dto.CustomException;
 import com.doran.utils.exception.dto.ErrorCode;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -38,5 +39,10 @@ public class ContentService {
 
     public List<String> findContentByPageList(List<Page> pageList) {
         return contentRepository.findContentByPageList(pageList);
+    }
+
+    @Transactional
+    public void updateContent() {
+        contentRepository.updateScript();
     }
 }
