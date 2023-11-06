@@ -168,19 +168,13 @@ const Album = ({ onClose }: { onClose: () => void }) => {
     const file = e.target.files?.[0];
     if (file) {
       setSelectedImage(file);
-    }
-  };
 
-  useEffect(() => {
-    if (selectedImage) {
       const formData = new FormData();
-      formData.append("multipartFile", selectedImage);
+      formData.append("multipartFile", file);
 
       loadAlbum.mutateAsync(formData);
-
-      setSelectedImage(null);
     }
-  }, [selectedImage, loadAlbum]);
+  };
 
   const handleImageDelete = () => {
     deleteAlbum.mutateAsync(activeAlbumId);
