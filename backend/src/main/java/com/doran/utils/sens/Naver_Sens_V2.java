@@ -46,20 +46,13 @@ public class Naver_Sens_V2 {
         JSONArray toArr = new JSONArray();
 
         // 난수와 함께 전송
-        if(messageType.equals(MessageType.INVITE)) {
-            toJson.put("content", "도란도란 초대코드 : [" + rand + "]");
-            toJson.put("to", tel);
-            toArr.add(toJson);
-        } else if(messageType.equals(MessageType.MODEL))
-        {
-            toJson.put("content", "목소리 모델 생성이 완료되었습니다.");
-            toJson.put("to", tel);
-            toArr.add(toJson);
-        } else {
-            toJson.put("content", "동화 등록이 완료되었습니다.");
-            toJson.put("to", tel);
-            toArr.add(toJson);
-        }
+        if (messageType.equals(MessageType.INVITE))
+            toJson.put("content", messageType.getMsg() + rand + "]");
+        else
+            toJson.put("content", messageType.getMsg());
+
+        toJson.put("to", tel);
+        toArr.add(toJson);
 
         // 메시지 Type (sms | lms)
         bodyJson.put("type", "sms");
