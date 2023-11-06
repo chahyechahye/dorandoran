@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import replayImg from "@/assets/img/fairytale/replay.png";
 import bookImg from "@/assets/img/fairytale/book.png";
+import { useNavigate } from "react-router-dom";
 
 const Background = styled.div`
   position: fixed;
@@ -42,15 +43,25 @@ const IconContainer = styled.div`
 `;
 
 const ReplayModal = () => {
+  const navigate = useNavigate();
+
+  const goRead = () => {
+    navigate("/children/read");
+  };
+
+  const goFairytale = () => {
+    navigate("/children/fairytale");
+  };
+
   return (
     <Background>
       <ContentContainer>
         <IconContainer>
-          <ImgContainer src={replayImg} />
+          <ImgContainer src={replayImg} onClick={goRead} />
           <TextContainer>다시 볼래요</TextContainer>
         </IconContainer>
         <IconContainer>
-          <ImgContainer src={bookImg} />
+          <ImgContainer src={bookImg} onClick={goFairytale} />
           <TextContainer>다른 책 볼래요</TextContainer>
         </IconContainer>
       </ContentContainer>

@@ -3,8 +3,8 @@ import background from "@/assets/img/background/background.jpg";
 import ChildCard from "@/components/childCard";
 import Face from "@/assets/img/smile.png";
 import { useNavigate } from "react-router-dom";
-import { useRecoilValue } from "recoil";
-import { profileListState } from "@/states/children/info";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { profileListState, profileState } from "@/states/children/info";
 import { useChildrenLogin } from "@/apis/children/profile/Mutations/useChildrenLogin";
 import { ChildrenProfileProps } from "@/types/children/profileType";
 
@@ -34,11 +34,9 @@ const CardContainer = styled.div`
 
 const ChildrenProfilePage = () => {
   const profileList = useRecoilValue(profileListState);
+  const [profile, setProfile] = useRecoilState(profileState);
 
   const navigate = useNavigate();
-  const goMain = () => {
-    navigate("/children/main");
-  };
 
   const usePostChildrenLogin = useChildrenLogin();
 
@@ -48,13 +46,15 @@ const ChildrenProfilePage = () => {
         childId: profile.childId,
         profileId: profile.id,
       });
-
-      console.log(profile);
+      console.log("프로필데이타:" + profile.name);
+      setProfile(profile);
+      navigate("/children/main");
     } catch (errer) {
       console.log("api 오류 - postLoginHandler");
     }
   };
 
+  console.log("프로필:" + profile.name);
   return (
     <Background>
       <ContentContainer>

@@ -5,6 +5,9 @@ import greyHeart from "@/assets/img/dogModal/greyheart.png";
 // import arrowLeft from "@/assets/img/fairytale/arrowLeft.png";
 // import arrowRight from "@/assets/img/fairytale/arrowRight.png";
 import ReplayModal from "@/components/replayModal";
+import { useChildrenLike } from "@/apis/children/like/Mutations/useChildrenLike";
+import { useRecoilValue } from "recoil";
+import { FairytaleSearchState } from "@/states/children/info";
 
 const orange = "#F7AA2B";
 const brown = "#CB7A1D";
@@ -536,7 +539,7 @@ const DogLike = () => {
   const handleButtonLike = () => {
     setIsHovered(!isHovered);
     setIsDisliked(false);
-
+    childrenLikeHandler();
     setTimeout(() => {
       setIsReplayModal(true);
     }, 1250);
@@ -551,6 +554,19 @@ const DogLike = () => {
     }, 1250);
   };
 
+  const fairytaleSearch = useRecoilValue(FairytaleSearchState);
+  console.log(fairytaleSearch);
+  const usePostChildrenLike = useChildrenLike();
+
+  const childrenLikeHandler = () => {
+    try {
+      usePostChildrenLike.mutateAsync(fairytaleSearch.bookId);
+    } catch (error) {
+      console.log("api 오류 - childrenLikeHandler");
+    }
+  };
+
+  console.log(fairytaleSearch.bookId);
   return (
     <Background isHovered={isHovered} isDisliked={isDisliked}>
       <QuestionBook>동화책 재밌었나요?</QuestionBook>

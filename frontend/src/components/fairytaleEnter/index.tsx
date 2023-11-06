@@ -3,6 +3,8 @@ import background from "@/assets/img/background/background.jpg";
 
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { fairytaleReadState, fairytaleState } from "../../states/children/info";
 
 // Styled Components
 const CardContainer = styled.div`
@@ -111,6 +113,9 @@ const Details = styled.img`
 const FariytaleEnter = () => {
   const [isOpen, setIsOpen] = useState(false);
 
+  const fairytale = useRecoilValue(fairytaleState);
+  const fairytaleRead = useRecoilValue(fairytaleReadState);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -135,14 +140,19 @@ const FariytaleEnter = () => {
     }
   }, [isOpen, navigate]);
 
+  console.log(fairytaleRead[0]);
+
   return (
     <CardContainer>
       <Card className={isOpen ? "open" : ""}>
         <ImgBox className={isOpen ? "open" : ""}>
           <Bark className={isOpen ? "open" : ""}></Bark>
-          <Img src={background} className={isOpen ? "open" : ""} />
+          <Img src={fairytale.imgUrl} className={isOpen ? "open" : ""} />
         </ImgBox>
-        <Details src={background} className={isOpen ? "open" : ""}></Details>
+        <Details
+          src={fairytaleRead[0].imgUrl}
+          className={isOpen ? "open" : ""}
+        ></Details>
       </Card>
     </CardContainer>
   );
