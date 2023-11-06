@@ -43,7 +43,7 @@ public class RawVoiceService {
 
     public RawVoiceListDto getRawVoiceByUserId(int userId) {
         List<RawVoiceResDto> rawVoiceResDtoList = rawVoiceRepository.findRawVoiceByUserId(userId);
-        return rawVoiceMapper.listToResListDto(rawVoiceResDtoList, rawVoiceResDtoList.size());
+        return rawVoiceMapper.listToResListDto(rawVoiceResDtoList,rawVoiceResDtoList.size());
     }
 
     // 목소리 조회
@@ -55,14 +55,12 @@ public class RawVoiceService {
     }
 
     // 목소리 등록
-    public void insertRawVoice(RawVoiceInsertDto rawVoiceInsertDto) {
-        String voiceUrl = bucketService.insertFile(bucketMapper.toInsertDto(rawVoiceInsertDto.getFile(), "raw_voice"));
+   public void insertRawVoice (RawVoiceInsertDto rawVoiceInsertDto) {
+        String voiceUrl = bucketService.insertFile(bucketMapper.toInsertDto(rawVoiceInsertDto.getFile(),"raw_voice"));
         User user = userService.findUser(Auth.getInfo().getUserId());
-        RawVoice rawVoice = rawVoiceMapper.voiceInsertToRawVoice(user, voiceUrl, rawVoiceInsertDto.getGender());
+        RawVoice rawVoice = rawVoiceMapper.voiceInsertToRawVoice(user,voiceUrl,rawVoiceInsertDto.getGender());
         rawVoiceRepository.save(rawVoice);
-    }
-    //목소리 조회 (유저 아이디)
-
+   }
     // 목소리 추가 파일명 : user_id + "_" + 0000.mp3 , ex) 000001_0000.mp3
     //    public void insertRawVoice (RawVoiceInsertDto rawVoiceInsertDto) throws IOException {
     //
