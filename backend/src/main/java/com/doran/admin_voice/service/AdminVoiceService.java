@@ -31,12 +31,14 @@ public class AdminVoiceService {
     private final ContentService contentService;
     private final BucketMapper bucketMapper;
     private final BucketService bucketService;
+
     // content (한 줄)단위 관리자 목소리
     public AdminVoiceResDto findAdminVoiceByContentId(Genders gender, int contentId){
         return adminVoiceMapper.toResDto(
             adminVoiceRepository.findAdminVoiceByContentId(gender, contentId)
             .orElseThrow(() -> new CustomException(ErrorCode.VOICE_NOT_FOUND)));
     }
+
     // book (동화책)단위 관리자 목소리 -> 뭔가 쓸일이 있을 거 같아서 일단 만듦
     public List<AdminVoiceResDto> findAdminVoiceByBookId(Genders gender, int bookId){
         List<AdminVoice> result = adminVoiceRepository.findAdminVoiceByBookId(gender, bookId);
