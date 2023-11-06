@@ -22,7 +22,7 @@ const postChildrenLogin = async (ChildrenLoginData: ChildrenLoginProps) => {
     );
 
     const accessToken = response.headers.accesstoken;
-    localStorage.setItem("accesstoken", accessToken);
+    localStorage.setItem("accessToken", accessToken);
 
     return response.data;
   } catch {

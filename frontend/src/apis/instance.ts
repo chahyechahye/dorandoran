@@ -2,7 +2,6 @@ import axios, { Axios, AxiosError, AxiosResponse } from "axios";
 
 const instance: Axios = axios.create({
   //   baseURL: `${process.env.REACT_APP_SERVER_URL}/api`,
-
   baseURL: `https://dorandoran.site/api`,
   withCredentials: true,
   headers: {
@@ -24,8 +23,8 @@ instance.interceptors.response.use(
   (error: AxiosError) => {
     if (error.response?.status === 401) {
       // 로그아웃 시키고 로그인 PAGE로 리다이렉트
-      localStorage.clear();
-      window.location.href = "/";
+      // localStorage.clear();
+      // window.location.href = "/";
     }
     return Promise.reject(error);
   }

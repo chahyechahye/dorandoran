@@ -1,3 +1,9 @@
+import {
+  FairytaleContentProps,
+  FairytaleListProps,
+  FairytaleReadProps,
+  FairytaleSearchProps,
+} from "@/types/children/fairytaleType";
 import { ChildrenProfileProps } from "@/types/children/profileType";
 import { atom } from "recoil";
 import { recoilPersist } from "recoil-persist";
@@ -31,5 +37,71 @@ export const profileState = atom<ChildrenProfileProps>({
       imgUrl: "",
     },
     name: "",
+  },
+});
+
+export const fairytaleState = atom<FairytaleListProps>({
+  key: "fairytaleState",
+  default: {
+    bookId: 0,
+    title: "",
+    imgUrl: "",
+    author: null,
+    publisher: null,
+    totalPageCnt: 0,
+  },
+});
+
+export const fairytaleReadListState = atom<FairytaleReadProps[]>({
+  key: "fairytaleReadListState",
+  default: [],
+});
+
+export const fairytaleReadState = atom<FairytaleReadProps[]>({
+  key: "fairytaleReadState",
+  default: [
+    {
+      pageId: 0,
+      idx: 0,
+      imgUrl: "",
+      contentResDto: [
+        {
+          content_id: 0,
+          script: "",
+          pv_id: 0,
+          voiceUrl: null,
+        },
+      ],
+    },
+  ],
+});
+
+export const fairytaleContentState = atom<FairytaleContentProps>({
+  key: "fairytaleContentState",
+  default: {
+    content_id: 0,
+    script: "",
+    pv_id: 0,
+    voiceUrl: null,
+  },
+});
+
+export const fairytaleContentListState = atom<FairytaleContentProps[]>({
+  key: "fairytaleContentState",
+  default: [
+    {
+      content_id: 0,
+      script: "",
+      pv_id: 0,
+      voiceUrl: null,
+    },
+  ],
+});
+
+export const FairytaleSearchState = atom<FairytaleSearchProps>({
+  key: "FairytaleSearchState",
+  default: {
+    bookId: 0,
+    gender: "FEMALE",
   },
 });
