@@ -250,8 +250,8 @@ const SketchPage = () => {
 
   useEffect(() => {
     const drawingCanvas = document.createElement("canvas");
-    drawingCanvas.width = window.innerWidth;
-    drawingCanvas.height = window.innerHeight;
+    drawingCanvas.width = "100vh";
+    drawingCanvas.height = "100vh";
 
     drawingCanvas.style.position = "fixed";
     drawingCanvas.style.left = 0;
@@ -383,26 +383,20 @@ const SketchPage = () => {
     }
   };
 
-  const savePNG = () => {
-    const drawingCanvas = drawingCtxRef.current.canvas; // Access the canvas from the context ref
+  const saveImage = () => {
+    if (drawingCtxRef.current && drawingCtxRef.current.canvas) {
+      const canvas = drawingCtxRef.current.canvas;
+      const imageDataURL = canvas.toDataURL("image/png");
 
-    const freshCanvas = document.createElement("canvas");
-    freshCanvas.width = drawingCanvas.width;
-    freshCanvas.height = drawingCanvas.height;
-
-    const freshCtx = freshCanvas.getContext("2d");
-
-    freshCtx.fillStyle = "#f7f4f0";
-    freshCtx.fillRect(0, 0, freshCanvas.width, freshCanvas.height);
-    freshCtx.drawImage(drawingCanvas, 0, 0);
-
-    const imageDataURL = freshCanvas.toDataURL();
-    const image = new Image();
-
-    image.src = imageDataURL;
-
-    const w = window.open("");
-    w.document.write(image.outerHTML);
+      // Create an anchor element for downloading the image
+      const a = document.createElement("a");
+      a.href = imageDataURL;
+      a.download = "my_drawing.png"; // Change the filename as needed
+      a.style.display = "none";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
   };
 
   return (
@@ -422,7 +416,7 @@ const SketchPage = () => {
 
       <RefreshButton onClick={toggleEraser}></RefreshButton>
 
-      {/* <SubmitButton onClick={savePNG}>Save</SubmitButton> */}
+      <SubmitButton onClick={saveImage}>Save</SubmitButton>
 
       <DrawingCanvas ref={canvasRef}></DrawingCanvas>
     </Body>
