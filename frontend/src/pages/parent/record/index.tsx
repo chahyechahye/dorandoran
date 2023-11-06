@@ -207,7 +207,7 @@ const ParentRecordPage = () => {
     }
     const sound = new File([audioUrl as Blob], "soundBlob", {
       lastModified: new Date().getTime(),
-      type: "audio",
+      type: "audio/wav",
     });
     recordVoice.mutateAsync({ file: sound, gender: "MALE" });
     console.log(sound);
