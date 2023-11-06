@@ -15,10 +15,12 @@ import javax.crypto.spec.SecretKeySpec;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.springframework.stereotype.Service;
 
+@Service
 public class Naver_Sens_V2 {
     @SuppressWarnings("unchecked")
-    public void send_msg(String tel, String rand) {
+    public void send_msg(String tel, String rand, MessageType messageType) {
         // 호스트 URL
         String hostNameUrl = "https://sens.apigw.ntruss.com";
         // 요청 URL
@@ -44,9 +46,20 @@ public class Naver_Sens_V2 {
         JSONArray toArr = new JSONArray();
 
         // 난수와 함께 전송
-        toJson.put("content", "도란도란 초대코드 : [" + rand + "]");
-        toJson.put("to", tel);
-        toArr.add(toJson);
+        if(messageType.equals(MessageType.INVITE)) {
+            toJson.put("content", "도란도란 초대코드 : [" + rand + "]");
+            toJson.put("to", tel);
+            toArr.add(toJson);
+        } else if(messageType.equals(MessageType.MODEL))
+        {
+            toJson.put("content", "목소리 모델 생성이 완료되었습니다.");
+            toJson.put("to", tel);
+            toArr.add(toJson);
+        } else {
+            toJson.put("content", "동화 등록이 완료되었습니다.");
+            toJson.put("to", tel);
+            toArr.add(toJson);
+        }
 
         // 메시지 Type (sms | lms)
         bodyJson.put("type", "sms");

@@ -1,5 +1,9 @@
 package com.doran.admin_voice.dto.res;
 
+import java.util.List;
+
+import com.doran.admin_voice.entity.AdminVoice;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,7 +13,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AdminVoiceResDto {
-    private int contentId; // 필요없을 거 같긴 한데 일단 넣어둠
-    private String voiceUrl;
+public class AdminFindResDto {
+    int bookId;
+    List<AdminVoiceResDto> adminVoiceList;
 }

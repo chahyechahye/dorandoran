@@ -13,6 +13,7 @@ import com.doran.utils.bucket.mapper.BucketMapper;
 import com.doran.utils.bucket.service.BucketService;
 import com.doran.utils.exception.dto.CustomException;
 import com.doran.utils.exception.dto.ErrorCode;
+import com.doran.utils.rabbitmq.service.ModelPubService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,7 +36,12 @@ public class RawVoiceService {
         return rawVoiceRepository.findById(rvId)
                 .orElseThrow(() -> new CustomException(ErrorCode.VOICE_NOT_FOUND));
     }
-    public RawVoiceListDto getRawVoiceByUserId(int userId){
+
+    public List<RawVoiceResDto> findRawVoiceByUserId(int userId) {
+        return rawVoiceRepository.findRawVoiceByUserId(userId);
+    }
+
+    public RawVoiceListDto getRawVoiceByUserId(int userId) {
         List<RawVoiceResDto> rawVoiceResDtoList = rawVoiceRepository.findRawVoiceByUserId(userId);
         return rawVoiceMapper.listToResListDto(rawVoiceResDtoList,rawVoiceResDtoList.size());
     }
@@ -55,5 +61,11 @@ public class RawVoiceService {
         RawVoice rawVoice = rawVoiceMapper.voiceInsertToRawVoice(user,voiceUrl,rawVoiceInsertDto.getGender());
         rawVoiceRepository.save(rawVoice);
    }
+    // 목소리 추가 파일명 : user_id + "_" + 0000.mp3 , ex) 000001_0000.mp3
+    //    public void insertRawVoice (RawVoiceInsertDto rawVoiceInsertDto) throws IOException {
+    //
+    //        String url = bucketService.insertFile(InsertD)
+    //        RawVoice rawVoice = rawVoiceMapper.voiceInsertToRawVoice(rawVoiceInsertDto);
+    //    }
 
 }

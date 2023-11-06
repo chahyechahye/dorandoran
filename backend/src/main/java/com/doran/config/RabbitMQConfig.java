@@ -34,6 +34,12 @@ public class RabbitMQConfig {
     @Value("${rabbitmq.queue.voice}")
     private String voiceQue;
 
+    @Value("${rabbitmq.queue.model_res_test}")
+    private String modelTestQue;
+
+    @Value("${rabbitmq.queue.voice_res_test}")
+    private String voiceTestQue;
+
     @Bean
     public Queue modelQue() {
         return new Queue(modelQue, true);

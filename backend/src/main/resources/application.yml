@@ -55,6 +55,7 @@ spring:
 jwt:
   secret-key: asdfasdfasdfasdfasdfasdasdsadasdasdasdqwvasdvwerfbasdf
 
+
 oauth:
   kakao:
     api-key: f9a75e5f47148dc0aa986669c29c0d03
@@ -74,6 +75,8 @@ rabbitmq:
   queue:
     model: model.req
     voice: voice.req
+    model_res_test: model.res
+    voice_res_test: voice.res
 
 auth:
   ignore-url: api/oauth/**, api/user/**, api/profile/login, api/profile
