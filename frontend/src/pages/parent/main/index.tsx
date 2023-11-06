@@ -5,7 +5,11 @@ import LikeBook from "@/components/likeBook";
 import ProfileCircle from "@/components/profileCircle";
 import ParentCard from "@/components/parentCard";
 import Album from "@/components/album";
+import letterEffect from "@/assets/img/gif/letter.json";
+import Lottie from "lottie-react";
 import LikeBookList from "@/components/likeBookList";
+import letterImage from "@/assets/img/letter/letterImage.png";
+import letterTest from "@/assets/img/letterTest.png";
 import { useNavigate } from "react-router-dom";
 import { profileState } from "@/states/children/info";
 import { useRecoilValue } from "recoil";
@@ -64,12 +68,53 @@ const Overlay = styled.div`
   z-index: 0; // 모달보다 낮은 z-index를 가지게 하여, 모달 뒤에 위치하게 합니다.
 `;
 
+const LetterGif = styled.div<{ isLetter: boolean }>`
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 8;
+  display: ${(props) => (props.isLetter ? "block" : "none")};
+`;
+
+const BlackGround = styled.div`
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 25%);
+  position: absolute;
+  z-index: 7;
+`;
+
+const LetterImg = styled.img`
+  top: 20%;
+  left: 28%;
+  width: 50%;
+  height: 50%;
+  position: absolute;
+  z-index: 7;
+`;
+
+const LetterRead = styled.img`
+  top: 10%;
+  left: 12%;
+  width: 80%;
+  height: 80%;
+  position: absolute;
+  z-index: 8;
+`;
+
 const ParentMainPage = () => {
   const navigate = useNavigate();
   const profileData = useRecoilValue(profileState);
 
   const [isOpenAlbum, setIsOpenAlbum] = useState(false);
   const [isOpenLikeBook, setIsOpenLikeBook] = useState(false);
+  const [isLetter, setIsLetter] = useState(false);
+  const [isEnvelope, setIsEnvelope] = useState(false);
+  const [readLetter, setReadLetter] = useState(false);
 
   const handleOpenAlbum = () => {
     setIsOpenAlbum(true);
@@ -95,8 +140,36 @@ const ParentMainPage = () => {
     navigate("/parent/record");
   };
 
+  const openLetter = () => {
+    setIsLetter(true);
+    setIsEnvelope(true);
+
+    setTimeout(() => {
+      setIsLetter(false);
+    }, 3000);
+  };
+
+  const clickLetter = () => {
+    setIsEnvelope(false);
+    setReadLetter(true);
+  };
+
+  const CloseLetter = () => {
+    setIsLetter(false);
+    setIsEnvelope(false);
+    setReadLetter(false);
+  };
+
   return (
     <>
+      {(isLetter || isEnvelope || readLetter) && (
+        <BlackGround onClick={CloseLetter} />
+      )}
+      <LetterGif isLetter={isLetter}>
+        {isLetter && <Lottie animationData={letterEffect} />}
+      </LetterGif>
+      {isEnvelope && <LetterImg src={letterImage} onClick={clickLetter} />}
+      {readLetter && <LetterRead src={letterTest} />}
       <Container>
         <Header>
           <ProfileCircle
@@ -120,7 +193,12 @@ const ParentMainPage = () => {
             text="사진 보기"
             onClick={handleOpenAlbum}
           />
-          <ParentCard img={post} backgroundColor="#4FCDC7" text="편지 쓰기" />
+          <ParentCard
+            img={post}
+            backgroundColor="#4FCDC7"
+            text="편지 쓰기"
+            onClick={openLetter}
+          />
         </Content>
       </Container>
       {isOpenAlbum && <Overlay onClick={handleCloseAlbum} />}

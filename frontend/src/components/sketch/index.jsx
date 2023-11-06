@@ -12,10 +12,22 @@ import greenPen from "@/assets/img/pen/greenPen.png";
 import skyBluePen from "@/assets/img/pen/skyBluePen.png";
 import bluePen from "@/assets/img//pen/bluePen.png";
 import purplePen from "@/assets/img/pen/purplePen.png";
+import letterImage from "@/assets/img/letter/letterImage.png";
+import sketchBackground from "@/assets/img/sketchBackground.png";
 
 const Body = styled.div`
   background-color: #fff;
   overflow: hidden;
+`;
+
+const Background = styled.div`
+  position: fixed;
+  background: url(${sketchBackground});
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
 `;
 
 const Colours = styled.ul`
@@ -24,7 +36,7 @@ const Colours = styled.ul`
   left: 50%;
   list-style-type: none;
   padding-left: 0;
-  position: absolute;
+  position: fixed;
   transform: translateX(-50%);
   z-index: 4;
 
@@ -81,7 +93,7 @@ const ColourItem = styled.li`
   }
 `;
 
-const RefreshButton = styled.div`
+const EraserButton = styled.div`
   background: url(${eraser});
   background-size: contain;
   background-repeat: no-repeat;
@@ -89,7 +101,7 @@ const RefreshButton = styled.div`
   cursor: pointer;
   height: 26px;
   padding: 4px 1px 0px;
-  position: absolute;
+  position: fixed;
   left: 50%;
   text-align: center;
   transform: translateX(-50%);
@@ -104,21 +116,30 @@ const RefreshButton = styled.div`
   }
 `;
 
-const SubmitButton = styled.button`
-  bottom: 27px;
-  display: none;
-  position: absolute;
-  right: 30px;
-  z-index: 4;
+const SendButtonContainer = styled.div`
+  position: fixed;
+  display: block;
+  top: 4vh;
+  right: 5vh;
+  z-index: 3;
+  width: 15vh;
+  height: 15vh;
+`;
 
-  @media (min-width: 1024px) {
-    display: block;
-  }
+const SendButton = styled.div`
+  background: url(${letterImage});
+  background-size: contain;
+  background-repeat: no-repeat;
+  padding: 4px 1px 0px;
+  text-align: center;
+  width: 15vh;
+  height: 15vh;
+  z-index: 3;
 `;
 
 const DrawingCanvas = styled.canvas``;
 
-const DrawingApp = () => {
+const Sketch = () => {
   const [colors] = useState([
     "#100c08",
     "#C91931",
@@ -250,13 +271,16 @@ const DrawingApp = () => {
 
   useEffect(() => {
     const drawingCanvas = document.createElement("canvas");
-    drawingCanvas.width = window.innerWidth;
-    drawingCanvas.height = window.innerHeight;
+    drawingCanvas.width = window.innerWidth * 0.9;
+    drawingCanvas.height = window.innerHeight * 0.9;
 
+    drawingCanvas.style.background = "#fff";
     drawingCanvas.style.position = "fixed";
-    drawingCanvas.style.left = 0;
-    drawingCanvas.style.top = 0;
+    drawingCanvas.style.left = "50%";
+    drawingCanvas.style.top = "50%";
+    drawingCanvas.style.transform = "translate(-50%, -50%)";
     drawingCanvas.style.zIndex = 1;
+    drawingCanvas.style.borderRadius = 20;
 
     document.body.appendChild(drawingCanvas);
 
@@ -407,6 +431,7 @@ const DrawingApp = () => {
 
   return (
     <Body className="body">
+      <Background />
       <Colours className="colours">
         {colors.map((color, index) => (
           <ColourItem
@@ -420,13 +445,15 @@ const DrawingApp = () => {
         ))}
       </Colours>
 
-      <RefreshButton onClick={toggleEraser}></RefreshButton>
-
-      {/* <SubmitButton onClick={savePNG}>Save</SubmitButton> */}
+      <EraserButton onClick={toggleEraser}></EraserButton>
+      <SendButtonContainer>
+        <SendButton onClick={savePNG}></SendButton>
+        <p style={{ fontSize: "4vh", color: "red" }}>보내기 </p>
+      </SendButtonContainer>
 
       <DrawingCanvas ref={canvasRef}></DrawingCanvas>
     </Body>
   );
 };
 
-export default DrawingApp;
+export default Sketch;
