@@ -1,5 +1,8 @@
 package com.doran.page.entity;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import com.doran.book.entity.Book;
 
 import jakarta.persistence.Column;
@@ -26,6 +29,7 @@ public class Page {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Book book;
 
     @Column(name = "img_url", nullable = false)

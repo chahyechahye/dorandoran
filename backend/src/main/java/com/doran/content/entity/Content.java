@@ -1,5 +1,8 @@
 package com.doran.content.entity;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import com.doran.page.entity.Page;
 import com.doran.processed_voice.entity.ProcessedVoice;
 
@@ -28,6 +31,7 @@ public class Content {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "page_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Page page;
 
     @Column(nullable = false)

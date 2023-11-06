@@ -1,5 +1,8 @@
 package com.doran.processed_voice.entity;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import com.doran.content.entity.Content;
 import com.doran.user.entity.User;
 
@@ -13,7 +16,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -31,6 +33,7 @@ public class ProcessedVoice {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "content_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Content content;
 
     //유저 매핑
