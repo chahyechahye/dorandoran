@@ -64,8 +64,8 @@ const routes: RouteType[] = [
     element: React.lazy(() => import("@/pages/parent/record")),
   },
   {
-    path: "/test",
-    element: React.lazy(() => import("@/pages/parent/test")),
+    path: "/sketch",
+    element: React.lazy(() => import("@/pages/common/sketch")),
   },
   {
     path: "/oauth/redirect/kakao",
@@ -75,7 +75,6 @@ const routes: RouteType[] = [
     path: "/oauth/redirect/google",
     element: React.lazy(() => import("@/pages/common/oauth/google")),
   },
-
   // {
   //   path: "/",
   //   element: () => <Navigate replace to="/main" />,

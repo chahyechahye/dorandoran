@@ -118,7 +118,7 @@ const SubmitButton = styled.button`
 
 const DrawingCanvas = styled.canvas``;
 
-const DrawingApp = () => {
+const SketchPage = () => {
   const [colors] = useState([
     "#100c08",
     "#C91931",
@@ -429,4 +429,4 @@ const DrawingApp = () => {
   );
 };
 
-export default DrawingApp;
+export default SketchPage;
