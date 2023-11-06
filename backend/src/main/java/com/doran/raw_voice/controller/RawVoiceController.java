@@ -54,7 +54,7 @@ public class RawVoiceController {
     }
 
     //녹음 완료 요청 API
-    @GetMapping("/complete")
+    @PostMapping("/complete")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_PARENT')") // 관리자, 부모만 등록 가능
     public ResponseEntity<?> completeRecord() {
         log.info("녹음 완료 요청 컨트롤러");
