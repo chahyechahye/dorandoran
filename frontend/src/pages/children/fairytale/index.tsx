@@ -11,6 +11,19 @@ import Frog from "@/assets/img/Frog.png";
 import movables from "@/assets/img/movables.png";
 import character from "@/assets/img/fox.png";
 import { useFairytaleList } from "@/apis/children/fairytale/Queries/useFariytaleList";
+import {
+  FairytaleListProps,
+  FairytaleSearchProps,
+} from "@/types/children/fairytaleType";
+import { useRecoilState } from "recoil";
+import {
+  FairytaleSearchState,
+  fairytaleContentListState,
+  fairytaleReadListState,
+  fairytaleReadState,
+  fairytaleState,
+} from "@/states/children/info";
+import { useFairytaleRead } from "@/apis/children/fairytale/Mutations/useFairytaleRead";
 
 // import { background } from "@/assets/img/backgroundRecord.jpg";
 
@@ -77,7 +90,7 @@ const additionalStyles = css`
     color: white;
   }
 
-  .card06 {
+  /* .card06 {
     background: #fcc302;
   }
 
@@ -88,7 +101,7 @@ const additionalStyles = css`
 
   .card08 {
     background: #fb8704;
-  }
+  } */
 
   .dots {
     position: absolute;
@@ -246,10 +259,38 @@ const FairyTalePage = () => {
   const [activeCardClass, setActiveCardClass] =
     useState<keyof typeof cardColors>("card00");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  // 한권 저장
+  const [fairytale, setFairytale] = useRecoilState(fairytaleState);
+  // 한권 검색에 필요한 데이터
+  const [fairytaleSearch, setFairytaleSearch] =
+    useRecoilState(FairytaleSearchState);
+  // 한권의 컨텐츠 저장
+  const [fairytaleRead, setFairytaleRead] = useRecoilState(fairytaleReadState);
+  const [fairytaleContent, setFairytaleContent] = useRecoilState(
+    fairytaleContentListState
+  );
 
-  const setFairytale = useFairytaleList();
+  // 동화책 리스트 담기 (여러권)
+  const setFairytaleList = useFairytaleList();
+  const fairytaleList = setFairytaleList.data.bookResDtoList;
 
-  const openModal = () => {
+  // 동화책 한권 찾기
+  const usePostFairytaleRead = useFairytaleRead();
+
+  const fairytaleHandler = async (fairytale: FairytaleListProps) => {
+    setFairytale(fairytale);
+    setFairytaleSearch({ ...fairytaleSearch, bookId: fairytale.bookId });
+
+    try {
+      const response = await usePostFairytaleRead.mutateAsync({
+        gender: fairytaleSearch.gender,
+        bookId: fairytale.bookId,
+      });
+      setFairytaleRead(response.data);
+      setFairytaleContent(response.data[0].contentResDto);
+    } catch (error) {
+      console.log("api 오류 - postFairytaleReadHandlerinHandler");
+    }
     setIsModalOpen(true);
   };
 
@@ -476,39 +517,23 @@ const FairyTalePage = () => {
             <CardButton className="btn next">
               <span>Next</span>
             </CardButton>
-            <div className="card card00">
-              <CardContent>
-                <CardCircle></CardCircle>
-                <Image src={RT} alt="RT" onClick={openModal} />
-                {/* RT 이미지 경로로 변경 */}
-                <CardTitle>토끼와 거북이</CardTitle>
-                <p className="card-subtitle">Whatever, Ill be at Moes.</p>
-              </CardContent>
-            </div>
-            <div className="card card01">
-              <CardContent>
-                <CardCircle></CardCircle>
-                <Image src={AX} alt="RT" /> {/* RT 이미지 경로로 변경 */}
-                <CardTitle>금도끼 은도끼</CardTitle>
-                <p className="card-subtitle">Whatever, Ill be at Moes.</p>
-              </CardContent>
-            </div>
-            <div className="card card02">
-              <CardContent>
-                <CardCircle></CardCircle>
-                <Image src={Frog} alt="RT" /> {/* RT 이미지 경로로 변경 */}
-                <CardTitle>개구리 왕자</CardTitle>
-                <p className="card-subtitle">Whatever, Ill be at Moes.</p>
-              </CardContent>
-            </div>
-            <div className="card card03">
-              <CardContent>
-                <CardCircle></CardCircle>
-                <Image src={Pig} alt="RT" /> {/* RT 이미지 경로로 변경 */}
-                <CardTitle>아기돼지 삼형제</CardTitle>
-                <p className="card-subtitle">Whatever, Ill be at Moes.</p>
-              </CardContent>
-            </div>
+            {fairytaleList.map(
+              (fairytale: FairytaleListProps, index: number) => (
+                <div key={index} className={`card card0${index}`}>
+                  <CardContent>
+                    <CardCircle></CardCircle>
+                    <Image
+                      src={fairytale.imgUrl}
+                      alt={fairytale.title}
+                      onClick={() => fairytaleHandler(fairytale)}
+                    />
+                    {/* RT 이미지 경로로 변경 */}
+                    <CardTitle>{fairytale.title}</CardTitle>
+                    <p className="card-subtitle">Whatever, Ill be at Moes.</p>
+                  </CardContent>
+                </div>
+              )
+            )}
           </Cards>
         </Wrapper>
 
