@@ -1,5 +1,8 @@
 package com.doran.favorite.entity;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import com.doran.book.entity.Book;
 import com.doran.profile.entity.Profile;
 
@@ -29,6 +32,7 @@ public class Favorite {
 
     @ManyToOne
     @JoinColumn(name = "book_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Book book;
 
     @ManyToOne(fetch = FetchType.LAZY)
