@@ -1,30 +1,20 @@
 package com.doran.letter.controller;
 
-import java.util.List;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.doran.letter.dto.req.LetterInsertDto;
-import com.doran.letter.dto.res.LetterResDto;
+import com.doran.letter.dto.req.LetterReadDto;
+import com.doran.letter.dto.res.LetterResDtoList;
 import com.doran.letter.entity.Letter;
-import com.doran.letter.mapper.LetterMapper;
 import com.doran.letter.service.LetterService;
-import com.doran.parent.entity.Parent;
-import com.doran.parent.repository.ParentRepository;
-import com.doran.parent.service.ParentService;
-import com.doran.profile.entity.Profile;
-import com.doran.profile.repository.ProfileRepository;
 import com.doran.utils.auth.Auth;
-import com.doran.utils.bucket.mapper.BucketMapper;
-import com.doran.utils.bucket.service.BucketService;
 import com.doran.utils.common.UserInfo;
-import com.doran.utils.exception.dto.CustomException;
-import com.doran.utils.exception.dto.ErrorCode;
 import com.doran.utils.response.CommonResponseEntity;
 import com.doran.utils.response.SuccessCode;
 
@@ -36,20 +26,20 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/api/letter")
 @RequiredArgsConstructor
 public class LetterController {
-    private final ParentService parentService;
     private final LetterService letterService;
-    // 편지 조회
+    // 읽지 않은 편지 조회
     @GetMapping("")
     public ResponseEntity<?> getLetterList(){
         UserInfo userInfo= Auth.getInfo();
-        LetterResDto letterResDto = letterService.getLetter(userInfo.getUserId());
-        return CommonResponseEntity.getResponseEntity(SuccessCode.SUCCESS_CODE, letterResDto);
+        LetterResDtoList letterResDtoList = letterService.getLetterList(userInfo.getUserId());
+        return CommonResponseEntity.getResponseEntity(SuccessCode.SUCCESS_CODE, letterResDtoList);
     }
-    // 읽기 않은 편지 개수 (차감 안됨)
-    @GetMapping("/count")
-    public ResponseEntity<?> getLetterCount(){
-        UserInfo userInfo = Auth.getInfo();
-        return CommonResponseEntity.getResponseEntity(SuccessCode.SUCCESS_CODE, letterService.getUnreadLetterCount(userInfo.getUserId()));
+    // 읽은 편지 갱신
+    @PostMapping("/read")
+    public ResponseEntity<?> getLetterCount(@RequestBody LetterReadDto letterReadDto){
+        log.info(""+letterReadDto.getLetterId());
+        letterService.readLetter(letterReadDto.getLetterId());
+        return CommonResponseEntity.getResponseEntity(SuccessCode.SUCCESS_CODE, null);
     }
 
     // 편지 등록
