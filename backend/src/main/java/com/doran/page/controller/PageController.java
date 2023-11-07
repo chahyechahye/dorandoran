@@ -63,7 +63,7 @@ public class PageController {
         log.info("getPageListWithContent 컨트롤러 호출 ");
 
         int parentUserId = parentService.getParentUserId(userInfo.getUserId(), userInfo.getUserRole().getRole());
-        List<PageDetailDto> result = pageService.getPageAll(parentUserId, pageFindDto.getBookId());
+        List<PageDetailDto> result = pageService.getPageAll(parentUserId, pageFindDto.getBookId(), pageFindDto.getGender());
 
         return CommonResponseEntity.getResponseEntity(SuccessCode.SUCCESS_CODE, result);
     }
