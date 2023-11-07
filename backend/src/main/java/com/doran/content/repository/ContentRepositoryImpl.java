@@ -39,7 +39,6 @@ public class ContentRepositoryImpl implements ContentRepositoryCustom {
             .fetch();
     }
 
-    @Transactional
     @Override
     public List<String> findContentByPageList(List<Page> pageList) {
         return jpaQueryFactory
@@ -48,6 +47,7 @@ public class ContentRepositoryImpl implements ContentRepositoryCustom {
             .where(content.page.in(pageList))
             .fetch();
     }
+
 
     @Override
     public void updateScript() {
