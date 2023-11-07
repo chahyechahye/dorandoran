@@ -188,20 +188,22 @@ const DrawingApp = () => {
   });
 
   const toggleEraser = () => {
-    clearCanvas();
-    // If we're currently not using the eraser
     if (currentColorIndex !== 8) {
       // Save the current color and thickness
       setPreviousColorIndex(currentColorIndex);
-
-      // Set to eraser mode
-      setCurrentColorIndex(8);
-      setPencilThickness(pencilPathDefaults.maxThickness);
+      setPencilThickness(pencilPathDefaults.minThickness);
     } else {
-      // If we're currently using the eraser, revert to the previous color and thickness
+      // If we're currently using the eraser, revert to the previous color and set to white
       setCurrentColorIndex(previousColorIndex);
       setPencilThickness(pencilPathDefaults.minThickness);
+      drawingCtxRef.current.fillStyle = colors[currentColorIndex];
     }
+
+    // Toggle eraser mode
+    setIsEraserMode(!isEraserMode);
+
+    // Clear the canvas when switching between pen and eraser modes
+    clearCanvas();
   };
 
   const handleMouseDown = useCallback(
@@ -381,29 +383,6 @@ const DrawingApp = () => {
     isEraserMode,
     pencilThickness,
   ]);
-
-  useEffect(() => {
-    window.addEventListener("popstate", function (event) {
-      history.pushState(null, document.title, location.href);
-    });
-
-    window.addEventListener("beforeunload", function (e) {
-      e.preventDefault();
-      e.returnValue = "";
-    });
-
-    return () => {
-      // Clean up event listeners when the component is unmounted
-      window.removeEventListener("popstate", function (event) {
-        history.pushState(null, document.title, location.href);
-      });
-
-      window.removeEventListener("beforeunload", function (e) {
-        e.preventDefault();
-        e.returnValue = "";
-      });
-    };
-  }, []);
 
   const clearCanvas = () => {
     if (drawingCtxRef.current && drawingCtxRef.current.canvas) {

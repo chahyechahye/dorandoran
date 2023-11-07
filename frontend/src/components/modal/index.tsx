@@ -139,6 +139,7 @@ const Modal = ({
                 <Input
                   type="text"
                   placeholder={placeholder}
+                  maxLength={5} // 최대 글자 수 (예: 50 글자)
                   onChange={(e) => onNameChange(e.target.value)} // Call the onNameChange callback
                 />
                 <Button color={buttonColor} onClick={onButtonClick}>
