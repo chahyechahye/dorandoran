@@ -4,6 +4,7 @@ import static com.doran.admin_voice.entity.QAdminVoice.*;
 import static com.doran.content.entity.QContent.*;
 import static com.doran.page.entity.QPage.*;
 import static com.doran.book.entity.QBook.book;
+import static com.doran.raw_voice.entity.QRawVoice.*;
 import static com.querydsl.core.group.GroupBy.*;
 
 import java.util.List;
@@ -15,6 +16,7 @@ import com.doran.admin_voice.entity.AdminVoice;
 import com.doran.book.entity.QBook;
 import com.doran.utils.common.Genders;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
@@ -47,12 +49,13 @@ public class AdminVoiceRepositoryCustomImpl implements AdminVoiceRepositoryCusto
     }
 
     @Override
-    public List<AdminFindResDto> findAdminVoiceAndBook() {
+    public List<AdminFindResDto> findAdminVoiceAndBook(Genders genders) {
         return jpaQueryFactory
             .from(adminVoice)
             .rightJoin(adminVoice.content, content)
             .rightJoin(content.page, page)
             .rightJoin(page.book, book)
+            .where(genderEq(genders))
             .transform(groupBy(book.id).list(
                 Projections.fields(AdminFindResDto.class,
                     book.id.as("bookId"),
@@ -62,5 +65,9 @@ public class AdminVoiceRepositoryCustomImpl implements AdminVoiceRepositoryCusto
                             adminVoice.voiceUrl.as("voiceUrl"))
                     ).as("adminVoiceList"))
             ));
+    }
+
+    private static BooleanExpression genderEq(Genders genders) {
+        return genders != null ? adminVoice.voiceGender.eq(genders) : null;
     }
 }

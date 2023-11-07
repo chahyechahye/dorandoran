@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.doran.admin_voice.dto.res.AdminFindResDto;
 import com.doran.admin_voice.dto.res.AdminVoiceResDto;
+import com.doran.utils.common.Genders;
 
 @SpringBootTest
 public class AdminVoiceRepositoryCustomImplTest {
@@ -18,7 +19,7 @@ public class AdminVoiceRepositoryCustomImplTest {
 
     @Test
     public void 관리자목소리_테스트() {
-        List<AdminFindResDto> list = adminVoiceRepository.findAdminVoiceAndBook();
+        List<AdminFindResDto> list = adminVoiceRepository.findAdminVoiceAndBook(Genders.MALE);
         if (list.size() == 0)
             System.out.println("응애 아무것도 없어요");
         for (AdminFindResDto a : list) {
