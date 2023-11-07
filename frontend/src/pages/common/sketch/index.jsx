@@ -29,6 +29,7 @@ const Colours = styled.ul`
   position: absolute;
   transform: translateX(-50%);
   z-index: 4;
+  pointer-events: none;
 
   @media (min-width: 1024px) {
     display: flex;
@@ -98,6 +99,7 @@ const RefreshButton = styled.div`
   width: 15vh;
   height: 15vh;
   z-index: 3;
+  pointer-events: none;
 
   @media (min-width: 1024px) {
     bottom: 27px;
@@ -112,6 +114,7 @@ const SubmitButton = styled.button`
   position: absolute;
   right: 30px;
   z-index: 4;
+  pointer-events: none;
 
   @media (min-width: 1024px) {
     display: block;
