@@ -79,6 +79,8 @@ public class ProfileController {
     @PostMapping("/change")
     public ResponseEntity<?> changeProfile(@RequestBody ChangeProfileDto req, HttpServletResponse response,
         HttpServletRequest request) {
+        log.info("chang 진행");
+
         String oldAt = jwtProvider.getAccessToken(request);
         blackListService.save(oldAt);
 
@@ -90,6 +92,7 @@ public class ProfileController {
 
         String accessToken = jwtProvider.createAccessToken(findDto);
 
+        log.info("토큰 재발급 진행");
         response.setHeader("AccessToken", accessToken);
 
         return CommonResponseEntity.getResponseEntity(SuccessCode.OK);

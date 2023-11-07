@@ -1,4 +1,4 @@
-package com.doran.letter.dto.req;
+package com.doran.processed_voice.dto.req;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,6 +9,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class LetterReadDto {
-    private Integer letterId;
+public class PVNewInsertDto {
+    private int bookId;
 }

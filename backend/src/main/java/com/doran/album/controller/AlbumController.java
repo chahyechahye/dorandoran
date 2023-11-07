@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.doran.album.dto.req.AlbumReqDto;
 import com.doran.album.dto.res.AlbumResDto;
@@ -45,6 +44,7 @@ public class AlbumController {
     //앨범 등록
     @PostMapping("")
     public ResponseEntity<?> insertAlbum(AlbumReqDto albumReqDto) {
+        log.info("앨범 등록");
         int userId = Auth.getInfo().getUserId();
         String role = Auth.getInfo().getUserRole().getRole();
 
@@ -76,6 +76,7 @@ public class AlbumController {
     //앨범 조회
     @GetMapping("")
     public ResponseEntity<?> getAlbum() {
+        log.info("앨범 조회");
         int userId = Auth.getInfo().getUserId();
         String role = Auth.getInfo().getUserRole().getRole();
 
