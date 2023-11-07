@@ -259,6 +259,7 @@ const DrawingApp = () => {
     drawingCanvas.style.position = "fixed";
     drawingCanvas.style.left = 0;
     drawingCanvas.style.top = 0;
+    drawingCanvas.style.overflow = "hidden";
     drawingCanvas.style.zIndex = 1;
 
     document.body.appendChild(drawingCanvas);
