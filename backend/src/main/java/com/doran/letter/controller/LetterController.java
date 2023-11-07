@@ -4,12 +4,10 @@ package com.doran.letter.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.doran.letter.dto.req.LetterInsertDto;
-import com.doran.letter.dto.req.LetterReadDto;
 import com.doran.letter.dto.res.LetterResDtoList;
 import com.doran.letter.entity.Letter;
 import com.doran.letter.service.LetterService;
@@ -37,7 +35,7 @@ public class LetterController {
     }
     // 읽은 편지 갱신
     @PostMapping("/read")
-    public ResponseEntity<?> getLetterCount(@RequestBody LetterReadDto letterReadDto){
+    public ResponseEntity<?> getLetterCount(){
         log.info("읽은 편지 갱신!");
         UserInfo userInfo = Auth.getInfo();
         letterService.readLetter(userInfo.getUserId());
