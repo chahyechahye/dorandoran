@@ -16,7 +16,7 @@ import purplePen from "@/assets/img/pen/purplePen.png";
 const Body = styled.div`
   width: 100vh;
   height: 100vh;
-  background-color: #fff;
+  background-color: #ffffff;
   overflow: hidden;
 `;
 
@@ -28,7 +28,6 @@ const Colours = styled.ul`
   padding-left: 0;
   position: absolute;
   transform: translateX(-50%);
-  user-select: none;
   z-index: 4;
 
   @media (min-width: 1024px) {
@@ -96,7 +95,6 @@ const RefreshButton = styled.div`
   left: 50%;
   text-align: center;
   transform: translateX(-50%);
-  user-select: none;
   width: 15vh;
   height: 15vh;
   z-index: 3;
@@ -113,7 +111,6 @@ const SubmitButton = styled.button`
   display: none;
   position: absolute;
   right: 30px;
-  user-select: none;
   z-index: 4;
 
   @media (min-width: 1024px) {
@@ -254,6 +251,10 @@ const DrawingApp = () => {
     }, 50);
   }, [setIsDrawing, setNewlyUp, pencilPathDefaults.minThickness]);
 
+  const stopScroll = (e) => {
+    e.preventDefault();
+  };
+
   useEffect(() => {
     const drawingCanvas = document.createElement("canvas");
     drawingCanvas.width = window.innerWidth;
@@ -262,7 +263,6 @@ const DrawingApp = () => {
     drawingCanvas.style.position = "fixed";
     drawingCanvas.style.left = 0;
     drawingCanvas.style.top = 0;
-    drawingCanvas.style.overflow = "hidden";
     drawingCanvas.style.zIndex = 1;
 
     document.body.appendChild(drawingCanvas);
@@ -284,9 +284,10 @@ const DrawingApp = () => {
 
       if (isEraserMode) {
         drawingCtxRef.current.globalCompositeOperation = "destination-out"; // 지우개 모드일 때
+        drawingCtxRef.current.globalAlpha = 1;
       } else {
         drawingCtxRef.current.fillStyle = colors[currentColorIndex]; // 펜 모드일 때
-        drawingCtxRef.current.globalAlpha = getRandomInt(0.15, 0.25);
+        drawingCtxRef.current.globalAlpha = 1;
       }
 
       if (!lastPoint.current) {
@@ -358,6 +359,7 @@ const DrawingApp = () => {
     document.addEventListener("mouseup", handleMouseUp);
     document.addEventListener("touchmove", handleMouseMove);
     document.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("wheel", stopScroll);
 
     return () => {
       // Remove event listeners in the cleanup function if needed
@@ -367,6 +369,7 @@ const DrawingApp = () => {
       document.removeEventListener("mouseup", handleMouseUp);
       document.removeEventListener("touchmove", handleMouseMove);
       document.removeEventListener("mousemove", handleMouseMove);
+      document.addEventListener("wheel", stopScroll);
     };
   }, [
     currentColorIndex,
@@ -379,9 +382,28 @@ const DrawingApp = () => {
     pencilThickness,
   ]);
 
-  const stopScroll = (e) => {
-    e.preventDefault();
-  };
+  useEffect(() => {
+    window.addEventListener("popstate", function (event) {
+      history.pushState(null, document.title, location.href);
+    });
+
+    window.addEventListener("beforeunload", function (e) {
+      e.preventDefault();
+      e.returnValue = "";
+    });
+
+    return () => {
+      // Clean up event listeners when the component is unmounted
+      window.removeEventListener("popstate", function (event) {
+        history.pushState(null, document.title, location.href);
+      });
+
+      window.removeEventListener("beforeunload", function (e) {
+        e.preventDefault();
+        e.returnValue = "";
+      });
+    };
+  }, []);
 
   const clearCanvas = () => {
     if (drawingCtxRef.current && drawingCtxRef.current.canvas) {

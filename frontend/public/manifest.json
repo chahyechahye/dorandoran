@@ -1,6 +1,6 @@
 {
-  "short_name": "도란도란",
-  "name": "AI 부모님이 읽어주는 동화책 서비스",
+  "short_name": "React App",
+  "name": "Create React App Sample",
   "icons": [
     {
       "src": "favicon.ico",
@@ -19,7 +19,7 @@
     }
   ],
   "start_url": ".",
-  "display": "fullscreen",
+  "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#ffffff",
   "orientation": "landscape"
