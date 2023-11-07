@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 import styled, { keyframes } from "styled-components";
 import castle from "@/assets/img/childMain/castle.png";
 import postOffice from "@/assets/img/childMain/postoffice.png";
@@ -8,11 +10,16 @@ import ProfileCircle from "@/components/profileCircle";
 import Lottie from "lottie-react";
 import letterEffect from "@/assets/img/gif/letter.json";
 import letterImage from "@/assets/img/letter/letterImage.png";
-import { useState } from "react";
+import exitBtn from "@/assets/img/exitBtn.png";
+import arrowLeft from "@/assets/img/fairytale/arrowLeft.png";
+import arrowRight from "@/assets/img/fairytale/arrowRight.png";
+
 import { useNavigate } from "react-router-dom";
 import { useFairytaleList } from "@/apis/children/fairytale/Queries/useFariytaleList";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { profileState, selectAnimalState } from "@/states/children/info";
+import { useGetLetterList } from "@/apis/common/letter/Queries/useGetLetter";
+import { usePostLetterRead } from "@/apis/common/letter/Mutations/usePostLetterRead";
 
 import movables from "@/assets/img/movables.png";
 
@@ -361,15 +368,46 @@ const BlackGround = styled.div`
   z-index: 7;
 `;
 
+const ArrowBox = styled.div`
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 1%;
+  z-index: 999;
+`;
+
+const ArrowLeft = styled.img`
+  position: absolute;
+  left: 2vh;
+  width: 20vh;
+`;
+
+const ExitBtn = styled.img`
+  width: 15vh;
+`;
+
+const ArrowRight = styled.img`
+  position: absolute;
+  right: 2vh;
+  width: 20vh;
+`;
+
 const ChildrenMainPage = () => {
   const [isLetter, setIsLetter] = useState(false);
   const [isEnvelope, setIsEnvelope] = useState(false);
   const [readLetter, setReadLetter] = useState(false);
+  const [flag, setFlag] = useState(false);
+  const [isLetterPage, setIsLetterPage] = useState(0);
+  const [hasFetchedData, setHasFetchedData] = useState(false);
+
+  const LetterList = useGetLetterList();
+  const letterSize = LetterList.data.size;
+  const letterContent = LetterList.data.letterResDtoList;
+  const readLetterList = usePostLetterRead();
 
   const profile = useRecoilValue(profileState);
-
-  console.log(profile.name);
-  console.log(profile.id);
 
   const navigate = useNavigate();
 
@@ -397,17 +435,69 @@ const ChildrenMainPage = () => {
     setReadLetter(false);
   };
 
+  useEffect(() => {
+    if (letterSize !== 0 && !flag) {
+      setHasFetchedData(true);
+      openLetter();
+    }
+    setFlag(true);
+  }, [letterSize, flag, readLetterList]);
+
+  const handleLeftClick = () => {
+    if (isLetterPage > 0) {
+      setIsLetterPage(isLetterPage - 1);
+    }
+  };
+
+  const handleRightClick = () => {
+    if (isLetterPage < letterSize) {
+      setIsLetterPage(isLetterPage + 1);
+    }
+  };
+
   return (
     <>
       <ContentContainer>
-        {(isLetter || isEnvelope || readLetter) && (
-          <BlackGround onClick={CloseLetter} />
-        )}
+        {(isLetter || isEnvelope || readLetter) && <BlackGround />}
         <LetterGif isLetter={isLetter}>
           {isLetter && <Lottie animationData={letterEffect} />}
         </LetterGif>
         {isEnvelope && <LetterImg src={letterImage} onClick={clickLetter} />}
-        {readLetter && <LetterRead src={postOffice} />}
+        {readLetter && (
+          <>
+            <div
+              style={{
+                display: "flex",
+                position: "absolute",
+                right: 0,
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "flex",
+                margin: "4vh",
+                zIndex: "999",
+              }}
+              onClick={CloseLetter}
+            >
+              <ExitBtn src={exitBtn}></ExitBtn>
+              <p style={{ fontSize: "7vh" }}>나가기</p>
+            </div>
+            <LetterRead src={letterContent[isLetterPage].contentUrl} />
+            <ArrowBox>
+              {isLetterPage === 0 && (
+                <ArrowRight src={arrowRight} onClick={handleRightClick} />
+              )}
+              {isLetterPage === letterSize - 1 && (
+                <ArrowLeft src={arrowLeft} onClick={handleLeftClick} />
+              )}
+              {isLetterPage !== 0 && isLetterPage !== letterSize - 1 && (
+                <>
+                  <ArrowLeft src={arrowLeft} onClick={handleLeftClick} />
+                  <ArrowRight src={arrowRight} onClick={handleRightClick} />
+                </>
+              )}
+            </ArrowBox>
+          </>
+        )}
         <Container>
           <Cloud />
           <Cloud />
