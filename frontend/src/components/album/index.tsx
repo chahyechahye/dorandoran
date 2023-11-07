@@ -26,9 +26,9 @@ const Container = styled.div`
 
 const Book = styled.div`
   position: absolute;
-  left: 75vh;
+  left: 50%;
   top: 55vh;
-  transform: rotateX(4deg) translateY(-3%) translate(-50%, -50%);
+  transform: rotateX(4deg) translateY(-3%) translateX(-50%) translateY(-50%);
   width: 145vh;
   height: 90vh;
   max-height: 120vh;
