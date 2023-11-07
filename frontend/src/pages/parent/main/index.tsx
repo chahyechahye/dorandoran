@@ -199,8 +199,6 @@ const ParentMainPage = () => {
     readLetterList.mutateAsync();
   };
 
-  console.log(letterContent);
-
   useEffect(() => {
     if (letterSize !== 0 && !flag) {
       setHasFetchedData(true);
