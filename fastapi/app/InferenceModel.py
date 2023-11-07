@@ -7,7 +7,7 @@ def inferRefresh(user):
         "index" : ""
     }
     
-    client = Client("http://173.199.124.118:7865/")
+    client = Client("http://172.17.0.4:7865/")
     result = client.predict(
                     api_name="/infer_refresh"
     )
