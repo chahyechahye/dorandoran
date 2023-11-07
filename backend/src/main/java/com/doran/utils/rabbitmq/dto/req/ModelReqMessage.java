@@ -21,6 +21,5 @@ import lombok.ToString;
 @ToString
 public class ModelReqMessage {
     private int userId;
-    private Genders gender;
     private List<RawVoiceResDto> rawVoiceList;
 }

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.doran.raw_voice.dto.res.RawVoiceResDto;
 import com.doran.raw_voice.service.RawVoiceService;
 import com.doran.utils.auth.Auth;
-import com.doran.utils.common.Genders;
 import com.doran.utils.rabbitmq.dto.req.ModelReqMessage;
 import com.doran.utils.rabbitmq.mapper.ModelMapper;
 
@@ -30,9 +29,9 @@ public class ModelPubService {
     private String routingKey;
 
     //유저 하나당 큐 한개
-    public void sendMessage(int userId, Genders genders) {
+    public void sendMessage(int userId) {
         List<RawVoiceResDto> rawVoiceResDtoList = rawVoiceService.findRawVoiceByUserId(userId);
-        ModelReqMessage modelReqMessage = modelMapper.toReqMessage(userId, rawVoiceResDtoList, genders);
+        ModelReqMessage modelReqMessage = modelMapper.toReqMessage(userId, rawVoiceResDtoList);
 
         //log.info("입력값 확인" + modelReqMessage.getRawVoiceList().get(0).getVoiceUrl());
         log.info("모델 생성 요청 : " + modelReqMessage.getUserId());

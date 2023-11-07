@@ -9,7 +9,6 @@ import com.doran.content.entity.Content;
 import com.doran.processed_voice.dto.res.ProcessedVoiceResDto;
 import com.doran.processed_voice.entity.ProcessedVoice;
 import com.doran.user.entity.User;
-import com.doran.utils.common.Genders;
 
 @Mapper(componentModel = "spring")
 public interface ProcessedVoiceMapper {
@@ -17,7 +16,6 @@ public interface ProcessedVoiceMapper {
     List<ProcessedVoiceResDto> toDtoList(List<ProcessedVoice> processedVoiceList);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(source = "genders", target = "voiceGender")
-    ProcessedVoice toProcessedVoice(Content content, User user, String voiceUrl, Genders genders);
+    ProcessedVoice toProcessedVoice(Content content, User user, String voiceUrl);
 
 }
