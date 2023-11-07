@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import LikeBook from "@/components/likeBook";
 import ProfileCircle from "@/components/profileCircle";
@@ -9,7 +9,11 @@ import letterEffect from "@/assets/img/gif/letter.json";
 import Lottie from "lottie-react";
 import LikeBookList from "@/components/likeBookList";
 import letterImage from "@/assets/img/letter/letterImage.png";
+import exitBtn from "@/assets/img/exitBtn.png";
 import letterTest from "@/assets/img/letterTest.png";
+import arrowLeft from "@/assets/img/fairytale/arrowLeft.png";
+import arrowRight from "@/assets/img/fairytale/arrowRight.png";
+import { useGetLetterList } from "@/apis/common/letter/Queries/useGetLetter";
 import { useNavigate } from "react-router-dom";
 import { profileState } from "@/states/children/info";
 import { useRecoilValue } from "recoil";
@@ -21,6 +25,7 @@ import tape from "@/assets/img/tape.png";
 import post from "@/assets/img/post.png";
 
 import Logo from "@/assets/img/Logo.png";
+import { usePostLetterRead } from "@/apis/common/letter/Mutations/usePostLetterRead";
 
 const Container = styled.div`
   position: fixed;
@@ -106,15 +111,48 @@ const LetterRead = styled.img`
   z-index: 8;
 `;
 
+const ArrowBox = styled.div`
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 1%;
+  z-index: 999;
+`;
+
+const ArrowLeft = styled.img`
+  position: absolute;
+  left: 2vh;
+  width: 20vh;
+`;
+
+const ExitBtn = styled.img`
+  width: 15vh;
+`;
+
+const ArrowRight = styled.img`
+  position: absolute;
+  right: 2vh;
+  width: 20vh;
+`;
+
 const ParentMainPage = () => {
   const navigate = useNavigate();
   const profileData = useRecoilValue(profileState);
+  const LetterList = useGetLetterList();
+  const letterSize = LetterList.data.size;
+  const letterContent = LetterList.data.letterResDtoList;
+  const readLetterList = usePostLetterRead();
+  const [hasFetchedData, setHasFetchedData] = useState(false);
 
   const [isOpenAlbum, setIsOpenAlbum] = useState(false);
   const [isOpenLikeBook, setIsOpenLikeBook] = useState(false);
   const [isLetter, setIsLetter] = useState(false);
   const [isEnvelope, setIsEnvelope] = useState(false);
   const [readLetter, setReadLetter] = useState(false);
+  const [flag, setFlag] = useState(false);
+  const [isLetterPage, setIsLetterPage] = useState(0);
 
   const handleOpenAlbum = () => {
     setIsOpenAlbum(true);
@@ -158,18 +196,73 @@ const ParentMainPage = () => {
     setIsLetter(false);
     setIsEnvelope(false);
     setReadLetter(false);
+    readLetterList.mutateAsync();
+  };
+
+  console.log(letterContent);
+
+  useEffect(() => {
+    if (letterSize !== 0 && !flag) {
+      setHasFetchedData(true);
+      openLetter();
+    }
+    setFlag(true);
+  }, [letterSize, flag, readLetterList]);
+
+  const handleLeftClick = () => {
+    if (isLetterPage > 0) {
+      setIsLetterPage(isLetterPage - 1);
+    }
+  };
+
+  const handleRightClick = () => {
+    if (isLetterPage < letterSize) {
+      setIsLetterPage(isLetterPage + 1);
+    }
   };
 
   return (
     <>
-      {(isLetter || isEnvelope || readLetter) && (
-        <BlackGround onClick={CloseLetter} />
-      )}
+      {(isLetter || isEnvelope || readLetter) && <BlackGround />}
       <LetterGif isLetter={isLetter}>
         {isLetter && <Lottie animationData={letterEffect} />}
       </LetterGif>
       {isEnvelope && <LetterImg src={letterImage} onClick={clickLetter} />}
-      {readLetter && <LetterRead src={letterTest} />}
+      {readLetter && (
+        <>
+          <div
+            style={{
+              display: "flex",
+              position: "absolute",
+              right: 0,
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "flex",
+              margin: "4vh",
+              zIndex: "999",
+            }}
+            onClick={CloseLetter}
+          >
+            <ExitBtn src={exitBtn}></ExitBtn>
+            <p style={{ fontSize: "7vh" }}>나가기</p>
+          </div>
+          <LetterRead src={letterContent[isLetterPage].contentUrl} />
+          <ArrowBox>
+            {isLetterPage === 0 && (
+              <ArrowRight src={arrowRight} onClick={handleRightClick} />
+            )}
+            {isLetterPage === letterSize - 1 && (
+              <ArrowLeft src={arrowLeft} onClick={handleLeftClick} />
+            )}
+            {isLetterPage !== 0 && isLetterPage !== letterSize - 1 && (
+              <>
+                <ArrowLeft src={arrowLeft} onClick={handleLeftClick} />
+                <ArrowRight src={arrowRight} onClick={handleRightClick} />
+              </>
+            )}
+          </ArrowBox>
+        </>
+      )}
       <Container>
         <Header>
           <ProfileCircle
