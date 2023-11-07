@@ -5,6 +5,15 @@ import foxImage from "@/assets/img/fox.png";
 import pandaImage from "@/assets/img/panda.png";
 import rabbitImage from "@/assets/img/rabbit.png";
 import penguin from "@/assets/img/Penguin.png";
+import { useChildrenAnimal } from "@/apis/children/character/Queries/useChildrenAnimal";
+import { AnimalListProps } from "@/types/children/fairytaleType";
+import { useChildrenCharacter } from "@/apis/children/profile/Mutations/useChildrenCharacter";
+import { useRecoilState, useRecoilValue } from "recoil";
+import {
+  AnimalIdState,
+  AnimalState,
+  selectAnimalState,
+} from "@/states/children/info";
 
 interface DivProps {
   backgroundImage: string;
@@ -13,7 +22,7 @@ interface DivProps {
 
 const Div = styled.div<DivProps>`
   width: 40vw;
-  max-width: 500px;
+  max-width: 30vh;
   height: 65vh;
   background-size: auto 60%;
   background-position: 50% 50%;
@@ -50,44 +59,35 @@ const Content = styled.div`
 const CharacterPage: React.FC = () => {
   const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
 
-  const divs = [
-    {
-      backgroundColor: "orange",
-      backgroundImage: foxImage,
-      content: "여울",
-    },
-    {
-      backgroundColor: "red",
-      backgroundImage: pandaImage,
-      content: "팡팡",
-    },
-    {
-      backgroundColor: "pink",
-      backgroundImage: rabbitImage,
-      content: "토리",
-    },
-    {
-      backgroundColor: "purple",
-      backgroundImage: penguin,
-      content: "펭펭",
-    },
-  ];
+  const getChildrenAnimal = useChildrenAnimal();
+
+  const animal = getChildrenAnimal.data.animalList;
+
+  const filteredAnimal = animal.filter(
+    (item: AnimalListProps) => item.name !== "기본"
+  );
+
+  const [saveAnimalId, setSaveAnimalId] = useRecoilState(AnimalIdState);
+  const [animalInfo, setAnimalInfo] = useRecoilState(AnimalState);
+  const [SelectAnimal, setSelectAnimal] = useRecoilState(selectAnimalState);
 
   const handleMouseEnter = (index: number) => {
     setHighlightedIndex(index);
+    setSelectAnimal(filteredAnimal[index]);
+    setSaveAnimalId(filteredAnimal[index].id);
   };
 
   return (
     <div className="App" tabIndex={0}>
-      {divs.map((div, index) => (
+      {filteredAnimal.map((animal: AnimalListProps, index: number) => (
         <Div
           key={index}
           className={index === highlightedIndex ? "highlighted" : ""}
-          backgroundImage={div.backgroundImage}
-          backgroundColor={div.backgroundColor}
+          backgroundImage={animal.imgUrl}
+          backgroundColor={animal.color}
           onMouseEnter={() => handleMouseEnter(index)}
         >
-          <Content>{div.content}</Content>
+          <Content>{animal.name}</Content>
         </Div>
       ))}
     </div>

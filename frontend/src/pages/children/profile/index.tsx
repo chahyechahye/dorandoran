@@ -4,9 +4,15 @@ import ChildCard from "@/components/childCard";
 import Face from "@/assets/img/smile.png";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { profileListState, profileState } from "@/states/children/info";
+import {
+  AnimalState,
+  childrenLoginState,
+  profileListState,
+  profileState,
+} from "@/states/children/info";
 import { useChildrenLogin } from "@/apis/children/profile/Mutations/useChildrenLogin";
 import { ChildrenProfileProps } from "@/types/children/profileType";
+import { useEffect } from "react";
 
 const Background = styled.div`
   position: fixed;
@@ -34,27 +40,36 @@ const CardContainer = styled.div`
 
 const ChildrenProfilePage = () => {
   const profileList = useRecoilValue(profileListState);
-  const [profile, setProfile] = useRecoilState(profileState);
+  const [profileData, setProfileData] = useRecoilState(profileState);
+  const [childrenLogin, setChildrenLogin] = useRecoilState(childrenLoginState);
 
   const navigate = useNavigate();
 
   const usePostChildrenLogin = useChildrenLogin();
 
-  const postLoginHandler = async (profile: ChildrenProfileProps) => {
+  console.log(profileList);
+
+  const postLoginHandler = (profile: ChildrenProfileProps) => {
     try {
-      await usePostChildrenLogin.mutateAsync({
+      localStorage.removeItem("accessToken");
+      setChildrenLogin({ childId: profile.childId, profileId: profile.id });
+      setProfileData(profile);
+      usePostChildrenLogin.mutateAsync({
         childId: profile.childId,
         profileId: profile.id,
       });
       console.log("프로필데이타:" + profile.name);
-      setProfile(profile);
-      navigate("/children/main");
+      if (profile.animal.name === "기본") {
+        navigate("/children/character");
+      } else {
+        navigate("/children/main");
+      }
     } catch (errer) {
       console.log("api 오류 - postLoginHandler");
     }
   };
 
-  console.log("프로필:" + profile.name);
+  console.log("프로필:" + profileData.name);
   return (
     <Background>
       <ContentContainer>
