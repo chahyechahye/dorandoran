@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.doran.utils.common.Genders;
+
 @SpringBootTest
 class ModelPubServiceTest {
     @Autowired
@@ -13,6 +15,6 @@ class ModelPubServiceTest {
 
     @Test
     void 모델_생성_메시지_테스트() {
-        modelPubService.sendMessage(3);
+        modelPubService.sendMessage(3, Genders.MALE);
     }
 }

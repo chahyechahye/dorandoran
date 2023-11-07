@@ -1,5 +1,7 @@
 package com.doran.content.entity;
 
+import java.util.List;
+
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -14,6 +16,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -37,6 +40,6 @@ public class Content {
     @Column(nullable = false)
     private String script;
 
-    @OneToOne(mappedBy = "content")
-    private ProcessedVoice processedVoice;
+    @OneToMany(mappedBy = "content")
+    private List<ProcessedVoice> processedVoice;
 }

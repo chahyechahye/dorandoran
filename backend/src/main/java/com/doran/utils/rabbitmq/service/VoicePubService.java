@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.doran.admin_voice.dto.res.AdminFindResDto;
 import com.doran.admin_voice.service.AdminVoiceService;
+import com.doran.utils.common.Genders;
 import com.doran.utils.rabbitmq.dto.req.VoiceReqMessage;
 import com.doran.utils.rabbitmq.mapper.VoiceMapper;
 
@@ -25,9 +26,9 @@ public class VoicePubService {
     @Value("${rabbitmq.queue.voice}")
     private String routingKey;
 
-    public void sendMessage(int userId) {
-        List<AdminFindResDto> list = adminVoiceService.findAdminVoiceAndBook(null);
-        VoiceReqMessage voiceReqMessage = voiceMapper.toReqMessage(userId, list);
+    public void sendMessage(int userId, Genders genders) {
+        List<AdminFindResDto> list = adminVoiceService.findAdminVoiceAndBook(genders);
+        VoiceReqMessage voiceReqMessage = voiceMapper.toReqMessage(userId, list, genders);
 
         log.info("가공 목소리 생성 요청 : " + voiceReqMessage.getUserId());
         rabbitTemplate.convertAndSend(routingKey, voiceReqMessage);
