@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.doran.utils.common.Genders;
 import com.doran.utils.rabbitmq.dto.res.ModelResMessage;
 
 @SpringBootTest
@@ -23,7 +22,7 @@ class ModelSubServiceTest {
 
     @Test
     public void 모델_SUB_생성기() {
-        rabbitTemplate.convertAndSend(routingKey, new ModelResMessage(17, Genders.MALE));
+        rabbitTemplate.convertAndSend(routingKey, new ModelResMessage(17));
     }
 
 }

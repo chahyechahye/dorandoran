@@ -21,7 +21,6 @@ import com.doran.utils.auth.Auth;
 import com.doran.utils.bucket.dto.InsertDto;
 import com.doran.utils.bucket.mapper.BucketMapper;
 import com.doran.utils.bucket.service.BucketService;
-import com.doran.utils.common.Genders;
 import com.doran.utils.exception.dto.CustomException;
 import com.doran.utils.exception.dto.ErrorCode;
 import com.doran.utils.rabbitmq.dto.res.VoiceResMessage;
@@ -70,7 +69,7 @@ public class ProcessedVoiceService {
         User user = userService.findUser(processedVoiceInsertDto.getUserId());
         InsertDto insertDto = bucketMapper.toInsertDto(processedVoiceInsertDto.getFile(), "processed_voice");
         String voiceUrl = bucketService.insertFile(insertDto);
-        ProcessedVoice processedVoice = processedVoiceMapper.toProcessedVoice(content, user, voiceUrl, Genders.MALE);
+        ProcessedVoice processedVoice = processedVoiceMapper.toProcessedVoice(content, user, voiceUrl);
         processedVoiceRepository.save(processedVoice);
     }
 
@@ -80,7 +79,7 @@ public class ProcessedVoiceService {
 
         for (PVQueResDto pv : voiceResMessage.getPvList()) {
             Content content = contentService.getContentById(pv.getContentId());
-            ProcessedVoice processedVoice = processedVoiceMapper.toProcessedVoice(content, user, pv.getVoiceUrl(), voiceResMessage.getGenders());
+            ProcessedVoice processedVoice = processedVoiceMapper.toProcessedVoice(content, user, pv.getVoiceUrl());
             processedVoiceRepository.save(processedVoice);
         }
     }

@@ -4,7 +4,6 @@ import static com.doran.admin_voice.entity.QAdminVoice.*;
 import static com.doran.content.entity.QContent.*;
 import static com.doran.page.entity.QPage.*;
 import static com.doran.book.entity.QBook.book;
-import static com.doran.raw_voice.entity.QRawVoice.*;
 import static com.querydsl.core.group.GroupBy.*;
 
 import java.util.List;
@@ -49,13 +48,13 @@ public class AdminVoiceRepositoryCustomImpl implements AdminVoiceRepositoryCusto
     }
 
     @Override
-    public List<AdminFindResDto> findAdminVoiceAndBook(Genders genders) {
+    public List<AdminFindResDto> findAdminVoiceAndBook(Integer bookId) {
         return jpaQueryFactory
             .from(adminVoice)
             .rightJoin(adminVoice.content, content)
             .rightJoin(content.page, page)
             .rightJoin(page.book, book)
-            .where(genderEq(genders))
+            .where(bookIdEq(bookId))
             .transform(groupBy(book.id).list(
                 Projections.fields(AdminFindResDto.class,
                     book.id.as("bookId"),
@@ -67,7 +66,7 @@ public class AdminVoiceRepositoryCustomImpl implements AdminVoiceRepositoryCusto
             ));
     }
 
-    private static BooleanExpression genderEq(Genders genders) {
-        return genders != null ? adminVoice.voiceGender.eq(genders) : null;
+    private static BooleanExpression bookIdEq(Integer id) {
+        return id != null ? content.page.book.id.eq(id) : null;
     }
 }

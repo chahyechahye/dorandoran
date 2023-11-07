@@ -26,11 +26,11 @@ public class ModelSubService {
         log.info("model_res 받았음!-----------------------------");
         telService.findByUserId(modelResMessage.getUserId()).ifPresent(
             tel -> {
-                naverSensV2.send_msg(tel.getTel(), null, MessageType.MODEL);
+                naverSensV2.send_msg(tel.getTel(),null, MessageType.MODEL);
             }
         );
 
         // 가공 목소리 생성 요청
-        voicePubService.sendMessage(modelResMessage.getUserId(), modelResMessage.getGenders());
+        voicePubService.sendMessage(modelResMessage.getUserId());
     }
 }
