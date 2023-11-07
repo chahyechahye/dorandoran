@@ -15,4 +15,13 @@ interface ChildrenProfileProps {
   animal: AnimalProps;
   name: string;
 }
-export type { ChildrenLoginProps, ChildrenProfileProps };
+
+interface AnimalIdProps {
+  animalId: number;
+}
+export type {
+  ChildrenLoginProps,
+  ChildrenProfileProps,
+  AnimalIdProps,
+  AnimalProps,
+};
