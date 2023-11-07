@@ -32,6 +32,7 @@ public class ModelPubService {
     //유저 하나당 큐 한개
     public void sendMessage(int userId, Genders genders) {
         List<RawVoiceResDto> rawVoiceResDtoList = rawVoiceService.findRawVoiceByUserId(userId);
+        //
         ModelReqMessage modelReqMessage = modelMapper.toReqMessage(userId, rawVoiceResDtoList, genders);
 
         //log.info("입력값 확인" + modelReqMessage.getRawVoiceList().get(0).getVoiceUrl());
