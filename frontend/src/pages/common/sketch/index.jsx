@@ -253,8 +253,8 @@ const DrawingApp = () => {
 
   useEffect(() => {
     const drawingCanvas = document.createElement("canvas");
-    drawingCanvas.width = window.innerWidth;
-    drawingCanvas.height = window.innerHeight;
+    drawingCanvas.width = "1368";
+    drawingCanvas.height = "912";
 
     drawingCanvas.style.position = "fixed";
     drawingCanvas.style.left = 0;
