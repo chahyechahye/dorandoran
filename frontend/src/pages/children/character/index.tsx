@@ -3,6 +3,15 @@ import background from "@/assets/img/background/background.jpg";
 import CharacterPage from "@/pages/common/character";
 import ClickButton from "@/components/clickButton";
 import { useNavigate } from "react-router-dom";
+import { useChildrenCharacter } from "@/apis/children/profile/Mutations/useChildrenCharacter";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { profileListState } from "../../../states/children/info";
+import {
+  AnimalIdState,
+  profileState,
+  selectAnimalState,
+} from "@/states/children/info";
+import { ChildrenProfileProps } from "@/types/children/profileType";
 
 const Background = styled.div`
   position: fixed;
@@ -45,7 +54,55 @@ const ChildrenCharacterPage = () => {
   const navigate = useNavigate();
 
   const goMain = () => {
+    settingAnimal();
+    childrenCharacterHandler();
     navigate("/children/main");
+  };
+
+  const animalId = useRecoilValue(AnimalIdState);
+  const selectAnimal = useRecoilValue(selectAnimalState);
+  const [profile, setProfile] = useRecoilState(profileState);
+  const [profileList, setProfileList] = useRecoilState(profileListState);
+
+  console.log("1:" + JSON.stringify(profileList));
+  console.log("캐릭터플필아이디:" + profile.id);
+  const settingAnimal = () => {
+    const updatedProfile = {
+      ...profile,
+      animal: selectAnimal,
+    };
+
+    // 현재 아동의 프로필 업데이트
+    setProfile(updatedProfile);
+
+    // 프로필 목록 내의 프로필 업데이트
+    setProfileListByChildId(updatedProfile);
+  };
+
+  const setProfileListByChildId = (profile: ChildrenProfileProps) => {
+    setProfileList((profileList) => {
+      return profileList.map((profileItem) => {
+        if (profileItem.id === profile.id) {
+          console.log("profileItem.id" + profileItem.id);
+          console.log("profile.id" + profile.id);
+          return profile;
+        } else {
+          return profileItem;
+        }
+      });
+    });
+  };
+  const usePostChildrenCharacter = useChildrenCharacter();
+
+  const childrenCharacterHandler = () => {
+    try {
+      console.log("2:" + JSON.stringify(profileList));
+      console.log("이건 잘나오나profile:" + profile.id);
+      console.log("이건 잘나오나selectAnimal:" + selectAnimal.id);
+      usePostChildrenCharacter.mutateAsync(selectAnimal.id);
+    } catch (error) {
+      console.log("api 오류 - childrenCharacterHandler");
+    }
   };
 
   return (

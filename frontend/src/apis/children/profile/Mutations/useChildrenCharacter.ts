@@ -2,11 +2,9 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postChildrenCharacter } from "@/apis/children/profile/profileAPI";
 
 const useChildrenCharacter = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation((animalId: string) => postChildrenCharacter(animalId), {
+  return useMutation((animalId: number) => postChildrenCharacter(animalId), {
     onSuccess: () => {
-      queryClient.invalidateQueries(["ChildrenCharacter"]);
+      console.log("성공");
     },
     onError: (err: Error) => {
       console.log("Error in useChildrenCharacter:", err);
