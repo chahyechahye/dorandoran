@@ -26,10 +26,17 @@ public class VoicePubService {
     private String routingKey;
 
     public void sendMessage(int userId) {
-        List<AdminFindResDto> list = adminVoiceService.findAdminVoiceAndBook();
+        List<AdminFindResDto> list = adminVoiceService.findAdminVoiceAndBook(null);
         VoiceReqMessage voiceReqMessage = voiceMapper.toReqMessage(userId, list);
 
         log.info("가공 목소리 생성 요청 : " + voiceReqMessage.getUserId());
+        rabbitTemplate.convertAndSend(routingKey, voiceReqMessage);
+    }
+
+    public void sendMessage(int userId, int bookId) {
+        List<AdminFindResDto> list = adminVoiceService.findAdminVoiceAndBook(bookId);
+        VoiceReqMessage voiceReqMessage = voiceMapper.toReqMessage(userId, list);
+        log.info("가공 목소리 추가 생성 요청 : " + voiceReqMessage.getUserId());
         rabbitTemplate.convertAndSend(routingKey, voiceReqMessage);
     }
 }
