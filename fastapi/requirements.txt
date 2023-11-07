@@ -5,3 +5,4 @@ uuid
 gradio
 gradio_client
 asyncio
+google-cloud-storage
