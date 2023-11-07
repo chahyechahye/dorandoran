@@ -17,7 +17,10 @@ import com.doran.page.dto.req.PageInsertDto;
 import com.doran.page.dto.res.PageDetailDto;
 import com.doran.page.dto.res.PageListDto;
 import com.doran.page.service.PageService;
+import com.doran.parent.entity.Parent;
+import com.doran.parent.service.ParentService;
 import com.doran.utils.auth.Auth;
+import com.doran.utils.common.UserInfo;
 import com.doran.utils.response.CommonResponseEntity;
 import com.doran.utils.response.SuccessCode;
 
@@ -32,6 +35,7 @@ public class PageController {
 
     private final PageService pageService;
     private final ContentService contentService;
+    private final ParentService parentService;
 
     // 동화책의 페이지 등록
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -55,9 +59,11 @@ public class PageController {
     //페이지 조회 with 컨텐츠, url
     @PostMapping("/all")
     ResponseEntity<?> getPageListWithContent(@RequestBody PageFindDto pageFindDto) {
-        int userId = Auth.getInfo().getUserId();
+        UserInfo userInfo = Auth.getInfo();
         log.info("getPageListWithContent 컨트롤러 호출 ");
-        List<PageDetailDto> result = pageService.getPageAll(userId, pageFindDto.getBookId());
+
+        int parentUserId = parentService.getParentUserId(userInfo.getUserId(), userInfo.getUserRole().getRole());
+        List<PageDetailDto> result = pageService.getPageAll(parentUserId, pageFindDto.getBookId());
 
         return CommonResponseEntity.getResponseEntity(SuccessCode.SUCCESS_CODE, result);
     }
