@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.doran.admin_voice.dto.res.AdminFindResDto;
+import com.doran.utils.common.Genders;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,5 +24,6 @@ import lombok.extern.slf4j.Slf4j;
 @ToString
 public class VoiceReqMessage {
     private int userId;
+    private Genders genders;
     private List<AdminFindResDto> list;
 }

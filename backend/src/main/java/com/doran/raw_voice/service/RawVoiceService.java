@@ -11,6 +11,7 @@ import com.doran.user.service.UserService;
 import com.doran.utils.auth.Auth;
 import com.doran.utils.bucket.mapper.BucketMapper;
 import com.doran.utils.bucket.service.BucketService;
+import com.doran.utils.common.Genders;
 import com.doran.utils.exception.dto.CustomException;
 import com.doran.utils.exception.dto.ErrorCode;
 import com.doran.utils.rabbitmq.service.ModelPubService;
@@ -37,12 +38,13 @@ public class RawVoiceService {
                 .orElseThrow(() -> new CustomException(ErrorCode.VOICE_NOT_FOUND));
     }
 
+
     public List<RawVoiceResDto> findRawVoiceByUserId(int userId) {
-        return rawVoiceRepository.findRawVoiceByUserId(userId);
+        return rawVoiceRepository.findRawVoiceByUserId(userId, null);
     }
 
     public RawVoiceListDto getRawVoiceByUserId(int userId) {
-        List<RawVoiceResDto> rawVoiceResDtoList = rawVoiceRepository.findRawVoiceByUserId(userId);
+        List<RawVoiceResDto> rawVoiceResDtoList = rawVoiceRepository.findRawVoiceByUserId(userId, null);
         return rawVoiceMapper.listToResListDto(rawVoiceResDtoList,rawVoiceResDtoList.size());
     }
 
