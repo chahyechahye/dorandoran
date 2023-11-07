@@ -22,7 +22,7 @@ public class BucketTest {
 
     @Test
     public void insertTest() {
-        List<RawVoiceResDto> rawVoiceList = rawVoiceRepository.findRawVoiceByUserId(3);
+        List<RawVoiceResDto> rawVoiceList = rawVoiceRepository.findRawVoiceByUserId(3,null);
 
         for (RawVoiceResDto r : rawVoiceList)
         {
