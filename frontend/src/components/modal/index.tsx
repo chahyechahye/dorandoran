@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { usePostMessage } from "@/apis/parents/profile/Mutations/usePostMessage";
 import { usePostAlarmMessage } from "@/apis/parents/record/Mutations/usePostAlarmMessage";
+import { useNavigate } from "react-router-dom";
 
 interface ModalProps {
   title: string;
@@ -97,6 +98,7 @@ const Modal = ({
   ));
   const [phone, setPhone] = useState("");
 
+  const navigate = useNavigate();
   const sendMessage = usePostMessage();
   const sendAlarm = usePostAlarmMessage();
 
@@ -109,6 +111,7 @@ const Modal = ({
       sendAlarm.mutateAsync({
         tel: phone,
       });
+      navigate("/parent/main");
     }
     onClose();
   };
