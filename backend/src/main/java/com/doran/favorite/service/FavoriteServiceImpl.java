@@ -2,6 +2,7 @@ package com.doran.favorite.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -10,12 +11,13 @@ import com.doran.book.dto.res.BookResDto;
 import com.doran.book.entity.Book;
 import com.doran.book.mapper.BookMapper;
 import com.doran.book.repository.BookRepository;
+import com.doran.book.service.BookService;
 import com.doran.favorite.entity.Favorite;
+import com.doran.favorite.mapper.FavoriteMapper;
 import com.doran.favorite.repository.FavoriteRepository;
 import com.doran.profile.entity.Profile;
 import com.doran.profile.repository.ProfileRepository;
-import com.doran.utils.exception.dto.CustomException;
-import com.doran.utils.exception.dto.ErrorCode;
+import com.doran.profile.service.ProfileService;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -29,8 +31,11 @@ public class FavoriteServiceImpl implements FavoriteService {
 
     private final FavoriteRepository favoriteRepository;
     private final BookRepository bookRepository;
+    private final BookService bookService;
     private final ProfileRepository profileRepository;
+    private final ProfileService profileService;
     private final BookMapper bookMapper;
+    private final FavoriteMapper favoriteMapper;
 
     @Override
     public BookListDto findChildFavoriteBook(int profileId) {
@@ -48,14 +53,19 @@ public class FavoriteServiceImpl implements FavoriteService {
 
     @Override
     public void saveChildFavoriteBook(int profileId, int bookId) {
-        Book book = bookRepository.findById(bookId).orElseThrow(() -> new CustomException(ErrorCode.BOOK_NOT_FOUND));
-        Profile profile = profileRepository.findById(profileId)
-                                           .orElseThrow(() -> new CustomException(ErrorCode.PROFILE_NOT_FOUND));
+        Optional<Favorite> findFavorite = favoriteRepository.findFavoriteByProfileIdAndBookId(profileId,
+            bookId);
 
-        Favorite favorite = new Favorite();
-        favorite.setBook(book);
-        favorite.setProfile(profile);
+        findFavorite.ifPresentOrElse(
+            favorite -> {
+            },
+            () -> {
+                Book findBook = bookService.findBookById(bookId);
+                Profile findProfile = profileService.findProfileById(profileId);
+                Favorite favorite = favoriteMapper.toFavorite(findBook, findProfile);
 
-        favoriteRepository.save(favorite);
+                favoriteRepository.save(favorite);
+            }
+        );
     }
 }
