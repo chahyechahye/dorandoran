@@ -49,11 +49,12 @@ public class LetterService{
         return letterMapper.letterListToResDtoList(letterList, letterList.size());
     }
     // 읽은 편지 갱신
-    public void readLetter(int letterId){
-        Letter letter = letterRepository.findById(letterId)
-            .orElseThrow(() -> new CustomException(ErrorCode.LETTER_NOT_FOUND));
-        letter.setModifiedDate(LocalDateTime.now());
-        letterRepository.save(letter);
+    public void readLetter(int userId){
+        List<Letter> unreadLetterList = letterRepository.findAllUnreadLetter(userId);
+        for(Letter letter : unreadLetterList){
+            letter.setModifiedDate(LocalDateTime.now());
+            letterRepository.save(letter);
+        }
     }
     // 편지 등록
     public Letter insertLetter(LetterInsertDto letterInsertDto){

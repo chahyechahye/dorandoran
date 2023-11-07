@@ -30,6 +30,7 @@ public class LetterController {
     // 읽지 않은 편지 조회
     @GetMapping("")
     public ResponseEntity<?> getLetterList(){
+        log.info("편지 검색");
         UserInfo userInfo= Auth.getInfo();
         LetterResDtoList letterResDtoList = letterService.getLetterList(userInfo.getUserId());
         return CommonResponseEntity.getResponseEntity(SuccessCode.SUCCESS_CODE, letterResDtoList);
@@ -37,14 +38,16 @@ public class LetterController {
     // 읽은 편지 갱신
     @PostMapping("/read")
     public ResponseEntity<?> getLetterCount(@RequestBody LetterReadDto letterReadDto){
-        log.info(""+letterReadDto.getLetterId());
-        letterService.readLetter(letterReadDto.getLetterId());
+        log.info("읽은 편지 갱신!");
+        UserInfo userInfo = Auth.getInfo();
+        letterService.readLetter(userInfo.getUserId());
         return CommonResponseEntity.getResponseEntity(SuccessCode.SUCCESS_CODE, null);
     }
 
     // 편지 등록
     @PostMapping("")
     public ResponseEntity<?> insertLetter(LetterInsertDto letterInsertDto){
+        log.info("편지 등록");
         Letter letter = letterService.insertLetter(letterInsertDto);
         return CommonResponseEntity.getResponseEntity(SuccessCode.SUCCESS_CODE, null);
     }
