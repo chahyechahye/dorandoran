@@ -28,8 +28,8 @@ const Colours = styled.ul`
   padding-left: 0;
   position: absolute;
   transform: translateX(-50%);
+  user-select: none;
   z-index: 4;
-  pointer-events: none;
 
   @media (min-width: 1024px) {
     display: flex;
@@ -96,10 +96,10 @@ const RefreshButton = styled.div`
   left: 50%;
   text-align: center;
   transform: translateX(-50%);
+  user-select: none;
   width: 15vh;
   height: 15vh;
   z-index: 3;
-  pointer-events: none;
 
   @media (min-width: 1024px) {
     bottom: 27px;
@@ -113,8 +113,8 @@ const SubmitButton = styled.button`
   display: none;
   position: absolute;
   right: 30px;
+  user-select: none;
   z-index: 4;
-  pointer-events: none;
 
   @media (min-width: 1024px) {
     display: block;
@@ -256,8 +256,8 @@ const DrawingApp = () => {
 
   useEffect(() => {
     const drawingCanvas = document.createElement("canvas");
-    drawingCanvas.width = "1368";
-    drawingCanvas.height = "912";
+    drawingCanvas.width = window.innerWidth;
+    drawingCanvas.height = window.innerHeight;
 
     drawingCanvas.style.position = "fixed";
     drawingCanvas.style.left = 0;
