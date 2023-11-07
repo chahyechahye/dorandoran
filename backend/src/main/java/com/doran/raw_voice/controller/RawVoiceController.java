@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.doran.raw_voice.dto.req.CompleteInsertDto;
 import com.doran.raw_voice.dto.req.RawVoiceInsertDto;
 import com.doran.raw_voice.dto.req.TelInsertDto;
 import com.doran.raw_voice.dto.res.RawVoiceListDto;
@@ -61,10 +62,11 @@ public class RawVoiceController {
     //녹음 완료 요청 API
     @PostMapping("/complete")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_PARENT')") // 관리자, 부모만 등록 가능
-    public ResponseEntity<?> completeRecord() {
+    public ResponseEntity<?> completeRecord(@RequestBody CompleteInsertDto completeInsertDto) {
         int userId = Auth.getInfo().getUserId();
         log.info("녹음 완료 요청 컨트롤러");
-        modelPubService.sendMessage(userId); //model pub 호출
+        log.info("녹음자 성별 : " + completeInsertDto.getGenders());
+        modelPubService.sendMessage(userId, completeInsertDto.getGenders()); //model pub 호출
         log.info("해당 유저의 녹음이 완료되었습니다. " + userId);
         return CommonResponseEntity.getResponseEntity(SuccessCode.SUCCESS_CODE);
     }
