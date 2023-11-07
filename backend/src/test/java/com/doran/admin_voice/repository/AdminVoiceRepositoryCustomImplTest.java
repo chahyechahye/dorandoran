@@ -21,7 +21,7 @@ public class AdminVoiceRepositoryCustomImplTest {
     @Test
     @DisplayName("관리자 목소리 테스트")
     public void 관리자목소리_테스트() {
-        List<AdminFindResDto> list = adminVoiceRepository.findAdminVoiceAndBook(Genders.MALE);
+        List<AdminFindResDto> list = adminVoiceRepository.findAdminVoiceAndBook(null,25);
         if (list.size() == 0)
             System.out.println("응애 아무것도 없어요");
         for (AdminFindResDto a : list) {

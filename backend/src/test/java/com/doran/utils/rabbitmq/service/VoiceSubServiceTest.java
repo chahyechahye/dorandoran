@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.doran.processed_voice.dto.res.PVQueResDto;
+import com.doran.utils.common.Genders;
 import com.doran.utils.rabbitmq.dto.res.VoiceResMessage;
 
 import lombok.extern.slf4j.Slf4j;
@@ -33,12 +34,13 @@ class VoiceSubServiceTest {
     public void 보이스_SUB_생성기() {
         VoiceResMessage voiceResMessage = new VoiceResMessage();
         List<PVQueResDto> pvList = new ArrayList<>();
-        for (int i = 409; i <= 415; i++) {
+        for (int i = 1016; i <= 1017; i++) {
             pvList.add(new PVQueResDto(i, "ttt"));
         }
 
         voiceResMessage.setUserId(17);
         voiceResMessage.setPvList(pvList);
+        voiceResMessage.setGenders(Genders.MALE);
 
         log.info("큐 날라가욧_!!!!!!!!!!!!!!!!");
         rabbitTemplate.convertAndSend(routingKey,voiceResMessage);
