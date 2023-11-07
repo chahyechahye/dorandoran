@@ -50,7 +50,7 @@ def Voice(data):
                 # 변경된 voiceURL 전달
                 PVQueRes = PVQueResDto(contentId=contentId, voiceUrl=voiceUrl)
                 results.append(PVQueRes.model_dump())
-        print(inferRefresh("con1"))
+        LogInfo(inferRefresh("con1"))
         res = VoiceReq(
             userId=userId,
             pbList=results
