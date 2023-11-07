@@ -53,7 +53,7 @@ public class AdminVoiceService {
         adminVoiceRepository.save(adminVoice);
     }
 
-    public List<AdminFindResDto> findAdminVoiceAndBook() {
-        return adminVoiceRepository.findAdminVoiceAndBook();
+    public List<AdminFindResDto> findAdminVoiceAndBook(Integer bookId) {
+        return adminVoiceRepository.findAdminVoiceAndBook(bookId);
     }
 }
