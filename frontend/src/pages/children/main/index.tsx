@@ -11,8 +11,8 @@ import letterImage from "@/assets/img/letter/letterImage.png";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useFairytaleList } from "@/apis/children/fairytale/Queries/useFariytaleList";
-import { useRecoilState } from "recoil";
-import { bookListState } from "@/states/children/info";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { profileState, selectAnimalState } from "@/states/children/info";
 
 import movables from "@/assets/img/movables.png";
 
@@ -365,6 +365,11 @@ const ChildrenMainPage = () => {
   const [isLetter, setIsLetter] = useState(false);
   const [isEnvelope, setIsEnvelope] = useState(false);
   const [readLetter, setReadLetter] = useState(false);
+
+  const profile = useRecoilValue(profileState);
+
+  console.log(profile.name);
+  console.log(profile.id);
 
   const navigate = useNavigate();
 

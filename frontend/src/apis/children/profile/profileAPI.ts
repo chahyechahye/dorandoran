@@ -24,15 +24,19 @@ const postChildrenLogin = async (ChildrenLoginData: ChildrenLoginProps) => {
     const accessToken = response.headers.accesstoken;
     localStorage.setItem("accessToken", accessToken);
 
+    (instance.defaults.headers as any).Authorization = accessToken;
+
     return response.data;
   } catch {
     new Error("api 연동 오류 - postChildrenLogin");
   }
 };
 
-const postChildrenCharacter = async (animalId: string) => {
+const postChildrenCharacter = async (animalId: number) => {
   try {
-    const response = await instance.post(`/profile/animal`, animalId);
+    const response = await instance.post(`/profile/animal`, {
+      animalId: animalId,
+    });
     return response;
   } catch {
     new Error("api 연동 오류 - postChildrenCharacter");

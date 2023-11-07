@@ -26,9 +26,17 @@ interface FairytaleSearchProps {
   gender: string;
 }
 
+interface AnimalListProps {
+  id: number;
+  name: string;
+  imgUrl: string;
+  color: string;
+}
+
 export type {
   FairytaleListProps,
   FairytaleReadProps,
   FairytaleContentProps,
   FairytaleSearchProps,
+  AnimalListProps,
 };

@@ -1,3 +1,6 @@
+import { AnimalState, profileState } from "@/states/children/info";
+import { useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 
 const OuterCircle = styled.div`
@@ -43,14 +46,22 @@ const ProfileCircle = ({
   profileImage?: string;
   profileName?: string;
 }) => {
+  const animalImg = useRecoilValue(profileState);
+
+  const navigate = useNavigate();
+
+  const goCharacter = () => {
+    navigate("/children/character");
+  };
+
   return (
-    <div>
+    <div onClick={goCharacter}>
       <OuterCircle onClick={onClick}>
         <InnerCircle>
           {profileImage === "" ? (
             <Plus>+</Plus>
           ) : (
-            <ProfileImage src={profileImage} />
+            <ProfileImage src={animalImg.animal.imgUrl} />
           )}
         </InnerCircle>
       </OuterCircle>
