@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { ButtonEffect } from "@/styles/buttonEffect";
 
 const Card = styled.div<{ backgroundColor?: string }>`
   width: 40vh;
@@ -13,34 +14,7 @@ const Card = styled.div<{ backgroundColor?: string }>`
   margin: 0vh 2vh;
   padding: 2vh;
 
-  -webkit-appearance: none;
-  appearance: none;
-  transition:
-    transform ease-in 0.1s,
-    box-shadow ease-in 0.25s;
-
-  &:focus {
-    outline: 0;
-  }
-
-  &:before,
-  &:after {
-    position: absolute;
-    content: "";
-    display: block;
-    width: 140%;
-    height: 100%;
-    left: -20%;
-    z-index: -1000;
-    transition: all ease-in-out 0.5s;
-    background-repeat: no-repeat;
-  }
-
-  &:active {
-    transform: scale(0.9);
-    background-color: darken($button-bg, 5%);
-    box-shadow: 0 2px 25px rgba(255, 0, 130, 0.2);
-  }
+  ${ButtonEffect}
 `;
 
 const Cassette = styled.div<{ img?: string }>`

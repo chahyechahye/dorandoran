@@ -10,6 +10,7 @@ import registBtn from "@/assets/img/registBtn.png";
 import deleteBtn from "@/assets/img/deleteBtn.png";
 import exitBtn from "@/assets/img/exitBtn.png";
 import { useDeleteAlbum } from "@/apis/common/album/Mutations/useDeleteAlbum";
+import { ButtonEffect } from "@/styles/buttonEffect";
 
 // Define the type for your AlbumList items
 interface AlbumItem {
@@ -137,11 +138,13 @@ const Header = styled.div`
 
 const ExitBtn = styled.img`
   width: 15vh;
+  ${ButtonEffect}
 `;
 
 const ImageBtn = styled.img`
   width: 30vh;
   margin: 0vh 7vh;
+  ${ButtonEffect}
 `;
 
 const Album = ({ onClose, type }: { onClose: () => void; type?: string }) => {
