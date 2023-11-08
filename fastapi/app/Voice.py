@@ -58,7 +58,7 @@ def Voice(data):
                 LogInfo(f"VOICEURL : {voiceUrl}")
                 # 관리자 목소리 다운로드
                 # 이미 다운로드 되어있다면 다운로드 건너뛰기
-                download_data = Download(bookId=bookId, dogender=userGender, voiceUrl=voiceUrl)
+                download_data = Download(bookId=bookId, gender=userGender, voiceUrl=voiceUrl)
                 download_data['content_id'] = contentId
                 download_data_list.append(download_data)
             
