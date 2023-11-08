@@ -1,5 +1,6 @@
 package com.doran.raw_voice.service;
 
+import com.doran.parent.service.ParentService;
 import com.doran.raw_voice.dto.req.RawVoiceInsertDto;
 import com.doran.raw_voice.mapper.RawVoiceMapper;
 import com.doran.raw_voice.dto.res.RawVoiceListDto;
@@ -18,6 +19,7 @@ import com.doran.utils.rabbitmq.service.ModelPubService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,13 +33,13 @@ public class RawVoiceService {
     private final RawVoiceRepository rawVoiceRepository;
     private final RawVoiceMapper rawVoiceMapper;
     private final UserService userService;
+    private final ParentService parentService;
 
     // 목소리 검색
-    public RawVoice findRawVoiceById(int rvId){
+    public RawVoice findRawVoiceById(int rvId) {
         return rawVoiceRepository.findById(rvId)
-                .orElseThrow(() -> new CustomException(ErrorCode.VOICE_NOT_FOUND));
+            .orElseThrow(() -> new CustomException(ErrorCode.VOICE_NOT_FOUND));
     }
-
 
     public List<RawVoiceResDto> findRawVoiceByUserId(int userId) {
         return rawVoiceRepository.findRawVoiceByUserId(userId, null);
@@ -45,29 +47,24 @@ public class RawVoiceService {
 
     public RawVoiceListDto getRawVoiceByUserId(int userId) {
         List<RawVoiceResDto> rawVoiceResDtoList = rawVoiceRepository.findRawVoiceByUserId(userId, null);
-        return rawVoiceMapper.listToResListDto(rawVoiceResDtoList,rawVoiceResDtoList.size());
+        return rawVoiceMapper.listToResListDto(rawVoiceResDtoList, rawVoiceResDtoList.size());
     }
 
     // 목소리 조회
-    public RawVoiceListDto getRawVoiceAll(){
-         List<RawVoice> rawVoiceList = rawVoiceRepository.findAll();
-         List<RawVoiceResDto> rawVoiceResDtoList = rawVoiceMapper.toDtoList(rawVoiceList);
+    public RawVoiceListDto getRawVoiceAll() {
+        List<RawVoice> rawVoiceList = rawVoiceRepository.findAll();
+        List<RawVoiceResDto> rawVoiceResDtoList = rawVoiceMapper.toDtoList(rawVoiceList);
 
-         return new RawVoiceListDto(rawVoiceResDtoList.size(), rawVoiceResDtoList);
+        return new RawVoiceListDto(rawVoiceResDtoList.size(), rawVoiceResDtoList);
     }
 
     // 목소리 등록
-   public void insertRawVoice (RawVoiceInsertDto rawVoiceInsertDto) {
-        String voiceUrl = bucketService.insertFile(bucketMapper.toInsertDto(rawVoiceInsertDto.getFile(),"raw_voice"));
+    public void insertRawVoice(RawVoiceInsertDto rawVoiceInsertDto) {
+        String voiceUrl = bucketService.insertFile(bucketMapper.toInsertDto(rawVoiceInsertDto.getFile(), "raw_voice"));
         User user = userService.findUser(Auth.getInfo().getUserId());
-        RawVoice rawVoice = rawVoiceMapper.voiceInsertToRawVoice(user,voiceUrl,rawVoiceInsertDto.getGender());
+        RawVoice rawVoice = rawVoiceMapper.voiceInsertToRawVoice(user, voiceUrl, rawVoiceInsertDto.getGender());
         rawVoiceRepository.save(rawVoice);
-   }
-    // 목소리 추가 파일명 : user_id + "_" + 0000.mp3 , ex) 000001_0000.mp3
-    //    public void insertRawVoice (RawVoiceInsertDto rawVoiceInsertDto) throws IOException {
-    //
-    //        String url = bucketService.insertFile(InsertD)
-    //        RawVoice rawVoice = rawVoiceMapper.voiceInsertToRawVoice(rawVoiceInsertDto);
-    //    }
+    }
+
 
 }

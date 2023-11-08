@@ -11,14 +11,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.doran.parent.service.ParentService;
 import com.doran.raw_voice.dto.req.CompleteInsertDto;
 import com.doran.raw_voice.dto.req.RawVoiceInsertDto;
 import com.doran.raw_voice.dto.req.TelInsertDto;
 import com.doran.raw_voice.dto.res.RawVoiceListDto;
 import com.doran.raw_voice.dto.res.RawVoiceResDto;
+import com.doran.raw_voice.dto.res.RecordCheckDto;
 import com.doran.raw_voice.service.RawVoiceService;
 import com.doran.redis.tel.service.TelService;
 import com.doran.utils.auth.Auth;
+import com.doran.utils.common.UserInfo;
 import com.doran.utils.rabbitmq.service.ModelPubService;
 import com.doran.utils.response.CommonResponseEntity;
 import com.doran.utils.response.SuccessCode;
@@ -34,6 +37,7 @@ public class RawVoiceController {
     private final RawVoiceService rawVoiceService;
     private final TelService telService;
     private final ModelPubService modelPubService;
+    private final ParentService parentService;
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("")

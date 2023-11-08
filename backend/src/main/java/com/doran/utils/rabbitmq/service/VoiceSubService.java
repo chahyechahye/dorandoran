@@ -26,6 +26,8 @@ public class VoiceSubService {
         // 목소리 갱신
         processedVoiceService.saveAll(voiceResMessage);
 
+        // 등록 여부
+
         // 목소리 생성완료 알림
         telService.findByUserId(voiceResMessage.getUserId()).ifPresent(tel -> {
                 naverSensV2.send_msg(tel.getTel(), null, MessageType.VOICE);

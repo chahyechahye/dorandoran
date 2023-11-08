@@ -9,11 +9,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.doran.parent.service.ParentService;
 import com.doran.processed_voice.dto.req.PVNewInsertDto;
 import com.doran.processed_voice.dto.req.ProcessedVoiceInsertDto;
 import com.doran.processed_voice.service.ProcessedVoiceService;
+import com.doran.raw_voice.dto.res.RecordCheckDto;
 import com.doran.utils.auth.Auth;
 import com.doran.utils.common.Genders;
+import com.doran.utils.common.UserInfo;
 import com.doran.utils.rabbitmq.service.VoicePubService;
 import com.doran.utils.response.CommonResponseEntity;
 import com.doran.utils.response.SuccessCode;
@@ -28,6 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ProcessedVoiceController {
     private final ProcessedVoiceService processedVoiceService;
     private final VoicePubService voicePubService;
+    private final ParentService parentService;
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("")
@@ -71,5 +75,19 @@ public class ProcessedVoiceController {
         voicePubService.sendMessage(userId, pvNewInsertDto.getBookId(), pvNewInsertDto.getGenders());
 
         return CommonResponseEntity.getResponseEntity(SuccessCode.SUCCESS_CODE);
+    }
+
+    //낭독 체킹 API
+    @GetMapping("/check")
+    public ResponseEntity<?> checkRecord() {
+        log.info("녹음 체킹 컨트롤러");
+
+        UserInfo info = Auth.getInfo();
+
+        int parentUserId = parentService.getParentUserId(info.getUserId(), String.valueOf(info.getUserRole()));
+        processedVoiceService.checkRecording(parentUserId);
+
+        return CommonResponseEntity.getResponseEntity(SuccessCode.SUCCESS_CODE,
+            new RecordCheckDto(Boolean.TRUE, Boolean.FALSE));
     }
 }
