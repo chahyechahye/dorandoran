@@ -29,7 +29,7 @@ const MainContainer = styled.div`
 `;
 
 const H2 = styled.h2`
-  margin: 0 0 80px 0;
+  margin: 5vh 0 3vh 0;
   color: #fff;
   font-size: 10vh;
   font-weight: 300;
