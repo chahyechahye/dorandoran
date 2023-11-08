@@ -24,7 +24,7 @@ import {
   fairytaleState,
 } from "@/states/children/info";
 import { useFairytaleRead } from "@/apis/children/fairytale/Mutations/useFairytaleRead";
-
+import GenderModal from "@/components/genderModal";
 // import { background } from "@/assets/img/backgroundRecord.jpg";
 
 const Character = styled.img`
@@ -269,6 +269,7 @@ const FairyTalePage = () => {
   const [fairytaleContent, setFairytaleContent] = useRecoilState(
     fairytaleContentListState
   );
+  const [selectedGender, setSelectedGender] = useState("");
 
   // 동화책 리스트 담기 (여러권)
   const setFairytaleList = useFairytaleList();
@@ -283,7 +284,7 @@ const FairyTalePage = () => {
 
     try {
       const response = await usePostFairytaleRead.mutateAsync({
-        gender: fairytaleSearch.gender,
+        gender: selectedGender,
         bookId: fairytale.bookId,
       });
       setFairytaleRead(response.data);
@@ -505,8 +506,13 @@ const FairyTalePage = () => {
     createNavigation();
   }, []);
 
+  const handleGenderSelection = (selectedOption: string) => {
+    setSelectedGender(selectedOption);
+  };
+
   return (
     <>
+      <GenderModal onGenderSelected={handleGenderSelection} />
       <Container style={{ background: cardColors[activeCardClass] || "#fff" }}>
         <Wrapper>
           <Title>어느 동화책을 읽고싶니?</Title>
