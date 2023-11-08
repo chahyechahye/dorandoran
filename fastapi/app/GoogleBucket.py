@@ -65,5 +65,3 @@ def Upload(userId, fileName):
     blob.upload_from_filename(directory, if_generation_match=generation_match_precondition)
     print(destination_file_name)
     return destination_file_name
-
-Download(1, "https://storage.googleapis.com/ssafy-last-project/eb7c380d-58b5-4425-a012-1617d5b16d25")
