@@ -63,7 +63,7 @@ def Upload(userId, fileName):
     try:
         directory = os.path.join("/", "app", "opt", str(userId), fileName)
         LogInfo(directory)
-        destination_file_name = str(uuid.uuid3(uuid.NAMESPACE_URL, directory))
+        destination_file_name = str(uuid.uuid4())
         LogInfo(destination_file_name)
 
         bucket = client.bucket(bucket_name)
