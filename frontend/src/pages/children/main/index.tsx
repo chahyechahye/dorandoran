@@ -35,6 +35,8 @@ const Movables = styled.img`
 
 const ContentContainer = styled.div`
   position: fixed;
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -51,7 +53,7 @@ const Container = styled.div`
   );
   width: 100%;
   height: 100%;
-  position: absolute;
+  position: fixed;
   overflow: hidden;
 `;
 
