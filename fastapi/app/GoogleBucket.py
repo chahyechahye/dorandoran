@@ -33,11 +33,11 @@ def Download(bookId, gender, voiceUrl):
             bucket = client.bucket(bucket_name)
             blob = bucket.blob(fileName)
             blob.download_to_filename(save_location)
-            data['directory'] = directory
-            data['file_name'] = fileName
-            data['save_location'] = save_location
-            LogInfo(data)
-            return data
+        data['directory'] = directory
+        data['file_name'] = fileName
+        data['save_location'] = save_location
+        LogInfo(data)
+        return data
     except Exception as e:
         LogError(e)
         LogError("Download Fail")
@@ -53,11 +53,10 @@ def DownloadRaw(userId, gender, voiceUrl):
 
     if os.path.exists(save_location):
         LogInfo("aleady download")
-        return
-
-    bucket = client.bucket(bucket_name)
-    blob = bucket.blob(fileName)
-    blob.download_to_filename(save_location)
+    else:
+        bucket = client.bucket(bucket_name)
+        blob = bucket.blob(fileName)
+        blob.download_to_filename(save_location)
     return directory
 
 def Upload(userId, fileName):
