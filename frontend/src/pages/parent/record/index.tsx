@@ -6,6 +6,7 @@ import SpeakBtn from "@/components/speakBtn";
 import Modal from "@/components/modal";
 import { useGetRecord } from "@/apis/parents/record/Queries/useGetRecord";
 import { usePostVoice } from "@/apis/parents/record/Mutations/usePostVoice";
+import GenderModal from "@/components/genderModal";
 
 import background from "@/assets/img/background/backgroundRecord.jpg";
 import Logo from "@/assets/img/Logo.png";
@@ -77,6 +78,7 @@ const ParentRecordPage = () => {
 
   const [isAlertModalOpen, setIsAlertModalOpen] = useState(false); // 모달의 상태를 관리하는 state
   const [isAlarmModalOpen, setIsAlarmModalOpen] = useState(false);
+  const [selectedGender, setSelectedGender] = useState("");
 
   const [stream, setStream] = useState<MediaStream | null>(null);
   const [media, setMedia] = useState<MediaRecorder | null>(null);
@@ -106,7 +108,7 @@ const ParentRecordPage = () => {
     setAudioUrl(null);
     const updatedScriptReadNum = [...scriptReadNum];
     if (currentScriptNum + 1 === totalScriptList[2] && currentPage === 2) {
-      recordComplete.mutateAsync();
+      recordComplete.mutateAsync(selectedGender);
       OpenAlarmModal();
       return;
     }
@@ -209,16 +211,21 @@ const ParentRecordPage = () => {
       lastModified: new Date().getTime(),
       type: "audio/wav",
     });
-    recordVoice.mutateAsync({ file: sound, gender: "MALE" });
+    recordVoice.mutateAsync({ file: sound, gender: selectedGender });
     console.log(sound);
-  }, [audioUrl, recordVoice]);
+  }, [audioUrl, recordVoice, selectedGender]);
 
   useEffect(() => {
     setIsAudioAvailable(Boolean(audioUrl));
   }, [audioUrl]);
 
+  const handleGenderSelection = (selectedOption: string) => {
+    setSelectedGender(selectedOption);
+  };
+
   return (
     <>
+      <GenderModal onGenderSelected={handleGenderSelection} />
       <Container>
         <Image src={Logo} alt="Background" />
         <div

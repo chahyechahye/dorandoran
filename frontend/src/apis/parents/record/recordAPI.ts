@@ -39,9 +39,11 @@ const postAlarmMessage = async (tel: MessageProps) => {
   }
 };
 
-const postVoiceComplete = async () => {
+const postVoiceComplete = async (genders: string) => {
   try {
-    const response = await instance.post("/voice/complete");
+    const response = await instance.post("/voice/complete", {
+      genders: genders,
+    });
     return response.data;
   } catch {
     console.log(new Error("api 연동 오류 - postVoiceComplete"));
