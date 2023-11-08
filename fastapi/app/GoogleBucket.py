@@ -29,18 +29,19 @@ def Download(bookId, gender, voiceUrl):
 
         if os.path.exists(save_location):
             LogInfo("aleady download")
-            return
-
-        bucket = client.bucket(bucket_name)
-        blob = bucket.blob(fileName)
-        blob.download_to_filename(save_location)
-        data['directory'] = directory
-        data['file_name'] = fileName
-        data['save_location'] = save_location
-        return data
+        else:
+            bucket = client.bucket(bucket_name)
+            blob = bucket.blob(fileName)
+            blob.download_to_filename(save_location)
+            data['directory'] = directory
+            data['file_name'] = fileName
+            data['save_location'] = save_location
+            LogInfo(data)
+            return data
     except Exception as e:
         LogError(e)
         LogError("Download Fail")
+        raise
 
 def DownloadRaw(userId, gender, voiceUrl):
     fileName = voiceUrl.split("/")[-1]
@@ -74,3 +75,4 @@ def Upload(userId, fileName):
     except Exception as e:
         LogError(e)
         LogError("Upload Fail")
+        raise

@@ -95,7 +95,7 @@ def Voice(data):
             upload_file_name_list = []
             
             for temp in file_list:
-                upload_file_name = Upload(userId=userId, fileName=temp['file_name']+".wav")
+                upload_file_name = Upload(userId=userId, fileName=temp['file_name']+".wav.wav")
                 upload_file_name_list.append(upload_file_name)
                 # voiceURL 변경
                 # 변경된 voiceURL 전달
