@@ -8,11 +8,19 @@ client = storage.Client()
 
 bucket_name = 'ssafy-last-project'
 
-def Download(userId, voiceUrl):
+def Download(bookId, gender, voiceUrl):
+
+    data = {
+        "directory" : "",
+        "file_name" : "",
+        "save_location" : "",
+        "content_id" : ""
+    }
+
     fileName = voiceUrl.split("/")[-1]
     print(fileName)
     
-    directory = os.path.join("/", "app", "data", str(userId))
+    directory = os.path.join("/", "app", "data", f"book_{str(bookId)}_{gender}")
     os.makedirs(directory, exist_ok=True)
     save_location = os.path.join(directory, fileName+".wav")
 
@@ -23,6 +31,27 @@ def Download(userId, voiceUrl):
     bucket = client.bucket(bucket_name)
     blob = bucket.blob(fileName)
     blob.download_to_filename(save_location)
+    data['directory'] = directory
+    data['file_name'] = fileName
+    data['save_location'] = save_location
+    return data
+
+def DownloadRaw(userId, gender, voiceUrl):
+    fileName = voiceUrl.split("/")[-1]
+    print(fileName)
+    
+    directory = os.path.join("/", "app", "data", f"user_{str(userId)}_{gender}")
+    os.makedirs(directory, exist_ok=True)
+    save_location = os.path.join(directory, fileName+".wav")
+
+    if os.path.exists(save_location):
+        print("aleady download")
+        return
+
+    bucket = client.bucket(bucket_name)
+    blob = bucket.blob(fileName)
+    blob.download_to_filename(save_location)
+    return directory
 
 def Upload(userId, fileName):
 
@@ -35,5 +64,6 @@ def Upload(userId, fileName):
     generation_match_precondition = 0
     blob.upload_from_filename(directory, if_generation_match=generation_match_precondition)
     print(destination_file_name)
+    return destination_file_name
 
 Download(1, "https://storage.googleapis.com/ssafy-last-project/eb7c380d-58b5-4425-a012-1617d5b16d25")
