@@ -13,6 +13,7 @@
     "@types/react-dom": "^18.2.14",
     "@types/react-router-dom": "^5.3.3",
     "axios": "^1.6.0",
+    "font-awesome": "^4.7.0",
     "gsap": "^3.5.1",
     "lottie-react": "^2.4.0",
     "react": "^18.2.0",
