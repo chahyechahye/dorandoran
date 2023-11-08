@@ -5,6 +5,7 @@ const GlobalStyle = createGlobalStyle`
     * {
         padding: 0;
         margin: 0;
+        overscroll-behavior: none;
         box-sizing: border-box;
     }
 
