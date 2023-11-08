@@ -31,7 +31,7 @@ class PVQueResDto(BaseModel):
 class VoiceReq(BaseModel):
     userId: int
     genders: str
-    pbList: List[PVQueResDto]
+    pvList: List[PVQueResDto]
 
 def Voice(data):
     try:
@@ -103,7 +103,7 @@ def Voice(data):
         res = VoiceReq(
             userId=userId,
             genders=userGender,
-            pbList=results
+            pvList=results
         ).model_dump_json()
         return res
     except Exception as e:
