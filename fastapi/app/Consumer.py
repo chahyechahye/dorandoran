@@ -45,7 +45,7 @@ async def on_message(queue_name):
         channel = connection.channel()
 
         channel.queue_declare(queue=queue_name, durable=True)
-        
+        channel.basic_qos(prefetch_count=1)
         channel.basic_consume(queue=queue_name, on_message_callback=lambda *args: asyncio.run(on_message_callback(*args)), auto_ack=False)
         
         await asyncio.to_thread(channel.start_consuming)
