@@ -171,11 +171,21 @@ const ParentMainPage = () => {
   };
 
   const goProfile = () => {
-    navigate("/parent/profile");
+    setTimeout(() => {
+      navigate("/parent/profile");
+    }, 900);
   };
 
   const goRecord = () => {
-    navigate("/parent/record");
+    setTimeout(() => {
+      navigate("/parent/record");
+    }, 900);
+  };
+
+  const goSketch = () => {
+    setTimeout(() => {
+      navigate("/sketch");
+    }, 900);
   };
 
   const openLetter = () => {
@@ -288,7 +298,7 @@ const ParentMainPage = () => {
             img={post}
             backgroundColor="#4FCDC7"
             text="편지 쓰기"
-            onClick={openLetter}
+            onClick={goSketch}
           />
         </Content>
       </Container>

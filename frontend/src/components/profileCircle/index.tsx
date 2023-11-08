@@ -11,6 +11,11 @@ const OuterCircle = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  &:hover {
+    transform: scale(1.08);
+    transition: all 0.3s;
+  }
 `;
 
 const InnerCircle = styled.div`
