@@ -40,9 +40,9 @@ def Model(data):
             LogInfo(f"voiceUrl : {voiceUrl}")
             gender = rawVoice['gender']
             LogInfo(f"gender : {gender}")
-            directory = DownloadRaw(userId=userId, gender=gender, voiceUrl=voiceUrl)
+            directory = DownloadRaw(userId=userId, gender=userGender, voiceUrl=voiceUrl)
             # 학습
-        trainStartAll(user=userId, gender=gender, trainPath=directory)
+        trainStartAll(user=userId, gender=userGender, trainPath=directory)
         res = ModelReq(
             userId=userId,
             genders=userGender
