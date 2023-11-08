@@ -27,7 +27,7 @@ import movables from "@/assets/img/movables.png";
 
 const Movables = styled.img`
   width: 100%;
-  position: absolute;
+  position: fixed;
   z-index: 2;
   bottom: 0;
   left: 0;
@@ -178,7 +178,7 @@ const Head = styled.div`
   border-radius: 100%;
   width: 6vh;
   height: 2.5vh;
-  position: absolute;
+  position: fixed;
   z-index: 1;
   top: 3.1vh;
   left: 5.2vh;
@@ -189,7 +189,7 @@ const Body = styled.div`
   border-radius: 40% 30% 20% 50%;
   width: 13vh;
   height: 2.6vh;
-  position: absolute;
+  position: fixed;
   top: 3vh;
   left: -2.5vh;
   z-index: 1;
