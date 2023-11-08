@@ -15,6 +15,13 @@ const BoxContainer = styled.div`
   justify-content: center;
   align-items: center;
   box-shadow: 0 0 1vh rgba(0, 0, 0, 0.1);
+  transition: all 0.3s;
+
+  &:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 4vh rgba(255, 124, 9, 0.5); /* hover 상태에서 box-shadow 변경 */
+    transition: all 0.3s;
+  }
 `;
 
 const ContentContainer = styled.div`
@@ -35,8 +42,8 @@ const TextContainer = styled.div`
 
 const LoginBox = ({ imgLink, text, onClick }: StyledLoginBoxProps) => {
   return (
-    <BoxContainer>
-      <ContentContainer onClick={onClick}>
+    <BoxContainer onClick={onClick}>
+      <ContentContainer>
         <BoxImage src={imgLink}></BoxImage>
         <TextContainer>{text}</TextContainer>
       </ContentContainer>

@@ -136,6 +136,6 @@ export const FairytaleSearchState = atom<FairytaleSearchProps>({
   key: "FairytaleSearchState",
   default: {
     bookId: 0,
-    gender: "FEMALE",
+    gender: "MALE",
   },
 });

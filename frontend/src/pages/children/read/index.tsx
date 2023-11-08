@@ -3,7 +3,7 @@ import background from "@/assets/img/bookview.png";
 import arrowLeft from "@/assets/img/fairytale/arrowLeft.png";
 import arrowRight from "@/assets/img/fairytale/arrowRight.png";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
   fairytaleContentListState,
@@ -107,9 +107,26 @@ const FairytaleReadPage = () => {
     }
   };
 
+  const voice: string =
+    fairytaleContentList[currentContentIndex]?.voiceUrl || "";
   const backgroundImage = fairytaleRead[currentPageIndex]?.imgUrl;
   const script = fairytaleContentList[currentContentIndex]?.script;
   setInfoFairytaleRead(fairytaleRead[currentPageIndex].contentResDto);
+
+  useEffect(() => {
+    const audioPlayer = new Audio(voice);
+
+    audioPlayer.addEventListener("canplaythrough", () => {
+      audioPlayer.play();
+    });
+
+    return () => {
+      audioPlayer.pause();
+      audioPlayer.removeEventListener("canplaythrough", () => {});
+      audioPlayer.remove();
+    };
+  }, [voice]);
+
   return (
     <Background style={{ backgroundImage: `url(${backgroundImage})` }}>
       <ContentContainer>
