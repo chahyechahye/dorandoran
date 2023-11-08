@@ -15,6 +15,10 @@ import com.doran.processed_voice.dto.res.ProcessedVoiceResDto;
 import com.doran.processed_voice.entity.ProcessedVoice;
 import com.doran.processed_voice.mapper.ProcessedVoiceMapper;
 import com.doran.processed_voice.repository.ProcessedVoiceRepository;
+import com.doran.raw_voice.dto.res.RecordCheckDto;
+import com.doran.redis.record.key.Record;
+import com.doran.redis.record.mapper.RecordMapper;
+import com.doran.redis.record.service.RecordService;
 import com.doran.user.entity.User;
 import com.doran.user.service.UserService;
 import com.doran.utils.auth.Auth;
@@ -40,6 +44,8 @@ public class ProcessedVoiceService {
     private final ParentRepository parentRepository;
     private final BucketMapper bucketMapper;
     private final BucketService bucketService;
+    private final RecordService recordService;
+    private final RecordMapper recordMapper;
 
     // 가공된 목소리 검색 - 관리자
     public ProcessedVoiceResDto getProcessedVoiceForAdmin(int userId, int contentId) {
@@ -86,9 +92,10 @@ public class ProcessedVoiceService {
     }
 
     //가공 목소리가 존재하는지 체킹 해주는 메소드
-    public void checkRecording(int parentUserId) {
+    public RecordCheckDto checkRecording(int parentUserId) {
+        Record record = recordService.findById(String.valueOf(parentUserId)).orElseThrow();
 
-
+        return recordMapper.toCheckDto(record);
     }
 
 }

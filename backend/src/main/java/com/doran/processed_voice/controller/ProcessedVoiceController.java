@@ -85,9 +85,9 @@ public class ProcessedVoiceController {
         UserInfo info = Auth.getInfo();
 
         int parentUserId = parentService.getParentUserId(info.getUserId(), String.valueOf(info.getUserRole()));
-        processedVoiceService.checkRecording(parentUserId);
+
 
         return CommonResponseEntity.getResponseEntity(SuccessCode.SUCCESS_CODE,
-            new RecordCheckDto(Boolean.TRUE, Boolean.FALSE));
+            processedVoiceService.checkRecording(parentUserId));
     }
 }
