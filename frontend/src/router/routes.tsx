@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import { Route, Routes } from "react-router-dom";
 import LoadingPage from "@/pages/common/loading";
+import DashboardLayout from "@/layouts/DashboardLayout";
 
 type DashboardLayout = any;
 
@@ -21,6 +22,7 @@ const routes: RouteType[] = [
   },
   {
     path: "/children/main",
+    layout: DashboardLayout,
     element: React.lazy(() => import("@/pages/children/main")),
   },
   {
@@ -37,14 +39,17 @@ const routes: RouteType[] = [
   },
   {
     path: "/children/fairytale",
+    layout: DashboardLayout,
     element: React.lazy(() => import("@/pages/children/fairytale")),
   },
   {
     path: "/children/read",
+    layout: DashboardLayout,
     element: React.lazy(() => import("@/pages/children/read")),
   },
   {
     path: "/children/like",
+    layout: DashboardLayout,
     element: React.lazy(() => import("@/pages/children/like")),
   },
   {
