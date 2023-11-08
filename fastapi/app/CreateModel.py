@@ -16,7 +16,7 @@ def trainStartAll(user, gender, trainPath):
                     4,	
                     "rmvpe_gpu",	
                     10,	
-                    40,	
+                    80,	
                     12,	
                     "false",	
                     "assets/pretrained_v2/f0G40k.pth",	
