@@ -59,7 +59,7 @@ def Voice(data):
         LogInfo("1. Model Cleaning Success")
         inferChangeVoice(data['pth'])
         LogInfo("2. Model Select Success")
-        inferConvertBatch(data['index'], "/app/data/test", ["/app/data/test/audio(9).wav"], f"/app/opt/{str(userId)}")
+        inferConvertBatch(data['index'], "/app/data/test", ["/app/data/test/test11.wav"], f"/app/opt/{str(userId)}")
         LogInfo("3. Inference Success")
         inferClean()
         LogInfo("4. Model Cleaning Success")
