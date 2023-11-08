@@ -8,6 +8,7 @@ import static com.doran.content.entity.QContent.content;
 import com.doran.content.dto.res.ContentResDto;
 import com.doran.page.dto.res.PageDetailDto;
 import com.doran.page.entity.Page;
+import com.doran.utils.common.Genders;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
@@ -32,13 +33,14 @@ public class PageRepositoryImpl implements PageRepositoryCustom {
     }
 
     @Override
-    public List<PageDetailDto> findPageDetailByUserIdAndBookId(int userId, int bookId) {
+    public List<PageDetailDto> findPageDetailByUserIdAndBookId(int userId, int bookId, Genders genders) {
         return jpaQueryFactory
             .from(content)
             .join(content.page, page)
             .leftJoin(content.processedVoice, processedVoice)
             .on(processedVoice.user.id.eq(userId))
             .where(page.book.id.eq(bookId))
+            .where(processedVoice.voiceGender.eq(genders))
             .transform(groupBy(page.id).list(
                 Projections.fields(
                     PageDetailDto.class,

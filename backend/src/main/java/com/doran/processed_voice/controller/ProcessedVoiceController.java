@@ -13,6 +13,7 @@ import com.doran.processed_voice.dto.req.PVNewInsertDto;
 import com.doran.processed_voice.dto.req.ProcessedVoiceInsertDto;
 import com.doran.processed_voice.service.ProcessedVoiceService;
 import com.doran.utils.auth.Auth;
+import com.doran.utils.common.Genders;
 import com.doran.utils.rabbitmq.service.VoicePubService;
 import com.doran.utils.response.CommonResponseEntity;
 import com.doran.utils.response.SuccessCode;
@@ -67,7 +68,7 @@ public class ProcessedVoiceController {
         log.info("새로운 동화책의 목소리 등록");
 
         int userId = Auth.getInfo().getUserId();
-        voicePubService.sendMessage(userId, pvNewInsertDto.getBookId());
+        voicePubService.sendMessage(userId, pvNewInsertDto.getBookId(), pvNewInsertDto.getGenders());
 
         return CommonResponseEntity.getResponseEntity(SuccessCode.SUCCESS_CODE);
     }

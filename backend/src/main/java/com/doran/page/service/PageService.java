@@ -18,6 +18,7 @@ import com.doran.page.mapper.PageMapper;
 import com.doran.page.repository.PageRepository;
 import com.doran.utils.bucket.dto.InsertDto;
 import com.doran.utils.bucket.service.BucketService;
+import com.doran.utils.common.Genders;
 import com.doran.utils.exception.dto.CustomException;
 import com.doran.utils.exception.dto.ErrorCode;
 
@@ -34,8 +35,6 @@ public class PageService {
     private final BucketService bucketService;
     private final ContentService contentService;
 
-    //파일 이름 어떻게 저장 될지 협의 필요함. idx와 bookId를 조합해서 이미지의 이름을 만들면 좋을거같음. 해당 메소드는 이를 위해 만들어놓은 메소드
-    //일단 요로코롬 만들고 DB에는 uuid가 저장되게끔 구현함
     //파일 이름 어떻게 저장 될지 협의 필요함. idx와 bookId를 조합해서 이미지의 이름을 만들면 좋을거같음. 해당 메소드는 이를 위해 만들어놓은 메소드
     //일단 요로코롬 만들고 DB에는 uuid가 저장되게끔 구현함
     public InsertDto convertInsertDto(PageInsertDto pageInsertDto) {
@@ -64,19 +63,8 @@ public class PageService {
         return pageRepository.findPagesByBookId(bookId);
     }
 
-    public List<PageDetailDto> getPageAll(int userId, int bookId) {
-        List<Page> pageResult = findPageByBookId(bookId);
-        //List<ContentResDto> contentResult = contentService.getContentWithVoice(userId, null, bookId);
-
-        // List<PageDetailDto> list = new ArrayList<>(pageResult.size());
-        // for (int i = 0; i < pageResult.size(); i ++)
-        // {
-        //     int pageId = pageResult.get(i).getId();
-        //     List<ContentResDto> contentResult = contentService.getContentWithVoice(userId, pageId, bookId);
-        //
-        //     list.add(pageMapper.toDetailDto(pageResult.get(i),contentResult));
-        // }
-        return pageRepository.findPageDetailByUserIdAndBookId(userId,bookId);
+    public List<PageDetailDto> getPageAll(int userId, int bookId, Genders genders) {
+        return pageRepository.findPageDetailByUserIdAndBookId(userId,bookId, genders);
     }
 
     public PageListDto findPageByBookIdWithSize(int bookId) {

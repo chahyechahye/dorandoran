@@ -13,5 +13,5 @@ public interface AdminVoiceRepositoryCustom {
 
     // 책 단위 남성 관리자 목소리 호출
     List<AdminVoice> findAdminVoiceByBookId(Genders gender, int bookId);
-    List<AdminFindResDto> findAdminVoiceAndBook(Genders genders);
+    List<AdminFindResDto> findAdminVoiceAndBook(Genders genders, Integer bookId);
 }
