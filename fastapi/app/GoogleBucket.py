@@ -62,14 +62,14 @@ def DownloadRaw(userId, gender, voiceUrl):
 def Upload(userId, fileName):
     try:
         directory = os.path.join("/", "app", "opt", str(userId), fileName)
-
+        LogInfo(directory)
         destination_file_name = str(uuid.uuid3(uuid.NAMESPACE_URL, directory))
+        LogInfo(destination_file_name)
 
         bucket = client.bucket(bucket_name)
         blob = bucket.blob(destination_file_name)
         generation_match_precondition = 0
         blob.upload_from_filename(directory, if_generation_match=generation_match_precondition)
-        LogInfo(destination_file_name)
         return destination_file_name
     except Exception as e:
         LogError(e)
