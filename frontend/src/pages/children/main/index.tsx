@@ -14,6 +14,7 @@ import letterImage from "@/assets/img/letter/letterImage.png";
 import exitBtn from "@/assets/img/exitBtn.png";
 import arrowLeft from "@/assets/img/fairytale/arrowLeft.png";
 import arrowRight from "@/assets/img/fairytale/arrowRight.png";
+import { ButtonEffect } from "@/styles/buttonEffect";
 
 import { useNavigate } from "react-router-dom";
 import { useFairytaleList } from "@/apis/children/fairytale/Queries/useFariytaleList";
@@ -301,6 +302,8 @@ const Camera = styled.img`
   position: absolute;
   top: 35%;
   left: 44%;
+
+  ${ButtonEffect}
 `;
 const PostOffice = styled.img`
   width: 24%;
@@ -308,6 +311,8 @@ const PostOffice = styled.img`
   z-index: 5;
   top: 20%;
   left: 12%;
+
+  ${ButtonEffect}
 `;
 const Books = styled.img`
   width: 20%;
@@ -315,6 +320,8 @@ const Books = styled.img`
   z-index: 5;
   top: 17%;
   left: 71%;
+
+  ${ButtonEffect}
 `;
 
 const Character = styled.img`
