@@ -233,7 +233,7 @@ const Tail = styled.div`
   border-radius: 0.2vh;
   width: 1.6vh;
   height: 1.6vh;
-  position: absolute;
+  position: fixed;
   left: -1vh;
   top: 2.2vh;
   -webkit-transform: skew(35deg, -9deg);
