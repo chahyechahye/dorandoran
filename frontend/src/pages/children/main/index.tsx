@@ -288,7 +288,7 @@ const Window7 = styled(Window)`
 
 const CastleContainer = styled.div`
   z-index: 4;
-  position: relative;
+  position: fixed;
   display: flex;
   justify-content: space-around;
   align-items: center;
