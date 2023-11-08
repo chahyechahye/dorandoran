@@ -188,7 +188,6 @@ const DrawingApp = () => {
   });
 
   const toggleEraser = () => {
-    clearCanvas();
     // If we're currently not using the eraser
     if (currentColorIndex !== 8) {
       // Save the current color and thickness
@@ -197,6 +196,7 @@ const DrawingApp = () => {
       // Set to eraser mode
       setCurrentColorIndex(8);
       setPencilThickness(pencilPathDefaults.maxThickness);
+      clearCanvas(); // 여기서 clearCanvas 함수를 호출하여 그림을 모두 지웁니다.
     } else {
       // If we're currently using the eraser, revert to the previous color and thickness
       setCurrentColorIndex(previousColorIndex);
@@ -220,17 +220,23 @@ const DrawingApp = () => {
       lastPoint.current = currentPoint;
 
       drawingCtxRef.current.beginPath();
-      drawingCtxRef.current.fillStyle = colors[currentColorIndex];
-      drawingCtxRef.current.globalAlpha = 0.9;
-      drawingCtxRef.current.arc(
-        currentPoint.x + 5,
-        currentPoint.y + 5,
-        pencilPathDefaults.thickness,
-        false,
-        Math.PI * 2,
-        false
-      );
-      drawingCtxRef.current.fill();
+      if (isEraserMode) {
+        // 지우개 모드일 때
+        drawingCtxRef.current.globalCompositeOperation = "destination-out"; // 지워지도록 설정
+      } else {
+        // 그리기 모드일 때
+        drawingCtxRef.current.fillStyle = colors[currentColorIndex];
+        drawingCtxRef.current.globalAlpha = 0.9;
+        drawingCtxRef.current.arc(
+          currentPoint.x + 5,
+          currentPoint.y + 5,
+          pencilPathDefaults.thickness,
+          false,
+          Math.PI * 2,
+          false
+        );
+        drawingCtxRef.current.fill();
+      }
     },
     [
       setIsDrawing,
@@ -238,6 +244,7 @@ const DrawingApp = () => {
       colors,
       currentColorIndex,
       pencilPathDefaults.thickness,
+      isEraserMode,
     ]
   );
 
@@ -375,33 +382,6 @@ const DrawingApp = () => {
     isEraserMode,
     pencilThickness,
   ]);
-
-  useEffect(() => {
-    window.addEventListener("popstate", function (event) {
-      history.pushState(null, document.title, location.href);
-    });
-
-    window.addEventListener("beforeunload", function (e) {
-      e.preventDefault();
-      e.returnValue = "";
-    });
-
-    return () => {
-      // Clean up event listeners when the component is unmounted
-      window.removeEventListener("popstate", function (event) {
-        history.pushState(null, document.title, location.href);
-      });
-
-      window.removeEventListener("beforeunload", function (e) {
-        e.preventDefault();
-        e.returnValue = "";
-      });
-    };
-  }, []);
-
-  const stopScroll = (e) => {
-    e.preventDefault();
-  };
 
   const clearCanvas = () => {
     if (drawingCtxRef.current && drawingCtxRef.current.canvas) {

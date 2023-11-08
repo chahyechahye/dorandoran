@@ -557,9 +557,9 @@ const ChildrenMainPage = () => {
         <Profile>
           <ProfileCircle type="child" />
         </Profile>
+        <Character src={character} />
+        <Movables src={movables} />
       </ContentContainer>
-      <Character src={character} />
-      <Movables src={movables} />
       {isOpenAlbum && <Overlay onClick={handleCloseAlbum} />}
       {isOpenAlbum && <Album onClose={handleCloseAlbum} type="child" />}
     </>
