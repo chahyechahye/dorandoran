@@ -55,12 +55,14 @@ def Voice(data):
                 results.append(PVQueRes.model_dump())
         data = inferRefresh("con1")
         LogInfo(data)
-        inferChangeVoice(data['pth'])
-        LogInfo("Model Select Success")
-        inferConvertBatch(data['index'], "/app/data/test", ["/app/data/test/audio(9).wav"], f"/app/opt/{str(userId)}")
-        LogInfo("Inference Success")
         inferClean()
-        LogInfo("Model Cleaning Success")
+        LogInfo("1. Model Cleaning Success")
+        inferChangeVoice(data['pth'])
+        LogInfo("2. Model Select Success")
+        inferConvertBatch(data['index'], "/app/data/test", ["/app/data/test/audio(9).wav"], f"/app/opt/{str(userId)}")
+        LogInfo("3. Inference Success")
+        inferClean()
+        LogInfo("4. Model Cleaning Success")
         res = VoiceReq(
             userId=userId,
             pbList=results
