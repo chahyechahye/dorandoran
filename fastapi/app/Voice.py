@@ -92,14 +92,11 @@ def Voice(data):
             inferClean()
             LogInfo("4. Model Cleaning Success")
 
-            upload_file_name_list = []
-            
             for temp in file_list:
                 upload_file_name = Upload(userId=userId, fileName=temp['file_name']+".wav.wav")
-                upload_file_name_list.append(upload_file_name)
                 # voiceURL 변경
                 # 변경된 voiceURL 전달
-                PVQueRes = PVQueResDto(contentId=temp['content_id'], voiceUrl=f"https://storage.googleapis.com/ssafy-last-project/{temp['file_name']}")
+                PVQueRes = PVQueResDto(contentId=temp['content_id'], voiceUrl=f"https://storage.googleapis.com/ssafy-last-project/{upload_file_name}")
                 results.append(PVQueRes.model_dump())
 
             
