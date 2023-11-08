@@ -144,7 +144,7 @@ const ImageBtn = styled.img`
   margin: 0vh 7vh;
 `;
 
-const Album = ({ onClose }: { onClose: () => void }) => {
+const Album = ({ onClose, type }: { onClose: () => void; type?: string }) => {
   const [activeAlbumId, setActiveAlbumId] = useState(0);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const AlbumList = useGetAlbumList().data;
@@ -222,7 +222,9 @@ const Album = ({ onClose }: { onClose: () => void }) => {
       </Book>
       <Bottom>
         <ImageBtn src={registBtn} alt="regist" onClick={handleImageUpload} />
-        <ImageBtn src={deleteBtn} alt="delete" onClick={handleImageDelete} />
+        {!type && (
+          <ImageBtn src={deleteBtn} alt="delete" onClick={handleImageDelete} />
+        )}
       </Bottom>
       <input
         type="file"
