@@ -26,5 +26,6 @@ def trainStartAll(user, gender, trainPath):
                     "false",
                     "v2",
                     "0-0",
+                    api_name="/train_start_all"
     )
     LogInfo(result)
