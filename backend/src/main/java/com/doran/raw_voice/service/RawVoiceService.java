@@ -41,8 +41,8 @@ public class RawVoiceService {
             .orElseThrow(() -> new CustomException(ErrorCode.VOICE_NOT_FOUND));
     }
 
-    public List<RawVoiceResDto> findRawVoiceByUserId(int userId) {
-        return rawVoiceRepository.findRawVoiceByUserId(userId, null);
+    public List<RawVoiceResDto> findRawVoiceByUserId(int userId, Genders genders) {
+        return rawVoiceRepository.findRawVoiceByUserId(userId, genders);
     }
 
     public RawVoiceListDto getRawVoiceByUserId(int userId) {
