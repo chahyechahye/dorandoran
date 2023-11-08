@@ -525,7 +525,7 @@ const ChildrenMainPage = () => {
           <Camera src={camera} onClick={() => navigate("/sketch")} />
         </CastleContainer>
         <Profile>
-          <ProfileCircle />
+          <ProfileCircle type="child" />
         </Profile>
       </ContentContainer>
       <Character src={character} />

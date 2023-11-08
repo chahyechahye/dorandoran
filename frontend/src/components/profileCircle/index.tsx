@@ -41,17 +41,21 @@ const ProfileCircle = ({
   onClick,
   profileImage,
   profileName,
+  type,
 }: {
   onClick?: () => void;
   profileImage?: string;
   profileName?: string;
+  type?: string;
 }) => {
   const animalImg = useRecoilValue(profileState);
 
   const navigate = useNavigate();
 
   const goCharacter = () => {
-    navigate("/children/character");
+    if (type === "child") {
+      navigate("/children/character");
+    }
   };
 
   return (
