@@ -10,6 +10,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RecordCheckDto {
-    private Boolean MaleAble;
-    private Boolean FemaleAble;
+    private Boolean maleAble;
+    private Boolean femaleAble;
 }

@@ -15,6 +15,6 @@ class ModelPubServiceTest {
 
     @Test
     void 모델_생성_메시지_테스트() {
-        modelPubService.sendMessage(3, Genders.MALE);
+        modelPubService.sendMessage(17, Genders.MALE);
     }
 }

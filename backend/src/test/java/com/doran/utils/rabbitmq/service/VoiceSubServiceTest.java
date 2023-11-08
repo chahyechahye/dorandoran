@@ -43,7 +43,13 @@ class VoiceSubServiceTest {
         voiceResMessage.setGenders(Genders.MALE);
 
         log.info("큐 날라가욧_!!!!!!!!!!!!!!!!");
-        rabbitTemplate.convertAndSend(routingKey,voiceResMessage);
+        rabbitTemplate.convertAndSend(routingKey, voiceResMessage);
+    }
+
+    @Test
+    @DisplayName("낭독_여부_갱신_테스트")
+    public void 낭독_여부_갱신_테스트() {
+        voiceSubService.subscribeVoiceQue(new VoiceResMessage(17,Genders.MALE,null));
     }
 
 }
