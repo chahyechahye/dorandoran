@@ -81,7 +81,7 @@ def Voice(data):
                 file['content_id'] = contentId
                 file_list.append(file)
 
-            data = inferRefresh(userId)
+            data = inferRefresh(user=userId, gender=userGender)
             LogInfo(data)
             inferClean()
             LogInfo("1. Model Cleaning Success")

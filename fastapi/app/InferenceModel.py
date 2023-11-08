@@ -5,7 +5,7 @@ from customLog import LogInfo
 rvc_address = "http://172.17.0.5:7777/"
 # rvc_address = "http://173.199.124.118:7777/"
 
-def inferRefresh(user):
+def inferRefresh(user, gender):
     data = {
         "pth" : "",
         "index" : ""
@@ -15,16 +15,17 @@ def inferRefresh(user):
                     api_name="/infer_refresh"
     )
     LogInfo(result)
+    name = f"{user}_{gender}"
     pths = result[0]['choices']
     for pth in pths:
         a = pth.split(".")[0]
-        if user == a:
+        if name == a:
             data['pth'] = pth
     indexs = result[1]['choices']
 
     for index in indexs:
         b = index.split("/")[1]
-        if user == b:
+        if name == b:
             data['index'] = index
     return data
 
