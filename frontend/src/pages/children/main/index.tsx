@@ -51,6 +51,8 @@ const Container = styled.div`
     #1d95f5 0%,
     rgba(255, 255, 255, 0) 78.65%
   );
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   position: fixed;
@@ -233,7 +235,7 @@ const Tail = styled.div`
   border-radius: 0.2vh;
   width: 1.6vh;
   height: 1.6vh;
-  position: fixed;
+  position: absolute;
   left: -1vh;
   top: 2.2vh;
   -webkit-transform: skew(35deg, -9deg);
