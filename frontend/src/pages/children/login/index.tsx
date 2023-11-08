@@ -35,7 +35,12 @@ const ContentContainer = styled.div`
   gap: 2vh;
 `;
 
-const InviteCode = styled.input`
+const InviteCode = styled.input.attrs({
+  type: "text",
+  inputMode: "numeric",
+  pattern: "[0-9]*",
+  maxLength: 6,
+})`
   width: 33vh;
   height: 6.5vh;
   background-color: white;
@@ -50,6 +55,11 @@ const InviteCode = styled.input`
     font-size: 2.5vh;
     font-family: Katuri;
     color: #999999;
+  }
+
+  &:hover {
+    box-shadow: 0 0 3vh rgba(255, 124, 9, 0.5);
+    transition: all 0.3s;
   }
 `;
 
