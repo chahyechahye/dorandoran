@@ -5,6 +5,7 @@ import json
 from customLog import LogInfo
 from customLog import LogError
 from InferenceModel import inferRefresh
+from InferenceModel import inferChangeVoice
 from InferenceModel import inferConvertBatch
 from InferenceModel import inferClean
 
@@ -54,10 +55,12 @@ def Voice(data):
                 results.append(PVQueRes.model_dump())
         data = inferRefresh("con1")
         LogInfo(data)
+        inferChangeVoice(data['pth'])
+        LogInfo("Model Select Success")
         inferConvertBatch(data['index'], "/app/data/test", ["/app/data/test/audio(9).wav"], f"/app/opt/{str(userId)}")
         LogInfo("Inference Success")
         inferClean()
-        LogInfo("Model Cleaning")
+        LogInfo("Model Cleaning Success")
         res = VoiceReq(
             userId=userId,
             pbList=results
