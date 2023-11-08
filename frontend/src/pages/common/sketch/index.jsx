@@ -188,22 +188,20 @@ const DrawingApp = () => {
   });
 
   const toggleEraser = () => {
+    clearCanvas();
+    // If we're currently not using the eraser
     if (currentColorIndex !== 8) {
       // Save the current color and thickness
       setPreviousColorIndex(currentColorIndex);
-      setPencilThickness(pencilPathDefaults.minThickness);
+
+      // Set to eraser mode
+      setCurrentColorIndex(8);
+      setPencilThickness(pencilPathDefaults.maxThickness);
     } else {
-      // If we're currently using the eraser, revert to the previous color and set to white
+      // If we're currently using the eraser, revert to the previous color and thickness
       setCurrentColorIndex(previousColorIndex);
       setPencilThickness(pencilPathDefaults.minThickness);
-      drawingCtxRef.current.fillStyle = colors[currentColorIndex];
     }
-
-    // Toggle eraser mode
-    setIsEraserMode(!isEraserMode);
-
-    // Clear the canvas when switching between pen and eraser modes
-    clearCanvas();
   };
 
   const handleMouseDown = useCallback(
@@ -252,10 +250,6 @@ const DrawingApp = () => {
       setNewlyUp(false);
     }, 50);
   }, [setIsDrawing, setNewlyUp, pencilPathDefaults.minThickness]);
-
-  const stopScroll = (e) => {
-    e.preventDefault();
-  };
 
   useEffect(() => {
     const drawingCanvas = document.createElement("canvas");
@@ -361,7 +355,6 @@ const DrawingApp = () => {
     document.addEventListener("mouseup", handleMouseUp);
     document.addEventListener("touchmove", handleMouseMove);
     document.addEventListener("mousemove", handleMouseMove);
-    document.addEventListener("wheel", stopScroll);
 
     return () => {
       // Remove event listeners in the cleanup function if needed
@@ -371,7 +364,6 @@ const DrawingApp = () => {
       document.removeEventListener("mouseup", handleMouseUp);
       document.removeEventListener("touchmove", handleMouseMove);
       document.removeEventListener("mousemove", handleMouseMove);
-      document.addEventListener("wheel", stopScroll);
     };
   }, [
     currentColorIndex,
@@ -383,6 +375,33 @@ const DrawingApp = () => {
     isEraserMode,
     pencilThickness,
   ]);
+
+  useEffect(() => {
+    window.addEventListener("popstate", function (event) {
+      history.pushState(null, document.title, location.href);
+    });
+
+    window.addEventListener("beforeunload", function (e) {
+      e.preventDefault();
+      e.returnValue = "";
+    });
+
+    return () => {
+      // Clean up event listeners when the component is unmounted
+      window.removeEventListener("popstate", function (event) {
+        history.pushState(null, document.title, location.href);
+      });
+
+      window.removeEventListener("beforeunload", function (e) {
+        e.preventDefault();
+        e.returnValue = "";
+      });
+    };
+  }, []);
+
+  const stopScroll = (e) => {
+    e.preventDefault();
+  };
 
   const clearCanvas = () => {
     if (drawingCtxRef.current && drawingCtxRef.current.canvas) {

@@ -9,6 +9,7 @@ import {
   fairytaleContentListState,
   fairytaleReadState,
 } from "@/states/children/info";
+import { ButtonEffect } from "@/styles/buttonEffect";
 
 const Background = styled.div`
   position: fixed;
@@ -17,9 +18,11 @@ const Background = styled.div`
   width: 100%;
   height: 100%;
   background-size: cover;
+  background-repeat: no-repeat;
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: background-image 0.5s ease;
 `;
 
 const ContentContainer = styled.div`
@@ -55,19 +58,13 @@ const ArrowBox = styled.div`
 const ArrowLeft = styled.img`
   width: 20vh;
 
-  &:hover {
-    transform: scale(1.08);
-    transition: all 0.3s;
-  }
+  ${ButtonEffect}
 `;
 
 const ArrowRight = styled.img`
   width: 20vh;
 
-  &:hover {
-    transform: scale(1.08);
-    transition: all 0.3s;
-  }
+  ${ButtonEffect}
 `;
 
 const FairytaleReadPage = () => {
@@ -138,7 +135,12 @@ const FairytaleReadPage = () => {
   }, [voice]);
 
   return (
-    <Background style={{ backgroundImage: `url(${backgroundImage})` }}>
+    <Background
+      style={{
+        backgroundImage: `url(${backgroundImage})`,
+        transitionDelay: "0.1s",
+      }}
+    >
       <ContentContainer>
         <ArrowBox>
           <ArrowLeft src={arrowLeft} onClick={handleArrowLeft} />
