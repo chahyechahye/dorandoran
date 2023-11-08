@@ -5,6 +5,8 @@ import json
 from customLog import LogInfo
 from customLog import LogError
 from InferenceModel import inferRefresh
+from InferenceModel import inferConvertBatch
+from InferenceModel import inferClean
 
 class AdminVoiceResDto(BaseModel):
     contentId: int
@@ -50,7 +52,12 @@ def Voice(data):
                 # 변경된 voiceURL 전달
                 PVQueRes = PVQueResDto(contentId=contentId, voiceUrl=voiceUrl)
                 results.append(PVQueRes.model_dump())
-        LogInfo(inferRefresh("con1"))
+        data = inferRefresh("con1")
+        LogInfo(data)
+        inferConvertBatch(data['index'], "/app/data/test", ["/app/data/test/audio(9).wav"], f"/app/opt/{str(userId)}")
+        LogInfo("Inference Success")
+        inferClean()
+        LogInfo("Model Cleaning")
         res = VoiceReq(
             userId=userId,
             pbList=results
