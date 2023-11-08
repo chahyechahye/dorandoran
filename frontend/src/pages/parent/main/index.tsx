@@ -171,21 +171,15 @@ const ParentMainPage = () => {
   };
 
   const goProfile = () => {
-    setTimeout(() => {
-      navigate("/parent/profile");
-    }, 900);
+    navigate("/parent/profile");
   };
 
   const goRecord = () => {
-    setTimeout(() => {
-      navigate("/parent/record");
-    }, 900);
+    navigate("/parent/record");
   };
 
   const goSketch = () => {
-    setTimeout(() => {
-      navigate("/sketch");
-    }, 900);
+    navigate("/sketch");
   };
 
   const openLetter = () => {

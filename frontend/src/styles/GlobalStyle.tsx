@@ -16,6 +16,11 @@ const GlobalStyle = createGlobalStyle`
         font-family: "Katuri";
         transition: background-color 0.4s linear;
         overflow: auto;
+
+        -webkit-user-select:none;
+        -moz-user-select:none;
+        -ms-user-select:none;
+        user-select:none
     }
 
     .scrollable {

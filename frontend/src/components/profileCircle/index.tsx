@@ -2,6 +2,7 @@ import { AnimalState, profileState } from "@/states/children/info";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
+import { ButtonEffect } from "@/styles/buttonEffect";
 
 const OuterCircle = styled.div`
   width: 12vh;
@@ -12,10 +13,7 @@ const OuterCircle = styled.div`
   justify-content: center;
   align-items: center;
 
-  &:hover {
-    transform: scale(1.08);
-    transition: all 0.3s;
-  }
+  ${ButtonEffect}
 `;
 
 const InnerCircle = styled.div`

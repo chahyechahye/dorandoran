@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { ButtonEffect } from "@/styles/buttonEffect";
 
 const Container = styled.div<{ onClick?: (data: any) => void }>`
   display: flex;
@@ -19,6 +20,7 @@ const Card = styled.div<{ backgroundColor?: string }>`
   justify-content: center;
   margin: 0 2vh;
   padding: 2vh;
+  ${ButtonEffect}
 `;
 
 const Cassette = styled.div<{ img?: string }>`

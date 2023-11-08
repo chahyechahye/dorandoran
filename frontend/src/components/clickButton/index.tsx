@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { ButtonEffect } from "@/styles/buttonEffect";
 
 export interface StyledClickButtonProps {
   width: string;
@@ -20,6 +21,8 @@ const ClickContainer = styled.button<StyledClickButtonProps>`
   color: ${(props) => props.fontColor};
   font-size: ${(props) => props.fontSize};
   font-family: Katuri;
+
+  ${ButtonEffect}
 `;
 
 const ClickButton = ({

@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import likeBook from "@/assets/img/likeBook.png";
+import { ButtonEffect } from "@/styles/buttonEffect";
 
 const Container = styled.div`
   padding: 1.2vh;
@@ -7,10 +8,7 @@ const Container = styled.div`
   background-color: #fff;
   border-radius: 100px;
 
-  &:hover {
-    transform: scale(1.08);
-    transition: all 0.3s;
-  }
+  ${ButtonEffect}
 `;
 
 const StyledImage = styled.img`

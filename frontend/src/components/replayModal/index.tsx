@@ -2,6 +2,7 @@ import styled from "styled-components";
 import replayImg from "@/assets/img/fairytale/replay.png";
 import bookImg from "@/assets/img/fairytale/book.png";
 import { useNavigate } from "react-router-dom";
+import { ButtonEffect } from "@/styles/buttonEffect";
 
 const Background = styled.div`
   position: fixed;
@@ -40,6 +41,8 @@ const IconContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
+  ${ButtonEffect}
 `;
 
 const ReplayModal = () => {

@@ -4,6 +4,7 @@ import background from "@/assets/img/background/background.jpg";
 import Logo from "@/assets/img/Logo.png";
 import kakaoLogo from "@/assets/img/kakao.png";
 import googleLogo from "@/assets/img/google.png";
+import { ButtonEffect } from "@/styles/buttonEffect";
 
 const Container = styled.div`
   position: fixed;
@@ -28,6 +29,8 @@ const LoginImage = styled.img`
   margin-bottom: 2%;
   box-shadow: rgba(0, 0, 0, 0.3) 0px 5px 15px;
   border-radius: 2vh;
+
+  ${ButtonEffect}
 `;
 
 const ParentLoginPage = () => {
