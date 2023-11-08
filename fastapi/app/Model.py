@@ -27,7 +27,7 @@ def Model(data):
         userId = modelRes_dict['userId']
         LogInfo(f"USERID : {userId}")
         userGender = modelRes_dict['gender']
-        LogInfo(f"GENDER : {gender}")
+        LogInfo(f"USERGENDER : {userGender}")
         rawVoiceList = modelRes_dict['rawVoiceList']
         LogInfo(f"RAWVOICELIST : {rawVoiceList}")
 
