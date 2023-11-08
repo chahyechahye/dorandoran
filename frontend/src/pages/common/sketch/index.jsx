@@ -1,156 +1,460 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import styled from "styled-components";
+import * as THREE from "three";
 
-function MemeMaker() {
-  const [isPainting, setIsPainting] = useState(false);
-  const [isFilling, setIsFilling] = useState(false);
-  const [lineWidth, setLineWidth] = useState(5);
-  const [currentColor, setCurrentColor] = useState("#ffeaec");
-  const [text, setText] = useState("");
+import eraser from "@/assets/img/eraser.png";
 
-  const colorOptions = [
-    "#ffeaec",
-    "#f39a9d",
-    "#6db1bf",
-    "#2d936c",
-    "#8e44ad",
-    "#301a4b",
-    "#00c49a",
-    "#f8e16c",
-    "#ffc2b4",
-    "#d35400",
-    "#e67e22",
-  ];
+import blackPen from "@/assets/img/pen/blackPen.png";
+import redPen from "@/assets/img/pen/redPen.png";
+import orangePen from "@/assets/img/pen/orangePen.png";
+import yellowPen from "@/assets/img/pen/yellowPen.png";
+import greenPen from "@/assets/img/pen/greenPen.png";
+import skyBluePen from "@/assets/img/pen/skyBluePen.png";
+import bluePen from "@/assets/img//pen/bluePen.png";
+import purplePen from "@/assets/img/pen/purplePen.png";
+
+const Body = styled.div`
+  width: 100vh;
+  height: 100vh;
+  background-color: #ffffff;
+  overflow: hidden;
+`;
+
+const Colours = styled.ul`
+  bottom: 0px;
+  display: none;
+  left: 50%;
+  list-style-type: none;
+  padding-left: 0;
+  position: absolute;
+  transform: translateX(-50%);
+  z-index: 4;
+
+  @media (min-width: 1024px) {
+    display: flex;
+  }
+`;
+
+const ColourItem = styled.li`
+  display: inline-block;
+  height: 20vh;
+  margin: 0 12px;
+  width: 5vh;
+
+  &:nth-child(1) {
+    background: url(${blackPen});
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+  &:nth-child(2) {
+    background: url(${redPen});
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+  &:nth-child(3) {
+    background: url(${orangePen});
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+  &:nth-child(4) {
+    background: url(${yellowPen});
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+  &:nth-child(5) {
+    background: url(${greenPen});
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+  &:nth-child(6) {
+    background: url(${skyBluePen});
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+  &:nth-child(7) {
+    background: url(${bluePen});
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+  &:nth-child(8) {
+    background: url(${purplePen});
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+`;
+
+const RefreshButton = styled.div`
+  background: url(${eraser});
+  background-size: contain;
+  background-repeat: no-repeat;
+  bottom: 18px;
+  cursor: pointer;
+  height: 26px;
+  padding: 4px 1px 0px;
+  position: absolute;
+  left: 50%;
+  text-align: center;
+  transform: translateX(-50%);
+  width: 15vh;
+  height: 15vh;
+  z-index: 3;
+
+  @media (min-width: 1024px) {
+    bottom: 27px;
+    left: 30px;
+    transform: none;
+  }
+`;
+
+const SubmitButton = styled.button`
+  bottom: 27px;
+  display: none;
+  position: absolute;
+  right: 30px;
+  z-index: 4;
+
+  @media (min-width: 1024px) {
+    display: block;
+  }
+`;
+
+const DrawingCanvas = styled.canvas``;
+
+const DrawingApp = () => {
+  const [colors] = useState([
+    "#100c08",
+    "#C91931",
+    "#EF7E0E",
+    "#F0B10D",
+    "#7CAC1C",
+    "#03AEC4",
+    "#03497E",
+    "#6E2A84",
+    "#ffffff",
+  ]);
+  const [currentColorIndex, setCurrentColorIndex] = useState(0);
+  const [previousColorIndex, setPreviousColorIndex] = useState(null);
+  const [isDrawing, setIsDrawing] = useState(false);
+  const [newlyUp, setNewlyUp] = useState(false);
+  const lastPoint = useRef(null);
+  const drawingCtxRef = useRef(null);
+
+  const pencilPathDefaults = {
+    minThickness: 4,
+    maxThickness: 20,
+  };
+
+  const [pencilThickness, setPencilThickness] = useState(
+    pencilPathDefaults.minThickness
+  );
 
   const canvasRef = useRef(null);
 
-  const CANVAS_WIDTH = window.innerWidth * 0.9;
-  const CANVAS_HEIGHT = window.innerWidth * 0.9;
+  function isNotClose(current, target) {
+    return current < target - 0.004 || current > target + 0.004;
+  }
 
-  const handleCanvasMouseDown = () => {
-    setIsPainting(true);
-  };
+  function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
 
-  const handleCanvasMouseUp = () => {
-    setIsPainting(false);
-  };
+  function distanceBetween(point1, point2) {
+    return Math.sqrt(
+      Math.pow(point2.x - point1.x, 2) + Math.pow(point2.y - point1.y, 2)
+    );
+  }
 
-  const handleCanvasMouseMove = (event) => {
-    if (isPainting) {
-      const canvas = canvasRef.current;
-      const ctx = canvas.getContext("2d");
-      ctx.lineTo(event.nativeEvent.offsetX, event.nativeEvent.offsetY);
-      ctx.stroke();
+  function distanceBetweenSingle(point1, point2) {
+    return point1 - point2;
+  }
+
+  function angleBetween(point1, point2) {
+    return Math.atan2(point2.x - point1.x, point2.y - point1.y);
+  }
+
+  function direction(point1, point2) {
+    return Math.atan2(point1, point2);
+  }
+
+  const [isEraserMode, setIsEraserMode] = useState(false);
+  const [mouse, setMouse] = useState({ x: 0, y: 0 });
+  const [mousePos, setMousePos] = useState(new THREE.Vector3(0, 0, 0));
+  const [mouseDirection, setMouseDirection] = useState({ x: 1, y: 1 });
+  const [pencilTargetPos, setPencilTargetPos] = useState({
+    height: pencilPathDefaults.minThickness,
+    xRotate: 0,
+    yRotate: 0,
+    zRotate: 0,
+  });
+
+  const toggleEraser = () => {
+    clearCanvas();
+    // If we're currently not using the eraser
+    if (currentColorIndex !== 8) {
+      // Save the current color and thickness
+      setPreviousColorIndex(currentColorIndex);
+
+      // Set to eraser mode
+      setCurrentColorIndex(8);
+      setPencilThickness(pencilPathDefaults.maxThickness);
+    } else {
+      // If we're currently using the eraser, revert to the previous color and thickness
+      setCurrentColorIndex(previousColorIndex);
+      setPencilThickness(pencilPathDefaults.minThickness);
     }
   };
 
-  const handleLineWidthChange = (event) => {
-    setLineWidth(event.target.value);
-  };
+  const handleMouseDown = useCallback(
+    (e) => {
+      if (e.target.localName !== "canvas") {
+        return;
+      }
+      setIsDrawing(true);
+      setPencilTargetPos({ thickness: pencilPathDefaults.maxThickness });
 
-  const handleColorChange = (event) => {
-    setCurrentColor(event.target.value);
-  };
+      const xPos = e.touches ? e.touches[0].clientX : e.clientX;
+      const yPos = e.touches ? e.touches[0].clientY : e.clientY;
 
-  const handleColorClick = (color) => {
-    setCurrentColor(color);
-  };
+      const currentPoint = { x: xPos, y: yPos };
 
-  const handleModeClick = () => {
-    setIsFilling((prevIsFilling) => !prevIsFilling);
-  };
+      lastPoint.current = currentPoint;
 
-  const handleCanvasClick = () => {
-    if (isFilling) {
-      const canvas = canvasRef.current;
-      const ctx = canvas.getContext("2d");
-      ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-    }
-  };
+      drawingCtxRef.current.beginPath();
+      drawingCtxRef.current.fillStyle = colors[currentColorIndex];
+      drawingCtxRef.current.globalAlpha = 0.9;
+      drawingCtxRef.current.arc(
+        currentPoint.x + 5,
+        currentPoint.y + 5,
+        pencilPathDefaults.thickness,
+        false,
+        Math.PI * 2,
+        false
+      );
+      drawingCtxRef.current.fill();
+    },
+    [
+      setIsDrawing,
+      pencilPathDefaults.maxThickness,
+      colors,
+      currentColorIndex,
+      pencilPathDefaults.thickness,
+    ]
+  );
 
-  const handleDestroyClick = () => {
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext("2d");
-    ctx.fillStyle = "white";
-    ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-  };
+  const handleMouseUp = useCallback(() => {
+    setNewlyUp(true);
+    setIsDrawing(false);
+    setPencilTargetPos({ thickness: pencilPathDefaults.minThickness });
 
-  const handleEraseClick = () => {
-    setCurrentColor("white");
-    setIsFilling(false);
-  };
+    setTimeout(() => {
+      setNewlyUp(false);
+    }, 50);
+  }, [setIsDrawing, setNewlyUp, pencilPathDefaults.minThickness]);
 
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    const url = URL.createObjectURL(file);
-    const image = new Image();
-    image.src = url;
-    image.onload = () => {
-      const canvas = canvasRef.current;
-      const ctx = canvas.getContext("2d");
-      ctx.drawImage(image, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-      event.target.value = null;
+  useEffect(() => {
+    const drawingCanvas = document.createElement("canvas");
+    drawingCanvas.width = window.innerWidth;
+    drawingCanvas.height = window.innerHeight;
+
+    drawingCanvas.style.position = "fixed";
+    drawingCanvas.style.left = 0;
+    drawingCanvas.style.top = 0;
+    drawingCanvas.style.zIndex = 1;
+
+    document.body.appendChild(drawingCanvas);
+
+    drawingCtxRef.current = drawingCanvas.getContext("2d");
+
+    const pencilPathTarget = { thickness: 0.2 };
+
+    const handleMouseMove = (e) => {
+      const xPos = e.touches ? e.touches[0].clientX : e.clientX;
+      const yPos = e.touches ? e.touches[0].clientY : e.clientY;
+
+      // Update the mouse variable
+      e.preventDefault();
+      setMouse({
+        x: (xPos / window.innerWidth) * 2 - 1,
+        y: -(yPos / window.innerHeight) * 2 + 1,
+      });
+
+      if (isEraserMode) {
+        drawingCtxRef.current.globalCompositeOperation = "destination-out"; // 지우개 모드일 때
+        drawingCtxRef.current.globalAlpha = 1;
+      } else {
+        drawingCtxRef.current.fillStyle = colors[currentColorIndex]; // 펜 모드일 때
+        drawingCtxRef.current.globalAlpha = 1;
+      }
+
+      if (!lastPoint.current) {
+        lastPoint.current = { x: xPos, y: yPos };
+      }
+
+      // Mouse Tracking
+      const currentPoint = { x: xPos, y: yPos };
+
+      const angle = angleBetween(lastPoint.current, currentPoint);
+      const xDist = distanceBetweenSingle(lastPoint.current.x, currentPoint.x);
+      const yDist = distanceBetweenSingle(lastPoint.current.y, currentPoint.y);
+
+      setMouseDirection({
+        x: currentPoint.x > lastPoint.current.x ? 1 : -1,
+        y: currentPoint.y > lastPoint.current.y ? -1 : 1,
+      });
+
+      const newXAngle = yDist / 100;
+      const newZAngle = (xDist / 100) * -1;
+
+      const maxAngle = 0.25;
+
+      setPencilTargetPos({
+        xRotate:
+          newXAngle > -maxAngle && newXAngle < maxAngle
+            ? newXAngle
+            : newXAngle < -maxAngle
+            ? -maxAngle
+            : maxAngle,
+        zRotate:
+          newZAngle > -maxAngle && newZAngle < maxAngle
+            ? newZAngle
+            : newZAngle < -maxAngle
+            ? -maxAngle
+            : maxAngle,
+      });
+
+      if (isDrawing || newlyUp) {
+        const dist = distanceBetween(lastPoint.current, currentPoint);
+
+        for (let i = 0; i < dist; i += 0.3) {
+          const x = lastPoint.current.x + Math.sin(angle) * i;
+          const y = lastPoint.current.y + Math.cos(angle) * i;
+
+          drawingCtxRef.current.beginPath();
+          drawingCtxRef.current.fillStyle = colors[currentColorIndex]; // 현재 선택된 색상으로 설정
+          drawingCtxRef.current.globalAlpha = getRandomInt(0.15, 0.25);
+          drawingCtxRef.current.arc(
+            x + 5,
+            y + 5,
+            pencilThickness,
+            false,
+            Math.PI * 2,
+            false
+          );
+          drawingCtxRef.current.fill();
+        }
+      }
+
+      lastPoint.current = currentPoint;
+      drawingCtxRef.current.globalCompositeOperation = "source-over";
     };
+
+    // Add event listeners
+    document.addEventListener("touchstart", handleMouseDown);
+    document.addEventListener("mousedown", handleMouseDown);
+    document.addEventListener("touchend", handleMouseUp);
+    document.addEventListener("mouseup", handleMouseUp);
+    document.addEventListener("touchmove", handleMouseMove);
+    document.addEventListener("mousemove", handleMouseMove);
+
+    return () => {
+      // Remove event listeners in the cleanup function if needed
+      document.removeEventListener("touchstart", handleMouseDown);
+      document.removeEventListener("mousedown", handleMouseDown);
+      document.removeEventListener("touchend", handleMouseUp);
+      document.removeEventListener("mouseup", handleMouseUp);
+      document.removeEventListener("touchmove", handleMouseMove);
+      document.removeEventListener("mousemove", handleMouseMove);
+    };
+  }, [
+    currentColorIndex,
+    handleMouseDown,
+    handleMouseUp,
+    isDrawing,
+    colors,
+    newlyUp,
+    isEraserMode,
+    pencilThickness,
+  ]);
+
+  useEffect(() => {
+    window.addEventListener("popstate", function (event) {
+      history.pushState(null, document.title, location.href);
+    });
+
+    window.addEventListener("beforeunload", function (e) {
+      e.preventDefault();
+      e.returnValue = "";
+    });
+
+    return () => {
+      // Clean up event listeners when the component is unmounted
+      window.removeEventListener("popstate", function (event) {
+        history.pushState(null, document.title, location.href);
+      });
+
+      window.removeEventListener("beforeunload", function (e) {
+        e.preventDefault();
+        e.returnValue = "";
+      });
+    };
+  }, []);
+
+  const stopScroll = (e) => {
+    e.preventDefault();
   };
 
-  const handleTextChange = (event) => {
-    setText(event.target.value);
+  const clearCanvas = () => {
+    if (drawingCtxRef.current && drawingCtxRef.current.canvas) {
+      const canvas = drawingCtxRef.current.canvas;
+      drawingCtxRef.current.clearRect(0, 0, canvas.width, canvas.height);
+    }
   };
 
-  const handleSaveClick = () => {
-    const canvas = canvasRef.current;
-    const url = canvas.toDataURL();
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "myDrawing.png";
-    a.click();
+  const savePNG = () => {
+    const drawingCanvas = drawingCtxRef.current.canvas; // Access the canvas from the context ref
+
+    const freshCanvas = document.createElement("canvas");
+    freshCanvas.width = drawingCanvas.width;
+    freshCanvas.height = drawingCanvas.height;
+
+    const freshCtx = freshCanvas.getContext("2d");
+
+    freshCtx.fillStyle = "#f7f4f0";
+    freshCtx.fillRect(0, 0, freshCanvas.width, freshCanvas.height);
+    freshCtx.drawImage(drawingCanvas, 0, 0);
+
+    const imageDataURL = freshCanvas.toDataURL();
+    const image = new Image();
+
+    image.src = imageDataURL;
+
+    const w = window.open("");
+    w.document.write(image.outerHTML);
   };
 
   return (
-    <div>
-      <canvas
-        ref={canvasRef}
-        width={CANVAS_WIDTH}
-        height={CANVAS_HEIGHT}
-        onMouseDown={handleCanvasMouseDown}
-        onMouseUp={handleCanvasMouseUp}
-        onMouseMove={handleCanvasMouseMove}
-        onClick={handleCanvasClick}
-      />
-      <input
-        type="range"
-        min="1"
-        max="10"
-        value={lineWidth}
-        step="0.1"
-        onChange={handleLineWidthChange}
-      />
-      <input type="color" value={currentColor} onChange={handleColorChange} />
-      <div className="color-options">
-        {colorOptions.map((color, index) => (
-          <div
+    <Body className="body">
+      <Colours className="colours">
+        {colors.map((color, index) => (
+          <ColourItem
             key={index}
-            className="color-option"
-            style={{ backgroundColor: color }}
-            onClick={() => handleColorClick(color)}
-          ></div>
+            onClick={() => {
+              setCurrentColorIndex(index);
+              setPreviousColorIndex(index);
+              setPencilThickness(pencilPathDefaults.minThickness);
+              clearCanvas();
+            }}
+          ></ColourItem>
         ))}
-      </div>
-      <button onClick={handleModeClick}>Toggle Mode</button>
-      <button onClick={handleDestroyClick}>Clear Canvas</button>
-      <button onClick={handleEraseClick}>Erase</button>
-      <label>
-        Add Image
-        <input type="file" accept="image/*" onChange={handleFileChange} />
-      </label>
-      <input
-        type="text"
-        placeholder="Enter Text"
-        value={text}
-        onChange={handleTextChange}
-      />
-      <button onClick={handleSaveClick}>Save</button>
-    </div>
-  );
-}
+      </Colours>
 
-export default MemeMaker;
+      <RefreshButton onClick={toggleEraser}></RefreshButton>
+
+      {/* <SubmitButton onClick={savePNG}>Save</SubmitButton> */}
+
+      <DrawingCanvas ref={canvasRef}></DrawingCanvas>
+    </Body>
+  );
+};
+
+export default DrawingApp;
