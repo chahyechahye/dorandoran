@@ -85,4 +85,10 @@ public class ProcessedVoiceService {
         }
     }
 
+    //가공 목소리가 존재하는지 체킹 해주는 메소드
+    public void checkRecording(int parentUserId) {
+
+
+    }
+
 }
