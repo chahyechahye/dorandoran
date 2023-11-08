@@ -76,7 +76,7 @@ const ParentRecordPage = () => {
   const recordVoice = usePostVoice();
   const recordComplete = usePostVoiceComplete();
 
-  const [isAlertModalOpen, setIsAlertModalOpen] = useState(false); // 모달의 상태를 관리하는 state
+  const [isAlertModalOpen, setIsAlertModalOpen] = useState(true); // 모달의 상태를 관리하는 state
   const [isAlarmModalOpen, setIsAlarmModalOpen] = useState(false);
   const [selectedGender, setSelectedGender] = useState("");
 

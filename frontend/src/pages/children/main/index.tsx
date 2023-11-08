@@ -5,6 +5,7 @@ import castle from "@/assets/img/childMain/castle.png";
 import postOffice from "@/assets/img/childMain/postoffice.png";
 import camera from "@/assets/img/childMain/camera.png";
 import books from "@/assets/img/childMain/books.png";
+import Album from "@/components/album";
 import character from "@/assets/img/fox.png";
 import ProfileCircle from "@/components/profileCircle";
 import Lottie from "lottie-react";
@@ -32,6 +33,7 @@ const Movables = styled.img`
 `;
 
 const ContentContainer = styled.div`
+  position: fixed;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -394,6 +396,16 @@ const ArrowRight = styled.img`
   width: 20vh;
 `;
 
+const Overlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); // 반투명한 검은색 배경
+  z-index: 0; // 모달보다 낮은 z-index를 가지게 하여, 모달 뒤에 위치하게 합니다.
+`;
+
 const ChildrenMainPage = () => {
   const [isLetter, setIsLetter] = useState(false);
   const [isEnvelope, setIsEnvelope] = useState(false);
@@ -401,6 +413,7 @@ const ChildrenMainPage = () => {
   const [flag, setFlag] = useState(false);
   const [isLetterPage, setIsLetterPage] = useState(0);
   const [hasFetchedData, setHasFetchedData] = useState(false);
+  const [isOpenAlbum, setIsOpenAlbum] = useState(false);
 
   const LetterList = useGetLetterList();
   const letterSize = LetterList.data.size;
@@ -433,6 +446,7 @@ const ChildrenMainPage = () => {
     setIsLetter(false);
     setIsEnvelope(false);
     setReadLetter(false);
+    readLetterList.mutateAsync();
   };
 
   useEffect(() => {
@@ -455,6 +469,14 @@ const ChildrenMainPage = () => {
     }
   };
 
+  const handleOpenAlbum = () => {
+    setIsOpenAlbum(true);
+  };
+
+  const handleCloseAlbum = () => {
+    setIsOpenAlbum(false);
+  };
+
   return (
     <>
       <ContentContainer>
@@ -470,6 +492,7 @@ const ChildrenMainPage = () => {
                 display: "flex",
                 position: "absolute",
                 right: 0,
+                top: 0,
                 flexDirection: "column",
                 justifyContent: "center",
                 alignItems: "flex",
@@ -520,9 +543,9 @@ const ChildrenMainPage = () => {
         </Airplane>
         <CastleContainer>
           <Castle src={castle} />
-          <PostOffice src={postOffice} onClick={openLetter} />
+          <PostOffice src={postOffice} onClick={() => navigate("/sketch")} />
           <Books src={books} onClick={goFairytale} />
-          <Camera src={camera} onClick={() => navigate("/sketch")} />
+          <Camera src={camera} onClick={handleOpenAlbum} />
         </CastleContainer>
         <Profile>
           <ProfileCircle type="child" />
@@ -530,6 +553,8 @@ const ChildrenMainPage = () => {
       </ContentContainer>
       <Character src={character} />
       <Movables src={movables} />
+      {isOpenAlbum && <Overlay onClick={handleCloseAlbum} />}
+      {isOpenAlbum && <Album onClose={handleCloseAlbum} type="child" />}
     </>
   );
 };
