@@ -54,10 +54,20 @@ const ArrowBox = styled.div`
 
 const ArrowLeft = styled.img`
   width: 20vh;
+
+  &:hover {
+    transform: scale(1.08);
+    transition: all 0.3s;
+  }
 `;
 
 const ArrowRight = styled.img`
   width: 20vh;
+
+  &:hover {
+    transform: scale(1.08);
+    transition: all 0.3s;
+  }
 `;
 
 const FairytaleReadPage = () => {

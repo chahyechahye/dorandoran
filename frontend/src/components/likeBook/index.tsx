@@ -6,6 +6,11 @@ const Container = styled.div`
   margin: 30px;
   background-color: #fff;
   border-radius: 100px;
+
+  &:hover {
+    transform: scale(1.08);
+    transition: all 0.3s;
+  }
 `;
 
 const StyledImage = styled.img`
