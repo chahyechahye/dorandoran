@@ -18,5 +18,6 @@ public interface AdminVoiceMapper {
     List<AdminVoiceResDto> toResDtoList(List<AdminVoice> adminVoiceList);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "voiceGender", source = "genders")
     AdminVoice dtoToEntity(String voiceUrl, Genders genders, Content content);
 }
