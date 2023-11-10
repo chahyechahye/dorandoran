@@ -82,6 +82,7 @@ const FairytaleReadPage = () => {
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
   // 컨텐츠 (스크립트 변화)
   const [currentContentIndex, setCurrentContentIndex] = useState(0);
+  const audioPlayerRef = useRef<HTMLAudioElement | null>(null);
   setInfoFairytaleRead(fairytaleContentList);
   const goLike = () => {
     // navigate("/children/like");
