@@ -522,13 +522,11 @@ const ChildrenMainPage = () => {
             </div>
             <LetterRead src={letterContent[isLetterPage].contentUrl} />
             <ArrowBox>
-              {isLetterPage === 0 && (
+              {letterSize === 1 ? null : isLetterPage === 0 ? (
                 <ArrowRight src={arrowRight} onClick={handleRightClick} />
-              )}
-              {isLetterPage === letterSize - 1 && (
+              ) : isLetterPage === letterSize - 1 ? (
                 <ArrowLeft src={arrowLeft} onClick={handleLeftClick} />
-              )}
-              {isLetterPage !== 0 && isLetterPage !== letterSize - 1 && (
+              ) : (
                 <>
                   <ArrowLeft src={arrowLeft} onClick={handleLeftClick} />
                   <ArrowRight src={arrowRight} onClick={handleRightClick} />
