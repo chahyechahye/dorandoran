@@ -1,26 +1,13 @@
 import { instance } from "@/apis/instance";
+import { LetterProps } from "@/types/parent/letterType";
 
-const postLetter = async (
-  title: string,
-  content: FormData,
-  profileId: number,
-  senderId: number
-) => {
+const postLetter = async (letterData: LetterProps) => {
   try {
     const config = {
       headers: { "Content-Type": "multipart/form-data" },
     };
 
-    const response = await instance.post(
-      `/letter`,
-      {
-        title: title,
-        content: content,
-        profileId: profileId,
-        senderId: senderId,
-      },
-      config
-    );
+    const response = await instance.post(`/letter`, letterData, config);
     return response.data;
   } catch {
     console.log(new Error("api 연동 오류 - postLetter"));

@@ -18,21 +18,25 @@ const { persistAtom } = recoilPersist();
 export const ChildrenInfoState = atom<number>({
   key: "ChildrenInfoState",
   default: 0,
+  effects_UNSTABLE: [persistAtom],
 });
 
 export const bookListState = atom({
   key: "bookListState", // 고유한 문자열 키
   default: [], // 초기 상태 (비어있는 배열로 초기화)
+  effects_UNSTABLE: [persistAtom],
 });
 
 export const childrenLoginState = atom<ChildrenLoginProps>({
   key: "childrenLoginState", // 고유한 문자열 키
   default: { childId: 0, profileId: 0 },
+  effects_UNSTABLE: [persistAtom],
 });
 
 export const profileListState = atom<ChildrenProfileProps[]>({
   key: "profileListState", // 고유한 문자열 키
   default: [], // 초기 상태 (비어있는 배열로 초기화)
+  effects_UNSTABLE: [persistAtom],
 });
 
 export const profileState = atom<ChildrenProfileProps>({
@@ -47,6 +51,7 @@ export const profileState = atom<ChildrenProfileProps>({
     },
     name: "",
   },
+  effects_UNSTABLE: [persistAtom],
 });
 
 export const AnimalIdState = atom<AnimalIdProps>({
@@ -54,6 +59,7 @@ export const AnimalIdState = atom<AnimalIdProps>({
   default: {
     animalId: 0,
   },
+  effects_UNSTABLE: [persistAtom],
 });
 
 export const AnimalState = atom<AnimalProps>({
@@ -63,6 +69,7 @@ export const AnimalState = atom<AnimalProps>({
     name: "",
     imgUrl: "",
   },
+  effects_UNSTABLE: [persistAtom],
 });
 
 export const selectAnimalState = atom<AnimalProps>({
@@ -72,6 +79,7 @@ export const selectAnimalState = atom<AnimalProps>({
     name: "",
     imgUrl: "",
   },
+  effects_UNSTABLE: [persistAtom],
 });
 
 export const fairytaleState = atom<FairytaleListProps>({
@@ -84,11 +92,13 @@ export const fairytaleState = atom<FairytaleListProps>({
     publisher: null,
     totalPageCnt: 0,
   },
+  effects_UNSTABLE: [persistAtom],
 });
 
 export const fairytaleReadListState = atom<FairytaleReadProps[]>({
   key: "fairytaleReadListState",
   default: [],
+  effects_UNSTABLE: [persistAtom],
 });
 
 export const fairytaleReadState = atom<FairytaleReadProps[]>({
@@ -108,6 +118,7 @@ export const fairytaleReadState = atom<FairytaleReadProps[]>({
       ],
     },
   ],
+  effects_UNSTABLE: [persistAtom],
 });
 
 export const fairytaleContentState = atom<FairytaleContentProps>({
@@ -118,6 +129,7 @@ export const fairytaleContentState = atom<FairytaleContentProps>({
     pv_id: 0,
     voiceUrl: null,
   },
+  effects_UNSTABLE: [persistAtom],
 });
 
 export const fairytaleContentListState = atom<FairytaleContentProps[]>({
@@ -130,6 +142,7 @@ export const fairytaleContentListState = atom<FairytaleContentProps[]>({
       voiceUrl: null,
     },
   ],
+  effects_UNSTABLE: [persistAtom],
 });
 
 export const FairytaleSearchState = atom<FairytaleSearchProps>({
@@ -138,4 +151,5 @@ export const FairytaleSearchState = atom<FairytaleSearchProps>({
     bookId: 0,
     gender: "MALE",
   },
+  effects_UNSTABLE: [persistAtom],
 });

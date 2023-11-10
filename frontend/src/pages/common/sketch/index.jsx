@@ -3,6 +3,10 @@ import styled from "styled-components";
 import * as THREE from "three";
 
 import eraser from "@/assets/img/eraser.png";
+import { useRecoilValue } from "recoil";
+import { profileState } from "@/states/children/info";
+import { usePostLetter } from "@/apis/common/letter/Mutations/usePostLetter";
+import { ButtonEffect } from "@/styles/buttonEffect";
 
 import blackPen from "@/assets/img/pen/blackPen.png";
 import redPen from "@/assets/img/pen/redPen.png";
@@ -12,11 +16,17 @@ import greenPen from "@/assets/img/pen/greenPen.png";
 import skyBluePen from "@/assets/img/pen/skyBluePen.png";
 import bluePen from "@/assets/img//pen/bluePen.png";
 import purplePen from "@/assets/img/pen/purplePen.png";
+import exitBtn from "@/assets/img/exitBtn.png";
+import Logo from "@/assets/img/logo/logo.png";
+
+import html2canvas from "html2canvas";
+import sketchBackground from "@/assets/img/sketchBackground.png";
 
 const Body = styled.div`
-  width: 100vh;
+  width: 100%;
   height: 100vh;
-  background-color: #ffffff;
+  background: url(${sketchBackground});
+  background-size: cover;
   overflow: hidden;
 `;
 
@@ -118,9 +128,60 @@ const SubmitButton = styled.button`
   }
 `;
 
+const Background = styled.div`
+  position: fixed;
+  background: #fff;
+  width: 90%; // 화면 너비의 90%
+  height: 90vh; // 화면 높이의 90%
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+`;
+
+const ExitContainer = styled.div`
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  right: 0;
+  margin: 2vh 4vh;
+  z-index: 5;
+
+  ${ButtonEffect}
+`;
+
+const ExitBtn = styled.img`
+  width: 12vh;
+`;
+
+const MainLogo = styled.div`
+  position: fixed;
+  height: 13vh;
+  width: 25vh;
+  background-image: url(${Logo});
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  margin: 0vh 2vh;
+  z-index: 999;
+
+  /* 호버 시 크기와 트랜지션 설정 */
+  transition:
+    transform 0.3s ease,
+    width 0.3s ease,
+    height 0.3s ease;
+
+  /* 호버 시 크기 확대 */
+  &:hover {
+    transform: scale(1.07); /* 크기 확대 설정 */
+  }
+`;
+
 const DrawingCanvas = styled.canvas``;
 
-const DrawingApp = () => {
+const SketchPage = () => {
   const [colors] = useState([
     "#100c08",
     "#C91931",
@@ -138,6 +199,8 @@ const DrawingApp = () => {
   const [newlyUp, setNewlyUp] = useState(false);
   const lastPoint = useRef(null);
   const drawingCtxRef = useRef(null);
+  const profileData = useRecoilValue(profileState);
+  const sendLetter = usePostLetter();
 
   const pencilPathDefaults = {
     minThickness: 4,
@@ -149,6 +212,8 @@ const DrawingApp = () => {
   );
 
   const canvasRef = useRef(null);
+
+  const drawings = useRef([]);
 
   function isNotClose(current, target) {
     return current < target - 0.004 || current > target + 0.004;
@@ -196,7 +261,7 @@ const DrawingApp = () => {
       // Set to eraser mode
       setCurrentColorIndex(8);
       setPencilThickness(pencilPathDefaults.maxThickness);
-      clearCanvas(); // 여기서 clearCanvas 함수를 호출하여 그림을 모두 지웁니다.
+      clearBufferCanvas(); // 여기서 clearCanvas 함수를 호출하여 그림을 모두 지웁니다.
     } else {
       // If we're currently using the eraser, revert to the previous color and thickness
       setCurrentColorIndex(previousColorIndex);
@@ -212,31 +277,33 @@ const DrawingApp = () => {
       setIsDrawing(true);
       setPencilTargetPos({ thickness: pencilPathDefaults.maxThickness });
 
+      const canvas = canvasRef.current;
       const xPos = e.touches ? e.touches[0].clientX : e.clientX;
       const yPos = e.touches ? e.touches[0].clientY : e.clientY;
 
-      const currentPoint = { x: xPos, y: yPos };
+      console.log(canvas.offsetTop);
+
+      const currentPoint = {
+        x: xPos - "1vh", // 클릭된 위치에서 캔버스의 왼쪽 위치를 빼줍니다.
+        y: yPos - 40, // 클릭된 위치에서 캔버스의 상단 위치를 빼줍니다.
+      };
 
       lastPoint.current = currentPoint;
 
       drawingCtxRef.current.beginPath();
-      if (isEraserMode) {
-        // 지우개 모드일 때
-        drawingCtxRef.current.globalCompositeOperation = "destination-out"; // 지워지도록 설정
-      } else {
-        // 그리기 모드일 때
-        drawingCtxRef.current.fillStyle = colors[currentColorIndex];
-        drawingCtxRef.current.globalAlpha = 0.9;
-        drawingCtxRef.current.arc(
-          currentPoint.x + 5,
-          currentPoint.y + 5,
-          pencilPathDefaults.thickness,
-          false,
-          Math.PI * 2,
-          false
-        );
-        drawingCtxRef.current.fill();
-      }
+
+      // 그리기 모드일 때
+      drawingCtxRef.current.fillStyle = colors[currentColorIndex];
+      drawingCtxRef.current.globalAlpha = 1;
+      drawingCtxRef.current.arc(
+        currentPoint.x + 5,
+        currentPoint.y + 5,
+        pencilPathDefaults.thickness,
+        false,
+        Math.PI * 2,
+        false
+      );
+      drawingCtxRef.current.fill();
     },
     [
       setIsDrawing,
@@ -244,7 +311,6 @@ const DrawingApp = () => {
       colors,
       currentColorIndex,
       pencilPathDefaults.thickness,
-      isEraserMode,
     ]
   );
 
@@ -260,13 +326,13 @@ const DrawingApp = () => {
 
   useEffect(() => {
     const drawingCanvas = document.createElement("canvas");
-    drawingCanvas.width = window.innerWidth;
-    drawingCanvas.height = window.innerHeight;
+    drawingCanvas.width = window.innerWidth * 0.9; // 화면 너비의 90%
+    drawingCanvas.height = window.innerHeight * 0.9; // 화면 높이의 90%
 
     drawingCanvas.style.position = "fixed";
-    drawingCanvas.style.left = 0;
-    drawingCanvas.style.top = 0;
-    drawingCanvas.style.zIndex = 1;
+    drawingCanvas.style.left = "50%";
+    drawingCanvas.style.top = "50%";
+    drawingCanvas.style.transform = "translate(-50%, -50%)";
 
     document.body.appendChild(drawingCanvas);
 
@@ -275,14 +341,20 @@ const DrawingApp = () => {
     const pencilPathTarget = { thickness: 0.2 };
 
     const handleMouseMove = (e) => {
-      const xPos = e.touches ? e.touches[0].clientX : e.clientX;
-      const yPos = e.touches ? e.touches[0].clientY : e.clientY;
+      const canvasRect = drawingCanvas.getBoundingClientRect();
+      const canvasWidth = canvasRect.width;
+      const canvasHeight = canvasRect.height;
+
+      const xPos =
+        (e.touches ? e.touches[0].clientX : e.clientX) - canvasRect.left;
+      const yPos =
+        (e.touches ? e.touches[0].clientY : e.clientY) - canvasRect.top;
 
       // Update the mouse variable
       e.preventDefault();
       setMouse({
-        x: (xPos / window.innerWidth) * 2 - 1,
-        y: -(yPos / window.innerHeight) * 2 + 1,
+        x: (xPos / canvasWidth) * 2 - 1,
+        y: -(yPos / canvasHeight) * 2 + 1,
       });
 
       if (isEraserMode) {
@@ -383,37 +455,115 @@ const DrawingApp = () => {
     pencilThickness,
   ]);
 
-  const clearCanvas = () => {
+  const clearBufferCanvas = () => {
     if (drawingCtxRef.current && drawingCtxRef.current.canvas) {
       const canvas = drawingCtxRef.current.canvas;
       drawingCtxRef.current.clearRect(0, 0, canvas.width, canvas.height);
     }
   };
 
-  const savePNG = () => {
-    const drawingCanvas = drawingCtxRef.current.canvas; // Access the canvas from the context ref
+  function dataURLtoBlob(dataURL) {
+    // Split the data URL to get the base64 data
+    const dataParts = dataURL.split(",");
+    const base64Data = dataParts[1];
 
-    const freshCanvas = document.createElement("canvas");
-    freshCanvas.width = drawingCanvas.width;
-    freshCanvas.height = drawingCanvas.height;
+    // Decode the base64 data to binary
+    const binaryData = atob(base64Data);
 
-    const freshCtx = freshCanvas.getContext("2d");
+    // Create an array buffer from the binary data
+    const arrayBuffer = new ArrayBuffer(binaryData.length);
+    const uint8Array = new Uint8Array(arrayBuffer);
+    for (let i = 0; i < binaryData.length; i++) {
+      uint8Array[i] = binaryData.charCodeAt(i);
+    }
 
-    freshCtx.fillStyle = "#f7f4f0";
-    freshCtx.fillRect(0, 0, freshCanvas.width, freshCanvas.height);
-    freshCtx.drawImage(drawingCanvas, 0, 0);
+    // Create a Blob from the array buffer with the correct MIME type
+    const mime = dataParts[0].split(":")[1].split(";")[0];
+    return new Blob([arrayBuffer], { type: mime });
+  }
 
-    const imageDataURL = freshCanvas.toDataURL();
-    const image = new Image();
+  const capturePage = () => {
+    clearBufferCanvas();
+    // 요소를 숨기기 전에 display 속성을 저장합니다.
+    const coloursElement = document.querySelector(".colours");
+    const refreshButtonElement = document.querySelector(".refresh-button");
+    const submitButtonElement = document.querySelector(".submit-button");
+    const exitButtonElement = document.querySelector(".exit-button");
+    const mainElement = document.querySelector(".main");
 
-    image.src = imageDataURL;
+    const originalColoursDisplay = coloursElement.style.display;
+    const originalRefreshButtonDisplay = refreshButtonElement.style.display;
+    const originalSubmitButtonDisplay = submitButtonElement.style.display;
+    const originalSubmitExitDisplay = submitButtonElement.style.display;
+    const originalmainDisplay = submitButtonElement.style.display;
 
-    const w = window.open("");
-    w.document.write(image.outerHTML);
+    // 요소를 숨깁니다.
+    coloursElement.style.display = "none";
+    refreshButtonElement.style.display = "none";
+    submitButtonElement.style.display = "none";
+    exitButtonElement.style.display = "none";
+    mainElement.style.display = "none";
+
+    // 페이지를 캡처합니다.
+    html2canvas(document.body).then((canvas) => {
+      // 이미지 데이터를 가져옵니다.
+      const imageDataUrl = canvas.toDataURL("image/png");
+
+      const blob = dataURLtoBlob(imageDataUrl);
+
+      sendLetter
+        .mutateAsync({
+          title: profileData.name,
+          content: blob,
+          profileId: profileData.id,
+          senderId: profileData.childId,
+        })
+        .then(() => {
+          handleExit();
+        });
+
+      // 이미지를 다운로드할 수 있는 링크를 생성합니다.
+      // const link = document.createElement("a");
+      // link.href = imageDataUrl;
+      // link.download = "captured_page.png"; // 파일 이름을 지정할 수 있습니다.
+      // link.click(); // 링크를 클릭하여 이미지 다운로드를 시작합니다.
+    });
+
+    // 요소의 display 속성을 복원합니다.
+    coloursElement.style.display = originalColoursDisplay;
+    refreshButtonElement.style.display = originalRefreshButtonDisplay;
+    submitButtonElement.style.display = originalSubmitButtonDisplay;
+    exitButtonElement.style.display = originalSubmitExitDisplay;
+    mainElement.style.display = originalmainDisplay;
+  };
+
+  useEffect(() => {
+    const disableBackButton = (e) => {
+      e.preventDefault();
+    };
+
+    window.history.pushState(null, "", window.location.href);
+    window.onpopstate = disableBackButton;
+
+    return () => {
+      window.onpopstate = null;
+    };
+  }, []);
+
+  const handleExit = () => {
+    const currentPathname = window.location.pathname; // 현재 URL 경로 가져오기
+
+    if (currentPathname.startsWith("/parent/")) {
+      window.location.href = "/parent/main";
+    } else if (currentPathname.startsWith("/children/")) {
+      window.location.href = "/children/main";
+    }
   };
 
   return (
     <Body className="body">
+      <Background />
+
       <Colours className="colours">
         {colors.map((color, index) => (
           <ColourItem
@@ -422,19 +572,29 @@ const DrawingApp = () => {
               setCurrentColorIndex(index);
               setPreviousColorIndex(index);
               setPencilThickness(pencilPathDefaults.minThickness);
-              clearCanvas();
+              clearBufferCanvas();
             }}
           ></ColourItem>
         ))}
       </Colours>
 
-      <RefreshButton onClick={toggleEraser}></RefreshButton>
+      <RefreshButton
+        className="refresh-button"
+        onClick={toggleEraser}
+      ></RefreshButton>
 
-      {/* <SubmitButton onClick={savePNG}>Save</SubmitButton> */}
+      <MainLogo className="main" onClick={handleExit} />
+      <SubmitButton className="submit-button" onClick={capturePage}>
+        Save
+      </SubmitButton>
+      <ExitContainer className="exit-button" onClick={handleExit}>
+        <ExitBtn src={exitBtn}></ExitBtn>
+        <p style={{ fontSize: "5vh" }}>나가기</p>
+      </ExitContainer>
 
       <DrawingCanvas ref={canvasRef}></DrawingCanvas>
     </Body>
   );
 };
 
-export default DrawingApp;
+export default SketchPage;

@@ -1,13 +1,13 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { postAlbum } from "@/apis/common/album/albumAPI";
+import { postLetter } from "@/apis/common/letter/letterAPI";
+import { LetterProps } from "@/types/parent/letterType";
 
 const usePostLetter = () => {
-  const queryCilent = useQueryClient();
-  return useMutation((formData: FormData) => postAlbum(formData), {
+  return useMutation((letterData: LetterProps) => postLetter(letterData), {
     onSuccess: () => {
-      queryCilent.invalidateQueries(["LetterList"]);
+      console.log("전송 성공");
     },
-    onError: (err: Error) => {
+    onError: (err) => {
       console.log(err);
     },
   });
