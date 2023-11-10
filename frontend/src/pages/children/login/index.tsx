@@ -9,7 +9,7 @@ import { ChildrenInfoState, profileListState } from "@/states/children/info";
 import { useEffect, useState, useReducer, useCallback } from "react";
 import { postChildrenLogin } from "@/apis/children/profile/profileAPI";
 import { useChildrenLogin } from "@/apis/children/profile/Mutations/useChildrenLogin";
-import ClickEventComponent from "@/components/clickEvent/clickEvent";
+import { useSoundEffect } from "@/components/sounds/soundEffect";
 
 const Background = styled.div`
   position: fixed;
@@ -72,6 +72,7 @@ const ChildrenLoginPage = () => {
 
   const setChildrenCode = useChildrenCode(Number(code));
   const [profileList, setProfileList] = useRecoilState(profileListState);
+  const { playSound } = useSoundEffect();
 
   useEffect(() => {
     if (setChildrenCode) {
@@ -81,6 +82,7 @@ const ChildrenLoginPage = () => {
   }, [setChildrenCode, setProfileList, navigate]);
 
   const getChildrenCodeHandler = () => {
+    playSound();
     setCode(input);
   };
 

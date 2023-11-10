@@ -80,6 +80,10 @@ const routes: RouteType[] = [
     path: "/oauth/redirect/google",
     element: React.lazy(() => import("@/pages/common/oauth/google")),
   },
+  {
+    path: "/test",
+    element: React.lazy(() => import("@/pages/parent/test")),
+  },
   // {
   //   path: "/",
   //   element: () => <Navigate replace to="/main" />,
