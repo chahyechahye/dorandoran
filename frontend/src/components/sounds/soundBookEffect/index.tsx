@@ -1,5 +1,5 @@
 import useSound from "use-sound";
-import clickSound from "@/assets/sound/클릭_버블.wav";
+import clickSound from "@/assets/sound/책넘기기.mp3";
 
 export function useSoundBookEffect() {
   const [play] = useSound(clickSound);
