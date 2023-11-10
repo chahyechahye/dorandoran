@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import background from "@/assets/img/background/background.jpg";
 import logoImageSrc from "@/assets/img/logo/logo.png";
 import ClickButton from "@/components/clickButton";
@@ -6,9 +6,10 @@ import { useNavigate } from "react-router-dom";
 import { useChildrenCode } from "@/apis/children/profile/Queries/useChildrenCode";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { ChildrenInfoState, profileListState } from "@/states/children/info";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useReducer, useCallback } from "react";
 import { postChildrenLogin } from "@/apis/children/profile/profileAPI";
 import { useChildrenLogin } from "@/apis/children/profile/Mutations/useChildrenLogin";
+import ClickEventComponent from "@/components/clickEvent/clickEvent";
 
 const Background = styled.div`
   position: fixed;

@@ -487,6 +487,8 @@ const ChildrenMainPage = () => {
     setIsOpenAlbum(false);
   };
 
+  console.log(profile);
+
   return (
     <>
       <ContentContainer>
