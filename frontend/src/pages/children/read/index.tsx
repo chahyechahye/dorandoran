@@ -4,13 +4,15 @@ import arrowLeft from "@/assets/img/fairytale/arrowLeft.png";
 import arrowRight from "@/assets/img/fairytale/arrowRight.png";
 import { useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { MainSoundState } from "@/states/common/voice";
 import {
   fairytaleContentListState,
   fairytaleReadState,
 } from "@/states/children/info";
 import { ButtonEffect } from "@/styles/buttonEffect";
 import exitBtn from "@/assets/img/exitBtn.png";
+import { useSoundBookEffect } from "@/components/sounds/soundBookEffect";
 
 const Background = styled.div`
   position: fixed;
@@ -96,10 +98,19 @@ const FairytaleReadPage = () => {
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
   // 컨텐츠 (스크립트 변화)
   const [currentContentIndex, setCurrentContentIndex] = useState(0);
-  const audioPlayerRef = useRef<HTMLAudioElement | null>(null);
   setInfoFairytaleRead(fairytaleContentList);
 
+  const audioPlayerRef = useRef<HTMLAudioElement | null>(null);
+  setInfoFairytaleRead(fairytaleContentList);
+  const { playBookSound } = useSoundBookEffect();
+  const setSoundData = useSetRecoilState(MainSoundState);
+
+  useEffect(() => {
+    setSoundData(false);
+  }, [setSoundData]);
+
   const handleArrowRight = () => {
+    playBookSound();
     if (currentContentIndex < fairytaleContentList.length - 1) {
       setCurrentContentIndex(currentContentIndex + 1);
     } else if (
@@ -121,6 +132,7 @@ const FairytaleReadPage = () => {
   console.log("5-currentContentIndex:" + currentContentIndex);
 
   const handleArrowLeft = () => {
+    playBookSound();
     if (currentContentIndex === 0 && currentPageIndex > 0) {
       console.log("2-currentPageIndex:" + currentPageIndex);
       console.log("2-currentContentIndex:" + currentContentIndex);

@@ -12,6 +12,8 @@ import exitBtn from "@/assets/img/exitBtn.png";
 import { useDeleteAlbum } from "@/apis/common/album/Mutations/useDeleteAlbum";
 import { ButtonEffect } from "@/styles/buttonEffect";
 
+import { useSoundEffect } from "@/components/sounds/soundEffect";
+
 // Define the type for your AlbumList items
 interface AlbumItem {
   albumId: number;
@@ -147,7 +149,18 @@ const ImageBtn = styled.img`
   ${ButtonEffect}
 `;
 
+const CloseButton = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex;
+  margin: 4vh;
+  cursor: pointer;
+  ${ButtonEffect}
+`;
+
 const Album = ({ onClose, type }: { onClose: () => void; type?: string }) => {
+  const { playSound } = useSoundEffect();
   const [activeAlbumId, setActiveAlbumId] = useState(0);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const AlbumList = useGetAlbumList().data;
@@ -162,6 +175,7 @@ const Album = ({ onClose, type }: { onClose: () => void; type?: string }) => {
   };
 
   const handleImageUpload = () => {
+    playSound();
     if (fileInputRef.current) {
       fileInputRef.current.click(); // Trigger the file input
     }
@@ -182,25 +196,22 @@ const Album = ({ onClose, type }: { onClose: () => void; type?: string }) => {
   };
 
   const handleImageDelete = () => {
+    playSound();
     deleteAlbum.mutateAsync(activeAlbumId);
   };
 
   return (
     <Container>
       <Header>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "flex",
-            margin: "4vh",
+        <CloseButton
+          onClick={() => {
+            playSound(); // 사운드 재생
+            onClose();
           }}
-          onClick={onClose}
         >
           <ExitBtn src={exitBtn}></ExitBtn>
           <p style={{ fontSize: "7vh" }}>나가기</p>
-        </div>
+        </CloseButton>
       </Header>
       <Book>
         <PageLeft>

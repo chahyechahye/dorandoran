@@ -7,6 +7,7 @@ import { useRecoilValue } from "recoil";
 import { profileState } from "@/states/children/info";
 import { usePostLetter } from "@/apis/common/letter/Mutations/usePostLetter";
 import { ButtonEffect } from "@/styles/buttonEffect";
+import { useSoundEffect } from "@/components/sounds/soundEffect";
 
 import blackPen from "@/assets/img/pen/blackPen.png";
 import redPen from "@/assets/img/pen/redPen.png";
@@ -201,6 +202,7 @@ const SketchPage = () => {
   const drawingCtxRef = useRef(null);
   const profileData = useRecoilValue(profileState);
   const sendLetter = usePostLetter();
+  const { playSound } = useSoundEffect();
 
   const pencilPathDefaults = {
     minThickness: 4,
@@ -551,6 +553,7 @@ const SketchPage = () => {
   }, []);
 
   const handleExit = () => {
+    playSound();
     const currentPathname = window.location.pathname; // 현재 URL 경로 가져오기
 
     if (currentPathname.startsWith("/parent/")) {
