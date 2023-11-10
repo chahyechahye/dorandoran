@@ -175,6 +175,8 @@ const Album = ({ onClose, type }: { onClose: () => void; type?: string }) => {
       const formData = new FormData();
       formData.append("multipartFile", file);
 
+      console.log(formData);
+
       loadAlbum.mutateAsync(formData);
     }
   };

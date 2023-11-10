@@ -8,7 +8,6 @@ import ReplayModal from "@/components/replayModal";
 import { useRecoilValue } from "recoil";
 import { FairytaleSearchState } from "@/states/children/info";
 import { useChildrenLike } from "@/apis/children/like/Mutations/useChildrenLike";
-import { ButtonEffect } from "@/styles/buttonEffect";
 
 const orange = "#F7AA2B";
 const brown = "#CB7A1D";
