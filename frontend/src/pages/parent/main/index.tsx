@@ -18,6 +18,8 @@ import { useNavigate } from "react-router-dom";
 import { profileState } from "@/states/children/info";
 import { useRecoilValue } from "recoil";
 
+import { useSoundEffect } from "@/components/sounds/soundEffect";
+
 import background from "@/assets/img/background/backgroundMain.jpg";
 
 import photo from "@/assets/img/photo.png";
@@ -145,6 +147,7 @@ const ParentMainPage = () => {
   const letterContent = LetterList.data.letterResDtoList;
   const readLetterList = usePostLetterRead();
   const [hasFetchedData, setHasFetchedData] = useState(false);
+  const { playSound } = useSoundEffect();
 
   const [isOpenAlbum, setIsOpenAlbum] = useState(false);
   const [isOpenLikeBook, setIsOpenLikeBook] = useState(false);
@@ -155,6 +158,7 @@ const ParentMainPage = () => {
   const [isLetterPage, setIsLetterPage] = useState(0);
 
   const handleOpenAlbum = () => {
+    playSound();
     setIsOpenAlbum(true);
   };
 
@@ -163,6 +167,7 @@ const ParentMainPage = () => {
   };
 
   const handleOpenLikeBook = () => {
+    playSound();
     setIsOpenLikeBook(true);
   };
 
@@ -171,15 +176,18 @@ const ParentMainPage = () => {
   };
 
   const goProfile = () => {
+    playSound();
     navigate("/parent/profile");
   };
 
   const goRecord = () => {
+    playSound();
     navigate("/parent/record");
   };
 
   const goSketch = () => {
-    navigate("/sketch");
+    playSound();
+    navigate("/parent/sketch");
   };
 
   const openLetter = () => {

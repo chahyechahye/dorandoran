@@ -22,6 +22,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { profileState, selectAnimalState } from "@/states/children/info";
 import { useGetLetterList } from "@/apis/common/letter/Queries/useGetLetter";
 import { usePostLetterRead } from "@/apis/common/letter/Mutations/usePostLetterRead";
+import { useSoundEffect } from "@/components/sounds/soundEffect";
 
 import movables from "@/assets/img/movables.png";
 
@@ -296,7 +297,7 @@ const CastleContainer = styled.div`
 `;
 
 const Castle = styled.img`
-  width: 100%;
+  width: 140vh;
 `;
 
 const Camera = styled.img`
@@ -429,12 +430,14 @@ const ChildrenMainPage = () => {
   const letterSize = LetterList.data.size;
   const letterContent = LetterList.data.letterResDtoList;
   const readLetterList = usePostLetterRead();
+  const { playSound } = useSoundEffect();
 
   const profile = useRecoilValue(profileState);
 
   const navigate = useNavigate();
 
   const goFairytale = () => {
+    playSound();
     navigate("/children/fairytale");
   };
 
@@ -468,18 +471,21 @@ const ChildrenMainPage = () => {
   }, [letterSize, flag, readLetterList]);
 
   const handleLeftClick = () => {
+    playSound();
     if (isLetterPage > 0) {
       setIsLetterPage(isLetterPage - 1);
     }
   };
 
   const handleRightClick = () => {
+    playSound();
     if (isLetterPage < letterSize) {
       setIsLetterPage(isLetterPage + 1);
     }
   };
 
   const handleOpenAlbum = () => {
+    playSound();
     setIsOpenAlbum(true);
   };
 
@@ -553,12 +559,18 @@ const ChildrenMainPage = () => {
         </Airplane>
         <CastleContainer>
           <Castle src={castle} />
-          <PostOffice src={postOffice} onClick={() => navigate("/sketch")} />
+          <PostOffice
+            src={postOffice}
+            onClick={() => {
+              playSound();
+              navigate("/children/sketch");
+            }}
+          />
           <Books src={books} onClick={goFairytale} />
           <Camera src={camera} onClick={handleOpenAlbum} />
         </CastleContainer>
         <Profile>
-          <ProfileCircle type="child" />
+          <ProfileCircle type="child" onClick={playSound} />
         </Profile>
         <Character src={character} />
         <Movables src={movables} />
