@@ -69,6 +69,7 @@ const ImgBox = styled.div`
   position: relative;
   transform-origin: left;
   transition: 0.7s;
+  background-color: white;
 
   &.open {
     transform: rotateY(-135deg);
@@ -93,8 +94,9 @@ const Bark = styled.div`
 `;
 
 const Img = styled.img`
-  width: 100%;
-  height: 100%;
+  width: 90%;
+  height: 90%;
+  margin-top: 5%;
   object-fit: fill;
 `;
 

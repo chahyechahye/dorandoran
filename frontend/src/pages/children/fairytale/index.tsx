@@ -3,28 +3,23 @@ import gsap from "gsap";
 import styled, { keyframes, css } from "styled-components";
 import FariytaleEnter from "@/components/fairytaleEnter";
 
-import RT from "@/assets/img/RT.png";
-import AX from "@/assets/img/Ax.png";
-import Pig from "@/assets/img/Pig.png";
-import Frog from "@/assets/img/Frog.png";
+import { ButtonEffect } from "@/styles/buttonEffect";
+import exitBtn from "@/assets/img/exitBtn.png";
 
 import movables from "@/assets/img/movables.png";
 import character from "@/assets/img/fox.png";
 import { useFairytaleList } from "@/apis/children/fairytale/Queries/useFariytaleList";
-import {
-  FairytaleListProps,
-  FairytaleSearchProps,
-} from "@/types/children/fairytaleType";
+import { FairytaleListProps } from "@/types/children/fairytaleType";
 import { useRecoilState } from "recoil";
 import {
   FairytaleSearchState,
   fairytaleContentListState,
-  fairytaleReadListState,
   fairytaleReadState,
   fairytaleState,
 } from "@/states/children/info";
 import { useFairytaleRead } from "@/apis/children/fairytale/Mutations/useFairytaleRead";
 import GenderModal from "@/components/genderModal";
+import { useNavigate } from "react-router-dom";
 // import { background } from "@/assets/img/backgroundRecord.jpg";
 
 const Character = styled.img`
@@ -253,6 +248,21 @@ const CardButton = styled.button`
 const CardTitle = styled.h2`
   font-size: 70px;
   margin-top: 30px;
+`;
+
+const Header = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 1;
+`;
+
+const ExitBtn = styled.img`
+  width: 15vh;
+  ${ButtonEffect}
 `;
 
 const FairyTalePage = () => {
@@ -510,10 +520,31 @@ const FairyTalePage = () => {
     setSelectedGender(selectedOption);
   };
 
+  const navigate = useNavigate();
+
+  const goMain = () => {
+    navigate("/children/main");
+  };
+
   return (
     <>
       <GenderModal onGenderSelected={handleGenderSelection} />
       <Container style={{ background: cardColors[activeCardClass] || "#fff" }}>
+        <Header>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "flex",
+              margin: "4vh",
+            }}
+            onClick={goMain}
+          >
+            <ExitBtn src={exitBtn}></ExitBtn>
+            <p style={{ fontSize: "7vh", color: "white" }}>나가기</p>
+          </div>
+        </Header>
         <Wrapper>
           <Title>어느 동화책을 읽고싶니?</Title>
           <Cards className="cards">
