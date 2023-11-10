@@ -13,6 +13,7 @@ import { useDeleteAlbum } from "@/apis/common/album/Mutations/useDeleteAlbum";
 import { ButtonEffect } from "@/styles/buttonEffect";
 
 import { useSoundEffect } from "@/components/sounds/soundEffect";
+import { background } from "@/assets/img/background/backgroundRecord.jpg";
 
 // Define the type for your AlbumList items
 interface AlbumItem {
@@ -52,7 +53,7 @@ const Book = styled.div`
     background-size: contain;
     background-repeat: no-repeat;
     width: 50%;
-    height: 100%;
+    height: 80%;
     position: absolute;
     top: 0;
     right: calc(49% + 0.5rem);
@@ -73,12 +74,24 @@ const PageLeft = styled.div`
   padding: 5%;
   padding-top: 10%;
   padding-left: 15%;
-  overflow: auto;
+  height: 15vh; /* Adjust the height of the container */
+  overflow: hidden; /* Hide the overflow outside the container */
+
+  .image-container {
+    background: #00ff0000;
+    position: absolute;
+    width: 45vh;
+    top: 50%;
+    left: 60%;
+    transform: translate(-50%, -50%);
+    overflow: auto; /* Apply overflow inside the padding */
+    height: 70%; /* Take 100% of the container height */
+  }
 
   img {
-    max-width: 40%;
+    max-width: 30%; /* Adjust the max-width of the images */
     min-width: 4.8vh;
-    max-height: 13vh;
+    max-height: 15%; /* Adjust the max-height of the images */
     width: auto;
     height: auto;
     background-color: #fff;
@@ -215,15 +228,17 @@ const Album = ({ onClose, type }: { onClose: () => void; type?: string }) => {
       </Header>
       <Book>
         <PageLeft>
-          {AlbumList.map((item: AlbumItem) => (
-            <img
-              key={item.albumId}
-              src={item.imgUrl}
-              alt={`Image ${item.albumId}`}
-              className={item.albumId === activeAlbumId ? "active" : ""}
-              onClick={() => handleImageClick(item.albumId)}
-            />
-          ))}
+          <div className="image-container">
+            {AlbumList.map((item: AlbumItem) => (
+              <img
+                key={item.albumId}
+                src={item.imgUrl}
+                alt={`Image ${item.albumId}`}
+                className={item.albumId === activeAlbumId ? "active" : ""}
+                onClick={() => handleImageClick(item.albumId)}
+              />
+            ))}
+          </div>
         </PageLeft>
         <PageRight>
           {AlbumList.map((item: AlbumItem) => (

@@ -99,7 +99,6 @@ const RefreshButton = styled.div`
   background-size: contain;
   background-repeat: no-repeat;
   bottom: 18px;
-  cursor: pointer;
   height: 26px;
   padding: 4px 1px 0px;
   position: absolute;
