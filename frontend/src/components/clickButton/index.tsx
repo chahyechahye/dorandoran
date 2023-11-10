@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { ButtonEffect } from "@/styles/buttonEffect";
+import { useSoundEffect } from "@/components/sounds/soundEffect";
 
 export interface StyledClickButtonProps {
   width: string;
@@ -34,6 +35,17 @@ const ClickButton = ({
   text,
   onClick,
 }: StyledClickButtonProps) => {
+  const { playSound } = useSoundEffect();
+
+  const handleClick = () => {
+    if (playSound) {
+      playSound(); // playSound 함수가 정의되어 있을 때만 호출
+    }
+    if (onClick) {
+      onClick(); // onClick 함수가 정의되어 있을 때만 호출
+    }
+  };
+
   return (
     <ClickContainer
       width={width}
@@ -42,7 +54,7 @@ const ClickButton = ({
       fontColor={fontColor}
       fontSize={fontSize}
       text={text}
-      onClick={onClick}
+      onClick={handleClick}
     >
       {text}
     </ClickContainer>

@@ -1,5 +1,7 @@
 import React, { ReactNode, useEffect, useState } from "react";
 import styled from "styled-components";
+import { useSoundEffect } from "@/components/sounds/soundEffect";
+import { useNavigate } from "react-router-dom";
 
 import Logo from "@/assets/img/logo/logo.png";
 
@@ -32,13 +34,16 @@ interface DashboardLayoutProps {
 
 const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   const currentPathname = window.location.pathname; // 현재 URL 경로 가져오기
+  const navigate = useNavigate();
+  const { playSound } = useSoundEffect();
 
   // 함수를 사용하여 경로를 변경하도록 설정
   const redirectToMain = () => {
+    playSound();
     if (currentPathname.startsWith("/parent/")) {
-      window.location.href = "/parent/main";
+      navigate("/parent/main");
     } else if (currentPathname.startsWith("/children/")) {
-      window.location.href = "/children/main";
+      navigate("/children/main");
     }
   };
 
