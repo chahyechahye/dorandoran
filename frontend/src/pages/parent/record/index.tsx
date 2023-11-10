@@ -94,8 +94,6 @@ const ParentRecordPage = () => {
   const [currentScriptNum, setCurrentScriptNum] = useState(0);
   const [scriptReadNum, setScriptReadNum] = useState([0, 0, 0]);
 
-  console.log("수정");
-
   const OpenAlarmModal = () => {
     setIsAlarmModalOpen(true);
   };

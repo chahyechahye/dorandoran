@@ -84,9 +84,7 @@ const FairytaleReadPage = () => {
   const [currentContentIndex, setCurrentContentIndex] = useState(0);
   const audioPlayerRef = useRef<HTMLAudioElement | null>(null);
   setInfoFairytaleRead(fairytaleContentList);
-  const goLike = () => {
-    // navigate("/children/like");
-  };
+
   const audioPlayerRef = useRef<HTMLAudioElement | null>(null);
   setInfoFairytaleRead(fairytaleContentList);
   const { playBookSound } = useSoundBookEffect();
