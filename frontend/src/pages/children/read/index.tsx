@@ -10,6 +10,7 @@ import {
   fairytaleReadState,
 } from "@/states/children/info";
 import { ButtonEffect } from "@/styles/buttonEffect";
+import exitBtn from "@/assets/img/exitBtn.png";
 
 const Background = styled.div`
   position: fixed;
@@ -64,6 +65,21 @@ const ArrowLeft = styled.img`
 const ArrowRight = styled.img`
   width: 20vh;
 
+  ${ButtonEffect}
+`;
+
+const Header = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 1;
+`;
+
+const ExitBtn = styled.img`
+  width: 15vh;
   ${ButtonEffect}
 `;
 
@@ -157,6 +173,10 @@ const FairytaleReadPage = () => {
     };
   }, [voice]);
 
+  const goMain = () => {
+    navigate("/children/main");
+  };
+
   return (
     <Background
       style={{
@@ -165,6 +185,21 @@ const FairytaleReadPage = () => {
       }}
     >
       <ContentContainer>
+        <Header>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "flex",
+              margin: "4vh",
+            }}
+            onClick={goMain}
+          >
+            <ExitBtn src={exitBtn}></ExitBtn>
+            <p style={{ fontSize: "7vh", color: "white" }}>나가기</p>
+          </div>
+        </Header>
         <ArrowBox>
           <ArrowLeft src={arrowLeft} onClick={handleArrowLeft} />
           <ArrowRight src={arrowRight} onClick={handleArrowRight} />
