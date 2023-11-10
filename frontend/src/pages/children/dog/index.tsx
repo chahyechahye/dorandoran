@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled, { keyframes, css } from "styled-components";
 import redHeart from "@/assets/img/dogModal/redheart.png";
 import greyHeart from "@/assets/img/dogModal/greyheart.png";
 // import arrowLeft from "@/assets/img/fairytale/arrowLeft.png";
 // import arrowRight from "@/assets/img/fairytale/arrowRight.png";
 import ReplayModal from "@/components/replayModal";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { MainSoundState } from "@/states/common/voice";
 import { FairytaleSearchState } from "@/states/children/info";
 import { useChildrenLike } from "@/apis/children/like/Mutations/useChildrenLike";
 
@@ -535,6 +536,11 @@ const DogLike = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [isDisliked, setIsDisliked] = useState(false);
   const [isReplayModal, setIsReplayModal] = useState(false);
+  const setSoundData = useSetRecoilState(MainSoundState);
+
+  useEffect(() => {
+    setSoundData(true);
+  }, [setSoundData]);
 
   const handleButtonLike = () => {
     setIsHovered(!isHovered);

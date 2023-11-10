@@ -4,12 +4,14 @@ import arrowLeft from "@/assets/img/fairytale/arrowLeft.png";
 import arrowRight from "@/assets/img/fairytale/arrowRight.png";
 import { useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { MainSoundState } from "@/states/common/voice";
 import {
   fairytaleContentListState,
   fairytaleReadState,
 } from "@/states/children/info";
 import { ButtonEffect } from "@/styles/buttonEffect";
+import { useSoundBookEffect } from "@/components/sounds/soundBookEffect";
 
 const Background = styled.div`
   position: fixed;
@@ -84,8 +86,17 @@ const FairytaleReadPage = () => {
   const goLike = () => {
     // navigate("/children/like");
   };
+  const audioPlayerRef = useRef<HTMLAudioElement | null>(null);
+  setInfoFairytaleRead(fairytaleContentList);
+  const { playBookSound } = useSoundBookEffect();
+  const setSoundData = useSetRecoilState(MainSoundState);
+
+  useEffect(() => {
+    setSoundData(false);
+  }, [setSoundData]);
 
   const handleArrowRight = () => {
+    playBookSound();
     if (currentContentIndex < fairytaleContentList.length - 1) {
       setCurrentContentIndex(currentContentIndex + 1);
     } else if (
@@ -103,14 +114,28 @@ const FairytaleReadPage = () => {
     }
   };
 
+  console.log("5-currentPageIndex:" + currentPageIndex);
+  console.log("5-currentContentIndex:" + currentContentIndex);
+
   const handleArrowLeft = () => {
-    if (currentContentIndex > 0) {
-      setCurrentContentIndex(currentContentIndex - 1);
-    } else if (currentContentIndex === 0 && currentPageIndex > 0) {
+    playBookSound();
+    if (currentContentIndex === 0 && currentPageIndex > 0) {
+      console.log("2-currentPageIndex:" + currentPageIndex);
+      console.log("2-currentContentIndex:" + currentContentIndex);
       setCurrentPageIndex(currentPageIndex - 1);
-      setCurrentContentIndex(fairytaleContentList.length - 1);
+      setCurrentContentIndex(
+        fairytaleRead[currentPageIndex - 1].contentResDto.length - 1
+      );
+      console.log("3-currentPageIndex:" + currentPageIndex);
+      console.log("3-currentContentIndex:" + currentContentIndex);
+    } else if (currentContentIndex > 0) {
+      setCurrentContentIndex(currentContentIndex - 1);
+      console.log("1-currentPageIndex:" + currentPageIndex);
+      console.log("1-currentContentIndex:" + currentContentIndex);
     } else if (currentContentIndex === 0 && currentPageIndex === 0) {
       alert("처음이에여");
+      console.log("4-currentPageIndex:" + currentPageIndex);
+      console.log("4-currentContentIndex:" + currentContentIndex);
     }
   };
 
@@ -121,16 +146,28 @@ const FairytaleReadPage = () => {
   setInfoFairytaleRead(fairytaleRead[currentPageIndex].contentResDto);
 
   useEffect(() => {
+    if (audioPlayerRef.current) {
+      audioPlayerRef.current.pause();
+      audioPlayerRef.current = null;
+    }
+
     const audioPlayer = new Audio(voice);
 
-    audioPlayer.addEventListener("canplaythrough", () => {
+    const playAudio = () => {
       audioPlayer.play();
-    });
+      audioPlayer.removeEventListener("canplaythrough", playAudio);
+    };
+
+    audioPlayer.addEventListener("canplaythrough", playAudio);
+
+    audioPlayerRef.current = audioPlayer;
 
     return () => {
-      audioPlayer.pause();
-      audioPlayer.removeEventListener("canplaythrough", () => {});
-      audioPlayer.remove();
+      if (audioPlayerRef.current) {
+        audioPlayerRef.current.pause();
+        audioPlayerRef.current.removeEventListener("canplaythrough", playAudio);
+        audioPlayerRef.current.remove();
+      }
     };
   }, [voice]);
 

@@ -13,6 +13,7 @@ import {
 import { useChildrenLogin } from "@/apis/children/profile/Mutations/useChildrenLogin";
 import { ChildrenProfileProps } from "@/types/children/profileType";
 import { useEffect } from "react";
+import { useSoundEffect } from "@/components/sounds/soundEffect";
 
 const Background = styled.div`
   position: fixed;
@@ -42,6 +43,7 @@ const ChildrenProfilePage = () => {
   const profileList = useRecoilValue(profileListState);
   const [profileData, setProfileData] = useRecoilState(profileState);
   const [childrenLogin, setChildrenLogin] = useRecoilState(childrenLoginState);
+  const { playSound } = useSoundEffect();
 
   const navigate = useNavigate();
 
@@ -50,6 +52,7 @@ const ChildrenProfilePage = () => {
   console.log(profileList);
 
   const postLoginHandler = (profile: ChildrenProfileProps) => {
+    playSound();
     try {
       localStorage.removeItem("accessToken");
       setChildrenLogin({ childId: profile.childId, profileId: profile.id });
