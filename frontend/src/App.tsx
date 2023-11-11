@@ -15,17 +15,13 @@ function App() {
   const [play, { stop }] = useSound(mainSound, { volume });
 
   useEffect(() => {
+    // Subsequent playback when isPlaying changes
     if (isPlaying) {
       play();
     } else {
       stop();
     }
   }, [isPlaying, play, stop]);
-
-  useEffect(() => {
-    // 페이지가 로드될 때 메인 브금을 재생
-    setIsPlaying(true);
-  }, [setIsPlaying]);
 
   return (
     <div className="App h-screen">
