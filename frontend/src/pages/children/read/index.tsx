@@ -22,6 +22,7 @@ const Background = styled.div`
   height: 100%;
   background-size: cover;
   background-repeat: no-repeat;
+  background-position: center;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -81,7 +82,7 @@ const Header = styled.div`
 `;
 
 const ExitBtn = styled.img`
-  width: 15vh;
+  width: 12vh;
   ${ButtonEffect}
 `;
 
@@ -186,7 +187,7 @@ const FairytaleReadPage = () => {
   }, [voice]);
 
   const goMain = () => {
-    navigate("/children/main");
+    navigate("/children/fairytale");
   };
 
   return (
@@ -209,7 +210,15 @@ const FairytaleReadPage = () => {
             onClick={goMain}
           >
             <ExitBtn src={exitBtn}></ExitBtn>
-            <p style={{ fontSize: "7vh", color: "white" }}>나가기</p>
+            <p
+              style={{
+                fontSize: "5vh",
+                color: "#f25222",
+                textShadow: "2px 4px 2px rgba(0, 0, 0, 0.2)",
+              }}
+            >
+              나가기
+            </p>
           </div>
         </Header>
         <ArrowBox>
