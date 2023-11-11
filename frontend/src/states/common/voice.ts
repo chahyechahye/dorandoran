@@ -5,6 +5,6 @@ const { persistAtom } = recoilPersist();
 
 export const MainSoundState = atom<boolean>({
   key: "MainSound",
-  default: true,
+  default: false,
   effects_UNSTABLE: [persistAtom],
 });

@@ -187,6 +187,7 @@ const FairytaleReadPage = () => {
   }, [voice]);
 
   const goMain = () => {
+    setSoundData(true);
     navigate("/children/fairytale");
   };
 
