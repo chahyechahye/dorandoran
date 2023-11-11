@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 import { useSoundIntro } from "@/components/sounds/introSound";
@@ -149,13 +149,17 @@ const IntroPage = () => {
   const navigate = useNavigate();
   const { playIntroSound } = useSoundIntro();
   const [isPlaying, setIsPlaying] = useRecoilState(MainSoundState);
+  const [buttonClicked, setButtonClicked] = useState(false);
 
   const handleButtonClick = () => {
-    playIntroSound();
-    setTimeout(() => {
-      setIsPlaying(true);
-      navigate("/main");
-    }, 2000); // 3000 milliseconds = 3 seconds
+    if (!buttonClicked) {
+      setButtonClicked(true);
+      playIntroSound();
+      setTimeout(() => {
+        setIsPlaying(true);
+        navigate("/main");
+      }, 2000); // 2000 milliseconds = 2 seconds
+    }
   };
 
   return (
@@ -172,7 +176,12 @@ const IntroPage = () => {
         <AnimatedTextSpan>A</AnimatedTextSpan>
         <AnimatedTextSpan>N</AnimatedTextSpan>
       </AnimatedTextWrapper>
-      <StyledButton onClick={handleButtonClick}>들어가기</StyledButton>
+      <StyledButton
+        onClick={handleButtonClick}
+        style={{ pointerEvents: buttonClicked ? "none" : "auto" }}
+      >
+        들어가기
+      </StyledButton>
     </Container>
   );
 };

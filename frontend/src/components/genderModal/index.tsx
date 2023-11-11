@@ -3,6 +3,7 @@ import styled from "styled-components";
 import momRead from "@/assets/img/momRead.png";
 import FatherRead from "@/assets/img/FatherRead.png";
 import { FaCheck } from "react-icons/fa"; // Import the check icon from React Icons
+import { useGetReadCheck } from "@/apis/children/fairytale/Queries/useReadCheck";
 
 const Container = styled.div<{ selectedOption: string }>`
   position: fixed;
@@ -107,30 +108,36 @@ const CustomRadio = styled.label`
 `;
 
 interface GenderModalProps {
-  onGenderSelected: (selectedOption: string) => void; // 함수 타입으로 명시
+  onGenderSelected: (selectedOption: string) => void;
 }
 
 const GenderModal = ({ onGenderSelected }: GenderModalProps) => {
+  const ReadCheck = useGetReadCheck();
+
+  console.log(ReadCheck);
+
+  const data = {
+    femaleAble: false,
+    maleAble: true,
+  };
+
   const [selectedOption, setSelectedOption] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(true);
 
   const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedOption(event.target.value);
-    if (event.target.value === "엄마") {
-      onGenderSelected("FEMALE");
-    } else {
-      onGenderSelected("MALE");
-    }
+    onGenderSelected(event.target.value);
 
-    // 사용자가 '엄마' 또는 '아빠'를 선택한 후 3초 후에 모달을 닫도록 설정
+    // Close the modal after 3 seconds
     setTimeout(() => {
       setIsModalOpen(false);
-    }, 1000); // 3초 (3000 밀리초) 후에 모달을 닫음
+    }, 3000);
   };
 
+  // Modify options based on the values of femaleAble and maleAble
   const options = [
-    { value: "엄마", image: momRead },
-    { value: "아빠", image: FatherRead },
+    { value: "엄마", image: momRead, visible: data.femaleAble },
+    { value: "아빠", image: FatherRead, visible: data.maleAble },
   ];
 
   return (
@@ -140,29 +147,32 @@ const GenderModal = ({ onGenderSelected }: GenderModalProps) => {
           <MainContainer>
             <H2>누가 동화책을 읽어줄까요?</H2>
             <RadioButtonsContainer>
-              {options.map((option) => (
-                <CustomRadio key={option.value}>
-                  <CustomRadioInput
-                    type="radio"
-                    name="radio"
-                    value={option.value}
-                    checked={selectedOption === option.value}
-                    onChange={handleRadioChange}
-                    disabled={Boolean(selectedOption)}
-                  />
-                  <RadioBtn>
-                    <RadioBtnIcon size={50} color="#ffffff" />
-                    <HobbiesIcon>
-                      <HobbiesIconImage
-                        src={option.image}
-                        alt={option.value}
-                        isGray={selectedOption !== option.value}
+              {options.map(
+                (option) =>
+                  option.visible && (
+                    <CustomRadio key={option.value}>
+                      <CustomRadioInput
+                        type="radio"
+                        name="radio"
+                        value={option.value}
+                        checked={selectedOption === option.value}
+                        onChange={handleRadioChange}
+                        disabled={Boolean(selectedOption)}
                       />
-                      <HobbiesIconText>{option.value}</HobbiesIconText>
-                    </HobbiesIcon>
-                  </RadioBtn>
-                </CustomRadio>
-              ))}
+                      <RadioBtn>
+                        <RadioBtnIcon size={50} color="#ffffff" />
+                        <HobbiesIcon>
+                          <HobbiesIconImage
+                            src={option.image}
+                            alt={option.value}
+                            isGray={selectedOption !== option.value}
+                          />
+                          <HobbiesIconText>{option.value}</HobbiesIconText>
+                        </HobbiesIcon>
+                      </RadioBtn>
+                    </CustomRadio>
+                  )
+              )}
             </RadioButtonsContainer>
           </MainContainer>
         </Container>

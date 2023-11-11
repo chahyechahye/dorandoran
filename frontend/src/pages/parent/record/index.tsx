@@ -13,6 +13,8 @@ import Logo from "@/assets/img/Logo.png";
 import { usePostVoiceComplete } from "@/apis/parents/record/Mutations/usePostVoicecomplete";
 import { useNavigate } from "react-router-dom";
 import { useSoundEffect } from "@/components/sounds/soundEffect";
+import { MainSoundState } from "@/states/common/voice";
+import { useRecoilState } from "recoil";
 
 const Container = styled.div`
   position: fixed;
@@ -95,6 +97,17 @@ const ParentRecordPage = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [currentScriptNum, setCurrentScriptNum] = useState(0);
   const [scriptReadNum, setScriptReadNum] = useState([0, 0, 0]);
+  const [isPlaying, setIsPlaying] = useRecoilState(MainSoundState);
+
+  useEffect(() => {
+    // This effect runs when the component mounts (on page enter)
+    setIsPlaying(false);
+
+    // Return a cleanup function to handle component unmounting (on page leave)
+    return () => {
+      setIsPlaying(true);
+    };
+  }, [setIsPlaying]);
 
   const OpenAlarmModal = () => {
     setIsAlarmModalOpen(true);
@@ -194,14 +207,25 @@ const ParentRecordPage = () => {
   const playAudio = () => {
     if (audioUrl && audioPlayerRef.current) {
       audioPlayerRef.current.src = URL.createObjectURL(audioUrl);
-      audioPlayerRef.current.play();
+      audioPlayerRef.current.volume = 1.0;
 
-      audioPlayerRef.current.addEventListener("ended", () => {
-        setSoundEnd(true);
-        setTimeout(() => {
-          setSoundEnd(false);
-        }, 1000);
-      });
+      // Check for user interaction before playing
+      const playPromise = audioPlayerRef.current.play();
+
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            // Audio playback started successfully
+            setSoundEnd(true);
+            setTimeout(() => {
+              setSoundEnd(false);
+            }, 1000);
+          })
+          .catch((error) => {
+            // Auto-play was prevented
+            console.error("Auto-play prevented:", error);
+          });
+      }
     }
   };
 
@@ -213,7 +237,10 @@ const ParentRecordPage = () => {
       lastModified: new Date().getTime(),
       type: "audio/wav",
     });
-    recordVoice.mutateAsync({ file: sound, gender: selectedGender });
+
+    const setGender: string = selectedGender === "아빠" ? "MALE" : "FEMALE";
+
+    recordVoice.mutateAsync({ file: sound, gender: setGender });
     console.log(sound);
   }, [audioUrl, recordVoice, selectedGender]);
 
