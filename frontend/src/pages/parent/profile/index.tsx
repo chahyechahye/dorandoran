@@ -34,12 +34,12 @@ const Content = styled.main`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 3vh;
+  margin-bottom: 4vh;
 `;
 
 const Image = styled.img`
   width: 45%;
-  padding-bottom: 8vh;
+  padding-bottom: 4vh;
 `;
 
 const Overlay = styled.div`
@@ -120,7 +120,7 @@ const ParentProfilePage = () => {
               }}
               onClick={OpenRegistModal}
             >
-              <ProfileCircle profileImage="" />
+              <ProfileCircle profileImage="" profileName="" />
             </div>
           )}
         </Content>
