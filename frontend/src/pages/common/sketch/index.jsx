@@ -22,6 +22,9 @@ import Logo from "@/assets/img/logo/logo.png";
 
 import html2canvas from "html2canvas";
 import sketchBackground from "@/assets/img/sketchBackground.png";
+import { background } from "@/assets/img/background/backgroundMain.jpg";
+
+import letterSend from "@/assets/img/letter/letterSend.png";
 
 const Body = styled.div`
   width: 100%;
@@ -99,7 +102,6 @@ const RefreshButton = styled.div`
   background-size: contain;
   background-repeat: no-repeat;
   bottom: 18px;
-  cursor: pointer;
   height: 26px;
   padding: 4px 1px 0px;
   position: absolute;
@@ -118,11 +120,17 @@ const RefreshButton = styled.div`
 `;
 
 const SubmitButton = styled.button`
-  bottom: 27px;
+  bottom: 18px;
   display: none;
   position: absolute;
   right: 30px;
   z-index: 4;
+  background: url(${letterSend});
+  width: 20vh;
+  height: 20vh;
+  background-size: contain;
+  background-repeat: no-repeat;
+  border: none;
 
   @media (min-width: 1024px) {
     display: block;
@@ -568,17 +576,21 @@ const SketchPage = () => {
       <Background />
 
       <Colours className="colours">
-        {colors.map((color, index) => (
-          <ColourItem
-            key={index}
-            onClick={() => {
-              setCurrentColorIndex(index);
-              setPreviousColorIndex(index);
-              setPencilThickness(pencilPathDefaults.minThickness);
-              clearBufferCanvas();
-            }}
-          ></ColourItem>
-        ))}
+        {colors.map(
+          (color, index) =>
+            // index가 7이 아닌 경우에만 ColourItem을 생성
+            index !== 8 && (
+              <ColourItem
+                key={index}
+                onClick={() => {
+                  setCurrentColorIndex(index);
+                  setPreviousColorIndex(index);
+                  setPencilThickness(pencilPathDefaults.minThickness);
+                  clearBufferCanvas();
+                }}
+              ></ColourItem>
+            )
+        )}
       </Colours>
 
       <RefreshButton
@@ -587,12 +599,21 @@ const SketchPage = () => {
       ></RefreshButton>
 
       <MainLogo className="main" onClick={handleExit} />
-      <SubmitButton className="submit-button" onClick={capturePage}>
-        Save
-      </SubmitButton>
+      <SubmitButton
+        className="submit-button"
+        onClick={capturePage}
+      ></SubmitButton>
       <ExitContainer className="exit-button" onClick={handleExit}>
         <ExitBtn src={exitBtn}></ExitBtn>
-        <p style={{ fontSize: "5vh" }}>나가기</p>
+        <p
+          style={{
+            fontSize: "5vh",
+            color: "#f25222",
+            textShadow: "2px 4px 2px rgba(0, 0, 0, 0.2)",
+          }}
+        >
+          나가기
+        </p>
       </ExitContainer>
 
       <DrawingCanvas ref={canvasRef}></DrawingCanvas>
