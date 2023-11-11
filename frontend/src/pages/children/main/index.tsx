@@ -22,7 +22,6 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { profileState, selectAnimalState } from "@/states/children/info";
 import { useGetLetterList } from "@/apis/common/letter/Queries/useGetLetter";
 import { usePostLetterRead } from "@/apis/common/letter/Mutations/usePostLetterRead";
-import { useSoundEffect } from "@/components/sounds/soundEffect";
 
 import movables from "@/assets/img/movables.png";
 
@@ -297,7 +296,7 @@ const CastleContainer = styled.div`
 `;
 
 const Castle = styled.img`
-  width: 140vh;
+  width: 100%;
 `;
 
 const Camera = styled.img`
@@ -430,14 +429,12 @@ const ChildrenMainPage = () => {
   const letterSize = LetterList.data.size;
   const letterContent = LetterList.data.letterResDtoList;
   const readLetterList = usePostLetterRead();
-  const { playSound } = useSoundEffect();
 
   const profile = useRecoilValue(profileState);
 
   const navigate = useNavigate();
 
   const goFairytale = () => {
-    playSound();
     navigate("/children/fairytale");
   };
 
@@ -471,21 +468,18 @@ const ChildrenMainPage = () => {
   }, [letterSize, flag, readLetterList]);
 
   const handleLeftClick = () => {
-    playSound();
     if (isLetterPage > 0) {
       setIsLetterPage(isLetterPage - 1);
     }
   };
 
   const handleRightClick = () => {
-    playSound();
     if (isLetterPage < letterSize) {
       setIsLetterPage(isLetterPage + 1);
     }
   };
 
   const handleOpenAlbum = () => {
-    playSound();
     setIsOpenAlbum(true);
   };
 
@@ -524,11 +518,13 @@ const ChildrenMainPage = () => {
             </div>
             <LetterRead src={letterContent[isLetterPage].contentUrl} />
             <ArrowBox>
-              {letterSize === 1 ? null : isLetterPage === 0 ? (
+              {isLetterPage === 0 && (
                 <ArrowRight src={arrowRight} onClick={handleRightClick} />
-              ) : isLetterPage === letterSize - 1 ? (
+              )}
+              {isLetterPage === letterSize - 1 && (
                 <ArrowLeft src={arrowLeft} onClick={handleLeftClick} />
-              ) : (
+              )}
+              {isLetterPage !== 0 && isLetterPage !== letterSize - 1 && (
                 <>
                   <ArrowLeft src={arrowLeft} onClick={handleLeftClick} />
                   <ArrowRight src={arrowRight} onClick={handleRightClick} />
@@ -559,18 +555,12 @@ const ChildrenMainPage = () => {
         </Airplane>
         <CastleContainer>
           <Castle src={castle} />
-          <PostOffice
-            src={postOffice}
-            onClick={() => {
-              playSound();
-              navigate("/children/sketch");
-            }}
-          />
+          <PostOffice src={postOffice} onClick={() => navigate("/sketch")} />
           <Books src={books} onClick={goFairytale} />
           <Camera src={camera} onClick={handleOpenAlbum} />
         </CastleContainer>
         <Profile>
-          <ProfileCircle type="child" onClick={playSound} />
+          <ProfileCircle type="child" />
         </Profile>
         <Character src={character} />
         <Movables src={movables} />
