@@ -205,6 +205,7 @@ const ParentRecordPage = () => {
   const playAudio = () => {
     if (audioUrl && audioPlayerRef.current) {
       audioPlayerRef.current.src = URL.createObjectURL(audioUrl);
+      audioPlayerRef.current.volume = 1.0; // 볼륨 설정
       audioPlayerRef.current.play();
 
       audioPlayerRef.current.addEventListener("ended", () => {
