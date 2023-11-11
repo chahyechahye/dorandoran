@@ -25,6 +25,21 @@ import { usePostLetterRead } from "@/apis/common/letter/Mutations/usePostLetterR
 
 import movables from "@/assets/img/movables.png";
 
+const castleAnimation = keyframes`
+  0% {
+    transform: translateY(-2.5vh);
+  }
+  50% {
+    transform: translateY(2.5vh);
+  }
+  90% {
+    transform: translateY(-2.5vh);
+  }
+  100% {
+    transform: translateY(-2.5vh);
+  }
+`;
+
 const Movables = styled.img`
   width: 100%;
   position: fixed;
@@ -297,6 +312,7 @@ const CastleContainer = styled.div`
 
 const Castle = styled.img`
   width: 100%;
+  animation: ${castleAnimation} 3s infinite;
 `;
 
 const Camera = styled.img`
@@ -339,7 +355,7 @@ const Profile = styled.div`
   position: absolute;
   z-index: 6;
   top: 2%;
-  left: 90%;
+  left: 89%;
 `;
 
 const LetterGif = styled.div<{ isLetter: boolean }>`
@@ -562,7 +578,7 @@ const ChildrenMainPage = () => {
         <Profile>
           <ProfileCircle type="child" />
         </Profile>
-        <Character src={character} />
+        <Character src={profile.animal.imgUrl} />
         <Movables src={movables} />
       </ContentContainer>
       {isOpenAlbum && <Overlay onClick={handleCloseAlbum} />}
