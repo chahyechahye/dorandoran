@@ -49,7 +49,7 @@ const Header = styled.header`
   position: fixed;
   top: 0;
   left: 0;
-  padding: 1.5vh;
+  padding-top: 1.5vh;
 `;
 
 const Content = styled.main`
