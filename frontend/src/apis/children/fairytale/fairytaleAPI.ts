@@ -20,4 +20,13 @@ const postFairytaleRead = async (FairytaleSearchData: FairytaleSearchProps) => {
   }
 };
 
-export { getFairytaleList, postFairytaleRead };
+const getReadCheck = async () => {
+  try {
+    const response = await instance.get(`/content/voice/check`);
+    return response.data;
+  } catch {
+    new Error("api 연동 오류 - getReadCheck");
+  }
+};
+
+export { getFairytaleList, postFairytaleRead, getReadCheck };

@@ -11,6 +11,8 @@ import GenderModal from "@/components/genderModal";
 import background from "@/assets/img/background/backgroundRecord.jpg";
 import Logo from "@/assets/img/Logo.png";
 import { usePostVoiceComplete } from "@/apis/parents/record/Mutations/usePostVoicecomplete";
+import { MainSoundState } from "@/states/common/voice";
+import { useRecoilState } from "recoil";
 
 const Container = styled.div`
   position: fixed;
@@ -93,6 +95,17 @@ const ParentRecordPage = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [currentScriptNum, setCurrentScriptNum] = useState(0);
   const [scriptReadNum, setScriptReadNum] = useState([0, 0, 0]);
+  const [isPlaying, setIsPlaying] = useRecoilState(MainSoundState);
+
+  useEffect(() => {
+    // This effect runs when the component mounts (on page enter)
+    setIsPlaying(false);
+
+    // Return a cleanup function to handle component unmounting (on page leave)
+    return () => {
+      setIsPlaying(true);
+    };
+  }, [setIsPlaying]);
 
   const OpenAlarmModal = () => {
     setIsAlarmModalOpen(true);
