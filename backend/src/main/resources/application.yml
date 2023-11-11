@@ -37,8 +37,8 @@ spring:
         credentials:
           location: rd-ssafy-project-ebd0eea46d3e.json
         project-id: rd-ssafy-project
-        #        bucket: ssafy-last-project
-        bucket: dorandoran
+        bucket: ssafy-last-project
+  #        bucket: dorandoran
   data:
     redis:
       port: 6379
