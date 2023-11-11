@@ -7,6 +7,7 @@ interface AnimalProps {
   id: number;
   name: string;
   imgUrl: string;
+  color: string;
 }
 
 interface ChildrenProfileProps {
