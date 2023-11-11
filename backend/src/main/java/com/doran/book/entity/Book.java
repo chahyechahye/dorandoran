@@ -30,4 +30,7 @@ public class Book {
 
     @Column(nullable = true)
     private String publisher;
+
+    @Column(name = "img_url2", nullable = true)
+    private String imgUrl2;
 }
