@@ -579,13 +579,9 @@ const FairyTalePage = () => {
             {fairytaleList.map(
               (fairytale: FairytaleListProps, index: number) => (
                 <div key={index} className={`card card0${index}`}>
-                  <CardContent>
+                  <CardContent onClick={() => fairytaleHandler(fairytale)}>
                     <CardCircle></CardCircle>
-                    <Image
-                      src={fairytale.imgUrl}
-                      alt={fairytale.title}
-                      onClick={() => fairytaleHandler(fairytale)}
-                    />
+                    <Image src={fairytale.imgUrl} alt={fairytale.title} />
                     {/* RT 이미지 경로로 변경 */}
                     <CardTitle>{fairytale.title}</CardTitle>
                     <p className="card-subtitle"></p>
