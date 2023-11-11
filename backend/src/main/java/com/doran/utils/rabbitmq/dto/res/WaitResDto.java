@@ -1,9 +1,9 @@
 package com.doran.utils.rabbitmq.dto.res;
 
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
-@AllArgsConstructor
+@Builder
 @Getter
 public class WaitResDto {
     private Integer count;
