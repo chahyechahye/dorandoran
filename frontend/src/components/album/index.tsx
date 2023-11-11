@@ -81,7 +81,7 @@ const PageLeft = styled.div`
     background: #00ff0000;
     position: absolute;
     width: 45vh;
-    top: 50%;
+    top: 52%;
     left: 60%;
     transform: translate(-50%, -50%);
     overflow: auto; /* Apply overflow inside the padding */
@@ -94,11 +94,12 @@ const PageLeft = styled.div`
     max-height: 15%; /* Adjust the max-height of the images */
     width: auto;
     height: auto;
-    background-color: #fff;
-    padding: 0.5rem;
+    background-color: #fffcf3;
+    padding: 0.35rem;
     margin: 0.5rem;
     display: inline-block;
     transition: 1.5s;
+    border-radius: 0.5vh;
 
     &:hover,
     &.active {
@@ -111,18 +112,19 @@ const PageLeft = styled.div`
 const PageRight = styled.div`
   img {
     position: absolute;
-    left: 30vh;
-    top: 36vh;
+    left: 28.5vh;
+    top: 37.5vh;
     transform: translate(-50%, -50%);
-    max-width: 50vh;
-    max-height: 50vh;
+    max-width: 49vh;
+    max-height: 49vh;
     opacity: 0;
     transition:
       0.8s,
       opacity 0.45s 0.15s;
     filter: blur(32px);
-    background-color: #fff;
-    padding: 1rem;
+    background-color: #fffcf3;
+    padding: 0.75rem;
+    border-radius: 0.5vh;
 
     &.active {
       filter: blur(0px);
@@ -152,7 +154,7 @@ const Header = styled.div`
 `;
 
 const ExitBtn = styled.img`
-  width: 15vh;
+  width: 12vh;
   ${ButtonEffect}
 `;
 
@@ -223,7 +225,15 @@ const Album = ({ onClose, type }: { onClose: () => void; type?: string }) => {
           }}
         >
           <ExitBtn src={exitBtn}></ExitBtn>
-          <p style={{ fontSize: "7vh" }}>나가기</p>
+          <p
+            style={{
+              fontSize: "5vh",
+              color: "#f25222",
+              textShadow: "2px 4px 2px rgba(0, 0, 0, 0.2)",
+            }}
+          >
+            나가기
+          </p>
         </CloseButton>
       </Header>
       <Book>

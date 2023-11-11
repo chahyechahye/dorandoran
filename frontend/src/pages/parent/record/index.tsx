@@ -11,6 +11,8 @@ import GenderModal from "@/components/genderModal";
 import background from "@/assets/img/background/backgroundRecord.jpg";
 import Logo from "@/assets/img/Logo.png";
 import { usePostVoiceComplete } from "@/apis/parents/record/Mutations/usePostVoicecomplete";
+import { useNavigate } from "react-router-dom";
+import { useSoundEffect } from "@/components/sounds/soundEffect";
 import { MainSoundState } from "@/states/common/voice";
 import { useRecoilState } from "recoil";
 
@@ -250,11 +252,19 @@ const ParentRecordPage = () => {
     setSelectedGender(selectedOption);
   };
 
+  const navigate = useNavigate();
+  const { playSound } = useSoundEffect();
+
+  const goProfile = () => {
+    playSound();
+    navigate("/parent/main");
+  };
+
   return (
     <>
       <GenderModal onGenderSelected={handleGenderSelection} />
       <Container>
-        <Image src={Logo} alt="Background" />
+        <Image src={Logo} alt="Background" onClick={goProfile} />
         <div
           style={{
             display: "flex",
@@ -263,7 +273,7 @@ const ParentRecordPage = () => {
             width: "100vh",
           }}
         >
-          <p style={{ fontSize: "5vh", color: "#6884F6" }}>
+          <p style={{ fontSize: "5vh", color: "#6d85e1" }}>
             {currentPage + 1}. {scriptData[currentPage].title}
           </p>
           <div
