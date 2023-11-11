@@ -26,17 +26,11 @@ import { usePostLetterRead } from "@/apis/common/letter/Mutations/usePostLetterR
 import movables from "@/assets/img/movables.png";
 
 const castleAnimation = keyframes`
-  0% {
+  0%, 100% {
     transform: translateY(-2.5vh);
   }
   50% {
     transform: translateY(2.5vh);
-  }
-  90% {
-    transform: translateY(-2.5vh);
-  }
-  100% {
-    transform: translateY(-2.5vh);
   }
 `;
 
@@ -308,11 +302,11 @@ const CastleContainer = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
+  animation: ${castleAnimation} 3s infinite;
 `;
 
 const Castle = styled.img`
   width: 100%;
-  animation: ${castleAnimation} 3s infinite;
 `;
 
 const Camera = styled.img`
