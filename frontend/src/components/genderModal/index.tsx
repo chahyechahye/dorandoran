@@ -138,7 +138,7 @@ const GenderModal = ({ onGenderSelected }: GenderModalProps) => {
       {isModalOpen && (
         <Container selectedOption={selectedOption}>
           <MainContainer>
-            <H2>누가 동화책을 읽어줄까?</H2>
+            <H2>누가 동화책을 읽어줄까요?</H2>
             <RadioButtonsContainer>
               {options.map((option) => (
                 <CustomRadio key={option.value}>
