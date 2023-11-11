@@ -59,20 +59,22 @@ const additionalStyles = css`
   }
 
   .card00 {
-    background: #5a88d9;
+    background: #f0a652;
+    color: white;
   }
 
   .card01 {
-    background: #aa935f;
+    background: #77b29f;
     color: white;
   }
 
   .card02 {
-    background: #c00503;
+    background: #be93e2;
+    color: white;
   }
 
   .card03 {
-    background: #1460c4;
+    background: #657dde;
     color: white;
   }
 
@@ -141,10 +143,13 @@ const Wrapper = styled.div`
 `;
 
 const Title = styled.h1`
-  font-size: 8vh;
+  font-size: 7vh;
   text-align: center;
-  margin-top: 10vh;
+  // 상단 타이틀, 양옆 화살표, 동그라미 위치 변경
+  margin-top: 14vh;
   transition: 1.5s all;
+  color: #ffffff;
+  text-shadow: 2px 4px 2px rgba(0, 0, 0, 0.2);
 `;
 
 const Image = styled.img`
@@ -157,6 +162,8 @@ const Cards = styled.div`
   opacity: 0;
   height: 100vh;
   position: relative;
+  // 양쪽 화살표와 아래 넘겨지는 동그라미 변동
+  margin-top: 1.5vh;
 `;
 
 const CardCircleAnimation = keyframes`
@@ -164,16 +171,16 @@ const CardCircleAnimation = keyframes`
     transform: translate(0, 0);
   }
   50% {
-    transform: translate(-5px);
+    transform: translate(-3vh);
   }
   100% {
-    transform: translate(5px, 0);
+    transform: translate(3vh, 0);
   }
 `;
 
 const CardCircle = styled.div`
-  height: 30vh;
-  width: 30vh;
+  height: 35vh;
+  width: 35vh;
   border-radius: 50%;
   background: red;
   z-index: -1;
@@ -184,12 +191,16 @@ const CardCircle = styled.div`
   background-size: cover;
   border: 2px solid;
   animation: ${CardCircleAnimation} 5s linear 0s infinite alternate;
+  // 하늘 배경 이미지 변동
+  margin-top: 2vh;
 `;
 
 const CardContent = styled.div`
   font-size: 20px;
   text-transform: lowercase;
   font-style: italic;
+  // 타이틀과 표지캐릭터 이미지 변동
+  margin-top: 8vh;
 `;
 
 const CardButton = styled.button`
@@ -205,6 +216,8 @@ const CardButton = styled.button`
   position: absolute;
   top: 20vh;
   z-index: 1;
+  // 양 옆 화살표 버튼 변경
+  margin-top: 6vh;
 
   &.next {
     left: auto;
@@ -246,8 +259,9 @@ const CardButton = styled.button`
 `;
 
 const CardTitle = styled.h2`
-  font-size: 70px;
-  margin-top: 30px;
+  font-size: 8.5vh;
+  margin-top: 3vh;
+  text-shadow: 2px 4px 2px rgba(0, 0, 0, 0.2);
 `;
 
 const Header = styled.div`
@@ -261,7 +275,7 @@ const Header = styled.div`
 `;
 
 const ExitBtn = styled.img`
-  width: 15vh;
+  width: 12vh;
   ${ButtonEffect}
 `;
 
@@ -306,10 +320,10 @@ const FairyTalePage = () => {
   };
 
   const cardColors = {
-    card00: "#5a88d9",
-    card01: "#aa935f",
-    card02: "#c00503",
-    card03: "#1460c4",
+    card00: "#f0a652",
+    card01: "#77B29F",
+    card02: "#be93e2",
+    card03: "#657dde",
   };
 
   useEffect(() => {
@@ -542,11 +556,19 @@ const FairyTalePage = () => {
             onClick={goMain}
           >
             <ExitBtn src={exitBtn}></ExitBtn>
-            <p style={{ fontSize: "7vh", color: "white" }}>나가기</p>
+            <p
+              style={{
+                fontSize: "5vh",
+                color: "#f25222",
+                textShadow: "2px 4px 2px rgba(0, 0, 0, 0.2)",
+              }}
+            >
+              나가기
+            </p>
           </div>
         </Header>
         <Wrapper>
-          <Title>어느 동화책을 읽고싶니?</Title>
+          <Title>어느 동화책을 읽을까요?</Title>
           <Cards className="cards">
             <CardButton className="btn prev">
               <span>Prev</span>
@@ -566,7 +588,7 @@ const FairyTalePage = () => {
                     />
                     {/* RT 이미지 경로로 변경 */}
                     <CardTitle>{fairytale.title}</CardTitle>
-                    <p className="card-subtitle">Whatever, Ill be at Moes.</p>
+                    <p className="card-subtitle"></p>
                   </CardContent>
                 </div>
               )
