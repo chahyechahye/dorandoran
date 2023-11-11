@@ -45,7 +45,7 @@ public class BucketService {
                     .build(),
                 dto.getFile().getInputStream()
             );
-            String URL = "https://storage.googleapis.com/ssafy-last-project/";
+            String URL = "https://storage.googleapis.com/" + bucket + "/";
             return URL + uuid;
         } catch (IOException e) {
             log.info(e.getMessage());
