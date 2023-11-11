@@ -555,7 +555,10 @@ const ChildrenMainPage = () => {
         </Airplane>
         <CastleContainer>
           <Castle src={castle} />
-          <PostOffice src={postOffice} onClick={() => navigate("/sketch")} />
+          <PostOffice
+            src={postOffice}
+            onClick={() => navigate("/children/sketch")}
+          />
           <Books src={books} onClick={goFairytale} />
           <Camera src={camera} onClick={handleOpenAlbum} />
         </CastleContainer>
