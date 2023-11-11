@@ -48,6 +48,7 @@ export const profileState = atom<ChildrenProfileProps>({
       id: 0,
       name: "",
       imgUrl: "",
+      color: "",
     },
     name: "",
   },
@@ -68,6 +69,7 @@ export const AnimalState = atom<AnimalProps>({
     id: 0,
     name: "",
     imgUrl: "",
+    color: "",
   },
   effects_UNSTABLE: [persistAtom],
 });
@@ -78,6 +80,7 @@ export const selectAnimalState = atom<AnimalProps>({
     id: 0,
     name: "",
     imgUrl: "",
+    color: "",
   },
   effects_UNSTABLE: [persistAtom],
 });

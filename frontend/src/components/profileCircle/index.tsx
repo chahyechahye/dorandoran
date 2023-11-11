@@ -32,12 +32,20 @@ const Plus = styled.span`
 `;
 
 const Name = styled.p`
-  color: #312070;
+  color: #224545;
   font-size: 30px;
+  margin-top: 1vh;
 `;
 
 const ProfileImage = styled.img`
   width: 7vh;
+`;
+
+const ProfileContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;
 
 const ProfileCircle = ({
@@ -54,7 +62,7 @@ const ProfileCircle = ({
   const animalImg = useRecoilValue(profileState);
 
   const navigate = useNavigate();
-
+  console.log("animalImg" + animalImg);
   const goCharacter = () => {
     if (type === "child") {
       navigate("/children/character");
@@ -62,7 +70,7 @@ const ProfileCircle = ({
   };
 
   return (
-    <div onClick={goCharacter}>
+    <ProfileContainer onClick={goCharacter}>
       <OuterCircle onClick={onClick}>
         <InnerCircle>
           {profileImage === "" ? (
@@ -72,8 +80,8 @@ const ProfileCircle = ({
           )}
         </InnerCircle>
       </OuterCircle>
-      <Name>{profileName}</Name>
-    </div>
+      <Name>{animalImg.name}</Name>
+    </ProfileContainer>
   );
 };
 
