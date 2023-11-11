@@ -81,7 +81,7 @@ const ChildrenProfilePage = () => {
             <ChildCard
               key={index}
               img={profile.animal.imgUrl}
-              backgroundColor="#26C917"
+              backgroundColor={profile.animal.color}
               text={profile.name}
               onClick={() => postLoginHandler(profile)}
             />
