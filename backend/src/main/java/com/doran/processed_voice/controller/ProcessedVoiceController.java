@@ -85,7 +85,7 @@ public class ProcessedVoiceController {
         UserInfo info = Auth.getInfo();
 
         int parentUserId = parentService.getParentUserId(info.getUserId(), String.valueOf(info.getUserRole()));
-
+        log.info("녹음 체킹 ParentUserId" + parentUserId);
 
         return CommonResponseEntity.getResponseEntity(SuccessCode.SUCCESS_CODE,
             processedVoiceService.checkRecording(parentUserId));

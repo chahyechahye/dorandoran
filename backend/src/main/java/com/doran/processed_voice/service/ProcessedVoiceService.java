@@ -1,6 +1,7 @@
 package com.doran.processed_voice.service;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.springframework.stereotype.Service;
 
@@ -86,16 +87,18 @@ public class ProcessedVoiceService {
 
         for (PVQueResDto pv : voiceResMessage.getPvList()) {
             Content content = contentService.getContentById(pv.getContentId());
-            ProcessedVoice processedVoice = processedVoiceMapper.toProcessedVoice(content, user, pv.getVoiceUrl(), voiceResMessage.getGenders());
+            ProcessedVoice processedVoice = processedVoiceMapper.toProcessedVoice(content, user, pv.getVoiceUrl(),
+                voiceResMessage.getGenders());
             processedVoiceRepository.save(processedVoice);
         }
     }
 
     //가공 목소리가 존재하는지 체킹 해주는 메소드
     public RecordCheckDto checkRecording(int parentUserId) {
-        Record record = recordService.findById(String.valueOf(parentUserId)).orElseThrow();
+        Record record = recordService.findById(String.valueOf(parentUserId))
+            .orElseGet(() -> new Record(String.valueOf(parentUserId), false, false));
 
         return recordMapper.toCheckDto(record);
     }
-
 }
+

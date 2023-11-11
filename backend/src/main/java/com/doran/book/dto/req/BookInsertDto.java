@@ -15,4 +15,5 @@ public class BookInsertDto {
     private MultipartFile multipartFile;
     private String author;
     private String publisher;
+    private MultipartFile multipartFile2;
 }

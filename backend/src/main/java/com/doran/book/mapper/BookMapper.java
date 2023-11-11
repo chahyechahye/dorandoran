@@ -11,7 +11,7 @@ import com.doran.book.entity.Book;
 
 @Mapper(componentModel = "spring")
 public interface BookMapper {
-    Book bookInsertToBook(BookInsertDto bookInsertDto, String imgUrl);
+    Book bookInsertToBook(BookInsertDto bookInsertDto, String imgUrl, String imgUrl2);
     @Mapping(source = "id", target = "bookId")
     BookResDto bookToResDto(Book book);
     List<BookResDto> toDtoList(List<Book> bookList);

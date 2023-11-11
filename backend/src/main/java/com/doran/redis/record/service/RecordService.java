@@ -2,7 +2,6 @@ package com.doran.redis.record.service;
 
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.doran.redis.record.key.Record;
@@ -20,8 +19,9 @@ public class RecordService {
     private final RecordRepository recordRepository;
     private final RecordMapper recordMapper;
 
-    public void save(Record record) {
+    public Record save(Record record) {
         recordRepository.save(record);
+        return record;
     }
 
     public Optional<Record> findById(String id) {

@@ -10,8 +10,9 @@ import lombok.Setter;
 public class BookResDto {
     private int bookId;
     private String title;
-    private String imgUrl;
+    private String characterUrl;
     private String author;
     private String publisher;
     private long totalPageCnt;
+    private String imgUrl;
 }

@@ -36,13 +36,18 @@ public class BookService {
     }
 
     // 책 등록
-    public Book insertBook(BookInsertDto bookInsertDto) throws IOException {
-        //버킷 업로드
+    public Book insertBook(BookInsertDto bookInsertDto) {
+        //버킷 업로드 (imgUrl)
         InsertDto insertDto = bucketMapper.bookInsertToBucket(bookInsertDto);
         String imgUrl = bucketService.insertFile(insertDto);
 
+        //버킷 업로드 (imgUrl2)
+        insertDto = bucketMapper.bookInsertToBucket(bookInsertDto.getMultipartFile2(),
+            bookInsertDto.getTitle());
+        String imgUrl2 = bucketService.insertFile(insertDto);
+
         // DB 업로드
-        return bookRepository.save(bookMapper.bookInsertToBook(bookInsertDto, imgUrl));
+        return bookRepository.save(bookMapper.bookInsertToBook(bookInsertDto, imgUrl, imgUrl2));
     }
 
     //책 조회

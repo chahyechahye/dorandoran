@@ -18,13 +18,17 @@ public class BookRepositoryImpl implements BookRepositoryCustom {
 
     @Override
     public List<BookResDto> findBookWithPageCnt() {
+        //헷갈림 주의!!!!!!
+        // db의 imgUrl 컬럼 = characterUrl
+        // db의 imgUrl2 컬럼 = imgUrl
         return jpaQueryFactory
             .select(Projections.fields(BookResDto.class,
                 book.id.as("bookId"),
                 book.title.as("title"),
-                book.imgUrl.as("imgUrl"),
+                book.imgUrl.as("characterUrl"),
                 book.author.as("author"),
                 book.publisher.as("publisher"),
+                book.imgUrl2.as("imgUrl"),
                 page.count().as("totalPageCnt")
             ))
             .from(page)
