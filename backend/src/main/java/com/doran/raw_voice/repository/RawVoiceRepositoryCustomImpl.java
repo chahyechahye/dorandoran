@@ -1,7 +1,7 @@
 package com.doran.raw_voice.repository;
 
-import static com.doran.content.entity.QContent.*;
 import static com.doran.raw_voice.entity.QRawVoice.*;
+import static com.doran.user.entity.QUser.*;
 
 import java.util.List;
 
@@ -28,6 +28,24 @@ public class RawVoiceRepositoryCustomImpl implements RawVoiceRepositoryCustom {
             .from(rawVoice)
             .where(rawVoice.user.id.eq(userId))
             .where(genderEq(genders))
+            .fetch();
+    }
+
+    @Override
+    public void deleteRawVoice(List<String> list) {
+        jpaQueryFactory
+            .delete(rawVoice)
+            .where(rawVoice.voiceUrl.in(list))
+            .execute();
+    }
+
+    @Override
+    public List<RawVoice> findRawVoiceByUserId(int userId) {
+        return jpaQueryFactory
+            .select(rawVoice)
+            .from(rawVoice)
+            .join(rawVoice.user, user)
+            .where(user.id.eq(userId))
             .fetch();
     }
 
