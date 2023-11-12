@@ -8,13 +8,17 @@ import java.util.Optional;
 import com.doran.record_book.dto.res.ScriptDto;
 import com.doran.record_book.entity.RecordBook;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.querydsl.jpa.impl.JPAUpdateClause;
 
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class RecordBookRepositoryCustomImpl implements RecordBookRepositoryCustom {
     private final JPAQueryFactory jpaQueryFactory;
+    private final EntityManager em;
 
     @Override
     public List<Long> findToTalPage(List<String> bookName) {
@@ -54,5 +58,23 @@ public class RecordBookRepositoryCustomImpl implements RecordBookRepositoryCusto
             .where(recordBook.script.eq(script),
                 recordBook.scriptNum.eq(scriptNum))
             .fetchOne());
+    }
+
+    @Override
+    public void updateRecordBook() {
+        JPAUpdateClause jpaUpdateClause = new JPAUpdateClause(em, recordBook);
+        long updatedCount = jpaUpdateClause.set(recordBook.script,
+                Expressions.stringTemplate(
+                    "replace(replace(replace(replace({0}, {1}, {2}), {3}, {4}), {5}, {6}) ,{7}, {8})",
+                    recordBook.script,
+                    Expressions.constant("“"),
+                    Expressions.constant("\""),
+                    Expressions.constant("”"),
+                    Expressions.constant("\""),
+                    Expressions.constant("‘"),
+                    Expressions.constant("'"),
+                    Expressions.constant("’"),
+                    Expressions.constant("'")))
+            .execute();
     }
 }

@@ -9,6 +9,7 @@ import com.doran.content.entity.Content;
 import com.doran.content.mapper.ContentMapper;
 import com.doran.content.repository.ContentRepository;
 import com.doran.page.entity.Page;
+import com.doran.record_book.repository.RecordBookRepository;
 import com.doran.utils.exception.dto.CustomException;
 import com.doran.utils.exception.dto.ErrorCode;
 
@@ -22,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ContentService {
     private final ContentRepository contentRepository;
     private final ContentMapper contentMapper;
+    private final RecordBookRepository recordBookRepository;
 
     public void insertContent(Page page, String script) {
         Content content = contentMapper.toContent(page, script);
@@ -44,5 +46,6 @@ public class ContentService {
     @Transactional
     public void updateContent() {
         contentRepository.updateScript();
+        recordBookRepository.updateRecordBook();
     }
 }
