@@ -2,8 +2,10 @@ import LoadingPage from "@/pages/common/loading";
 import axios from "axios";
 import { useSetRecoilState } from "recoil";
 import { profileState } from "@/states/children/info";
+import { useNavigate } from "react-router-dom";
 
 const KakaoRedirect = () => {
+  const navigate = useNavigate();
   const setProfileData = useSetRecoilState(profileState);
   const params = new URL(document.location.toString()).searchParams;
   const code = params.get("code");
@@ -14,7 +16,7 @@ const KakaoRedirect = () => {
       localStorage.setItem("accessToken", res.headers.accesstoken);
       console.log(res.data.data.profileList[0]);
       setProfileData(res.data.data.profileList[0]);
-      window.location.href = "/parent/main";
+      navigate("/parent/main");
     });
 
   return (
