@@ -17,8 +17,10 @@ import com.doran.page.entity.Page;
 import com.doran.page.service.PageService;
 import com.doran.record_book.dto.req.SavePostDto;
 import com.doran.record_book.dto.res.RecordBookResDto;
+import com.doran.record_book.dto.res.ScriptResDto;
 import com.doran.record_book.entity.RecordBook;
 import com.doran.record_book.service.RecordBookService;
+import com.doran.redis.script.key.Script;
 import com.doran.redis.script.mapper.ScriptMapper;
 import com.doran.redis.script.service.ScriptService;
 import com.doran.utils.auth.Auth;
@@ -77,4 +79,19 @@ public class RecordBookController {
 
         return CommonResponseEntity.getResponseEntity(SuccessCode.OK, "중간 저장 완료");
     }
+
+    @GetMapping("/save")
+    public ResponseEntity getScript() {
+        UserInfo info = Auth.getInfo();
+
+        Script script = scriptService.findScript(String.valueOf(info.getUserId()));
+
+        ScriptResDto scriptResDto = scriptMapper.toScriptResDto(script);
+
+        return
+
+        return null;
+
+    }
+
 }

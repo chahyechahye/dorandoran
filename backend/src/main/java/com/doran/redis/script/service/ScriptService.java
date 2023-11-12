@@ -29,10 +29,12 @@ public class ScriptService {
     }
 
     //조회
+    //조회 결과가 있으면 그대로 반환
+    //없으면 없다고 그냥 빈 거 보내버림
     public Script findScript(String id) {
         Optional<Script> findScript = scriptRepository.findById(id);
 
-        return findScript
-            .orElseThrow(() -> new CustomException(ErrorCode.SCRIPT_NOT_FOUND));
+        findScript
+            .orElseGet(() -> )
     }
 }
