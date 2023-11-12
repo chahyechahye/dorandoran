@@ -1,10 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
-import foxImage from "@/assets/img/fox.png";
-import pandaImage from "@/assets/img/panda.png";
-import rabbitImage from "@/assets/img/rabbit.png";
-import penguin from "@/assets/img/Penguin.png";
 import { useChildrenAnimal } from "@/apis/children/character/Queries/useChildrenAnimal";
 import { AnimalListProps } from "@/types/children/fairytaleType";
 import { useChildrenCharacter } from "@/apis/children/profile/Mutations/useChildrenCharacter";
@@ -14,6 +10,7 @@ import {
   AnimalState,
   selectAnimalState,
 } from "@/states/children/info";
+import useSound from "use-sound";
 
 interface DivProps {
   backgroundImage: string;
@@ -61,6 +58,19 @@ const CharacterPage: React.FC = () => {
 
   const getChildrenAnimal = useChildrenAnimal();
 
+  const [playFox, { stop: stopFox }] = useSound(
+    "https://storage.googleapis.com/dorandoran/fox_sel.wav"
+  );
+  const [playRabbit, { stop: stopRabbit }] = useSound(
+    "https://storage.googleapis.com/dorandoran/rabbit_sel.wav"
+  );
+  const [playPenguin, { stop: stopPenguin }] = useSound(
+    "https://storage.googleapis.com/dorandoran/peng_self.mp3"
+  );
+  const [playPanda, { stop: stopPanda }] = useSound(
+    "https://storage.googleapis.com/dorandoran/panda_self.mp3"
+  );
+
   const animal = getChildrenAnimal.data.animalList;
 
   const filteredAnimal = animal.filter(
@@ -71,10 +81,42 @@ const CharacterPage: React.FC = () => {
   const [animalInfo, setAnimalInfo] = useRecoilState(AnimalState);
   const [SelectAnimal, setSelectAnimal] = useRecoilState(selectAnimalState);
 
+  useEffect(() => {
+    // Cleanup function to stop the sound when the component is unmounted
+    return () => {
+      stopFox();
+      stopRabbit();
+      stopPenguin();
+      stopPanda();
+    };
+  }, [stopFox, stopRabbit, stopPenguin, stopPanda]); // Empty dependency array ensures this effect runs only once during mount and cleans up on unmount
+
   const handleMouseEnter = (index: number) => {
     setHighlightedIndex(index);
     setSelectAnimal(filteredAnimal[index]);
     setSaveAnimalId(filteredAnimal[index].id);
+
+    stopFox();
+    stopRabbit();
+    stopPenguin();
+    stopPanda();
+
+    switch (filteredAnimal[index].name) {
+      case "여우":
+        playFox();
+        break;
+      case "토끼":
+        playRabbit();
+        break;
+      case "펭귄":
+        playPenguin();
+        break;
+      case "판다":
+        playPanda();
+        break;
+      default:
+        break;
+    }
   };
 
   return (
