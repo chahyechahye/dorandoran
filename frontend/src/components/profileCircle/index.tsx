@@ -80,7 +80,7 @@ const ProfileCircle = ({
           )}
         </InnerCircle>
       </OuterCircle>
-      <Name>{animalImg.name}</Name>
+      {type !== "parentProfile" && <Name>{animalImg.name}</Name>}
     </ProfileContainer>
   );
 };
