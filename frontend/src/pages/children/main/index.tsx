@@ -15,6 +15,7 @@ import exitBtn from "@/assets/img/exitBtn.png";
 import arrowLeft from "@/assets/img/fairytale/arrowLeft.png";
 import arrowRight from "@/assets/img/fairytale/arrowRight.png";
 import { ButtonEffect } from "@/styles/buttonEffect";
+import { useSoundEffect } from "@/components/sounds/soundEffect";
 
 import { useNavigate } from "react-router-dom";
 import { useFairytaleList } from "@/apis/children/fairytale/Queries/useFariytaleList";
@@ -22,6 +23,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { profileState, selectAnimalState } from "@/states/children/info";
 import { useGetLetterList } from "@/apis/common/letter/Queries/useGetLetter";
 import { usePostLetterRead } from "@/apis/common/letter/Mutations/usePostLetterRead";
+import useSound from "use-sound";
 
 import movables from "@/assets/img/movables.png";
 
@@ -297,7 +299,7 @@ const Window7 = styled(Window)`
 `;
 
 const CastleContainer = styled.div`
-  z-index: 4;
+  z-index: 5;
   position: fixed;
   display: flex;
   justify-content: space-around;
@@ -305,8 +307,10 @@ const CastleContainer = styled.div`
   animation: ${castleAnimation} 3s infinite;
 `;
 
-const Castle = styled.img`
+const Castle = styled.img<{ isCastleClicked: boolean }>`
   width: 100%;
+  opacity: ${(props) => (props.isCastleClicked ? 0.7 : 1)};
+  transition: opacity 0.3s ease; // 부드러운 전환을 위한 트랜지션 추가
 `;
 
 const Camera = styled.img`
@@ -343,6 +347,8 @@ const Character = styled.img`
   z-index: 6;
   top: 71%;
   left: 82%;
+
+  ${ButtonEffect}
 `;
 
 const Profile = styled.div`
@@ -390,6 +396,16 @@ const BlackGround = styled.div`
   z-index: 7;
 `;
 
+const TutorialBlackGround = styled.div`
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 25%);
+  position: absolute;
+  z-index: 5;
+`;
+
 const ArrowBox = styled.div`
   position: absolute;
   top: 50%;
@@ -434,18 +450,129 @@ const ChildrenMainPage = () => {
   const [isLetterPage, setIsLetterPage] = useState(0);
   const [hasFetchedData, setHasFetchedData] = useState(false);
   const [isOpenAlbum, setIsOpenAlbum] = useState(false);
+  const [isCharacterClick, setIsCharacterClick] = useState(false);
+  const { playSound } = useSoundEffect();
+  const profile = useRecoilValue(profileState);
 
   const LetterList = useGetLetterList();
-  const letterSize = LetterList.data.size;
-  const letterContent = LetterList.data.letterResDtoList;
+  const letterSize = LetterList.data?.size || 0;
+  const letterContent = LetterList.data?.letterResDtoList || [];
   const readLetterList = usePostLetterRead();
-
-  const profile = useRecoilValue(profileState);
 
   const navigate = useNavigate();
 
+  const [playLetterFox, { stop: stopLetterFox }] = useSound(
+    "https://storage.googleapis.com/dorandoran/fox_letter.wav"
+  );
+  const [playAlbumFox, { stop: stopAlbumFox }] = useSound(
+    "https://storage.googleapis.com/dorandoran/fox_album.wav"
+  );
+  const [playLibraryFox, { stop: stopLibraryFox }] = useSound(
+    "https://storage.googleapis.com/dorandoran/fox_library.wav"
+  );
+  const [playLetterRabbit, { stop: stopLetterRabbit }] = useSound(
+    "https://storage.googleapis.com/dorandoran/rabbit_letter.wav"
+  );
+  const [playAlbumRabbit, { stop: stopAlbumRabbit }] = useSound(
+    "https://storage.googleapis.com/dorandoran/rabbit_album.wav"
+  );
+  const [playLibraryRabbit, { stop: stopLibraryRabbit }] = useSound(
+    "https://storage.googleapis.com/dorandoran/rabbit_library.wav"
+  );
+  const [playLetterPeng, { stop: stopLetterPeng }] = useSound(
+    "https://storage.googleapis.com/dorandoran/peng_letter.mp3"
+  );
+  const [playAlbumPeng, { stop: stopAlbumPeng }] = useSound(
+    "https://storage.googleapis.com/dorandoran/peng_album.mp3"
+  );
+  const [playLibraryPeng, { stop: stopLibraryPeng }] = useSound(
+    "https://storage.googleapis.com/dorandoran/peng_library.mp3"
+  );
+  const [playLetterPanda, { stop: stopLetterPanda }] = useSound(
+    "https://storage.googleapis.com/dorandoran/panda_letter.mp3"
+  );
+  const [playAlbumPanda, { stop: stopAlbumPanda }] = useSound(
+    "https://storage.googleapis.com/dorandoran/panda_album.mp3"
+  );
+  const [playLibraryPanda, { stop: stopLibraryPanda }] = useSound(
+    "https://storage.googleapis.com/dorandoran/panda_library.mp3"
+  );
+
+  const getSoundEffect = (animalType: string, actionType: string) => {
+    switch (animalType) {
+      case "여우":
+        return getFoxSoundEffect(actionType);
+      case "토끼":
+        return getRabbitSoundEffect(actionType);
+      case "펭귄":
+        return getPenguinSoundEffect(actionType);
+      case "판다":
+        return getPandaSoundEffect(actionType);
+      default:
+        return getFoxSoundEffect(actionType); // Default to fox if the animal type is unknown
+    }
+  };
+
+  const getFoxSoundEffect = (actionType: string) => {
+    switch (actionType) {
+      case "letter":
+        return { play: playLetterFox, stop: stopLetterFox };
+      case "album":
+        return { play: playAlbumFox, stop: stopAlbumFox };
+      case "library":
+        return { play: playLibraryFox, stop: stopLibraryFox };
+      default:
+        return { play: playLetterFox, stop: stopLetterFox };
+    }
+  };
+
+  const getRabbitSoundEffect = (actionType: string) => {
+    switch (actionType) {
+      case "letter":
+        return { play: playLetterRabbit, stop: stopLetterRabbit };
+      case "album":
+        return { play: playAlbumRabbit, stop: stopAlbumRabbit };
+      case "library":
+        return { play: playLibraryRabbit, stop: stopLibraryRabbit };
+      default:
+        return { play: playLetterRabbit, stop: stopLetterRabbit };
+    }
+  };
+
+  const getPenguinSoundEffect = (actionType: string) => {
+    switch (actionType) {
+      case "letter":
+        return { play: playLetterPeng, stop: stopLetterPeng };
+      case "album":
+        return { play: playAlbumPeng, stop: stopAlbumPeng };
+      case "library":
+        return { play: playLibraryPeng, stop: stopLibraryPeng };
+      default:
+        return { play: playLetterPeng, stop: stopLetterPeng };
+    }
+  };
+
+  const getPandaSoundEffect = (actionType: string) => {
+    switch (actionType) {
+      case "letter":
+        return { play: playLetterPanda, stop: stopLetterPanda };
+      case "album":
+        return { play: playAlbumPanda, stop: stopAlbumPanda };
+      case "library":
+        return { play: playLibraryPanda, stop: stopLibraryPanda };
+      default:
+        return { play: playLetterPanda, stop: stopLetterPanda };
+    }
+  };
+
   const goFairytale = () => {
-    navigate("/children/fairytale");
+    const { play, stop } = getSoundEffect(profile.animal.name, "letter");
+    stop(); // Stop the current sound
+    if (isCharacterClick) {
+      play();
+    } else {
+      navigate("/children/fairytale");
+    }
   };
 
   const openLetter = () => {
@@ -470,12 +597,12 @@ const ChildrenMainPage = () => {
   };
 
   useEffect(() => {
-    if (letterSize !== 0 && !flag) {
+    if (LetterList.data && letterSize !== 0 && !flag) {
       setHasFetchedData(true);
       openLetter();
     }
     setFlag(true);
-  }, [letterSize, flag, readLetterList]);
+  }, [LetterList.data, letterSize, flag, readLetterList]);
 
   const handleLeftClick = () => {
     if (isLetterPage > 0) {
@@ -490,19 +617,29 @@ const ChildrenMainPage = () => {
   };
 
   const handleOpenAlbum = () => {
-    setIsOpenAlbum(true);
+    const { play, stop } = getSoundEffect(profile.animal.name, "album");
+    stop(); // Stop the current sound
+    if (isCharacterClick) {
+      play(); // Assuming you want a specific sound for opening the album
+    } else {
+      setIsOpenAlbum(true);
+    }
   };
 
   const handleCloseAlbum = () => {
     setIsOpenAlbum(false);
   };
 
-  console.log(profile);
+  const handleClickCharacter = () => {
+    playSound();
+    setIsCharacterClick(!isCharacterClick);
+  };
 
   return (
     <>
       <ContentContainer>
         {(isLetter || isEnvelope || readLetter) && <BlackGround />}
+        {isCharacterClick && <TutorialBlackGround />}
         <LetterGif isLetter={isLetter}>
           {isLetter && <Lottie animationData={letterEffect} />}
         </LetterGif>
@@ -564,10 +701,21 @@ const ChildrenMainPage = () => {
           <Tail />
         </Airplane>
         <CastleContainer>
-          <Castle src={castle} />
+          <Castle src={castle} isCastleClicked={isCharacterClick} />
           <PostOffice
             src={postOffice}
-            onClick={() => navigate("/children/sketch")}
+            onClick={() => {
+              const { play, stop } = getSoundEffect(
+                profile.animal.name,
+                "library"
+              );
+              stop(); // Stop the current sound
+              if (isCharacterClick) {
+                play(); // Assuming you want a specific sound for opening the album
+              } else {
+                navigate("/children/sketch");
+              }
+            }}
           />
           <Books src={books} onClick={goFairytale} />
           <Camera src={camera} onClick={handleOpenAlbum} />
@@ -575,7 +723,7 @@ const ChildrenMainPage = () => {
         <Profile>
           <ProfileCircle type="child" />
         </Profile>
-        <Character src={profile.animal.imgUrl} />
+        <Character src={profile.animal.imgUrl} onClick={handleClickCharacter} />
         <Movables src={movables} />
       </ContentContainer>
       {isOpenAlbum && <Overlay onClick={handleCloseAlbum} />}
