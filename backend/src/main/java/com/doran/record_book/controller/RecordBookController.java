@@ -88,8 +88,9 @@ public class RecordBookController {
 
         ScriptResDto scriptResDto = scriptMapper.toScriptResDto(script);
 
+        scriptService.delete(String.valueOf(info.getUserId()));
+
         return CommonResponseEntity.getResponseEntity(SuccessCode.OK, scriptResDto);
 
     }
-
 }
