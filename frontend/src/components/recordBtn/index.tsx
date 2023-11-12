@@ -3,10 +3,10 @@ import styled, { keyframes } from "styled-components";
 
 const phoneAnimation = keyframes`
   0% {
-    transform: scale(4);
+    transform: scale(3.5);
   }
   100% {
-    transform: scale(4.5);
+    transform: scale(4);
   }
 `;
 
@@ -22,7 +22,7 @@ const scalingAnimation = keyframes`
 `;
 
 const Section = styled.section`
-  height: 25vh;
+  height: 20vh;
   display: flex;
   flex-direction: column;
   justify-content: center;

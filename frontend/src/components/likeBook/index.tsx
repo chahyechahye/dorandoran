@@ -4,9 +4,9 @@ import { ButtonEffect } from "@/styles/buttonEffect";
 
 const Container = styled.div`
   padding: 1.2vh;
-  margin: 30px;
+  margin: 0vh 0vh 4vh 2vh;
   background-color: #fff;
-  border-radius: 100px;
+  border-radius: 10vh;
 
   ${ButtonEffect}
 `;

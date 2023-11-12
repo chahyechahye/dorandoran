@@ -30,7 +30,7 @@ const ModalWrapper = styled.div<{ bgColor: string }>`
   background-color: ${(props) => props.bgColor || "#fc7292"};
   width: 100vh;
   padding: 4vh;
-  border-radius: 1.5vh;
+  border-radius: 2vh;
   position: relative;
 `;
 

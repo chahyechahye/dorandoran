@@ -12,11 +12,12 @@ import background from "@/assets/img/background/backgroundMain.jpg";
 import Logo from "@/assets/img/Logo.png";
 import exitBtn from "@/assets/img/exitBtn.png";
 import { usePostVoiceComplete } from "@/apis/parents/record/Mutations/usePostVoicecomplete";
+import { useNavigate } from "react-router-dom";
+import { useSoundEffect } from "@/components/sounds/soundEffect";
 import { MainSoundState } from "@/states/common/voice";
 import { useRecoilState } from "recoil";
-import { useNavigate } from "react-router-dom";
+
 import { ButtonEffect } from "@/styles/buttonEffect";
-import { useSoundEffect } from "@/components/sounds/soundEffect";
 
 const Container = styled.div`
   position: fixed;
@@ -268,7 +269,7 @@ const ParentRecordPage = () => {
     setSelectedGender(selectedOption);
   };
 
-  const handleExit = () => {
+  const goProfile = () => {
     playSound();
     navigate("/parent/main");
   };
@@ -277,13 +278,7 @@ const ParentRecordPage = () => {
     <>
       <GenderModal onGenderSelected={handleGenderSelection} />
       <Container>
-        <Image
-          src={Logo}
-          alt="Background"
-          onClick={() => {
-            navigate("/parent/main");
-          }}
-        />
+        <Image src={Logo} alt="Background" onClick={goProfile} />
         <div
           style={{
             display: "flex",
@@ -292,7 +287,7 @@ const ParentRecordPage = () => {
             width: "100vh",
           }}
         >
-          <p style={{ fontSize: "5vh", color: "#6884F6" }}>
+          <p style={{ fontSize: "5vh", color: "#6d85e1" }}>
             {currentPage + 1}. {scriptData[currentPage].title}
           </p>
           <div
@@ -406,7 +401,7 @@ const ParentRecordPage = () => {
           onClose={handleCloseModal} // 모달 닫기를 위한 함수를 전달합니다.
         />
       )}
-      <ExitContainer className="exit-button" onClick={handleExit}>
+      <ExitContainer className="exit-button" onClick={goProfile}>
         <ExitBtn src={exitBtn}></ExitBtn>
         <p
           style={{

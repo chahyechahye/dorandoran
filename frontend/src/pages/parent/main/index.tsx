@@ -49,19 +49,19 @@ const Header = styled.header`
   position: fixed;
   top: 0;
   left: 0;
-  padding-top: 1.5vh;
+  padding: 1.5vh;
 `;
 
 const Content = styled.main`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 10vh;
+  margin-bottom: 8vh;
 `;
 
 const Image = styled.img`
   width: 45%;
-  padding-bottom: 7vh;
+  padding-bottom: 4vh;
 `;
 
 const Overlay = styled.div`
