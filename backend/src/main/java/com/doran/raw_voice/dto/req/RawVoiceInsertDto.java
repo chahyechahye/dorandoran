@@ -16,4 +16,6 @@ import lombok.Setter;
 public class RawVoiceInsertDto {
     private MultipartFile file;
     private Genders gender;
+    private String script;
+    private int scriptNum;
 }

@@ -1,6 +1,7 @@
 package com.doran.record_book.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.springframework.stereotype.Service;
@@ -11,6 +12,8 @@ import com.doran.record_book.dto.res.ScriptDto;
 import com.doran.record_book.entity.RecordBook;
 import com.doran.record_book.mapper.RecordBookMapper;
 import com.doran.record_book.repository.RecordBookRepository;
+import com.doran.utils.exception.dto.CustomException;
+import com.doran.utils.exception.dto.ErrorCode;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -56,6 +59,17 @@ public class RecordBookService {
 
     public List<ScriptDto> findScript(String title) {
         return recordBookRepository.findScript(title);
+    }
+
+    public RecordBook findScript(String script, int scriptNum) {
+        Optional<RecordBook> findRecordBook = recordBookRepository.findRecordBookByScript(script, scriptNum);
+
+        return validRecordBook(findRecordBook);
+    }
+
+    public RecordBook validRecordBook(Optional<RecordBook> recordBook) {
+        return recordBook
+            .orElseThrow(() -> new CustomException(ErrorCode.DATA_NOT_FOUND));
     }
 
 }

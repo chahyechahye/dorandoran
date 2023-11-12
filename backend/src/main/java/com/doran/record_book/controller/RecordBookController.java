@@ -15,7 +15,13 @@ import com.doran.content.service.ContentService;
 import com.doran.page.entity.Page;
 import com.doran.page.service.PageService;
 import com.doran.record_book.dto.res.RecordBookResDto;
+import com.doran.record_book.dto.res.ScriptResDto;
 import com.doran.record_book.service.RecordBookService;
+import com.doran.redis.script.key.Script;
+import com.doran.redis.script.mapper.ScriptMapper;
+import com.doran.redis.script.service.ScriptService;
+import com.doran.utils.auth.Auth;
+import com.doran.utils.common.UserInfo;
 import com.doran.utils.response.CommonResponseEntity;
 import com.doran.utils.response.SuccessCode;
 
@@ -32,6 +38,8 @@ public class RecordBookController {
     private final BookService bookService;
     private final PageService pageService;
     private final ContentService contentService;
+    private final ScriptService scriptService;
+    private final ScriptMapper scriptMapper;
 
     //스크립트 전체 조회
     @GetMapping()
@@ -55,5 +63,19 @@ public class RecordBookController {
 
         recordBookService.regist(contentByPageList, findBook.getTitle());
         return CommonResponseEntity.getResponseEntity(SuccessCode.OK, "등록 완료");
+    }
+
+    @GetMapping("/save")
+    public ResponseEntity getScript() {
+        UserInfo info = Auth.getInfo();
+
+        Script script = scriptService.findScript(String.valueOf(info.getUserId()));
+
+        ScriptResDto scriptResDto = scriptMapper.toScriptResDto(script);
+
+        scriptService.delete(String.valueOf(info.getUserId()));
+
+        return CommonResponseEntity.getResponseEntity(SuccessCode.OK, scriptResDto);
+
     }
 }
