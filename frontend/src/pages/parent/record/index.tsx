@@ -8,11 +8,15 @@ import { useGetRecord } from "@/apis/parents/record/Queries/useGetRecord";
 import { usePostVoice } from "@/apis/parents/record/Mutations/usePostVoice";
 import GenderModal from "@/components/genderModal";
 
-import background from "@/assets/img/background/backgroundRecord.jpg";
+import background from "@/assets/img/background/backgroundMain.jpg";
 import Logo from "@/assets/img/Logo.png";
+import exitBtn from "@/assets/img/exitBtn.png";
 import { usePostVoiceComplete } from "@/apis/parents/record/Mutations/usePostVoicecomplete";
 import { MainSoundState } from "@/states/common/voice";
 import { useRecoilState } from "recoil";
+import { useNavigate } from "react-router-dom";
+import { ButtonEffect } from "@/styles/buttonEffect";
+import { useSoundEffect } from "@/components/sounds/soundEffect";
 
 const Container = styled.div`
   position: fixed;
@@ -44,6 +48,9 @@ const Image = styled.img`
 
 const RecordBoxWrapper = styled.div`
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 3.5vh;
   background: #78bffc;
   color: #fff;
@@ -51,6 +58,7 @@ const RecordBoxWrapper = styled.div`
   border-radius: 3vh;
   margin-bottom: 2vh;
   width: 100vh;
+  height: 26vh;
   max-width: 160vh;
 `;
 
@@ -66,13 +74,32 @@ const ArrowWrapper = styled.div`
 `;
 
 const ArrowIcon = styled.svg`
-  width: 4vh;
-  height: 4vh;
+  width: 5vh;
+  height: 5vh;
   fill: white;
+`;
+
+const ExitContainer = styled.div`
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  margin: 2vh 4vh;
+  z-index: 5;
+
+  ${ButtonEffect}
+`;
+
+const ExitBtn = styled.img`
+  width: 12vh;
 `;
 
 const ParentRecordPage = () => {
   const script = useGetRecord();
+  const navigate = useNavigate();
   const scriptData = script.data.bookList;
   const totalScriptList = script.data.totalScriptList;
   const recordVoice = usePostVoice();
@@ -96,6 +123,7 @@ const ParentRecordPage = () => {
   const [currentScriptNum, setCurrentScriptNum] = useState(0);
   const [scriptReadNum, setScriptReadNum] = useState([0, 0, 0]);
   const [isPlaying, setIsPlaying] = useRecoilState(MainSoundState);
+  const { playSound } = useSoundEffect();
 
   useEffect(() => {
     // This effect runs when the component mounts (on page enter)
@@ -206,24 +234,14 @@ const ParentRecordPage = () => {
     if (audioUrl && audioPlayerRef.current) {
       audioPlayerRef.current.src = URL.createObjectURL(audioUrl);
       audioPlayerRef.current.volume = 1.0;
+      audioPlayerRef.current.play();
 
-      // Check for user interaction before playing
-      const playPromise = audioPlayerRef.current.play();
-
-      if (playPromise !== undefined) {
-        playPromise
-          .then(() => {
-            // Audio playback started successfully
-            setSoundEnd(true);
-            setTimeout(() => {
-              setSoundEnd(false);
-            }, 1000);
-          })
-          .catch((error) => {
-            // Auto-play was prevented
-            console.error("Auto-play prevented:", error);
-          });
-      }
+      audioPlayerRef.current.addEventListener("ended", () => {
+        setSoundEnd(true);
+        setTimeout(() => {
+          setSoundEnd(false);
+        }, 1000);
+      });
     }
   };
 
@@ -250,11 +268,22 @@ const ParentRecordPage = () => {
     setSelectedGender(selectedOption);
   };
 
+  const handleExit = () => {
+    playSound();
+    navigate("/parent/main");
+  };
+
   return (
     <>
       <GenderModal onGenderSelected={handleGenderSelection} />
       <Container>
-        <Image src={Logo} alt="Background" />
+        <Image
+          src={Logo}
+          alt="Background"
+          onClick={() => {
+            navigate("/parent/main");
+          }}
+        />
         <div
           style={{
             display: "flex",
@@ -377,6 +406,18 @@ const ParentRecordPage = () => {
           onClose={handleCloseModal} // 모달 닫기를 위한 함수를 전달합니다.
         />
       )}
+      <ExitContainer className="exit-button" onClick={handleExit}>
+        <ExitBtn src={exitBtn}></ExitBtn>
+        <p
+          style={{
+            fontSize: "5vh",
+            color: "#f25222",
+            textShadow: "2px 4px 2px rgba(0, 0, 0, 0.2)",
+          }}
+        >
+          나가기
+        </p>
+      </ExitContainer>
       <audio ref={audioPlayerRef} controls style={{ display: "none" }} />
     </>
   );
