@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import momRead from "@/assets/img/momRead.png";
 import FatherRead from "@/assets/img/FatherRead.png";
@@ -133,12 +133,14 @@ const GenderModal = ({ onGenderSelected, type }: GenderModalProps) => {
     }, 1000);
   };
 
-  if (type === "children") {
-    setIsOption([
-      { value: "엄마", image: momRead, visible: genderBoolean.femaleAble },
-      { value: "아빠", image: FatherRead, visible: genderBoolean.maleAble },
-    ]);
-  }
+  useEffect(() => {
+    if (type === "children") {
+      setIsOption([
+        { value: "엄마", image: momRead, visible: genderBoolean.femaleAble },
+        { value: "아빠", image: FatherRead, visible: genderBoolean.maleAble },
+      ]);
+    }
+  }, [genderBoolean.femaleAble, genderBoolean.maleAble, type]);
 
   return (
     <>
