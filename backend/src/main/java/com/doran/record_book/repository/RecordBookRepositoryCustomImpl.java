@@ -3,8 +3,10 @@ package com.doran.record_book.repository;
 import static com.doran.record_book.entity.QRecordBook.*;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.doran.record_book.dto.res.ScriptDto;
+import com.doran.record_book.entity.RecordBook;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
@@ -42,5 +44,15 @@ public class RecordBookRepositoryCustomImpl implements RecordBookRepositoryCusto
             .from(recordBook)
             .where(recordBook.title.eq(bookName))
             .fetch();
+    }
+
+    @Override
+    public Optional<RecordBook> findRecordBookByScript(String script, int scriptNum) {
+        return Optional.ofNullable(jpaQueryFactory
+            .select(recordBook)
+            .from(recordBook)
+            .where(recordBook.script.eq(script),
+                recordBook.scriptNum.eq(scriptNum))
+            .fetchOne());
     }
 }
