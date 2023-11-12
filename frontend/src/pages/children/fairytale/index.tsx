@@ -306,9 +306,17 @@ const FairyTalePage = () => {
     setFairytale(fairytale);
     setFairytaleSearch({ ...fairytaleSearch, bookId: fairytale.bookId });
 
+    let genderSelect;
+
+    if (selectedGender === "아빠") {
+      genderSelect = "MALE";
+    } else {
+      genderSelect = "FEMALE";
+    }
+
     try {
       const response = await usePostFairytaleRead.mutateAsync({
-        gender: selectedGender,
+        gender: genderSelect,
         bookId: fairytale.bookId,
       });
       setFairytaleRead(response.data);
@@ -542,7 +550,7 @@ const FairyTalePage = () => {
 
   return (
     <>
-      <GenderModal onGenderSelected={handleGenderSelection} />
+      <GenderModal onGenderSelected={handleGenderSelection} type="children" />
       <Container style={{ background: cardColors[activeCardClass] || "#fff" }}>
         <Header>
           <div
