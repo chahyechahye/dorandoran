@@ -111,13 +111,13 @@ const FairytaleReadPage = () => {
   }, [setSoundData]);
 
   const handleArrowRight = () => {
-    playBookSound();
     if (currentContentIndex < fairytaleContentList.length - 1) {
       setCurrentContentIndex(currentContentIndex + 1);
     } else if (
       currentContentIndex === fairytaleContentList.length - 1 &&
       currentPageIndex < fairytaleRead.length - 1
     ) {
+      playBookSound();
       setCurrentPageIndex(currentPageIndex + 1);
       setCurrentContentIndex(0);
     } else if (
