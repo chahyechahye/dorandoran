@@ -2,8 +2,10 @@ import LoadingPage from "@/pages/common/loading";
 import axios from "axios";
 import { useSetRecoilState } from "recoil";
 import { profileState } from "@/states/children/info";
+import { useNavigate } from "react-router-dom";
 
 const GoogleRedirect = () => {
+  const navigate = useNavigate();
   const setProfileData = useSetRecoilState(profileState);
   const params = new URL(document.location.toString()).searchParams;
   const code = params.get("code");
@@ -13,7 +15,7 @@ const GoogleRedirect = () => {
     .then((res) => {
       localStorage.setItem("accessToken", res.headers.accesstoken);
       setProfileData(res.data.data.profileList[0]);
-      window.location.href = "/parent/main";
+      navigate("/parent/main");
     });
 
   return (
