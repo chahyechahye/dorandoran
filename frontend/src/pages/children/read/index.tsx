@@ -124,8 +124,9 @@ const FairytaleReadPage = () => {
       currentContentIndex === fairytaleContentList.length - 1 &&
       currentPageIndex === fairytaleRead.length - 1
     ) {
+      setSoundData(true);
       alert("동화끗");
-      navigate("/children/like");
+      window.location.href = "/children/like";
     }
   };
 
