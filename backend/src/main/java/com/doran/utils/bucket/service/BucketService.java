@@ -62,9 +62,12 @@ public class BucketService {
     }
 
     //버킷 다중 삭제
-    public void deleteFileList(List<String> list) {
+    public void deleteFile(List<String> list) {
         List<BlobId> fileList = list.stream()
-            .map(s -> BlobId.of(bucket, s))
+            .map(s -> {
+                String add = "https://storage.googleapis.com/" + bucket + "/";
+                return BlobId.of(bucket, s.substring(add.length()));
+            })
             .toList();
 
         storage.delete(fileList);
