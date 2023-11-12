@@ -1,11 +1,14 @@
 package com.doran.raw_voice.service;
 
-import com.doran.parent.service.ParentService;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
 import com.doran.raw_voice.dto.req.RawVoiceInsertDto;
-import com.doran.raw_voice.mapper.RawVoiceMapper;
 import com.doran.raw_voice.dto.res.RawVoiceListDto;
 import com.doran.raw_voice.dto.res.RawVoiceResDto;
 import com.doran.raw_voice.entity.RawVoice;
+import com.doran.raw_voice.mapper.RawVoiceMapper;
 import com.doran.raw_voice.repository.RawVoiceRepository;
 import com.doran.user.entity.User;
 import com.doran.user.service.UserService;
@@ -15,14 +18,10 @@ import com.doran.utils.bucket.service.BucketService;
 import com.doran.utils.common.Genders;
 import com.doran.utils.exception.dto.CustomException;
 import com.doran.utils.exception.dto.ErrorCode;
-import com.doran.utils.rabbitmq.service.ModelPubService;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
-import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -33,7 +32,6 @@ public class RawVoiceService {
     private final RawVoiceRepository rawVoiceRepository;
     private final RawVoiceMapper rawVoiceMapper;
     private final UserService userService;
-    private final ParentService parentService;
 
     // 목소리 검색
     public RawVoice findRawVoiceById(int rvId) {
@@ -66,5 +64,19 @@ public class RawVoiceService {
         rawVoiceRepository.save(rawVoice);
     }
 
+    @Transactional
+    public void delete(int userId) {
+        List<RawVoice> rawVoiceList = findRawVoiceList(userId);
+
+        List<String> list = rawVoiceMapper.toList(rawVoiceList);
+
+        bucketService.deleteFile(list);
+
+        rawVoiceRepository.deleteRawVoice(list);
+    }
+
+    public List<RawVoice> findRawVoiceList(int userId) {
+        return rawVoiceRepository.findRawVoiceByUserId(userId);
+    }
 
 }
