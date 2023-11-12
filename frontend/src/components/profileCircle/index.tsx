@@ -79,8 +79,8 @@ const ProfileCircle = ({
             <ProfileImage src={animalImg.animal.imgUrl} />
           )}
         </InnerCircle>
-      </OuterCircle>{" "}
-      {profileName === "" ? <Name></Name> : <Name>{animalImg.name}</Name>}
+      </OuterCircle>
+      {type !== "parentProfile" && <Name>{animalImg.name}</Name>}
     </ProfileContainer>
   );
 };

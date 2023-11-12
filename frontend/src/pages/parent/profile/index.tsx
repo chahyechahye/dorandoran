@@ -120,7 +120,7 @@ const ParentProfilePage = () => {
               }}
               onClick={OpenRegistModal}
             >
-              <ProfileCircle profileImage="" profileName="" />
+              <ProfileCircle profileImage="" type="parentProfile" />
             </div>
           )}
         </Content>

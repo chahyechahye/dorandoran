@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import momRead from "@/assets/img/momRead.png";
 import FatherRead from "@/assets/img/FatherRead.png";
@@ -109,17 +109,16 @@ const CustomRadio = styled.label`
 
 interface GenderModalProps {
   onGenderSelected: (selectedOption: string) => void;
+  type?: string;
 }
 
-const GenderModal = ({ onGenderSelected }: GenderModalProps) => {
+const GenderModal = ({ onGenderSelected, type }: GenderModalProps) => {
   const ReadCheck = useGetReadCheck();
-
-  console.log(ReadCheck);
-
-  const data = {
-    femaleAble: false,
-    maleAble: true,
-  };
+  const genderBoolean = ReadCheck.data;
+  const [isOption, setIsOption] = useState([
+    { value: "엄마", image: momRead, visible: true },
+    { value: "아빠", image: FatherRead, visible: true },
+  ]);
 
   const [selectedOption, setSelectedOption] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(true);
@@ -131,14 +130,17 @@ const GenderModal = ({ onGenderSelected }: GenderModalProps) => {
     // Close the modal after 3 seconds
     setTimeout(() => {
       setIsModalOpen(false);
-    }, 3000);
+    }, 1000);
   };
 
-  // Modify options based on the values of femaleAble and maleAble
-  const options = [
-    { value: "엄마", image: momRead, visible: data.femaleAble },
-    { value: "아빠", image: FatherRead, visible: data.maleAble },
-  ];
+  useEffect(() => {
+    if (type === "children") {
+      setIsOption([
+        { value: "엄마", image: momRead, visible: genderBoolean.femaleAble },
+        { value: "아빠", image: FatherRead, visible: genderBoolean.maleAble },
+      ]);
+    }
+  }, [genderBoolean.femaleAble, genderBoolean.maleAble, type]);
 
   return (
     <>
@@ -147,7 +149,7 @@ const GenderModal = ({ onGenderSelected }: GenderModalProps) => {
           <MainContainer>
             <H2>누가 동화책을 읽어줄까요?</H2>
             <RadioButtonsContainer>
-              {options.map(
+              {isOption.map(
                 (option) =>
                   option.visible && (
                     <CustomRadio key={option.value}>

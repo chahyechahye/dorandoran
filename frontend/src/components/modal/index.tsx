@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { usePostMessage } from "@/apis/parents/profile/Mutations/usePostMessage";
 import { usePostAlarmMessage } from "@/apis/parents/record/Mutations/usePostAlarmMessage";
 import { useNavigate } from "react-router-dom";
+import { ButtonEffect } from "@/styles/buttonEffect";
+import { useSoundEffect } from "@/components/sounds/soundEffect";
 
 interface ModalProps {
   title: string;
@@ -70,12 +72,16 @@ const Button = styled.div`
   font-size: 4.8vh;
   margin-left: 1vh;
   border-radius: 1vh;
+
+  ${ButtonEffect}
 `;
 
 const CloseIcon = styled.svg`
   position: absolute;
   top: 3vh;
   right: 3vh;
+
+  ${ButtonEffect}
 `;
 
 const Modal = ({
@@ -97,23 +103,26 @@ const Modal = ({
     </React.Fragment>
   ));
   const [phone, setPhone] = useState("");
+  const { playSound } = useSoundEffect();
 
   const navigate = useNavigate();
   const sendMessage = usePostMessage();
   const sendAlarm = usePostAlarmMessage();
 
   const handleSendMessage = () => {
-    if (buttonText === "보내기") {
+    playSound();
+    const regExp2 = /^01(?:0|1|[6-9])(?:\d{3}|\d{4})\d{4}$/;
+    if (buttonText === "보내기" && regExp2.test(phone)) {
       sendMessage.mutateAsync({
         tel: phone,
       });
-    } else if (buttonText === "알림받기") {
+      onClose();
+    } else if (buttonText === "알림받기" && regExp2.test(phone)) {
       sendAlarm.mutateAsync({
         tel: phone,
       });
       navigate("/parent/main");
     }
-    onClose();
   };
 
   return (
@@ -150,7 +159,10 @@ const Modal = ({
           </InputContainer>
         )}
         <CloseIcon
-          onClick={onClose}
+          onClick={() => {
+            onClose();
+            playSound();
+          }}
           xmlns="http://www.w3.org/2000/svg"
           width="80"
           height="80"
