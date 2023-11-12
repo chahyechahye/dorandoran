@@ -27,7 +27,7 @@ const ContentContainer = styled.div`
 const ImgContainer = styled.img`
   margin: 5vh 10vh;
   height: 30vh;
-  width: 60%;
+  width: 30vh;
 `;
 
 const TextContainer = styled.div`
