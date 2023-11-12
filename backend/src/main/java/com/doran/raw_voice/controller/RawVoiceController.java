@@ -2,6 +2,7 @@ package com.doran.raw_voice.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -97,4 +98,14 @@ public class RawVoiceController {
         telService.save(Auth.getInfo().getUserId(), telInsertDto.getTel());
         return CommonResponseEntity.getResponseEntity(SuccessCode.SUCCESS_CODE);
     }
+
+    @DeleteMapping()
+    public ResponseEntity delete() {
+        UserInfo info = Auth.getInfo();
+
+        rawVoiceService.delete(info.getUserId());
+
+        return CommonResponseEntity.getResponseEntity(SuccessCode.SUCCESS_CODE);
+    }
+
 }
