@@ -19,5 +19,5 @@ public class Script {
 
     private String script;
 
-    private int scriptNum;
+    private Integer scriptNum;
 }

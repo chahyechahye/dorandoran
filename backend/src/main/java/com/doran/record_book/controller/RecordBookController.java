@@ -88,9 +88,7 @@ public class RecordBookController {
 
         ScriptResDto scriptResDto = scriptMapper.toScriptResDto(script);
 
-        return
-
-        return null;
+        return CommonResponseEntity.getResponseEntity(SuccessCode.OK, scriptResDto);
 
     }
 

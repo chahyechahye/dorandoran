@@ -6,8 +6,6 @@ import org.springframework.stereotype.Service;
 
 import com.doran.redis.script.key.Script;
 import com.doran.redis.script.repository.ScriptRepository;
-import com.doran.utils.exception.dto.CustomException;
-import com.doran.utils.exception.dto.ErrorCode;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +32,7 @@ public class ScriptService {
     public Script findScript(String id) {
         Optional<Script> findScript = scriptRepository.findById(id);
 
-        findScript
-            .orElseGet(() -> )
+        return findScript
+            .orElseGet(Script::new);
     }
 }
