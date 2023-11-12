@@ -2,6 +2,7 @@ package com.doran.utils.bucket.service;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -11,6 +12,7 @@ import com.doran.utils.bucket.dto.InsertDto;
 import com.doran.utils.exception.dto.CustomException;
 import com.doran.utils.exception.dto.ErrorCode;
 import com.google.cloud.storage.Blob;
+import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
 
@@ -52,6 +54,23 @@ public class BucketService {
             throw new CustomException(ErrorCode.BUCKET_EXCEPTION);
         }
 
+    }
+
+    //버킷 단일 삭제
+    public void deleteFile(String fileName) {
+        storage.delete(bucket, fileName);
+    }
+
+    //버킷 다중 삭제
+    public void deleteFile(List<String> list) {
+        List<BlobId> fileList = list.stream()
+            .map(s -> {
+                String add = "https://storage.googleapis.com/" + bucket + "/";
+                return BlobId.of(bucket, s.substring(add.length()));
+            })
+            .toList();
+
+        storage.delete(fileList);
     }
 
     //리팩
