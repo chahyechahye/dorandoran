@@ -56,7 +56,7 @@ const Book = styled.div`
     height: 80%;
     position: absolute;
     top: 0;
-    right: calc(49% + 0.5rem);
+    right: calc(48% + 0.5rem);
     overflow: auto;
 
     & + div {
