@@ -1,7 +1,5 @@
 package com.doran.raw_voice.controller;
 
-import java.util.List;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,14 +9,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.doran.parent.service.ParentService;
 import com.doran.raw_voice.dto.req.CompleteInsertDto;
 import com.doran.raw_voice.dto.req.RawVoiceInsertDto;
 import com.doran.raw_voice.dto.req.TelInsertDto;
 import com.doran.raw_voice.dto.res.RawVoiceListDto;
-import com.doran.raw_voice.dto.res.RawVoiceResDto;
-import com.doran.raw_voice.dto.res.RecordCheckDto;
 import com.doran.raw_voice.service.RawVoiceService;
+import com.doran.record_book.entity.RecordBook;
+import com.doran.record_book.service.RecordBookService;
+import com.doran.redis.script.mapper.ScriptMapper;
+import com.doran.redis.script.service.ScriptService;
 import com.doran.redis.tel.service.TelService;
 import com.doran.utils.auth.Auth;
 import com.doran.utils.common.UserInfo;
@@ -37,7 +36,9 @@ public class RawVoiceController {
     private final RawVoiceService rawVoiceService;
     private final TelService telService;
     private final ModelPubService modelPubService;
-    private final ParentService parentService;
+    private final ScriptService scriptService;
+    private final RecordBookService recordBookService;
+    private final ScriptMapper scriptMapper;
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("")
@@ -59,7 +60,19 @@ public class RawVoiceController {
     @PostMapping("")
     public ResponseEntity<?> insertRawVoice(RawVoiceInsertDto rawVoiceInsertDto) {
         log.info("Raw Voice (원본 목소리) 추가");
+        UserInfo info = Auth.getInfo();
+
         rawVoiceService.insertRawVoice(rawVoiceInsertDto);
+
+        //try-catch 바인딩 이후 제거 필요
+        try {
+            RecordBook script = recordBookService.findScript(rawVoiceInsertDto.getScript(),
+                rawVoiceInsertDto.getScriptNum());
+            scriptService.save(scriptMapper.toScript(info.getUserId(), script.getScript(), script.getScriptNum()));
+        } catch (Exception e) {
+            log.info("스크립트 안들어옴");
+        }
+
         return CommonResponseEntity.getResponseEntity(SuccessCode.SUCCESS_CODE, null);
     }
 

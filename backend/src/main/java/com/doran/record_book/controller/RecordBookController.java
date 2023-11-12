@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,10 +14,8 @@ import com.doran.book.service.BookService;
 import com.doran.content.service.ContentService;
 import com.doran.page.entity.Page;
 import com.doran.page.service.PageService;
-import com.doran.record_book.dto.req.SavePostDto;
 import com.doran.record_book.dto.res.RecordBookResDto;
 import com.doran.record_book.dto.res.ScriptResDto;
-import com.doran.record_book.entity.RecordBook;
 import com.doran.record_book.service.RecordBookService;
 import com.doran.redis.script.key.Script;
 import com.doran.redis.script.mapper.ScriptMapper;
@@ -66,18 +63,6 @@ public class RecordBookController {
 
         recordBookService.regist(contentByPageList, findBook.getTitle());
         return CommonResponseEntity.getResponseEntity(SuccessCode.OK, "등록 완료");
-    }
-
-    //중간저장
-    @PostMapping("/save")
-    public ResponseEntity saveScript(@RequestBody SavePostDto dto) {
-        UserInfo info = Auth.getInfo();
-
-        RecordBook script = recordBookService.findScript(dto.getScript(), dto.getScriptNum());
-
-        scriptService.save(scriptMapper.toScript(info.getUserId(), script.getScript(), script.getScriptNum()));
-
-        return CommonResponseEntity.getResponseEntity(SuccessCode.OK, "중간 저장 완료");
     }
 
     @GetMapping("/save")
