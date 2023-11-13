@@ -10,12 +10,13 @@ import movables from "@/assets/img/movables.png";
 import character from "@/assets/img/fox.png";
 import { useFairytaleList } from "@/apis/children/fairytale/Queries/useFariytaleList";
 import { FairytaleListProps } from "@/types/children/fairytaleType";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import {
   FairytaleSearchState,
   fairytaleContentListState,
   fairytaleReadState,
   fairytaleState,
+  profileState,
 } from "@/states/children/info";
 import { useFairytaleRead } from "@/apis/children/fairytale/Mutations/useFairytaleRead";
 import GenderModal from "@/components/genderModal";
@@ -548,6 +549,8 @@ const FairyTalePage = () => {
     navigate("/children/main");
   };
 
+  const profile = useRecoilValue(profileState);
+
   return (
     <>
       <GenderModal onGenderSelected={handleGenderSelection} type="children" />
@@ -600,7 +603,7 @@ const FairyTalePage = () => {
           </Cards>
         </Wrapper>
 
-        <Character src={character} />
+        <Character src={profile.animal.imgUrl} />
         <Movables src={movables} />
       </Container>
       {isModalOpen && <FariytaleEnter />}
