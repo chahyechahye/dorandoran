@@ -294,7 +294,7 @@ const FairyTalePage = () => {
     fairytaleContentListState
   );
   const [selectedGender, setSelectedGender] = useState("");
-
+  console.log(fairytale);
   // 동화책 리스트 담기 (여러권)
   const setFairytaleList = useFairytaleList();
   const fairytaleList = setFairytaleList.data.bookResDtoList;
@@ -589,7 +589,7 @@ const FairyTalePage = () => {
                 <div key={index} className={`card card0${index}`}>
                   <CardContent onClick={() => fairytaleHandler(fairytale)}>
                     <CardCircle></CardCircle>
-                    <Image src={fairytale.imgUrl} alt={fairytale.title} />
+                    <Image src={fairytale.characterUrl} alt={fairytale.title} />
                     {/* RT 이미지 경로로 변경 */}
                     <CardTitle>{fairytale.title}</CardTitle>
                     <p className="card-subtitle"></p>
