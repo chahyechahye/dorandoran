@@ -80,5 +80,5 @@ rabbitmq:
     voice_res_test: voice.res
 
 auth:
-  ignore-url: api/oauth/**, api/user/**, api/profile/login, api/profile, api/wait
+  ignore-url: api/oauth/**, api/user/**, api/profile/login, api/profile, api/wait, api/voice/redis
 

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.doran.raw_voice.dto.req.CompleteInsertDto;
 import com.doran.raw_voice.dto.req.RawVoiceInsertDto;
+import com.doran.raw_voice.dto.req.RecordRedisDto;
 import com.doran.raw_voice.dto.req.TelInsertDto;
 import com.doran.raw_voice.dto.res.RawVoiceListDto;
 import com.doran.raw_voice.service.RawVoiceService;
@@ -106,6 +107,12 @@ public class RawVoiceController {
         rawVoiceService.delete(info.getUserId());
 
         return CommonResponseEntity.getResponseEntity(SuccessCode.SUCCESS_CODE);
+    }
+
+    @PostMapping("/redis")
+    public ResponseEntity<?> createRedis(@RequestBody RecordRedisDto recordRedisDto) {
+        rawVoiceService.createRecordRedis(recordRedisDto.getUserId(), recordRedisDto.getGender());
+        return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
     }
 
 }

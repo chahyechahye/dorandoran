@@ -10,6 +10,8 @@ import com.doran.raw_voice.dto.res.RawVoiceResDto;
 import com.doran.raw_voice.entity.RawVoice;
 import com.doran.raw_voice.mapper.RawVoiceMapper;
 import com.doran.raw_voice.repository.RawVoiceRepository;
+import com.doran.redis.record.mapper.RecordMapper;
+import com.doran.redis.record.service.RecordService;
 import com.doran.user.entity.User;
 import com.doran.user.service.UserService;
 import com.doran.utils.auth.Auth;
@@ -32,11 +34,13 @@ public class RawVoiceService {
     private final RawVoiceRepository rawVoiceRepository;
     private final RawVoiceMapper rawVoiceMapper;
     private final UserService userService;
+    private final RecordService recordService;
+    private final RecordMapper recordMapper;
 
     // 목소리 검색
     public RawVoice findRawVoiceById(int rvId) {
         return rawVoiceRepository.findById(rvId)
-            .orElseThrow(() -> new CustomException(ErrorCode.VOICE_NOT_FOUND));
+                                 .orElseThrow(() -> new CustomException(ErrorCode.VOICE_NOT_FOUND));
     }
 
     public List<RawVoiceResDto> findRawVoiceByUserId(int userId, Genders genders) {
@@ -79,4 +83,21 @@ public class RawVoiceService {
         return rawVoiceRepository.findRawVoiceByUserId(userId);
     }
 
+    public void createRecordRedis(int userId, Genders gender) {
+        // 낭독 여부 갱신
+        recordService.findById(String.valueOf(userId)).ifPresentOrElse(record -> {
+            log.info("레디스 있어욧!!!!!!!!!!!!!!!!!");
+            recordService.update(userId, record, gender);
+        }, () -> {
+            log.info("레디스 없어욧!!!!!!!!!!!!!!!!!!!!!!!!");
+            boolean maleAble = false;
+            boolean femaleAble = false;
+
+            if (gender.equals(Genders.MALE))
+                maleAble = true;
+            else
+                femaleAble = true;
+            recordService.save(recordMapper.toRecord(String.valueOf(userId), maleAble, femaleAble));
+        });
+    }
 }
