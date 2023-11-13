@@ -57,11 +57,11 @@ def inferConvertBatch(index, filePath, fileList, outputPath):
                     "rmvpe",	
                     "",	
                     index,	
-                    0.75,	
-                    3,	
-                    0,	
-                    0.25,	
-                    0.33,	
+                    0.1,	# 5
+                    3,	    # 4
+                    0,	    # 1
+                    0.7,	# 2
+                    0.33,	# 3
                     "wav",
                     api_name="/infer_convert_batch"
     )

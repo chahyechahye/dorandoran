@@ -1,5 +1,6 @@
 import pika
 import asyncio
+import time
 from pika import BlockingConnection
 
 from customLog import LogInfo

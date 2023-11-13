@@ -6,6 +6,7 @@ from customLog import LogInfo
 from customLog import LogError
 from GoogleBucket import DownloadRaw
 from CreateModel import trainStartAll
+from joinWav import JoinWav
 
 class RawVoiceResDto(BaseModel):
     rvId: int
@@ -31,8 +32,6 @@ def Model(data):
         rawVoiceList = modelRes_dict['rawVoiceList']
         LogInfo(f"RAWVOICELIST : {rawVoiceList}")
 
-        directory = ""
-
         for rawVoice in rawVoiceList:
             rvId = rawVoice['rvId']
             LogInfo(f"rvId : {rvId}")
@@ -40,7 +39,8 @@ def Model(data):
             LogInfo(f"voiceUrl : {voiceUrl}")
             gender = rawVoice['gender']
             LogInfo(f"gender : {gender}")
-            directory = DownloadRaw(userId=userId, gender=userGender, voiceUrl=voiceUrl)
+            download_path = DownloadRaw(userId=userId, gender=userGender, voiceUrl=voiceUrl)
+            directory = JoinWav(directory=download_path)
             # 학습
         trainStartAll(user=userId, gender=userGender, trainPath=directory)
         res = ModelReq(
