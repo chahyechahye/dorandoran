@@ -1,22 +1,26 @@
 package com.doran.user.controller;
 
-import com.doran.child.dto.res.ChildDto;
-import com.doran.child.service.ChildService;
-import com.doran.profile.dto.res.ProfileListDto;
-import com.doran.profile.service.ProfileService;
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.doran.child.dto.res.ChildDto;
+import com.doran.child.service.ChildService;
 import com.doran.jwt.JwtProvider;
 import com.doran.parent.type.Provider;
+import com.doran.profile.dto.res.ProfileListDto;
+import com.doran.profile.service.ProfileService;
 import com.doran.redis.invite.service.InviteService;
 import com.doran.user.dto.req.InviteReqDto;
 import com.doran.user.dto.req.UserJoinDto;
 import com.doran.user.dto.req.UserTokenBaseDto;
+import com.doran.user.dto.res.UserInfoRes;
 import com.doran.user.service.OauthService;
 import com.doran.user.service.UserService;
 import com.doran.utils.auth.Auth;
@@ -57,7 +61,7 @@ public class UserController {
         ProfileListDto profileListDto = profileService.selectAllProfile(childDto.getId());
 
         return CommonResponseEntity
-            .getResponseEntity(SuccessCode.OK,profileListDto);
+            .getResponseEntity(SuccessCode.OK, profileListDto);
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_PARENT')")
@@ -68,5 +72,12 @@ public class UserController {
         userService.sendMessage(code, dto.getTel());
 
         return CommonResponseEntity.getResponseEntity(SuccessCode.OK, "초대코드 전송 완료");
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @GetMapping("/admin")
+    public ResponseEntity<?> admin() {
+        List<UserInfoRes> userInfoList = userService.allUser();
+        return CommonResponseEntity.getResponseEntity(SuccessCode.OK, userInfoList);
     }
 }

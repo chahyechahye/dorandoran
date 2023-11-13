@@ -1,5 +1,7 @@
 package com.doran.user.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -11,6 +13,7 @@ import com.doran.parent.service.ParentService;
 import com.doran.parent.type.Provider;
 import com.doran.redis.invite.service.InviteService;
 import com.doran.user.dto.req.UserTokenBaseDto;
+import com.doran.user.dto.res.UserInfoRes;
 import com.doran.user.entity.User;
 import com.doran.user.mapper.UserMapper;
 import com.doran.user.repository.UserRepository;
@@ -85,4 +88,18 @@ public class UserService {
 
         message.send_msg(tel, code, MessageType.INVITE);
     }
+
+    public List<UserInfoRes> allUser() {
+        List<User> users = userRepository.findAllUser();
+        List<UserInfoRes> userInfos = new ArrayList<>();
+        for (User user : users) {
+            UserInfoRes userInfo = new UserInfoRes();
+            userInfo.setUserRole(user.getUserRole());
+            userInfo.setId(user.getId());
+            userInfo.setName(user.getName());
+            userInfos.add(userInfo);
+        }
+        return userInfos;
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.doran.user.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.doran.parent.type.Provider;
@@ -16,6 +17,10 @@ public interface UserRepositoryCustom {
     Optional<UserInfo> findUser(int userId, Roles roles);
 
     Optional<UserInfo> findUser(int userId, int profileId, Roles roles);
+
     Optional<User> findUserByParentId(int parentId);
+
     Optional<User> findUserByProfileId(int profileId);
+
+    List<User> findAllUser();
 }

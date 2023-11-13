@@ -5,6 +5,7 @@ import static com.doran.parent.entity.QParent.*;
 import static com.doran.profile.entity.QProfile.*;
 import static com.doran.user.entity.QUser.*;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.doran.parent.type.Provider;
@@ -79,8 +80,9 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
                 user.userRole.eq(roles))
             .fetchOne());
     }
+
     @Override
-    public Optional<User> findUserByParentId(int parentId){
+    public Optional<User> findUserByParentId(int parentId) {
         return Optional.ofNullable(jpaQueryFactory
             .select(user)
             .from(user)
@@ -88,8 +90,9 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
             .where(parent.id.eq(parentId))
             .fetchOne());
     }
+
     @Override
-    public Optional<User> findUserByProfileId(int profileId){
+    public Optional<User> findUserByProfileId(int profileId) {
         return Optional.ofNullable(jpaQueryFactory
             .select(user)
             .from(user)
@@ -98,4 +101,14 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
             .where(profile.id.eq(profileId))
             .fetchOne());
     }
+
+    @Override
+    public List<User> findAllUser() {
+        return jpaQueryFactory
+            .select(user)
+            .from(user)
+            .where(user.userRole.eq(Roles.PARENT))
+            .fetch();
+    }
+
 }
