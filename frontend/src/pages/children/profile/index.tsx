@@ -67,7 +67,7 @@ const ChildrenProfilePage = () => {
         profileId: profile.id,
       });
 
-      console.log("프로필데이터:" + profile.name);
+      await new Promise((resolve) => setTimeout(resolve, 200));
 
       // Navigate after the request is completed
       if (profile.animal.name === "기본") {
