@@ -566,7 +566,7 @@ const ChildrenMainPage = () => {
   };
 
   const goFairytale = () => {
-    const { play, stop } = getSoundEffect(profile.animal.name, "letter");
+    const { play, stop } = getSoundEffect(profile.animal.name, "library");
     stop(); // Stop the current sound
     if (isCharacterClick) {
       play();
@@ -707,7 +707,7 @@ const ChildrenMainPage = () => {
             onClick={() => {
               const { play, stop } = getSoundEffect(
                 profile.animal.name,
-                "library"
+                "letter"
               );
               stop(); // Stop the current sound
               if (isCharacterClick) {
