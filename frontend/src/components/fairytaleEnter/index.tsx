@@ -1,10 +1,20 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import background from "@/assets/img/background/background.jpg";
 
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { fairytaleReadState, fairytaleState } from "../../states/children/info";
+import bookCover from "@/assets/img/fairytale/fairytaleCover.png";
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
 
 // Styled Components
 const CardContainer = styled.div`
@@ -14,6 +24,7 @@ const CardContainer = styled.div`
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.3);
+  animation: ${fadeIn} 0.7s ease; // CSS 애니메이션 적용
 `;
 
 const Card = styled.div`
@@ -68,8 +79,7 @@ const ImgBox = styled.div`
   height: 100%;
   position: relative;
   transform-origin: left;
-  transition: 0.7s;
-  background-color: white;
+  transition: 1s;
 
   &.open {
     transform: rotateY(-135deg);
@@ -78,25 +88,26 @@ const ImgBox = styled.div`
 
 const Bark = styled.div`
   position: absolute;
-  background: #e0e1dc;
+  /* background: #e0e1dc; */
   width: 100%;
   height: 100%;
   opacity: 0;
-  transition: 0.7s;
+  transition: 1s;
+  /* background-image: url(${bookCover}); */
 
   &.open {
     opacity: 1;
     transition: 0.6s;
     box-shadow: 30vh 20vh 10vh rgba(0, 0, 0, 0.4) inset;
+
     min-width: 37.5vh;
     max-height: 60vh;
   }
 `;
 
 const Img = styled.img`
-  width: 90%;
-  height: 90%;
-  margin-top: 5%;
+  width: 100%;
+  height: 100%;
   object-fit: fill;
 `;
 
@@ -149,7 +160,8 @@ const FariytaleEnter = () => {
       <Card className={isOpen ? "open" : ""}>
         <ImgBox className={isOpen ? "open" : ""}>
           <Bark className={isOpen ? "open" : ""}></Bark>
-          <Img src={fairytale.imgUrl} className={isOpen ? "open" : ""} />
+          <Img src={bookCover} className={isOpen ? "open" : ""} />
+          {/* <Img src={fairytale.imgUrl} className={isOpen ? "open" : ""} /> */}
         </ImgBox>
         <Details
           src={fairytaleRead[0].imgUrl}
