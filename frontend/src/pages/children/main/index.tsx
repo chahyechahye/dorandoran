@@ -489,13 +489,13 @@ const ChildrenMainPage = () => {
     "https://storage.googleapis.com/dorandoran/peng_library.mp3"
   );
   const [playLetterPanda, { stop: stopLetterPanda }] = useSound(
-    "https://storage.googleapis.com/dorandoran/panda_letter.mp3"
+    "https://storage.googleapis.com/dorandoran/newPanda_letter.mp3"
   );
   const [playAlbumPanda, { stop: stopAlbumPanda }] = useSound(
-    "https://storage.googleapis.com/dorandoran/panda_album.mp3"
+    "https://storage.googleapis.com/dorandoran/newPanda_album.mp3"
   );
   const [playLibraryPanda, { stop: stopLibraryPanda }] = useSound(
-    "https://storage.googleapis.com/dorandoran/panda_library.mp3"
+    "https://storage.googleapis.com/dorandoran/newPanda_library.mp3"
   );
 
   const getSoundEffect = (animalType: string, actionType: string) => {
