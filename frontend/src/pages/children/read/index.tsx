@@ -125,7 +125,7 @@ const FairytaleReadPage = () => {
       currentPageIndex === fairytaleRead.length - 1
     ) {
       setSoundData(true);
-      alert("동화끗");
+      alert("동화가 끝났어요!");
       window.location.href = "/children/like";
     }
   };
@@ -149,7 +149,7 @@ const FairytaleReadPage = () => {
       console.log("1-currentPageIndex:" + currentPageIndex);
       console.log("1-currentContentIndex:" + currentContentIndex);
     } else if (currentContentIndex === 0 && currentPageIndex === 0) {
-      alert("처음이에여");
+      alert("첫장면이에요!");
       console.log("4-currentPageIndex:" + currentPageIndex);
       console.log("4-currentContentIndex:" + currentContentIndex);
     }
