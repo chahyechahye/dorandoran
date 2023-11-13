@@ -1,7 +1,6 @@
 package com.doran.processed_voice.service;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 import org.springframework.stereotype.Service;
 
@@ -51,17 +50,19 @@ public class ProcessedVoiceService {
     // 가공된 목소리 검색 - 관리자
     public ProcessedVoiceResDto getProcessedVoiceForAdmin(int userId, int contentId) {
         ProcessedVoice processedVoice = processedVoiceRepository.findVoiceByParentIdAndContentId(userId, contentId)
-            .orElseThrow(() -> new CustomException(ErrorCode.VOICE_NOT_FOUND));
+                                                                .orElseThrow(() -> new CustomException(
+                                                                    ErrorCode.VOICE_NOT_FOUND));
         return processedVoiceMapper.pvToResDto(processedVoice);
     }
 
     // 가공된 목소리 검색 - 아이
     public ProcessedVoiceResDto getProcessedVoiceById(int contentId) { // 아이 전용
         Parent parent = parentRepository.findParentByChildUserId(Auth.getInfo().getUserId())
-            .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+                                        .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
         ProcessedVoice processedVoice = processedVoiceRepository.findVoiceByParentIdAndContentId(
-                parent.getUser().getId(), contentId)
-            .orElseThrow(() -> new CustomException(ErrorCode.VOICE_NOT_FOUND));
+                                                                    parent.getUser().getId(), contentId)
+                                                                .orElseThrow(() -> new CustomException(
+                                                                    ErrorCode.VOICE_NOT_FOUND));
         return processedVoiceMapper.pvToResDto(processedVoice);
     }
 
@@ -77,7 +78,8 @@ public class ProcessedVoiceService {
         User user = userService.findUser(processedVoiceInsertDto.getUserId());
         InsertDto insertDto = bucketMapper.toInsertDto(processedVoiceInsertDto.getFile(), "processed_voice");
         String voiceUrl = bucketService.insertFile(insertDto);
-        ProcessedVoice processedVoice = processedVoiceMapper.toProcessedVoice(content, user, voiceUrl, Genders.MALE);
+        Genders gender = processedVoiceInsertDto.getGender();
+        ProcessedVoice processedVoice = processedVoiceMapper.toProcessedVoice(content, user, voiceUrl, gender);
         processedVoiceRepository.save(processedVoice);
     }
 
@@ -96,7 +98,8 @@ public class ProcessedVoiceService {
     //가공 목소리가 존재하는지 체킹 해주는 메소드
     public RecordCheckDto checkRecording(int parentUserId) {
         Record record = recordService.findById(String.valueOf(parentUserId))
-            .orElseGet(() -> recordService.save(new Record(String.valueOf(parentUserId), false, false)));
+                                     .orElseGet(() -> recordService.save(
+                                         new Record(String.valueOf(parentUserId), false, false)));
 
         return recordMapper.toCheckDto(record);
     }
