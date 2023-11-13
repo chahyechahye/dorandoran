@@ -1,6 +1,7 @@
 interface FairytaleListProps {
   bookId: number;
   title: string;
+  characterUrl: string;
   imgUrl: string;
   author: null;
   publisher: null;
@@ -17,6 +18,7 @@ interface FairytaleContentProps {
 interface FairytaleReadProps {
   pageId: number;
   idx: number;
+  characterUrl: string;
   imgUrl: string;
   contentResDto: FairytaleContentProps[];
 }
