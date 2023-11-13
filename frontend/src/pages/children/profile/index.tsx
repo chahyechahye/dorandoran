@@ -51,24 +51,35 @@ const ChildrenProfilePage = () => {
 
   console.log(profileList);
 
-  const postLoginHandler = (profile: ChildrenProfileProps) => {
+  const postLoginHandler = async (profile: ChildrenProfileProps) => {
     playSound();
+
     try {
       localStorage.removeItem("accessToken");
+
+      // Update local state
       setChildrenLogin({ childId: profile.childId, profileId: profile.id });
       setProfileData(profile);
-      usePostChildrenLogin.mutateAsync({
+
+      // Use mutateAsync to make the API request
+      await usePostChildrenLogin.mutateAsync({
         childId: profile.childId,
         profileId: profile.id,
       });
-      console.log("프로필데이타:" + profile.name);
+
+      console.log("프로필데이터:" + profile.name);
+
+      // Navigate after the request is completed
       if (profile.animal.name === "기본") {
         navigate("/children/character");
       } else {
         navigate("/children/main");
       }
-    } catch (errer) {
-      console.log("api 오류 - postLoginHandler");
+    } catch (error) {
+      // Handle errors
+      console.error("API 오류 - postLoginHandler:", error);
+
+      // You might want to show an error message to the user or handle it in another way
     }
   };
 

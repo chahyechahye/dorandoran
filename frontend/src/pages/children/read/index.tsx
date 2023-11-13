@@ -33,11 +33,14 @@ const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: end;
+  height: 100%;
+  margin: 0vh 5vh;
+  margin-bottom: 10vh;
 `;
 
 const TextContainer = styled.div`
-  position: absolute;
+  /* position: absolute; */
   bottom: 5vh;
   text-align: center;
 `;
@@ -99,12 +102,16 @@ const FairytaleReadPage = () => {
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
   // 컨텐츠 (스크립트 변화)
   const [currentContentIndex, setCurrentContentIndex] = useState(0);
+  const [audioStarted, setAudioStarted] = useState(false);
+  const [audioPlaying, setAudioPlaying] = useState(false);
+
   setInfoFairytaleRead(fairytaleContentList);
 
   const audioPlayerRef = useRef<HTMLAudioElement | null>(null);
   setInfoFairytaleRead(fairytaleContentList);
   const { playBookSound } = useSoundBookEffect();
   const setSoundData = useSetRecoilState(MainSoundState);
+  // console.log(fairytaleContentList[0].voiceUrl);
 
   useEffect(() => {
     setSoundData(false);
@@ -162,30 +169,46 @@ const FairytaleReadPage = () => {
   setInfoFairytaleRead(fairytaleRead[currentPageIndex].contentResDto);
 
   useEffect(() => {
-    if (audioPlayerRef.current) {
-      audioPlayerRef.current.pause();
-      audioPlayerRef.current = null;
+    if (voice) {
+      setAudioStarted(true);
+    }
+  }, [voice]);
+
+  useEffect(() => {
+    if (!audioStarted || !voice) {
+      return;
     }
 
     const audioPlayer = new Audio(voice);
 
     const playAudio = () => {
-      audioPlayer.play();
-      audioPlayer.removeEventListener("canplaythrough", playAudio);
-    };
-
-    audioPlayer.addEventListener("canplaythrough", playAudio);
-
-    audioPlayerRef.current = audioPlayer;
-
-    return () => {
-      if (audioPlayerRef.current) {
-        audioPlayerRef.current.pause();
-        audioPlayerRef.current.removeEventListener("canplaythrough", playAudio);
-        audioPlayerRef.current.remove();
+      if (audioPlayer) {
+        audioPlayer.play().catch((error) => {
+          console.error("Error playing audio:", error);
+        });
       }
     };
-  }, [voice]);
+
+    const playAudioOnUserInteraction = () => {
+      document.removeEventListener("click", playAudioOnUserInteraction);
+      playAudio();
+    };
+
+    audioPlayer.addEventListener("canplaythrough", playAudioOnUserInteraction);
+
+    playAudio(); // Play audio when the component mounts and voice is set
+
+    return () => {
+      if (audioPlayer) {
+        audioPlayer.pause();
+        audioPlayer.removeEventListener(
+          "canplaythrough",
+          playAudioOnUserInteraction
+        );
+        audioPlayer.remove();
+      }
+    };
+  }, [audioStarted, voice]);
 
   const goMain = () => {
     setSoundData(true);
