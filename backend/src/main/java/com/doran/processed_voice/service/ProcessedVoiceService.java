@@ -96,7 +96,7 @@ public class ProcessedVoiceService {
     //가공 목소리가 존재하는지 체킹 해주는 메소드
     public RecordCheckDto checkRecording(int parentUserId) {
         Record record = recordService.findById(String.valueOf(parentUserId))
-            .orElseGet(() -> new Record(String.valueOf(parentUserId), false, false));
+            .orElseGet(() -> recordService.save(new Record(String.valueOf(parentUserId), false, false)));
 
         return recordMapper.toCheckDto(record);
     }
