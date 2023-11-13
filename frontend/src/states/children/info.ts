@@ -90,6 +90,7 @@ export const fairytaleState = atom<FairytaleListProps>({
   default: {
     bookId: 0,
     title: "",
+    characterUrl: "",
     imgUrl: "",
     author: null,
     publisher: null,
@@ -111,6 +112,7 @@ export const fairytaleReadState = atom<FairytaleReadProps[]>({
       pageId: 0,
       idx: 0,
       imgUrl: "",
+      characterUrl: "",
       contentResDto: [
         {
           content_id: 0,
