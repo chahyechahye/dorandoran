@@ -170,7 +170,10 @@ const FairytaleReadPage = () => {
     const audioPlayer = new Audio(voice);
 
     const playAudio = () => {
-      audioPlayer.play();
+      audioPlayer.play().catch((error) => {
+        // Handle error, e.g., log it or provide a user-friendly message
+        console.error("Error playing audio:", error);
+      });
       audioPlayer.removeEventListener("canplaythrough", playAudio);
     };
 

@@ -220,7 +220,7 @@ const LikeBookList = () => {
         modifier: 1,
         slideShadows: false,
       },
-      loop: true,
+      loop: false,
       pagination: {
         el: ".swiper-pagination",
         clickable: true,
