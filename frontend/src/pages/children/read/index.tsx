@@ -27,6 +27,21 @@ const Background = styled.div`
   justify-content: center;
   align-items: center;
   transition: background-image 0.5s ease;
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; /* Adjust the height of the gradient as needed */
+    background: linear-gradient(
+      180deg,
+      rgba(217, 217, 217, 0) 65.68%,
+      rgba(123, 123, 123, 0.43) 72.11%,
+      rgba(0, 0, 0, 0.3) 75.84%
+    );
+  }
 `;
 
 const ContentContainer = styled.div`
@@ -43,6 +58,7 @@ const TextContainer = styled.div`
   /* position: absolute; */
   bottom: 5vh;
   text-align: center;
+  z-index: 10;
 `;
 
 const TextBox = styled.div`
@@ -60,6 +76,7 @@ const ArrowBox = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 0 3%;
+  z-index: 11;
 `;
 
 const ArrowLeft = styled.img`
