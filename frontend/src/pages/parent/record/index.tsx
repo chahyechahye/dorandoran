@@ -7,6 +7,7 @@ import Modal from "@/components/modal";
 import { useGetRecord } from "@/apis/parents/record/Queries/useGetRecord";
 import { usePostVoice } from "@/apis/parents/record/Mutations/usePostVoice";
 import GenderModal from "@/components/genderModal";
+import SaveModal from "@/components/saveModal";
 
 import background from "@/assets/img/background/backgroundMain.jpg";
 import Logo from "@/assets/img/Logo.png";
@@ -16,8 +17,9 @@ import { useNavigate } from "react-router-dom";
 import { useSoundEffect } from "@/components/sounds/soundEffect";
 import { MainSoundState } from "@/states/common/voice";
 import { useRecoilState } from "recoil";
-
+import { usePostSaveRecord } from "@/apis/parents/record/Mutations/usePostSaveRecord";
 import { ButtonEffect } from "@/styles/buttonEffect";
+import { useDeleteVoice } from "@/apis/parents/record/Mutations/useDeleteVoice";
 
 const Container = styled.div`
   position: fixed;
@@ -105,10 +107,27 @@ const ParentRecordPage = () => {
   const totalScriptList = script.data.totalScriptList;
   const recordVoice = usePostVoice();
   const recordComplete = usePostVoiceComplete();
+  const deleteVoice = useDeleteVoice();
 
   const [isAlertModalOpen, setIsAlertModalOpen] = useState(true); // 모달의 상태를 관리하는 state
   const [isAlarmModalOpen, setIsAlarmModalOpen] = useState(false);
+  const [isSaveModalOpen, setIsSaveModalOpen] = useState(false);
   const [selectedGender, setSelectedGender] = useState("");
+  const [resultGender, setResultGender] = useState("");
+
+  // Add a useEffect to update resultGender when selectedGender changes
+  useEffect(() => {
+    if (selectedGender === "아빠") {
+      setResultGender("MALE");
+    } else if (selectedGender === "엄마") {
+      setResultGender("FEMALE");
+    } else {
+      // Handle other cases if needed
+      setResultGender("");
+    }
+  }, [selectedGender]);
+
+  const getSaveRecord = usePostSaveRecord();
 
   const [stream, setStream] = useState<MediaStream | null>(null);
   const [media, setMedia] = useState<MediaRecorder | null>(null);
@@ -124,6 +143,10 @@ const ParentRecordPage = () => {
   const [currentScriptNum, setCurrentScriptNum] = useState(0);
   const [scriptReadNum, setScriptReadNum] = useState([0, 0, 0]);
   const [isPlaying, setIsPlaying] = useRecoilState(MainSoundState);
+  const [saveData, setSaveData] = useState({
+    title: "백설 공주",
+    scriptNum: 0,
+  });
   const { playSound } = useSoundEffect();
 
   useEffect(() => {
@@ -140,9 +163,25 @@ const ParentRecordPage = () => {
     setIsAlarmModalOpen(true);
   };
 
+  const handleCompleteModal = () => {
+    navigate("/parent/main");
+  };
+
   const handleCloseModal = () => {
+    const response = getSaveRecord.mutateAsync(resultGender);
+    response.then((res) => {
+      if (Object.keys(res.data).length !== 0) {
+        setIsSaveModalOpen(true);
+        console.log(res.data);
+        setSaveData(res.data);
+      }
+    });
     setIsAlertModalOpen(false); // 모달을 닫습니다.
     setIsAlarmModalOpen(false);
+  };
+
+  const handleCloseSaveModal = () => {
+    setIsSaveModalOpen(false); // 모달을 닫습니다.
   };
 
   const handleNextScript = () => {
@@ -150,7 +189,7 @@ const ParentRecordPage = () => {
     setAudioUrl(null);
     const updatedScriptReadNum = [...scriptReadNum];
     if (currentScriptNum + 1 === totalScriptList[2] && currentPage === 2) {
-      recordComplete.mutateAsync(selectedGender);
+      recordComplete.mutateAsync(resultGender);
       OpenAlarmModal();
       return;
     }
@@ -257,9 +296,21 @@ const ParentRecordPage = () => {
 
     const setGender: string = selectedGender === "아빠" ? "MALE" : "FEMALE";
 
-    recordVoice.mutateAsync({ file: sound, gender: setGender });
+    recordVoice.mutateAsync({
+      file: sound,
+      gender: setGender,
+      title: scriptData[currentPage].title,
+      scriptNum: currentScriptNum + 1,
+    });
     console.log(sound);
-  }, [audioUrl, recordVoice, selectedGender]);
+  }, [
+    audioUrl,
+    recordVoice,
+    selectedGender,
+    currentPage,
+    scriptData,
+    currentScriptNum,
+  ]);
 
   useEffect(() => {
     setIsAudioAvailable(Boolean(audioUrl));
@@ -272,6 +323,50 @@ const ParentRecordPage = () => {
   const goProfile = () => {
     playSound();
     navigate("/parent/main");
+  };
+
+  const onResume = () => {
+    if (saveData.title === "백설공주") {
+      setCurrentScriptNum(saveData.scriptNum);
+      setCurrentPage(0);
+
+      const updatedScriptReadNum = [...scriptReadNum];
+      updatedScriptReadNum[currentPage] = saveData.scriptNum;
+      for (let i = 0; i < currentPage; i++) {
+        updatedScriptReadNum[i] = totalScriptList[i] - 1;
+      }
+      setScriptReadNum(updatedScriptReadNum);
+    } else if (saveData.title === "빨간 모자") {
+      setCurrentScriptNum(saveData.scriptNum);
+      setCurrentPage(1);
+
+      const updatedScriptReadNum = [...scriptReadNum];
+      updatedScriptReadNum[0] = totalScriptList[0] - 1;
+      updatedScriptReadNum[1] = saveData.scriptNum;
+
+      setScriptReadNum(updatedScriptReadNum);
+    } else {
+      setCurrentScriptNum(saveData.scriptNum);
+      setCurrentPage(2);
+
+      const updatedScriptReadNum = [...scriptReadNum];
+      updatedScriptReadNum[0] = totalScriptList[0] - 1;
+      updatedScriptReadNum[1] = totalScriptList[1] - 1;
+      updatedScriptReadNum[2] = saveData.scriptNum;
+
+      setScriptReadNum(updatedScriptReadNum);
+    }
+
+    handleCloseSaveModal();
+    console.log("이어하기");
+  };
+
+  const onRestart = () => {
+    // 처음부터 버튼을 눌렀을 때 실행할 동작을 정의
+    // 예: 처음부터 녹음을 시작하는 로직 등
+    deleteVoice.mutateAsync(resultGender);
+    handleCloseSaveModal();
+    console.log("처음부터");
   };
 
   return (
@@ -368,10 +463,22 @@ const ParentRecordPage = () => {
           </div>
         </div>
       </Container>
-      {(isAlertModalOpen || isAlarmModalOpen) && (
+      {(isAlertModalOpen || isAlarmModalOpen || isSaveModalOpen) && (
         <Overlay onClick={handleCloseModal} />
       )}
       {/* 오버레이 렌더링 */}
+      {isSaveModalOpen && (
+        <SaveModal
+          title="녹음된 기록이 있어요!"
+          subtitle={`저장된 기록부터 다시 녹음할 수 있습니다.
+          기존 녹음을 이어서 진행하시겠어요?`}
+          bgColor="#78BFFC"
+          onClose={handleCloseSaveModal}
+          onResume={onResume}
+          onRestart={onRestart}
+        />
+      )}
+
       {isAlertModalOpen && (
         <Modal
           title="목소리 녹음"
@@ -398,7 +505,7 @@ const ParentRecordPage = () => {
           bgColor="#78BFFC"
           buttonColor="#F65F5F"
           showInput={true}
-          onClose={handleCloseModal} // 모달 닫기를 위한 함수를 전달합니다.
+          onClose={handleCompleteModal} // 모달 닫기를 위한 함수를 전달합니다.
         />
       )}
       <ExitContainer className="exit-button" onClick={goProfile}>
@@ -413,6 +520,7 @@ const ParentRecordPage = () => {
           나가기
         </p>
       </ExitContainer>
+
       <audio ref={audioPlayerRef} controls style={{ display: "none" }} />
     </>
   );
