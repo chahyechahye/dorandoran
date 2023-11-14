@@ -732,12 +732,12 @@ const ChildrenMainPage = () => {
   };
 
   useEffect(() => {
-    if (LetterList.data && letterSize !== 0 && !flag) {
+    if (LetterList.data.size > 0 && !flag) {
       setHasFetchedData(true);
       openLetter();
     }
     setFlag(true);
-  }, [LetterList.data, letterSize, flag, readLetterList]);
+  }, [LetterList, flag, readLetterList]);
 
   const handleLeftClick = () => {
     if (isLetterPage > 0) {

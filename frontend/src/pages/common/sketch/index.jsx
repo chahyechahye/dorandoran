@@ -25,6 +25,7 @@ import sketchBackground from "@/assets/img/sketchBackground.png";
 import { background } from "@/assets/img/background/backgroundMain.jpg";
 
 import letterSend from "@/assets/img/letter/letterSend.png";
+import { usePostAlbum } from "@/apis/common/album/Mutations/usePostAlbum";
 
 const Body = styled.div`
   width: 100%;
@@ -211,6 +212,7 @@ const SketchPage = () => {
   const profileData = useRecoilValue(profileState);
   const sendLetter = usePostLetter();
   const { playSound } = useSoundEffect();
+  const postAlbum = usePostAlbum();
 
   const pencilPathDefaults = {
     minThickness: 4,
@@ -520,6 +522,10 @@ const SketchPage = () => {
       const imageDataUrl = canvas.toDataURL("image/png");
 
       const blob = dataURLtoBlob(imageDataUrl);
+      const formData = new FormData();
+      formData.append("multipartFile", blob);
+
+      postAlbum.mutateAsync(formData);
 
       sendLetter
         .mutateAsync({

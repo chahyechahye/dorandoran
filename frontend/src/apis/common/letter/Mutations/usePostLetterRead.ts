@@ -1,10 +1,11 @@
 import { postLetterRead } from "@/apis/common/letter/letterAPI";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const usePostLetterRead = () => {
+  const queryCilent = useQueryClient();
   return useMutation(() => postLetterRead(), {
     onSuccess: () => {
-      console.log("읽음");
+      queryCilent.invalidateQueries(["LetterList"]);
     },
     onError: (err: Error) => {
       console.log("Error in usePostLetterRead:", err);

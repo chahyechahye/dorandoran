@@ -591,7 +591,9 @@ const FairyTalePage = () => {
               (fairytale: FairytaleListProps, index: number) => (
                 <div key={index} className={`card card0${index}`}>
                   <CardContent>
-                    <CardCircle></CardCircle>
+                    <CardCircle
+                      onClick={() => fairytaleHandler(fairytale)}
+                    ></CardCircle>
                     <Image
                       src={fairytale.characterUrl}
                       alt={fairytale.title}

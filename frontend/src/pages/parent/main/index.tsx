@@ -156,8 +156,6 @@ const ParentMainPage = () => {
   const [flag, setFlag] = useState(false);
   const [isLetterPage, setIsLetterPage] = useState(0);
 
-  console.log(readLetterList);
-
   const handleOpenAlbum = () => {
     playSound();
     setIsOpenAlbum(true);
@@ -213,12 +211,12 @@ const ParentMainPage = () => {
   };
 
   useEffect(() => {
-    if (letterSize !== 0 && !flag) {
+    if (LetterList.data.size > 0 && !flag) {
       setHasFetchedData(true);
       openLetter();
     }
     setFlag(true);
-  }, [letterSize, flag, readLetterList]);
+  }, [LetterList, flag, readLetterList]);
 
   const handleLeftClick = () => {
     if (isLetterPage > 0) {
