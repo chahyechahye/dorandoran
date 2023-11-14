@@ -10,7 +10,12 @@ const getRecord = async () => {
   }
 };
 
-const postVoice = async (file: File, gender: string) => {
+const postVoice = async (
+  file: File,
+  gender: string,
+  title: string,
+  scriptNum: number
+) => {
   try {
     const config = {
       headers: { "Content-Type": "multipart/form-data" },
@@ -21,6 +26,8 @@ const postVoice = async (file: File, gender: string) => {
       {
         file: file,
         gender: gender,
+        title: title,
+        scriptNum: scriptNum,
       },
       config
     );
@@ -50,4 +57,31 @@ const postVoiceComplete = async (genders: string) => {
   }
 };
 
-export { getRecord, postVoice, postAlarmMessage, postVoiceComplete };
+const postSaveRecord = async (genders: string) => {
+  try {
+    const response = await instance.post(`/record/save`, {
+      genders: genders,
+    });
+    return response.data;
+  } catch {
+    console.log(new Error("api 연동 오류 - postSaveRecord"));
+  }
+};
+
+const deleteVoice = async (genders: string) => {
+  try {
+    const response = await instance.delete(`/voice/${genders}`);
+    return response.data;
+  } catch {
+    console.log(new Error("api 연동 오류 - deleteVoice"));
+  }
+};
+
+export {
+  getRecord,
+  postVoice,
+  postAlarmMessage,
+  postVoiceComplete,
+  postSaveRecord,
+  deleteVoice,
+};

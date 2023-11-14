@@ -3,8 +3,18 @@ import { postVoice } from "@/apis/parents/record/recordAPI";
 
 const usePostVoice = () => {
   return useMutation(
-    ({ file, gender }: { file: File; gender: string }) => {
-      return postVoice(file, gender);
+    ({
+      file,
+      gender,
+      title,
+      scriptNum,
+    }: {
+      file: File;
+      gender: string;
+      title: string;
+      scriptNum: number;
+    }) => {
+      return postVoice(file, gender, title, scriptNum);
     },
     {
       onSuccess: () => {
