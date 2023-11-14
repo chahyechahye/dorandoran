@@ -15,7 +15,8 @@ import arrowRight from "@/assets/img/fairytale/arrowRight.png";
 import { useGetLetterList } from "@/apis/common/letter/Queries/useGetLetter";
 import { useNavigate } from "react-router-dom";
 import { profileState } from "@/states/children/info";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useRecoilState } from "recoil";
+import { ButtonEffect } from "@/styles/buttonEffect";
 
 import { useSoundEffect } from "@/components/sounds/soundEffect";
 
@@ -27,6 +28,7 @@ import post from "@/assets/img/post.png";
 
 import Logo from "@/assets/img/Logo.png";
 import { usePostLetterRead } from "@/apis/common/letter/Mutations/usePostLetterRead";
+import { SoundState } from "@/states/common/voice";
 
 const Container = styled.div`
   position: fixed;
@@ -138,6 +140,13 @@ const ArrowRight = styled.img`
   width: 20vh;
 `;
 
+const SoundBtn = styled.img`
+  width: 8vh;
+  height: 8vh;
+
+  ${ButtonEffect}
+`;
+
 const ParentMainPage = () => {
   const navigate = useNavigate();
   const profileData = useRecoilValue(profileState);
@@ -146,6 +155,7 @@ const ParentMainPage = () => {
   const letterContent = LetterList.data.letterResDtoList;
   const readLetterList = usePostLetterRead();
   const [hasFetchedData, setHasFetchedData] = useState(false);
+  const [mainSound, setMainSound] = useRecoilState(SoundState);
   const { playSound } = useSoundEffect();
 
   console.log(profileData);
@@ -232,6 +242,10 @@ const ParentMainPage = () => {
     }
   };
 
+  const handleMainSound = () => {
+    setMainSound(!mainSound);
+  };
+
   return (
     <>
       {(isLetter || isEnvelope || readLetter) && <BlackGround />}
@@ -280,6 +294,11 @@ const ParentMainPage = () => {
             profileName={profileData.name}
           />
           <LikeBook onClick={handleOpenLikeBook} />
+          {mainSound ? (
+            <SoundBtn src={exitBtn} onClick={handleMainSound}></SoundBtn>
+          ) : (
+            <SoundBtn src={background} onClick={handleMainSound}></SoundBtn>
+          )}
         </Header>
         <Image src={Logo} alt="Background" />
         <Content>
