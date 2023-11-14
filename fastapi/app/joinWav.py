@@ -33,6 +33,7 @@ def split_files(files, chunk_size):
 
 def JoinWav(directory):
     LogInfo(f"음성 파일 조인 시작 : {directory}")
+    file_name = directory.split("/")[-1]
     # 디렉토리 아래의 파일 목록 가져오기
     files = list_files(directory)
     chunk_size = 50
@@ -48,7 +49,7 @@ def JoinWav(directory):
         file_chunks.append(new_last_chunk)  # 새로운 마지막 chunk 추가
 
     # 해당 경로에 디렉토리가 존재하지 않으면 디렉토리 생성
-    new_directory = os.path.join("/", "app", "data_join")
+    new_directory = os.path.join("/", "app", "data_join", f"{file_name}")
     if not os.path.exists(new_directory):
         os.makedirs(new_directory)
 
