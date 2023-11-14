@@ -20,7 +20,7 @@ public class ModelSubService {
     private final TelService telService;
     private final VoicePubService voicePubService;
 
-    //@RabbitListener(queues = "model.res")
+    @RabbitListener(queues = "model.res")
     public void subscribeModelQue(ModelResMessage modelResMessage) {
         // 목소리 생성완료 알림
         log.info("model_res 받았음!-----------------------------");
