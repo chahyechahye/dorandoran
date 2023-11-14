@@ -9,7 +9,7 @@ from customLog import LogError
 
 client = storage.Client()
 
-bucket_name = 'ssafy-last-project'
+bucket_name = 'dorandoran'
 
 def Download(bookId, gender, voiceUrl):
     try:
