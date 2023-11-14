@@ -17,7 +17,7 @@ public class Script {
     @Id
     private String id;
 
-    private String script;
+    private String title;
 
     private Integer scriptNum;
 }

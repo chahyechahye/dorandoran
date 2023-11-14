@@ -23,9 +23,13 @@ import com.doran.redis.script.service.ScriptService;
 import com.doran.redis.tel.service.TelService;
 import com.doran.utils.auth.Auth;
 import com.doran.utils.common.UserInfo;
+import com.doran.utils.rabbitmq.dto.res.WaitResDto;
 import com.doran.utils.rabbitmq.service.ModelPubService;
+import com.doran.utils.rabbitmq.service.RabbitService;
 import com.doran.utils.response.CommonResponseEntity;
 import com.doran.utils.response.SuccessCode;
+import com.doran.utils.sens.MessageType;
+import com.doran.utils.sens.Naver_Sens_V2;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,6 +45,7 @@ public class RawVoiceController {
     private final ScriptService scriptService;
     private final RecordBookService recordBookService;
     private final ScriptMapper scriptMapper;
+    private final RabbitService rabbitService;
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("")
@@ -61,19 +66,21 @@ public class RawVoiceController {
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_PARENT')") // 관리자, 부모만 등록 가능
     @PostMapping("")
     public ResponseEntity<?> insertRawVoice(RawVoiceInsertDto rawVoiceInsertDto) {
+        log.info("rawVoiceInsertDto : {}", rawVoiceInsertDto);
         log.info("Raw Voice (원본 목소리) 추가");
         UserInfo info = Auth.getInfo();
 
         rawVoiceService.insertRawVoice(rawVoiceInsertDto);
 
         //try-catch 바인딩 이후 제거 필요
-        try {
-            RecordBook script = recordBookService.findScript(rawVoiceInsertDto.getScript(),
-                rawVoiceInsertDto.getScriptNum());
-            scriptService.save(scriptMapper.toScript(info.getUserId(), script.getScript(), script.getScriptNum()));
-        } catch (Exception e) {
-            log.info("스크립트 안들어옴");
-        }
+
+        RecordBook script = recordBookService.findScript(rawVoiceInsertDto.getTitle(),
+            rawVoiceInsertDto.getScriptNum());
+        log.info("여기");
+        scriptService.save(scriptMapper.toScript(info.getUserId(), script.getTitle(), script.getScriptNum()));
+        log.info("요기");
+
+        // log.info("스크립트 안들어옴");
 
         return CommonResponseEntity.getResponseEntity(SuccessCode.SUCCESS_CODE, null);
     }
@@ -94,9 +101,17 @@ public class RawVoiceController {
     @PostMapping("/tel")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_PARENT')") // 관리자, 부모만 등록 가능
     public ResponseEntity<?> insertTel(@RequestBody TelInsertDto telInsertDto) {
+        Naver_Sens_V2 naverSensV2 = new Naver_Sens_V2();
         log.info("번호 등록 컨트롤러");
         //redis 저장
         telService.save(Auth.getInfo().getUserId(), telInsertDto.getTel());
+
+        WaitResDto waitCount = rabbitService.getWaitCount();
+
+        String s = waitCount.getCount() + "명 대기중, " + waitCount.getTime() + "분 소요 예정입니다.";
+
+        naverSensV2.send_msg(telInsertDto.getTel(), s, MessageType.MODEL);
+
         return CommonResponseEntity.getResponseEntity(SuccessCode.SUCCESS_CODE);
     }
 

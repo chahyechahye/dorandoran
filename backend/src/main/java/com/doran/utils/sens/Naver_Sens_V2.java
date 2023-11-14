@@ -48,9 +48,11 @@ public class Naver_Sens_V2 {
         // 난수와 함께 전송
         if (messageType.equals(MessageType.INVITE))
             toJson.put("content", messageType.getMsg() + rand + "]");
-        else
+        else if (messageType.equals(MessageType.MODEL)) {
+            toJson.put("content", messageType.getMsg() + rand);
+        } else {
             toJson.put("content", messageType.getMsg());
-
+        }
         toJson.put("to", tel);
         toArr.add(toJson);
 

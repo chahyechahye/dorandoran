@@ -14,7 +14,7 @@ public interface RecordBookRepositoryCustom {
 
     List<ScriptDto> findScript(String bookName);
 
-    Optional<RecordBook> findRecordBookByScript(String script, int scriptNum);
+    Optional<RecordBook> findRecordBookByScript(String title, int scriptNum);
 
     void updateRecordBook();
 }

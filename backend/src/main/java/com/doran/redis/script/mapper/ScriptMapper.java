@@ -7,7 +7,7 @@ import com.doran.redis.script.key.Script;
 
 @Mapper(componentModel = "spring")
 public interface ScriptMapper {
-    Script toScript(int id, String script, int scriptNum);
+    Script toScript(int id, String title, int scriptNum);
 
     ScriptResDto toScriptResDto(Script script);
 }

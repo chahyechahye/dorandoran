@@ -8,14 +8,16 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class RawVoiceInsertDto {
     private MultipartFile file;
     private Genders gender;
-    private String script;
+    private String title;
     private int scriptNum;
 }

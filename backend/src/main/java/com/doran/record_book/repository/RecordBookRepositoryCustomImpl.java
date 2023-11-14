@@ -51,11 +51,11 @@ public class RecordBookRepositoryCustomImpl implements RecordBookRepositoryCusto
     }
 
     @Override
-    public Optional<RecordBook> findRecordBookByScript(String script, int scriptNum) {
+    public Optional<RecordBook> findRecordBookByScript(String title, int scriptNum) {
         return Optional.ofNullable(jpaQueryFactory
             .select(recordBook)
             .from(recordBook)
-            .where(recordBook.script.eq(script),
+            .where(recordBook.title.eq(title),
                 recordBook.scriptNum.eq(scriptNum))
             .fetchOne());
     }

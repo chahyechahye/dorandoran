@@ -25,10 +25,10 @@ public class RabbitService {
         RabbitAdmin rabbitAdmin = new RabbitAdmin(rabbitTemplate);
 
         Properties getCount = rabbitAdmin.getQueueProperties(model);
-        
-        int count = (int)getCount.get("QUEUE_MESSAGE_COUNT");
 
-        return rabbitMapper.toWaitResDto(count, count * 50);
+        int count = (int)getCount.get("QUEUE_MESSAGE_COUNT") - 1;
+
+        return rabbitMapper.toWaitResDto(count, count * 100);
     }
 
 }

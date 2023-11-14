@@ -13,7 +13,7 @@ import lombok.Setter;
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL) //null 이면 안나오게 함
 public class ScriptResDto {
-    private String script;
+    private String title;
 
     private Integer scriptNum;
 }
