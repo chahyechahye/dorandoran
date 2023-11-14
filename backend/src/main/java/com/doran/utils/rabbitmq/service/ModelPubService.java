@@ -66,7 +66,7 @@ public class ModelPubService {
 
         log.info("모델 생성 요청 : " + modelReqMessage.getUserId());
 
-        //rabbitTemplate.convertAndSend(routingKey, modelReqMessage);
+        rabbitTemplate.convertAndSend(routingKey, modelReqMessage);
     }
 
 }
