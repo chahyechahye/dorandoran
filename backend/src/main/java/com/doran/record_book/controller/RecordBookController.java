@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,7 +15,9 @@ import com.doran.book.service.BookService;
 import com.doran.content.service.ContentService;
 import com.doran.page.entity.Page;
 import com.doran.page.service.PageService;
+import com.doran.record_book.dto.req.MidSaveDto;
 import com.doran.record_book.dto.res.RecordBookResDto;
+import com.doran.record_book.dto.res.ScriptResDto;
 import com.doran.record_book.service.RecordBookService;
 import com.doran.redis.script.mapper.ScriptMapper;
 import com.doran.redis.script.service.ScriptService;
@@ -63,17 +66,13 @@ public class RecordBookController {
         return CommonResponseEntity.getResponseEntity(SuccessCode.OK, "등록 완료");
     }
 
-    @GetMapping("/save")
-    public ResponseEntity getScript() {
+    @PostMapping("/save")
+    public ResponseEntity getScript(@RequestBody MidSaveDto dto) {
         UserInfo info = Auth.getInfo();
 
-        // ScriptMale scriptMale = scriptService.findScript(String.valueOf(info.getUserId()));
-        //
-        // ScriptResDto scriptResDto = scriptMapper.toScriptResDto(scriptMale);
+        ScriptResDto res = scriptService.findScript(info.getUserId(), dto.getGenders());
 
-        // scriptService.delete(String.valueOf(info.getUserId()));
-
-        return CommonResponseEntity.getResponseEntity(SuccessCode.OK, null);
+        return CommonResponseEntity.getResponseEntity(SuccessCode.OK, res);
 
     }
 }

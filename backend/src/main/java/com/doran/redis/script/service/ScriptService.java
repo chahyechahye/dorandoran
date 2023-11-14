@@ -2,6 +2,7 @@ package com.doran.redis.script.service;
 
 import org.springframework.stereotype.Service;
 
+import com.doran.record_book.dto.res.ScriptResDto;
 import com.doran.record_book.entity.RecordBook;
 import com.doran.redis.script.key.ScriptFemale;
 import com.doran.redis.script.key.ScriptMale;
@@ -32,4 +33,22 @@ public class ScriptService {
         }
     }
 
+    //조회
+    public ScriptResDto findScript(int userId, Genders genders) {
+        if (genders.equals(Genders.MALE)) {
+            ScriptMale scriptMale = scriptMaleService.find(String.valueOf(userId))
+                .orElseGet(ScriptMale::new);
+            
+            scriptMaleService.delete(String.valueOf(userId));
+
+            return scriptMapper.toScriptResDtoMale(scriptMale);
+        } else {
+            ScriptFemale scriptFemale = scriptFemaleService.find(String.valueOf(userId))
+                .orElseGet(ScriptFemale::new);
+
+            scriptFemaleService.delete(String.valueOf(userId));
+
+            return scriptMapper.toScriptResDtoFemale(scriptFemale);
+        }
+    }
 }

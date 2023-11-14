@@ -12,5 +12,8 @@ public interface ScriptMapper {
 
     ScriptFemale toScriptFemale(int id, String title, int scriptNum);
 
-    ScriptResDto toScriptResDto(ScriptMale scriptMale);
+    ScriptResDto toScriptResDtoMale(ScriptMale scriptMale);
+
+    ScriptResDto toScriptResDtoFemale(ScriptFemale scriptFemale);
+
 }

@@ -71,18 +71,11 @@ public class RawVoiceController {
         //저장
         rawVoiceService.insertRawVoice(dto);
 
-        //레디스 저장 시작
-        //여자인지 남자인지 확인해야함
-
         RecordBook script = recordBookService.findScript(dto.getTitle(),
             dto.getScriptNum());
 
         scriptService.genderCheck(info.getUserId(), dto.getGender(), script);
-        log.info("여기");
-        // scriptService.save(scriptMapper.toScript(info.getUserId(), script.getTitle(), script.getScriptNum()));
-        log.info("요기");
-
-        // log.info("스크립트 안들어옴");
+        log.info("중간 저장 완료");
 
         return CommonResponseEntity.getResponseEntity(SuccessCode.SUCCESS_CODE, null);
     }
