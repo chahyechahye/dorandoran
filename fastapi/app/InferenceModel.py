@@ -2,7 +2,7 @@ from gradio_client import Client
 
 from customLog import LogInfo
 
-rvc_address = "http://172.17.0.21:7777/"
+rvc_address = "http://172.20.0.21:7777/"
 # rvc_address = "http://173.199.124.118:7777/"
 
 def inferRefresh(user, gender):
