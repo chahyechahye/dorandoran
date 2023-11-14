@@ -26,7 +26,7 @@ public class VoiceSubService {
     private final RecordService recordService;
     private final RecordMapper recordMapper;
 
-    //@RabbitListener(queues = "voice.res")
+    @RabbitListener(queues = "voice.res")
     public void subscribeVoiceQue(VoiceResMessage voiceResMessage) {
         // 목소리 갱신
         processedVoiceService.saveAll(voiceResMessage);
