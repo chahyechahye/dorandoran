@@ -177,15 +177,17 @@ const GenderModal = ({ onGenderSelected, type }: GenderModalProps) => {
       {isModalOpen && (
         <Container selectedOption={selectedOption}>
           <MainContainer>
-            {(genderBoolean.femaleAble || genderBoolean.maleAble) &&
-            type !== "children" ? (
+            {genderBoolean.femaleAble ||
+            genderBoolean.maleAble ||
+            type === "parent" ? (
               <H2>누가 동화책을 읽어줄까요?</H2>
             ) : (
               <H2>부모님 목소리를 담아주세요</H2>
             )}
             <RadioButtonsContainer>
-              {(genderBoolean.femaleAble || genderBoolean.maleAble) &&
-              type !== "children" ? (
+              {genderBoolean.femaleAble ||
+              genderBoolean.maleAble ||
+              type === "parent" ? (
                 isOption.map(
                   (option) =>
                     option.visible && (

@@ -371,7 +371,7 @@ const ParentRecordPage = () => {
 
   return (
     <>
-      <GenderModal onGenderSelected={handleGenderSelection} />
+      <GenderModal onGenderSelected={handleGenderSelection} type="parent" />
       <Container>
         <Image src={Logo} alt="Background" onClick={goProfile} />
         <div
