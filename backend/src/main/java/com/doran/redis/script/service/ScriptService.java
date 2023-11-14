@@ -47,4 +47,13 @@ public class ScriptService {
             return scriptMapper.toScriptResDtoFemale(scriptFemale);
         }
     }
+
+    public void delete(Genders genders, int userId) {
+        if (genders.equals(Genders.MALE)) {
+            log.info("남");
+            scriptMaleService.delete(String.valueOf(userId));
+        } else {
+            scriptFemaleService.delete(String.valueOf(userId));
+        }
+    }
 }

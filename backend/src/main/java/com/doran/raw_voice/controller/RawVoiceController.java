@@ -18,7 +18,6 @@ import com.doran.raw_voice.dto.res.RawVoiceListDto;
 import com.doran.raw_voice.service.RawVoiceService;
 import com.doran.record_book.entity.RecordBook;
 import com.doran.record_book.service.RecordBookService;
-import com.doran.redis.script.mapper.ScriptMapper;
 import com.doran.redis.script.service.ScriptFemaleService;
 import com.doran.redis.script.service.ScriptMaleService;
 import com.doran.redis.script.service.ScriptService;
@@ -47,7 +46,6 @@ public class RawVoiceController {
     private final ModelPubService modelPubService;
     private final ScriptService scriptService;
     private final RecordBookService recordBookService;
-    private final ScriptMapper scriptMapper;
     private final RabbitService rabbitService;
     private final ScriptMaleService scriptMaleService;
     private final ScriptFemaleService scriptFemaleService;
@@ -95,12 +93,7 @@ public class RawVoiceController {
         modelPubService.sendMessage(userId, completeInsertDto.getGenders()); //model pub 호출
         log.info("해당 유저의 녹음이 완료되었습니다. " + userId);
 
-        if (completeInsertDto.getGenders().equals(Genders.MALE)) {
-            log.info("남");
-            scriptMaleService.delete(String.valueOf(userId));
-        } else {
-            scriptFemaleService.delete(String.valueOf(userId));
-        }
+        scriptService.delete(completeInsertDto.getGenders(), userId);
 
         return CommonResponseEntity.getResponseEntity(SuccessCode.SUCCESS_CODE);
     }
@@ -127,14 +120,9 @@ public class RawVoiceController {
     public ResponseEntity delete(@PathVariable("genders") Genders genders) {
         UserInfo info = Auth.getInfo();
 
-        if (genders.equals(Genders.MALE)) {
-            log.info("남");
-            scriptMaleService.delete(String.valueOf(info.getUserId()));
-        } else {
-            scriptFemaleService.delete(String.valueOf(info.getUserId()));
-        }
-
         rawVoiceService.delete(info.getUserId());
+
+        scriptService.delete(genders, info.getUserId());
 
         return CommonResponseEntity.getResponseEntity(SuccessCode.SUCCESS_CODE);
     }
