@@ -134,8 +134,8 @@ const GenderModal = ({ onGenderSelected, type }: GenderModalProps) => {
   const ReadCheck = useGetReadCheck();
   const genderBoolean = ReadCheck.data;
   const [isOption, setIsOption] = useState([
-    { value: "엄마", image: momRead, visible: false },
-    { value: "아빠", image: FatherRead, visible: false },
+    { value: "엄마", image: momRead, visible: true },
+    { value: "아빠", image: FatherRead, visible: true },
   ]);
 
   const [selectedOption, setSelectedOption] = useState("");
@@ -159,6 +159,11 @@ const GenderModal = ({ onGenderSelected, type }: GenderModalProps) => {
         { value: "엄마", image: momRead, visible: genderBoolean.femaleAble },
         { value: "아빠", image: FatherRead, visible: genderBoolean.maleAble },
       ]);
+    } else {
+      setIsOption([
+        { value: "엄마", image: momRead, visible: true },
+        { value: "아빠", image: FatherRead, visible: true },
+      ]);
     }
   }, [genderBoolean.femaleAble, genderBoolean.maleAble, type]);
 
@@ -172,13 +177,15 @@ const GenderModal = ({ onGenderSelected, type }: GenderModalProps) => {
       {isModalOpen && (
         <Container selectedOption={selectedOption}>
           <MainContainer>
-            {genderBoolean.femaleAble || genderBoolean.maleAble ? (
+            {(genderBoolean.femaleAble || genderBoolean.maleAble) &&
+            type !== "children" ? (
               <H2>누가 동화책을 읽어줄까요?</H2>
             ) : (
               <H2>부모님 목소리를 담아주세요</H2>
             )}
             <RadioButtonsContainer>
-              {genderBoolean.femaleAble || genderBoolean.maleAble ? (
+              {(genderBoolean.femaleAble || genderBoolean.maleAble) &&
+              type !== "children" ? (
                 isOption.map(
                   (option) =>
                     option.visible && (
