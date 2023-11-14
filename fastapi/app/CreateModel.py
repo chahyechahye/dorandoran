@@ -2,7 +2,7 @@ from gradio_client import Client
 
 from customLog import LogInfo
 
-rvc_address = "http://172.19.0.2:7865"
+rvc_address = "http://172.17.0.20:7865"
 # rvc_address = "http://173.199.124.118:7865/"
 
 def trainStartAll(user, gender, trainPath):
