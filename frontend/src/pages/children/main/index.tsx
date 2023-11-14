@@ -25,6 +25,7 @@ import { profileState, selectAnimalState } from "@/states/children/info";
 import { useGetLetterList } from "@/apis/common/letter/Queries/useGetLetter";
 import { usePostLetterRead } from "@/apis/common/letter/Mutations/usePostLetterRead";
 import useSound from "use-sound";
+import textballoon from "@/assets/img/childMain/textballoon.png";
 
 import movables from "@/assets/img/movables.png";
 
@@ -343,7 +344,7 @@ const Camera = styled.img<{ isCastleClicked: boolean }>`
   width: 22%;
   z-index: 5;
   position: absolute;
-  top: 35%;
+  top: 32%;
   left: 44%;
 
   ${ButtonEffect}
@@ -509,8 +510,59 @@ const ArrowRight = styled.img`
   width: 20vh;
 `;
 
+const fadeInOut = keyframes`
+  0%, 100% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  40% {
+    opacity: 1;
+  }
+  55% {
+    opacity: 1;
+  }
+  60% {
+    opacity: 0;
+  }
+`;
+
+const TextBalloonContainer = styled.div`
+  animation: ${fadeInOut} 10s ease-in-out infinite;
+  animation-delay: 2s;
+  z-index: 6;
+`;
+
+const TextBalloon = styled.div`
+  position: absolute;
+  width: 40vh;
+  height: 24vh;
+  top: 67.2vh;
+  left: 81.5vh;
+
+  background-image: url(${textballoon});
+  background-size: cover;
+`;
+
+const TextBalloonText = styled.div`
+  position: absolute;
+  width: 40vh;
+  height: 24vh;
+  top: 72vh;
+  left: 81.5vh;
+  z-index: 7;
+  font-size: 4vh;
+  color: #503d00;
+  white-space: pre-line;
+`;
+
 const Overlay = styled.div`
   position: fixed;
+
   top: 0;
   left: 0;
   width: 100%;
@@ -807,6 +859,14 @@ const ChildrenMainPage = () => {
         <Profile>
           <ProfileCircle type="child" />
         </Profile>
+        <TextBalloonContainer>
+          <TextBalloon></TextBalloon>
+          <TextBalloonText>
+            {isCharacterClick
+              ? "설명을 다 들으면\n다시 저를 눌러요!"
+              : "도움이 필요하면\n저를 눌러주세요!"}
+          </TextBalloonText>
+        </TextBalloonContainer>
         <Character src={profile.animal.imgUrl} onClick={handleClickCharacter} />
         <Movables src={movables} />
       </ContentContainer>
