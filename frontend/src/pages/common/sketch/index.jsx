@@ -213,6 +213,7 @@ const SketchPage = () => {
   const sendLetter = usePostLetter();
   const { playSound } = useSoundEffect();
   const postAlbum = usePostAlbum();
+  const [backButtonPressCount, setBackButtonPressCount] = useState(0);
 
   const pencilPathDefaults = {
     minThickness: 4,
@@ -559,12 +560,25 @@ const SketchPage = () => {
     };
 
     window.history.pushState(null, "", window.location.href);
-    window.onpopstate = disableBackButton;
+    window.onpopstate = () => {
+      // Increment the back button press count
+      setBackButtonPressCount((prevCount) => prevCount + 1);
+
+      // Disable back button if pressed twice within 1 second
+      if (backButtonPressCount === 1) {
+        disableBackButton(event);
+
+        // Reset back button press count after 1 second
+        setTimeout(() => {
+          setBackButtonPressCount(0);
+        }, 1000);
+      }
+    };
 
     return () => {
       window.onpopstate = null;
     };
-  }, []);
+  }, [backButtonPressCount]);
 
   const handleExit = () => {
     playSound();
