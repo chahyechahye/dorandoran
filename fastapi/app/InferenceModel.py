@@ -40,20 +40,20 @@ def inferChangeVoice(pth):
     client = Client(rvc_address)
     result = client.predict(
                     pth,
-                    0,
-                    0,	
+                    0.33,
+                    0.33,	
                     api_name="/infer_change_voice"
     )
     LogInfo(result)
 
-def inferConvertBatch(index, filePath, fileList, outputPath):
+def inferConvertBatch(index, filePath, fileList, outputPath, transpose):
     client = Client(rvc_address)
     result = client.predict(                    
                     0,	
                     filePath,	
                     outputPath,	
                     fileList,
-                    0,	
+                    transpose,	# 음조 변경
                     "rmvpe",	
                     "",	
                     index,	

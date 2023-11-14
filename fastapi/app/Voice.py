@@ -10,6 +10,8 @@ from InferenceModel import inferConvertBatch
 from InferenceModel import inferClean
 from GoogleBucket import Download
 from GoogleBucket import Upload
+from transpose import check_book
+from transpose import check_gender
 
 class AdminVoiceResDto(BaseModel):
     contentId: int
@@ -47,6 +49,8 @@ def Voice(data):
         for list in lists:
             bookId = list['bookId']
             LogInfo(f"BOOKID : {bookId}")
+            bookTitle = list['title']
+            book = check_book(bookTitle)
             adminVoiceList = list['adminVoiceList']
 
             download_data_list = []
@@ -82,12 +86,13 @@ def Voice(data):
                 file_list.append(file)
 
             data = inferRefresh(user=userId, gender=userGender)
+            transpose = check_gender(book, userGender)
             LogInfo(data)
             inferClean()
             LogInfo("1. Model Cleaning Success")
             inferChangeVoice(data['pth'])
             LogInfo("2. Model Select Success")
-            inferConvertBatch(data['index'], directory, save_location_list, f"/app/opt/{str(userId)}")
+            inferConvertBatch(data['index'], directory, save_location_list, f"/app/opt/{str(userId)}", transpose)
             LogInfo("3. Inference Success")
             inferClean()
             LogInfo("4. Model Cleaning Success")
