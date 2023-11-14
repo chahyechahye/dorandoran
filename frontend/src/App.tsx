@@ -11,7 +11,15 @@ import { useRecoilState } from "recoil";
 function App() {
   const queryClient = new QueryClient();
   const [isPlaying, setIsPlaying] = useRecoilState(MainSoundState);
-  const [play, { stop }] = useSound(mainSound, { volume: 0.2 });
+  const [play, { stop }] = useSound(mainSound, {
+    volume: 0.2,
+    onend: () => {
+      // 재생이 끝나면 다시 재생
+      if (isPlaying) {
+        play();
+      }
+    },
+  });
 
   useEffect(() => {
     // Subsequent playback when isPlaying changes
