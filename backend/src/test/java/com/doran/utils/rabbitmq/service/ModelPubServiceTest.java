@@ -17,4 +17,15 @@ class ModelPubServiceTest {
     void 모델_생성_메시지_테스트() {
         modelPubService.sendMessage(17, Genders.MALE);
     }
+
+    @Test
+    void 모델_중복_생성_체킹_테스트() {
+        try {
+            modelPubService.sendMessage(5, Genders.FEMALE);
+        }catch (Exception e)
+        {
+            System.out.println("예외발생!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        }
+
+    }
 }
