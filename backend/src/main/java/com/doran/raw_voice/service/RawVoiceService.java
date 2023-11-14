@@ -40,7 +40,7 @@ public class RawVoiceService {
     // 목소리 검색
     public RawVoice findRawVoiceById(int rvId) {
         return rawVoiceRepository.findById(rvId)
-                                 .orElseThrow(() -> new CustomException(ErrorCode.VOICE_NOT_FOUND));
+            .orElseThrow(() -> new CustomException(ErrorCode.VOICE_NOT_FOUND));
     }
 
     public List<RawVoiceResDto> findRawVoiceByUserId(int userId, Genders genders) {
@@ -76,7 +76,9 @@ public class RawVoiceService {
 
         bucketService.deleteFile(list);
 
-        rawVoiceRepository.deleteRawVoice(list);
+        if (!list.isEmpty()) {
+            rawVoiceRepository.deleteRawVoice(list);
+        }
     }
 
     public List<RawVoice> findRawVoiceList(int userId) {

@@ -19,9 +19,12 @@ import com.doran.raw_voice.service.RawVoiceService;
 import com.doran.record_book.entity.RecordBook;
 import com.doran.record_book.service.RecordBookService;
 import com.doran.redis.script.mapper.ScriptMapper;
+import com.doran.redis.script.service.ScriptFemaleService;
+import com.doran.redis.script.service.ScriptMaleService;
 import com.doran.redis.script.service.ScriptService;
 import com.doran.redis.tel.service.TelService;
 import com.doran.utils.auth.Auth;
+import com.doran.utils.common.Genders;
 import com.doran.utils.common.UserInfo;
 import com.doran.utils.rabbitmq.dto.res.WaitResDto;
 import com.doran.utils.rabbitmq.service.ModelPubService;
@@ -46,6 +49,8 @@ public class RawVoiceController {
     private final RecordBookService recordBookService;
     private final ScriptMapper scriptMapper;
     private final RabbitService rabbitService;
+    private final ScriptMaleService scriptMaleService;
+    private final ScriptFemaleService scriptFemaleService;
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("")
@@ -89,6 +94,14 @@ public class RawVoiceController {
         log.info("녹음자 성별 : " + completeInsertDto.getGenders());
         modelPubService.sendMessage(userId, completeInsertDto.getGenders()); //model pub 호출
         log.info("해당 유저의 녹음이 완료되었습니다. " + userId);
+
+        if (completeInsertDto.getGenders().equals(Genders.MALE)) {
+            log.info("남");
+            scriptMaleService.delete(String.valueOf(userId));
+        } else {
+            scriptFemaleService.delete(String.valueOf(userId));
+        }
+
         return CommonResponseEntity.getResponseEntity(SuccessCode.SUCCESS_CODE);
     }
 
@@ -110,9 +123,16 @@ public class RawVoiceController {
         return CommonResponseEntity.getResponseEntity(SuccessCode.SUCCESS_CODE);
     }
 
-    @DeleteMapping()
-    public ResponseEntity delete() {
+    @DeleteMapping("/{genders}")
+    public ResponseEntity delete(@PathVariable("genders") Genders genders) {
         UserInfo info = Auth.getInfo();
+
+        if (genders.equals(Genders.MALE)) {
+            log.info("남");
+            scriptMaleService.delete(String.valueOf(info.getUserId()));
+        } else {
+            scriptFemaleService.delete(String.valueOf(info.getUserId()));
+        }
 
         rawVoiceService.delete(info.getUserId());
 
