@@ -1,5 +1,6 @@
 from pydub import AudioSegment
 import os
+from customLog import LogInfo
 
 def concatenate_wav_files(file_paths, output_path):
     # 빈 오디오 세그먼트 생성
@@ -15,6 +16,7 @@ def concatenate_wav_files(file_paths, output_path):
 
     # 이어 붙인 오디오를 파일로 내보냄
     combined.export(output_path, format="wav")
+    LogInfo(f"{output_path} 음성 합성 완료")
 
 def list_files(directory):
     files = []
@@ -30,6 +32,7 @@ def split_files(files, chunk_size):
     return result
 
 def JoinWav(directory):
+    LogInfo("음성 파일 조인 시작")
     # 디렉토리 아래의 파일 목록 가져오기
     files = list_files(directory)
     chunk_size = 50

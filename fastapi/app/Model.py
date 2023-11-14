@@ -32,6 +32,8 @@ def Model(data):
         rawVoiceList = modelRes_dict['rawVoiceList']
         LogInfo(f"RAWVOICELIST : {rawVoiceList}")
 
+        download_path = ""
+
         for rawVoice in rawVoiceList:
             rvId = rawVoice['rvId']
             LogInfo(f"rvId : {rvId}")
@@ -40,8 +42,9 @@ def Model(data):
             gender = rawVoice['gender']
             LogInfo(f"gender : {gender}")
             download_path = DownloadRaw(userId=userId, gender=userGender, voiceUrl=voiceUrl)
-            directory = JoinWav(directory=download_path)
-            # 학습
+            
+        directory = JoinWav(directory=download_path)
+        # 학습
         trainStartAll(user=userId, gender=userGender, trainPath=directory)
         res = ModelReq(
             userId=userId,
