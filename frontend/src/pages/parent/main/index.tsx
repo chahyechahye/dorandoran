@@ -148,6 +148,8 @@ const ParentMainPage = () => {
   const [hasFetchedData, setHasFetchedData] = useState(false);
   const { playSound } = useSoundEffect();
 
+  console.log(profileData);
+
   const [isOpenAlbum, setIsOpenAlbum] = useState(false);
   const [isOpenLikeBook, setIsOpenLikeBook] = useState(false);
   const [isLetter, setIsLetter] = useState(false);

@@ -14,7 +14,9 @@ const GoogleRedirect = () => {
     .get(`${process.env.REACT_APP_BASE_URL}/api/oauth/google?code=${code}`)
     .then((res) => {
       localStorage.setItem("accessToken", res.headers.accesstoken);
-      setProfileData(res.data.data.profileList[0]);
+      if (res.data.data.profileList[0] !== undefined) {
+        setProfileData(res.data.data.profileList[0]);
+      }
       navigate("/parent/main");
     });
 
