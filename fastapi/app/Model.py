@@ -46,9 +46,7 @@ def Model(data):
         directory = JoinWav(directory=download_path)
         LogInfo(f"join 결과 : {directory}")
         # 학습
-        print("333333333333333333")
         trainStartAll(user=userId, gender=userGender, trainPath=directory)
-        print("44444444444444444444444")
         res = ModelReq(
             userId=userId,
             genders=userGender
