@@ -600,7 +600,9 @@ const FairyTalePage = () => {
                       onClick={() => fairytaleHandler(fairytale)}
                     />
                     {/* RT 이미지 경로로 변경 */}
-                    <CardTitle>{fairytale.title}</CardTitle>
+                    <CardTitle onClick={() => fairytaleHandler(fairytale)}>
+                      {fairytale.title}
+                    </CardTitle>
                     <p className="card-subtitle"></p>
                   </CardContent>
                 </div>

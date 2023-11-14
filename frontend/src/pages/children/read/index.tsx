@@ -13,6 +13,7 @@ import {
 import { ButtonEffect } from "@/styles/buttonEffect";
 import exitBtn from "@/assets/img/exitBtn.png";
 import { useSoundBookEffect } from "@/components/sounds/soundBookEffect";
+import { toast } from "react-toastify";
 
 const Background = styled.div`
   position: fixed;
@@ -134,6 +135,22 @@ const FairytaleReadPage = () => {
     setSoundData(false);
   }, [setSoundData]);
 
+  useEffect(() => {
+    if (
+      currentContentIndex === fairytaleContentList.length - 1 &&
+      currentPageIndex === fairytaleRead.length - 1
+    ) {
+      setTimeout(() => {
+        toast("📖 동화가 끝났어요!");
+      }, 200);
+    }
+  }, [
+    currentContentIndex,
+    currentPageIndex,
+    fairytaleContentList.length,
+    fairytaleRead.length,
+  ]);
+
   const handleArrowRight = () => {
     if (currentContentIndex < fairytaleContentList.length - 1) {
       setCurrentContentIndex(currentContentIndex + 1);
@@ -149,7 +166,6 @@ const FairytaleReadPage = () => {
       currentPageIndex === fairytaleRead.length - 1
     ) {
       setSoundData(true);
-      alert("동화가 끝났어요!");
       window.location.href = "/children/like";
     }
   };
@@ -173,7 +189,7 @@ const FairytaleReadPage = () => {
       console.log("1-currentPageIndex:" + currentPageIndex);
       console.log("1-currentContentIndex:" + currentContentIndex);
     } else if (currentContentIndex === 0 && currentPageIndex === 0) {
-      alert("첫장면이에요!");
+      toast("📖 첫장면이에요!");
       console.log("4-currentPageIndex:" + currentPageIndex);
       console.log("4-currentContentIndex:" + currentContentIndex);
     }
