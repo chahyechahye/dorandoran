@@ -513,21 +513,27 @@ const ArrowRight = styled.img`
 const fadeInOut = keyframes`
   0%, 100% {
     opacity: 0;
+    visibility: hidden;
   }
   20% {
     opacity: 0;
+    visibility: hidden;
   }
   25% {
     opacity: 1;
+    visibility: visible;
   }
   40% {
     opacity: 1;
+    visibility: visible;
   }
   55% {
     opacity: 1;
+    visibility: visible;
   }
   60% {
     opacity: 0;
+    visibility: hidden;
   }
 `;
 
@@ -863,7 +869,7 @@ const ChildrenMainPage = () => {
           <TextBalloon></TextBalloon>
           <TextBalloonText>
             {isCharacterClick
-              ? "설명을 다 들으면\n다시 저를 눌러요!"
+              ? "설명을 다 들으면\n다시 저를 눌러주세요!"
               : "도움이 필요하면\n저를 눌러주세요!"}
           </TextBalloonText>
         </TextBalloonContainer>
