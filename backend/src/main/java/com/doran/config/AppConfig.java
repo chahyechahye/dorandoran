@@ -10,10 +10,10 @@ public class AppConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping(("/**"))
-                .allowedOriginPatterns("*")
-                .allowedMethods("*")
-                .allowedHeaders("*")
-                .exposedHeaders("AccessToken","RefreshToken")
-                .allowCredentials(true);
+            .allowedOriginPatterns("*")
+            .allowedMethods("*")
+            .allowedHeaders("*")
+            .exposedHeaders("*")
+            .allowCredentials(true);
     }
 }
