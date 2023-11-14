@@ -68,12 +68,13 @@ public class RecordBookController {
     @GetMapping("/save")
     public ResponseEntity getScript() {
         UserInfo info = Auth.getInfo();
-
+        log.info("요청 들어옴");
         Script script = scriptService.findScript(String.valueOf(info.getUserId()));
-
+        log.info("script : {}", script);
         ScriptResDto scriptResDto = scriptMapper.toScriptResDto(script);
-
+        log.info("scriptResDto : {}", scriptResDto);
         scriptService.delete(String.valueOf(info.getUserId()));
+        log.info("삭제 진행");
 
         return CommonResponseEntity.getResponseEntity(SuccessCode.OK, scriptResDto);
 
