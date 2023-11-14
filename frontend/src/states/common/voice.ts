@@ -8,3 +8,9 @@ export const MainSoundState = atom<boolean>({
   default: false,
   effects_UNSTABLE: [persistAtom],
 });
+
+export const SoundState = atom<boolean>({
+  key: "soundState",
+  default: true,
+  effects_UNSTABLE: [persistAtom],
+});

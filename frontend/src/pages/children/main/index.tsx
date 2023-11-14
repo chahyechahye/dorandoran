@@ -26,6 +26,7 @@ import { useGetLetterList } from "@/apis/common/letter/Queries/useGetLetter";
 import { usePostLetterRead } from "@/apis/common/letter/Mutations/usePostLetterRead";
 import useSound from "use-sound";
 import textballoon from "@/assets/img/childMain/textballoon.png";
+import { SoundState } from "@/states/common/voice";
 
 import movables from "@/assets/img/movables.png";
 
@@ -431,9 +432,12 @@ const Character = styled.img`
 
 const Profile = styled.div`
   position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   z-index: 6;
   top: 2%;
-  left: 89%;
+  left: 82%;
 `;
 
 const LetterGif = styled.div<{ isLetter: boolean }>`
@@ -577,6 +581,13 @@ const Overlay = styled.div`
   z-index: 0; // 모달보다 낮은 z-index를 가지게 하여, 모달 뒤에 위치하게 합니다.
 `;
 
+const SoundBtn = styled.img`
+  width: 8vh;
+  height: 8vh;
+
+  ${ButtonEffect}
+`;
+
 const ChildrenMainPage = () => {
   const [isLetter, setIsLetter] = useState(false);
   const [isEnvelope, setIsEnvelope] = useState(false);
@@ -588,6 +599,7 @@ const ChildrenMainPage = () => {
   const [isCharacterClick, setIsCharacterClick] = useState(false);
   const { playSound } = useSoundEffect();
   const profile = useRecoilValue(profileState);
+  const [mainSound, setMainSound] = useRecoilState(SoundState);
 
   const LetterList = useGetLetterList();
   const letterSize = LetterList.data?.size || 0;
@@ -770,6 +782,10 @@ const ChildrenMainPage = () => {
     setIsCharacterClick(!isCharacterClick);
   };
 
+  const handleMainSound = () => {
+    setMainSound(!mainSound);
+  };
+
   return (
     <>
       <ContentContainer>
@@ -863,6 +879,11 @@ const ChildrenMainPage = () => {
           />
         </CastleContainer>
         <Profile>
+          {mainSound ? (
+            <SoundBtn src={exitBtn} onClick={handleMainSound}></SoundBtn>
+          ) : (
+            <SoundBtn src={arrowLeft} onClick={handleMainSound}></SoundBtn>
+          )}
           <ProfileCircle type="child" />
         </Profile>
         <TextBalloonContainer>
