@@ -80,7 +80,7 @@ const StyledSwiperSlide = styled.div`
   text-align: center;
   opacity: 0.4;
   transition: opacity 0.4s ease-in;
-  background-color: #eaeaea;
+  background-color: #ffffff;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 
   transition: transform 0.2s ease; /* 호버 애니메이션 추가 */
@@ -104,6 +104,7 @@ const StyledSwiperSlide = styled.div`
     font-size: 4vh;
     margin-top: 0.625rem;
     letter-spacing: 0.8px;
+    color: #333379;
   }
 
   @media screen and (min-width: 800px) {
@@ -115,7 +116,7 @@ const StyledSwiperSlide = styled.div`
   p {
     line-height: 1.6;
     font-size: 1.5rem;
-    color: #2b62d1;
+    color: #5c75a6;
   }
 
   .slide-content {
@@ -180,6 +181,8 @@ const Image = styled.img`
   aspect-ratio: 1/1;
   object-fit: cover;
   border-radius: 5px;
+  border: 1px solid #5c75a6;
+  background-color: #62718f;
   filter: saturate(0.9) contrast(0.85) brightness(1.05);
 `;
 
@@ -290,7 +293,7 @@ const LikeBookList = () => {
                 />
                 <Title>
                   <h2>{item.title}</h2>
-                  <p>{item.author}</p>
+                  <p>저자 : {item.author}</p>
                 </Title>
               </StyledSwiperSlide>
             ))}
