@@ -148,6 +148,8 @@ const ParentMainPage = () => {
   const [hasFetchedData, setHasFetchedData] = useState(false);
   const { playSound } = useSoundEffect();
 
+  console.log(profileData);
+
   const [isOpenAlbum, setIsOpenAlbum] = useState(false);
   const [isOpenLikeBook, setIsOpenLikeBook] = useState(false);
   const [isLetter, setIsLetter] = useState(false);
@@ -274,7 +276,7 @@ const ParentMainPage = () => {
         <Header>
           <ProfileCircle
             onClick={goProfile}
-            profileImage={profileData.animal.imgUrl}
+            profileImage={profileData.animal ? profileData.animal.imgUrl : ""}
             profileName={profileData.name}
           />
           <LikeBook onClick={handleOpenLikeBook} />

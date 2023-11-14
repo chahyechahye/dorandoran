@@ -14,8 +14,10 @@ const KakaoRedirect = () => {
     .get(`${process.env.REACT_APP_BASE_URL}/api/oauth/kakao?code=${code}`)
     .then((res) => {
       localStorage.setItem("accessToken", res.headers.accesstoken);
-      console.log(res.data.data.profileList[0]);
-      setProfileData(res.data.data.profileList[0]);
+      if (res.data.data.profileList[0] !== undefined) {
+        setProfileData(res.data.data.profileList[0]);
+      }
+
       navigate("/parent/main");
     });
 
