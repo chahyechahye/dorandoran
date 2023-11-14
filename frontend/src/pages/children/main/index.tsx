@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
-import styled, { keyframes } from "styled-components";
+import styled, { keyframes, css } from "styled-components";
+
 import castle from "@/assets/img/childMain/castle.png";
 import postOffice from "@/assets/img/childMain/postoffice.png";
 import camera from "@/assets/img/childMain/camera.png";
@@ -309,11 +310,36 @@ const CastleContainer = styled.div`
 
 const Castle = styled.img<{ isCastleClicked: boolean }>`
   width: 100%;
-  opacity: ${(props) => (props.isCastleClicked ? 0.7 : 1)};
+  opacity: ${(props) => (props.isCastleClicked ? 0.8 : 1)};
+  filter: ${(props) => (props.isCastleClicked ? "grayscale(100%)" : "none")};
   transition: opacity 0.3s ease; // 부드러운 전환을 위한 트랜지션 추가
 `;
 
-const Camera = styled.img`
+const zoomInAnimation = keyframes`
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+`;
+
+const swingAnimation = keyframes`
+  0% {
+    transform: rotate(-5deg);
+  }
+  50% {
+    transform: rotate(5deg);
+  }
+  100% {
+    transform: rotate(-5deg);
+  }
+`;
+
+const Camera = styled.img<{ isCastleClicked: boolean }>`
   width: 22%;
   z-index: 5;
   position: absolute;
@@ -321,17 +347,51 @@ const Camera = styled.img`
   left: 44%;
 
   ${ButtonEffect}
+
+  animation: ${(props) =>
+    props.isCastleClicked
+      ? css`
+          ${swingAnimation} 1s infinite, ${zoomInAnimation} 0.5s ease
+        `
+      : "none"};
+
+  ${ButtonEffect}
+
+  &:active {
+    /* Add ButtonEffect styles for active state here */
+    transform: scale(0.9);
+    background-color: darken($button-bg, 5%);
+    box-shadow: 0 2px 25px rgba(255, 0, 130, 0.2);
+    animation: none; /* Disable animation during active state */
+  }
 `;
-const PostOffice = styled.img`
+
+const PostOffice = styled.img<{ isCastleClicked: boolean }>`
   width: 24%;
   position: absolute;
   z-index: 5;
   top: 20%;
   left: 12%;
 
+  animation: ${(props) =>
+    props.isCastleClicked
+      ? css`
+          ${swingAnimation} 1s infinite, ${zoomInAnimation} 0.5s ease
+        `
+      : "none"};
+
   ${ButtonEffect}
+
+  &:active {
+    /* Add ButtonEffect styles for active state here */
+    transform: scale(0.9);
+    background-color: darken($button-bg, 5%);
+    box-shadow: 0 2px 25px rgba(255, 0, 130, 0.2);
+    animation: none; /* Disable animation during active state */
+  }
 `;
-const Books = styled.img`
+
+const Books = styled.img<{ isCastleClicked: boolean }>`
   width: 20%;
   position: absolute;
   z-index: 5;
@@ -339,6 +399,23 @@ const Books = styled.img`
   left: 71%;
 
   ${ButtonEffect}
+
+  animation: ${(props) =>
+    props.isCastleClicked
+      ? css`
+          ${swingAnimation} 1s infinite, ${zoomInAnimation} 0.5s ease
+        `
+      : "none"};
+
+  ${ButtonEffect}
+
+  &:active {
+    /* Add ButtonEffect styles for active state here */
+    transform: scale(0.9);
+    background-color: darken($button-bg, 5%);
+    box-shadow: 0 2px 25px rgba(255, 0, 130, 0.2);
+    animation: none; /* Disable animation during active state */
+  }
 `;
 
 const Character = styled.img`
@@ -714,9 +791,18 @@ const ChildrenMainPage = () => {
                 navigate("/children/sketch");
               }
             }}
+            isCastleClicked={isCharacterClick}
           />
-          <Books src={books} onClick={goFairytale} />
-          <Camera src={camera} onClick={handleOpenAlbum} />
+          <Books
+            src={books}
+            onClick={goFairytale}
+            isCastleClicked={isCharacterClick}
+          />
+          <Camera
+            src={camera}
+            onClick={handleOpenAlbum}
+            isCastleClicked={isCharacterClick}
+          />
         </CastleContainer>
         <Profile>
           <ProfileCircle type="child" />
