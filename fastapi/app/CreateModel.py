@@ -7,6 +7,7 @@ rvc_address = "http://172.19.0.2:7865"
 
 def trainStartAll(user, gender, trainPath):
     client = Client(rvc_address)
+    LogInfo("111111111111111111")
     result = client.predict(
                     f"{user}_{gender}",	
                     "40k",	
@@ -28,4 +29,5 @@ def trainStartAll(user, gender, trainPath):
                     "0-0",
                     api_name="/train_start_all"
     )
+    LogInfo("222222222222222222")
     LogInfo(result)
