@@ -32,7 +32,7 @@ def split_files(files, chunk_size):
     return result
 
 def JoinWav(directory):
-    LogInfo("음성 파일 조인 시작")
+    LogInfo(f"음성 파일 조인 시작 : {directory}")
     # 디렉토리 아래의 파일 목록 가져오기
     files = list_files(directory)
     chunk_size = 50
