@@ -15,9 +15,7 @@ import com.doran.content.service.ContentService;
 import com.doran.page.entity.Page;
 import com.doran.page.service.PageService;
 import com.doran.record_book.dto.res.RecordBookResDto;
-import com.doran.record_book.dto.res.ScriptResDto;
 import com.doran.record_book.service.RecordBookService;
-import com.doran.redis.script.key.Script;
 import com.doran.redis.script.mapper.ScriptMapper;
 import com.doran.redis.script.service.ScriptService;
 import com.doran.utils.auth.Auth;
@@ -69,13 +67,13 @@ public class RecordBookController {
     public ResponseEntity getScript() {
         UserInfo info = Auth.getInfo();
 
-        Script script = scriptService.findScript(String.valueOf(info.getUserId()));
+        // ScriptMale scriptMale = scriptService.findScript(String.valueOf(info.getUserId()));
+        //
+        // ScriptResDto scriptResDto = scriptMapper.toScriptResDto(scriptMale);
 
-        ScriptResDto scriptResDto = scriptMapper.toScriptResDto(script);
+        // scriptService.delete(String.valueOf(info.getUserId()));
 
-        scriptService.delete(String.valueOf(info.getUserId()));
-
-        return CommonResponseEntity.getResponseEntity(SuccessCode.OK, scriptResDto);
+        return CommonResponseEntity.getResponseEntity(SuccessCode.OK, null);
 
     }
 }

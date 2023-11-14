@@ -12,8 +12,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-@RedisHash(value = "script")
-public class Script {
+@RedisHash(value = "script_male")
+public class ScriptMale {
     @Id
     private String id;
 
