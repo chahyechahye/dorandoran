@@ -19,6 +19,7 @@ class AdminVoiceResDto(BaseModel):
 
 class AdminFindResDto(BaseModel):
     bookId: int
+    title: str
     adminVoiceList: List[AdminVoiceResDto]
 
 class VoiceRes(BaseModel):
