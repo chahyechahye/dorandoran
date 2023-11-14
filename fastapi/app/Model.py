@@ -42,8 +42,9 @@ def Model(data):
             gender = rawVoice['gender']
             LogInfo(f"gender : {gender}")
             download_path = DownloadRaw(userId=userId, gender=userGender, voiceUrl=voiceUrl)
-            
+
         directory = JoinWav(directory=download_path)
+        LogInfo(f"join 결과 : {directory}")
         # 학습
         trainStartAll(user=userId, gender=userGender, trainPath=directory)
         res = ModelReq(
