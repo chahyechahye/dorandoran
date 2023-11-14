@@ -7,5 +7,5 @@ import lombok.Getter;
 @Getter
 public class WaitResDto {
     private Integer count;
-    private Integer time;
+    private String time;
 }

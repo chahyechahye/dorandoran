@@ -11,9 +11,11 @@ import com.doran.utils.rabbitmq.dto.res.WaitResDto;
 import com.doran.utils.rabbitmq.mapper.RabbitMapper;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class RabbitService {
     private final RabbitTemplate rabbitTemplate;
     private final RabbitMapper rabbitMapper;
@@ -26,9 +28,12 @@ public class RabbitService {
 
         Properties getCount = rabbitAdmin.getQueueProperties(model);
 
-        int count = (int)getCount.get("QUEUE_MESSAGE_COUNT") - 1;
+        int count = (int)getCount.get("QUEUE_MESSAGE_COUNT");
+        log.info("count : {}", count);
 
-        return rabbitMapper.toWaitResDto(count, count * 100);
+        if (count == 0)
+            count = 1;
+        return rabbitMapper.toWaitResDto(count, (count * 100) + 50);
     }
 
 }

@@ -109,9 +109,7 @@ public class RawVoiceController {
 
         WaitResDto waitCount = rabbitService.getWaitCount();
 
-        String s = waitCount.getCount() + "명 대기중, " + waitCount.getTime() + "분 소요 예정입니다.";
-
-        naverSensV2.send_msg(telInsertDto.getTel(), s, MessageType.MODEL);
+        naverSensV2.send_msg(telInsertDto.getTel(), waitCount.getTime(), MessageType.MODEL);
 
         return CommonResponseEntity.getResponseEntity(SuccessCode.SUCCESS_CODE);
     }
