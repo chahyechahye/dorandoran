@@ -68,7 +68,7 @@ const CharacterPage: React.FC = () => {
     "https://storage.googleapis.com/dorandoran/peng_self.mp3"
   );
   const [playPanda, { stop: stopPanda }] = useSound(
-    "https://storage.googleapis.com/dorandoran/newPanda_self.mp3"
+    "https://storage.googleapis.com/dorandoran/newPanda_self.wav"
   );
 
   const animal = getChildrenAnimal.data.animalList;
