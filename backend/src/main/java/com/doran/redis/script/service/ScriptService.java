@@ -20,13 +20,13 @@ public class ScriptService {
     private final ScriptMapper scriptMapper;
 
     //남 여 확인 후 따로 저장
-    public void genderCheck(int userId, Genders genders, RecordBook script, String title, int scriptNum) {
+    public void genderCheck(int userId, Genders genders, RecordBook script) {
         if (genders.equals(Genders.MALE)) {
-            ScriptMale scriptMale = scriptMapper.toScriptMale(userId, title, scriptNum);
+            ScriptMale scriptMale = scriptMapper.toScriptMale(userId, script.getTitle(), script.getScriptNum());
 
             scriptMaleService.save(scriptMale);
         } else {
-            ScriptFemale scriptMale = scriptMapper.toScriptFemale(userId, title, scriptNum);
+            ScriptFemale scriptMale = scriptMapper.toScriptFemale(userId, script.getTitle(), script.getScriptNum());
 
             scriptFemaleService.save(scriptMale);
         }
