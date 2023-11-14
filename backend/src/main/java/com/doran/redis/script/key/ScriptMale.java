@@ -7,15 +7,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-@ToString
-@RedisHash(value = "script")
-public class Script {
+@RedisHash(value = "script_male")
+public class ScriptMale {
     @Id
     private String id;
 

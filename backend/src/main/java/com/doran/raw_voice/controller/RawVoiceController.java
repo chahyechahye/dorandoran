@@ -65,22 +65,17 @@ public class RawVoiceController {
     // 원본 목소리 등록 (부모 실제 녹음)
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_PARENT')") // 관리자, 부모만 등록 가능
     @PostMapping("")
-    public ResponseEntity<?> insertRawVoice(RawVoiceInsertDto rawVoiceInsertDto) {
-        log.info("rawVoiceInsertDto : {}", rawVoiceInsertDto);
+    public ResponseEntity<?> insertRawVoice(RawVoiceInsertDto dto) {
         log.info("Raw Voice (원본 목소리) 추가");
         UserInfo info = Auth.getInfo();
+        //저장
+        rawVoiceService.insertRawVoice(dto);
 
-        rawVoiceService.insertRawVoice(rawVoiceInsertDto);
+        RecordBook script = recordBookService.findScript(dto.getTitle(),
+            dto.getScriptNum());
 
-        //try-catch 바인딩 이후 제거 필요
-
-        RecordBook script = recordBookService.findScript(rawVoiceInsertDto.getTitle(),
-            rawVoiceInsertDto.getScriptNum());
-        log.info("여기");
-        scriptService.save(scriptMapper.toScript(info.getUserId(), script.getTitle(), script.getScriptNum()));
-        log.info("요기");
-
-        // log.info("스크립트 안들어옴");
+        scriptService.genderCheck(info.getUserId(), dto.getGender(), script);
+        log.info("중간 저장 완료");
 
         return CommonResponseEntity.getResponseEntity(SuccessCode.SUCCESS_CODE, null);
     }

@@ -1,11 +1,13 @@
 package com.doran.redis.script.service;
 
-import java.util.Optional;
-
 import org.springframework.stereotype.Service;
 
-import com.doran.redis.script.key.Script;
-import com.doran.redis.script.repository.ScriptRepository;
+import com.doran.record_book.dto.res.ScriptResDto;
+import com.doran.record_book.entity.RecordBook;
+import com.doran.redis.script.key.ScriptFemale;
+import com.doran.redis.script.key.ScriptMale;
+import com.doran.redis.script.mapper.ScriptMapper;
+import com.doran.utils.common.Genders;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,25 +16,39 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class ScriptService {
-    private final ScriptRepository scriptRepository;
+    private final ScriptMaleService scriptMaleService;
+    private final ScriptFemaleService scriptFemaleService;
+    private final ScriptMapper scriptMapper;
 
-    //저장
-    public void save(Script script) {
-        scriptRepository.save(script);
-    }
+    //남 여 확인 후 따로 저장
+    public void genderCheck(int userId, Genders genders, RecordBook script) {
+        if (genders.equals(Genders.MALE)) {
+            ScriptMale scriptMale = scriptMapper.toScriptMale(userId, script.getTitle(), script.getScriptNum());
 
-    //삭제
-    public void delete(String id) {
-        scriptRepository.deleteById(id);
+            scriptMaleService.save(scriptMale);
+        } else {
+            ScriptFemale scriptMale = scriptMapper.toScriptFemale(userId, script.getTitle(), script.getScriptNum());
+
+            scriptFemaleService.save(scriptMale);
+        }
     }
 
     //조회
-    //조회 결과가 있으면 그대로 반환
-    //없으면 없다고 그냥 빈 거 보내버림
-    public Script findScript(String id) {
-        Optional<Script> findScript = scriptRepository.findById(id);
+    public ScriptResDto findScript(int userId, Genders genders) {
+        if (genders.equals(Genders.MALE)) {
+            ScriptMale scriptMale = scriptMaleService.find(String.valueOf(userId))
+                .orElseGet(ScriptMale::new);
+            
+            scriptMaleService.delete(String.valueOf(userId));
 
-        return findScript
-            .orElseGet(Script::new);
+            return scriptMapper.toScriptResDtoMale(scriptMale);
+        } else {
+            ScriptFemale scriptFemale = scriptFemaleService.find(String.valueOf(userId))
+                .orElseGet(ScriptFemale::new);
+
+            scriptFemaleService.delete(String.valueOf(userId));
+
+            return scriptMapper.toScriptResDtoFemale(scriptFemale);
+        }
     }
 }
