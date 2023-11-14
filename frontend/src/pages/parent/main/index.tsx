@@ -276,7 +276,7 @@ const ParentMainPage = () => {
         <Header>
           <ProfileCircle
             onClick={goProfile}
-            profileImage={profileData.animal.imgUrl}
+            profileImage={profileData.animal ? profileData.animal.imgUrl : ""}
             profileName={profileData.name}
           />
           <LikeBook onClick={handleOpenLikeBook} />
