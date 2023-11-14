@@ -59,7 +59,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             int userId = (int)userInfo.get("userId");
             log.info("userId : {}", userId);
-            
+
             refreshTokenService.findRefresh(userId).ifPresentOrElse(
                 refreshToken -> {
                     if (jwtProvider.isTokenValid(refreshToken.getValue())) {
