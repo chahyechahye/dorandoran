@@ -60,6 +60,7 @@ public class AdminVoiceRepositoryCustomImpl implements AdminVoiceRepositoryCusto
             .transform(groupBy(book.id).list(
                 Projections.fields(AdminFindResDto.class,
                     book.id.as("bookId"),
+                    book.title.as("title"),
                     list(
                         Projections.fields(AdminVoiceResDto.class,
                             content.id.as("contentId"),

@@ -15,5 +15,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class AdminFindResDto {
     int bookId;
+    String title;
     List<AdminVoiceResDto> adminVoiceList;
 }

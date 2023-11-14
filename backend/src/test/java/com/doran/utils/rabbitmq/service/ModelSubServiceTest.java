@@ -23,7 +23,7 @@ class ModelSubServiceTest {
 
     @Test
     public void 모델_SUB_생성기() {
-        rabbitTemplate.convertAndSend(routingKey, new ModelResMessage(17, Genders.MALE));
+        rabbitTemplate.convertAndSend(routingKey, new ModelResMessage(9, Genders.FEMALE));
     }
 
 }
