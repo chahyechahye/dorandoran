@@ -61,8 +61,8 @@ public class RecordBookService {
         return recordBookRepository.findScript(title);
     }
 
-    public RecordBook findScript(String script, int scriptNum) {
-        Optional<RecordBook> findRecordBook = recordBookRepository.findRecordBookByScript(script, scriptNum);
+    public RecordBook findScript(String title, int scriptNum) {
+        Optional<RecordBook> findRecordBook = recordBookRepository.findRecordBookByScript(title, scriptNum);
 
         return validRecordBook(findRecordBook);
     }
