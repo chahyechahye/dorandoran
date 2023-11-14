@@ -5,6 +5,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +18,12 @@ import com.doran.redis.invite.key.Invite;
 import com.doran.redis.invite.service.InviteService;
 import com.doran.redis.refresh.key.RefreshToken;
 import com.doran.redis.refresh.service.RefreshTokenService;
+import com.doran.redis.script.key.ScriptFemale;
+import com.doran.redis.script.key.ScriptMale;
+import com.doran.redis.script.mapper.ScriptMapper;
+import com.doran.redis.script.service.ScriptFemaleService;
+import com.doran.redis.script.service.ScriptMaleService;
+import com.doran.utils.common.Genders;
 import com.doran.utils.response.CommonResponseEntity;
 import com.doran.utils.response.SuccessCode;
 
@@ -34,6 +41,9 @@ public class TestController {
     private final BlackListService blackListService;
     private final JwtProvider jwtProvider;
     private final RefreshTokenService refreshTokenService;
+    private final ScriptMaleService scriptMaleService;
+    private final ScriptFemaleService scriptFemaleService;
+    private final ScriptMapper scriptMapper;
 
     @GetMapping("/animal/{id}")
     public ResponseEntity<AnimalDto> selectAnimal(@PathVariable int id) {
@@ -100,4 +110,28 @@ public class TestController {
         return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
     }
 
+    @PutMapping("/redis/update")
+    public ResponseEntity redisUpdate(@RequestParam int userId,
+        @RequestParam int scriptNum,
+        @RequestParam String title,
+        @RequestParam Genders genders) {
+        log.info("userId : {}", userId);
+        log.info("scriptNum : {}", scriptNum);
+        log.info("title : {}", title);
+        log.info("genders : {}", genders);
+
+        switch (genders) {
+            case MALE -> {
+                ScriptMale scriptMale = scriptMapper.toScriptMale(userId, title, scriptNum);
+                scriptMaleService.save(scriptMale);
+            }
+            case FEMALE -> {
+                ScriptFemale scriptFemale = scriptMapper.toScriptFemale(userId, title, scriptNum);
+                scriptFemaleService.save(scriptFemale);
+            }
+        }
+
+        log.info("저장 완료");
+        return null;
+    }
 }
