@@ -4,6 +4,10 @@ import momRead from "@/assets/img/momRead.png";
 import FatherRead from "@/assets/img/FatherRead.png";
 import { FaCheck } from "react-icons/fa"; // Import the check icon from React Icons
 import { useGetReadCheck } from "@/apis/children/fairytale/Queries/useReadCheck";
+import exitBtn from "@/assets/img/exitBtn.png";
+import { ButtonEffect } from "@/styles/buttonEffect";
+import { useSoundEffect } from "@/components/sounds/soundEffect";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div<{ selectedOption: string }>`
   position: fixed;
@@ -107,6 +111,20 @@ const CustomRadio = styled.label`
   }
 `;
 
+const CloseButton = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 4vh;
+  cursor: pointer;
+  ${ButtonEffect}
+`;
+
+const ExitBtn = styled.img`
+  width: 30vh;
+`;
+
 interface GenderModalProps {
   onGenderSelected: (selectedOption: string) => void;
   type?: string;
@@ -116,12 +134,14 @@ const GenderModal = ({ onGenderSelected, type }: GenderModalProps) => {
   const ReadCheck = useGetReadCheck();
   const genderBoolean = ReadCheck.data;
   const [isOption, setIsOption] = useState([
-    { value: "엄마", image: momRead, visible: true },
-    { value: "아빠", image: FatherRead, visible: true },
+    { value: "엄마", image: momRead, visible: false },
+    { value: "아빠", image: FatherRead, visible: false },
   ]);
 
   const [selectedOption, setSelectedOption] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(true);
+  const navigate = useNavigate();
+  const { playSound } = useSoundEffect();
 
   const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedOption(event.target.value);
@@ -142,38 +162,63 @@ const GenderModal = ({ onGenderSelected, type }: GenderModalProps) => {
     }
   }, [genderBoolean.femaleAble, genderBoolean.maleAble, type]);
 
+  const goMain = () => {
+    playSound();
+    navigate("/children/main");
+  };
+
   return (
     <>
       {isModalOpen && (
         <Container selectedOption={selectedOption}>
           <MainContainer>
-            <H2>누가 동화책을 읽어줄까요?</H2>
+            {genderBoolean.femaleAble || genderBoolean.maleAble ? (
+              <H2>누가 동화책을 읽어줄까요?</H2>
+            ) : (
+              <H2>부모님 목소리를 담아주세요</H2>
+            )}
             <RadioButtonsContainer>
-              {isOption.map(
-                (option) =>
-                  option.visible && (
-                    <CustomRadio key={option.value}>
-                      <CustomRadioInput
-                        type="radio"
-                        name="radio"
-                        value={option.value}
-                        checked={selectedOption === option.value}
-                        onChange={handleRadioChange}
-                        disabled={Boolean(selectedOption)}
-                      />
-                      <RadioBtn>
-                        <RadioBtnIcon size={50} color="#ffffff" />
-                        <HobbiesIcon>
-                          <HobbiesIconImage
-                            src={option.image}
-                            alt={option.value}
-                            isGray={selectedOption !== option.value}
-                          />
-                          <HobbiesIconText>{option.value}</HobbiesIconText>
-                        </HobbiesIcon>
-                      </RadioBtn>
-                    </CustomRadio>
-                  )
+              {genderBoolean.femaleAble || genderBoolean.maleAble ? (
+                isOption.map(
+                  (option) =>
+                    option.visible && (
+                      <CustomRadio key={option.value}>
+                        <CustomRadioInput
+                          type="radio"
+                          name="radio"
+                          value={option.value}
+                          checked={selectedOption === option.value}
+                          onChange={handleRadioChange}
+                          disabled={Boolean(selectedOption)}
+                        />
+                        <RadioBtn>
+                          <RadioBtnIcon size={50} color="#ffffff" />
+                          <HobbiesIcon>
+                            <HobbiesIconImage
+                              src={option.image}
+                              alt={option.value}
+                              isGray={selectedOption !== option.value}
+                            />
+                            <HobbiesIconText>{option.value}</HobbiesIconText>
+                          </HobbiesIcon>
+                        </RadioBtn>
+                      </CustomRadio>
+                    )
+                )
+              ) : (
+                <CloseButton onClick={goMain}>
+                  <ExitBtn src={exitBtn}></ExitBtn>
+                  <p
+                    style={{
+                      fontSize: "10vh",
+                      marginTop: "2vh",
+                      color: "#f25222",
+                      textShadow: "2px 4px 2px rgba(0, 0, 0, 0.2)",
+                    }}
+                  >
+                    돌아가기
+                  </p>
+                </CloseButton>
               )}
             </RadioButtonsContainer>
           </MainContainer>
