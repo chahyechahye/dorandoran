@@ -130,16 +130,21 @@ const ArrowLeft = styled.img`
   position: absolute;
   left: 2vh;
   width: 20vh;
+
+  ${ButtonEffect}
 `;
 
 const ExitBtn = styled.img`
-  width: 15vh;
+  width: 12vh;
+  ${ButtonEffect}
 `;
 
 const ArrowRight = styled.img`
   position: absolute;
   right: 2vh;
   width: 20vh;
+
+  ${ButtonEffect}
 `;
 
 const SoundBtn = styled.img`
@@ -271,7 +276,15 @@ const ParentMainPage = () => {
             onClick={CloseLetter}
           >
             <ExitBtn src={exitBtn}></ExitBtn>
-            <p style={{ fontSize: "7vh" }}>나가기</p>
+            <p
+              style={{
+                fontSize: "5vh",
+                color: "#f25222",
+                textShadow: "2px 4px 2px rgba(0, 0, 0, 0.2)",
+              }}
+            >
+              나가기
+            </p>
           </div>
           <LetterRead src={letterContent[isLetterPage].contentUrl} />
           <ArrowBox>

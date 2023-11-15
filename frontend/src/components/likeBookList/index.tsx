@@ -6,23 +6,30 @@ import { Book } from "@/types/parent/likeBookType";
 import { useGetFavoriteBook } from "@/apis/parents/likeBook/Queries/useGetFavoriteBook";
 import { profileState } from "@/states/children/info";
 import { useRecoilValue } from "recoil";
+import likebookBoard from "@/assets/img/likeBookBoard.png";
 
 const StyledMain = styled.main`
+  top: 0;
+  left: 0;
+  width: 77.5%;
+  height: 91%;
   position: relative;
-  min-height: 50vh;
+  /* min-height: 50vh; */
   flex-direction: column;
   column-gap: 3rem;
-  margin: 0vh 5vh;
+  margin: 0vh 10vh;
   padding-block: min(20vh, 3rem);
   padding-inline: 2.3em;
   align-items: center;
   justify-content: center;
-  background-color: #78bffc;
-  border-radius: 5vh;
+  /* background-color: #7cafdb; */
+  /* border-radius: 5vh; */
+  background-size: cover;
   overflow: hidden;
   z-index: 1;
+  background-image: url(${likebookBoard});
 
-  // 스티치 효과 추가
+  /* // 스티치 효과 추가
   &::before,
   &::after {
     content: "";
@@ -34,7 +41,7 @@ const StyledMain = styled.main`
     border-radius: 3vh;
     border: dashed 2vh #ffffff;
     box-sizing: border-box;
-  }
+  } */
 
   &::before {
     border-width: 0.5vh 0 0.5vh 0;
@@ -55,7 +62,7 @@ const StyledSwiperContainer = styled.div`
   overflow: hidden;
   width: 100%;
   right: 0px;
-  margin: 0 auto;
+  margin: 1vh auto;
 
   @media screen and (min-width: 960px) {
     width: 80%;
