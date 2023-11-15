@@ -71,6 +71,7 @@ def existInference(dir, file_list):
     import os
     list_len = len(os.listdir(dir))
     file_len = len(file_list)
+    LogInfo(f"파일 : {file_len}, 추론 목소리 : {list_len}")
     if list_len != file_len:
         return True
     return False
