@@ -20,7 +20,7 @@ import { ButtonEffect } from "@/styles/buttonEffect";
 
 import { useSoundEffect } from "@/components/sounds/soundEffect";
 
-import background from "@/assets/img/background/backgroundMain.jpg";
+import background from "@/assets/img/background/backgroundMainRight.jpg";
 
 import photo from "@/assets/img/photo.png";
 import tape from "@/assets/img/tape.png";
