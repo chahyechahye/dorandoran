@@ -1,7 +1,5 @@
-import pika
 import asyncio
-import time
-from pika import BlockingConnection
+import aio_pika
 
 from customLog import LogInfo
 from customLog import LogError
@@ -36,25 +34,52 @@ async def on_message_callback(ch, method, properties, body):
         LogError(e)
 
 async def on_message(queue_name):
-    credentials = pika.PlainCredentials(username="username", password="password")
-    host = "k9b108.p.ssafy.io"
-    port = 5672
+    # credentials = pika.PlainCredentials(username="username", password="password")
+    # host = "k9b108.p.ssafy.io"
+    # port = 5672
     try:
-        connection = BlockingConnection(
-            pika.ConnectionParameters(host=host, credentials=credentials, port=port)
+        # connection = BlockingConnection(
+        #     pika.ConnectionParameters(host=host, credentials=credentials, port=port)
+        # )
+        connection = await aio_pika.connect_robust(
+            host="k9b108.p.ssafy.io",
+            port=5672,
+            login="username",
+            password="password",
+            virtualhost="/"
         )
-        channel = connection.channel()
+        channel = await connection.channel()
 
-        channel.queue_declare(queue=queue_name, durable=True)
-        channel.basic_qos(prefetch_count=1)
-        channel.basic_consume(queue=queue_name, on_message_callback=lambda *args: asyncio.run(on_message_callback(*args)), auto_ack=False)
-        
-        await asyncio.to_thread(channel.start_consuming)
+        # channel.queue_declare(queue=queue_name, durable=True)
+        # channel.basic_qos(prefetch_count=1)
+        # channel.basic_consume(queue=queue_name, on_message_callback=lambda *args: asyncio.run(on_message_callback(*args)), auto_ack=False)
+        queue = await channel.declare_queue(queue_name, durable=True)
+        await queue.consume(on_message_callback)
+
+        # await asyncio.to_thread(channel.start_consuming)
         LogInfo(f"Start consuming from queue: {queue_name}")
+    except aio_pika.exceptions.AMQPError as e:
+        # AMQP 예외 처리
+        LogInfo(f"AMQP Error: {e}")
+        # 여기서 연결을 다시 시도하거나, 로깅하거나 다른 적절한 조치를 취할 수 있습니다.
+        print("Reconnecting...")
+        await asyncio.sleep(5)
+
+    except asyncio.CancelledError:
+        LogInfo("Task cancelled. Exiting...")
+
     except Exception as e:
-        LogError(f"{e}")
-        channel.stop_consuming()
-        connection.close()
+        # 기타 예외 처리
+        LogInfo(f"Unexpected error: {e}")
+
     finally:
-        channel.stop_consuming()
-        connection.close()
+        # 여기서 필요한 정리 작업을 수행합니다.
+        if connection and not connection.is_closed:
+            await connection.close()
+    # except Exception as e:
+    #     LogError(f"{e}")
+    #     channel.stop_consuming()
+    #     connection.close()
+    # finally:
+    #     channel.stop_consuming()
+    #     connection.close()
