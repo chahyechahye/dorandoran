@@ -24,10 +24,16 @@ const ContentContainer = styled.div`
   justify-content: center;
 `;
 
-const ImgContainer = styled.img`
+const ReImgContainer = styled.img`
   margin: 5vh 10vh;
   height: 30vh;
-  width: 30vh;
+  width: 25vh;
+`;
+
+const BookImgContainer = styled.img`
+  margin: 5vh 10vh;
+  height: 30vh;
+  width: 40vh;
 `;
 
 const TextContainer = styled.div`
@@ -60,11 +66,11 @@ const ReplayModal = () => {
     <Background>
       <ContentContainer>
         <IconContainer>
-          <ImgContainer src={replayImg} onClick={goRead} />
+          <ReImgContainer src={replayImg} onClick={goRead} />
           <TextContainer>다시 볼래요</TextContainer>
         </IconContainer>
         <IconContainer>
-          <ImgContainer src={bookImg} onClick={goFairytale} />
+          <BookImgContainer src={bookImg} onClick={goFairytale} />
           <TextContainer>다른 책 볼래요</TextContainer>
         </IconContainer>
       </ContentContainer>
