@@ -73,10 +73,9 @@ public class RawVoiceService {
         List<RawVoice> rawVoiceList = findRawVoiceList(userId, genders);
 
         List<String> list = rawVoiceMapper.toList(rawVoiceList);
-
-        bucketService.deleteFile(list);
-
+        
         if (!list.isEmpty()) {
+            bucketService.deleteFile(list);
             rawVoiceRepository.deleteRawVoice(list);
         }
     }
