@@ -127,7 +127,7 @@ const CharacterPage: React.FC = () => {
           className={index === highlightedIndex ? "highlighted" : ""}
           backgroundImage={animal.imgUrl}
           backgroundColor={animal.color}
-          onMouseEnter={() => handleMouseEnter(index)}
+          onClick={() => handleMouseEnter(index)}
         >
           <Content>{animal.name}</Content>
         </Div>
