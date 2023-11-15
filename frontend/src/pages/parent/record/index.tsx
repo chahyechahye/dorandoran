@@ -327,24 +327,40 @@ const ParentRecordPage = () => {
 
   const onResume = () => {
     if (saveData.title === "백설공주") {
-      setCurrentScriptNum(saveData.scriptNum);
-      setCurrentPage(0);
+      if (saveData.scriptNum === totalScriptList[0]) {
+        setCurrentScriptNum(0);
+        setCurrentPage(1);
+        const updatedScriptReadNum = [...scriptReadNum];
+        updatedScriptReadNum[0] = totalScriptList[0] - 1;
 
-      const updatedScriptReadNum = [...scriptReadNum];
-      updatedScriptReadNum[currentPage] = saveData.scriptNum;
-      for (let i = 0; i < currentPage; i++) {
-        updatedScriptReadNum[i] = totalScriptList[i] - 1;
+        setScriptReadNum(updatedScriptReadNum);
+      } else {
+        setCurrentScriptNum(saveData.scriptNum);
+        setCurrentPage(0);
+
+        const updatedScriptReadNum = [...scriptReadNum];
+        updatedScriptReadNum[currentPage] = saveData.scriptNum;
+        setScriptReadNum(updatedScriptReadNum);
       }
-      setScriptReadNum(updatedScriptReadNum);
     } else if (saveData.title === "빨간 모자") {
-      setCurrentScriptNum(saveData.scriptNum);
-      setCurrentPage(1);
+      if (saveData.scriptNum === totalScriptList[1]) {
+        setCurrentScriptNum(0);
+        setCurrentPage(2);
+        const updatedScriptReadNum = [...scriptReadNum];
+        updatedScriptReadNum[0] = totalScriptList[0] - 1;
+        updatedScriptReadNum[1] = totalScriptList[1] - 1;
 
-      const updatedScriptReadNum = [...scriptReadNum];
-      updatedScriptReadNum[0] = totalScriptList[0] - 1;
-      updatedScriptReadNum[1] = saveData.scriptNum;
+        setScriptReadNum(updatedScriptReadNum);
+      } else {
+        setCurrentScriptNum(saveData.scriptNum);
+        setCurrentPage(1);
 
-      setScriptReadNum(updatedScriptReadNum);
+        const updatedScriptReadNum = [...scriptReadNum];
+        updatedScriptReadNum[0] = totalScriptList[0] - 1;
+        updatedScriptReadNum[1] = saveData.scriptNum;
+
+        setScriptReadNum(updatedScriptReadNum);
+      }
     } else {
       setCurrentScriptNum(saveData.scriptNum);
       setCurrentPage(2);
