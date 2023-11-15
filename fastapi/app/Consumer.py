@@ -67,7 +67,7 @@ async def on_message_callback(message: aio_pika.IncomingMessage):
 
         except Exception as e:
             LogError(e)
-            await message.reject(requeue=True)
+            # await message.reject(requeue=True)
 
 
 async def on_message(queue_name):
