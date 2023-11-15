@@ -54,7 +54,8 @@ const Colours = styled.ul`
 const ColourItem = styled.li`
   display: inline-block;
   height: 20vh;
-  margin: 0 12px;
+  margin: ${({ index, currentColorIndex }) =>
+    index === currentColorIndex ? "0px 12px" : "30px 12px 0px"};
   width: 5vh;
 
   &:nth-child(1) {
@@ -215,6 +216,7 @@ const SketchPage = () => {
   const { playSound } = useSoundEffect();
   const postAlbum = usePostAlbum();
   const [backButtonPressCount, setBackButtonPressCount] = useState(0);
+  const [submitButtonClicked, setSubmitButtonClicked] = useState(false);
 
   const pencilPathDefaults = {
     minThickness: 4,
@@ -497,7 +499,12 @@ const SketchPage = () => {
   }
 
   const capturePage = () => {
-    toast("📖 편지를 보내는 중이예요!");
+    if (submitButtonClicked) {
+      return; // Do nothing if the button has already been clicked
+    }
+    setSubmitButtonClicked(true);
+
+    toast("✉ 편지를 보내는 중이예요!");
     clearBufferCanvas();
     // 요소를 숨기기 전에 display 속성을 저장합니다.
     const coloursElement = document.querySelector(".colours");
@@ -557,6 +564,12 @@ const SketchPage = () => {
   };
 
   useEffect(() => {
+    return () => {
+      setSubmitButtonClicked(false);
+    };
+  }, []);
+
+  useEffect(() => {
     const disableBackButton = (e) => {
       e.preventDefault();
     };
@@ -604,6 +617,8 @@ const SketchPage = () => {
             index !== 8 && (
               <ColourItem
                 key={index}
+                index={index}
+                currentColorIndex={currentColorIndex}
                 onClick={() => {
                   setCurrentColorIndex(index);
                   setPreviousColorIndex(index);
@@ -624,6 +639,7 @@ const SketchPage = () => {
       <SubmitButton
         className="submit-button"
         onClick={capturePage}
+        disabled={submitButtonClicked}
       ></SubmitButton>
       <ExitContainer className="exit-button" onClick={handleExit}>
         <ExitBtn src={exitBtn}></ExitBtn>
