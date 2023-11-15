@@ -11,7 +11,8 @@ from Consumer import on_message
 async def lifespan(app: FastAPI):
     # 시작 시 동작 부분
     LogInfo("Server Start")
-    await asyncio.gather(on_message(model_sub), on_message(voice_sub))
+    # await asyncio.gather(on_message(model_sub), on_message(voice_sub))
+    await asyncio.gather(on_message(voice_sub))
     # task1 = asyncio.create_task(on_message(queue_name=model_sub))
     # task2 = asyncio.create_task(on_message(queue_name=voice_sub))
     # await asyncio.gather(task1, task2)
