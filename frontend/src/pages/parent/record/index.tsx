@@ -89,7 +89,7 @@ const ExitContainer = styled.div`
   justify-content: center;
   align-items: center;
   top: 0;
-  left: 0;
+  left: 128vh;
   margin: 2vh 4vh;
   z-index: 5;
 
@@ -98,6 +98,8 @@ const ExitContainer = styled.div`
 
 const ExitBtn = styled.img`
   width: 12vh;
+
+  ${ButtonEffect}
 `;
 
 const ParentRecordPage = () => {
