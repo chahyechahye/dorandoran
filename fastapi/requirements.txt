@@ -9,3 +9,5 @@ google-cloud-storage
 pydub
 aio_pika
 aiohttp
+websockets
+wsproto

@@ -93,7 +93,7 @@ async def Voice(data):
             LogInfo("1. Model Cleaning Success")
             inferChangeVoice(data['pth'])
             LogInfo("2. Model Select Success")
-            inferConvertBatch(data['index'], directory, save_location_list, f"/app/opt/{str(userId)}", transpose)
+            inferConvertBatch(data['index'], directory, save_location_list, f"/app/opt/{str(userId)}_{userGender}", transpose)
             LogInfo("3. Inference Success")
             inferClean()
             LogInfo("4. Model Cleaning Success")

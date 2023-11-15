@@ -24,10 +24,10 @@ app = FastAPI(lifespan=lifespan)
 model_sub = "model.req"
 voice_sub = "voice.req"
 
-@app.get("/")
-def 테스트():
-    print("테스트")
-    return "테스트"
+# @app.get("/")
+# def 테스트():
+#     print("테스트")
+#     return "테스트"
 
 # async def startup_event():
 #     print("Server On!!!!!!!")
