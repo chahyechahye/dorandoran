@@ -66,3 +66,11 @@ def inferConvertBatch(index, filePath, fileList, outputPath, transpose):
                     api_name="/infer_convert_batch"
     )
     LogInfo(result)
+
+def existInference(dir, file_list):
+    import os
+    list_len = len(os.listdir(dir))
+    file_len = len(file_list)
+    if list_len != file_len:
+        return True
+    return False

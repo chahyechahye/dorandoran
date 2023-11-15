@@ -8,6 +8,7 @@ from InferenceModel import inferRefresh
 from InferenceModel import inferChangeVoice
 from InferenceModel import inferConvertBatch
 from InferenceModel import inferClean
+from InferenceModel import existInference
 from GoogleBucket import Download
 from GoogleBucket import Upload
 from transpose import check_book
@@ -86,24 +87,25 @@ async def Voice(data):
                 file['content_id'] = contentId
                 file_list.append(file)
 
-            data = inferRefresh(user=userId, gender=userGender)
-            transpose = check_gender(book, userGender)
-            LogInfo(data)
-            inferClean()
-            LogInfo("1. Model Cleaning Success")
-            inferChangeVoice(data['pth'])
-            LogInfo("2. Model Select Success")
-            inferConvertBatch(data['index'], directory, save_location_list, f"/app/opt/{str(userId)}_{userGender}", transpose)
-            LogInfo("3. Inference Success")
-            inferClean()
-            LogInfo("4. Model Cleaning Success")
+            if existInference(f"/app/opt/{str(userId)}_{userGender}", file_list):
+                data = inferRefresh(user=userId, gender=userGender)
+                transpose = check_gender(book, userGender)
+                LogInfo(data)
+                inferClean()
+                LogInfo("1. Model Cleaning Success")
+                inferChangeVoice(data['pth'])
+                LogInfo("2. Model Select Success")
+                inferConvertBatch(data['index'], directory, save_location_list, f"/app/opt/{str(userId)}_{userGender}", transpose)
+                LogInfo("3. Inference Success")
+                inferClean()
+                LogInfo("4. Model Cleaning Success")
 
-            for temp in file_list:
-                upload_file_name = await Upload(userId=userId, fileName=temp['file_name']+".wav.wav", gender=userGender)
-                # voiceURL 변경
-                # 변경된 voiceURL 전달
-                PVQueRes = PVQueResDto(contentId=temp['content_id'], voiceUrl=f"https://storage.googleapis.com/dorandoran/{upload_file_name}")
-                results.append(PVQueRes.model_dump())
+                for temp in file_list:
+                    upload_file_name = await Upload(userId=userId, fileName=temp['file_name']+".wav.wav", gender=userGender)
+                    # voiceURL 변경
+                    # 변경된 voiceURL 전달
+                    PVQueRes = PVQueResDto(contentId=temp['content_id'], voiceUrl=f"https://storage.googleapis.com/dorandoran/{upload_file_name}")
+                    results.append(PVQueRes.model_dump())
 
             
         res = VoiceReq(
