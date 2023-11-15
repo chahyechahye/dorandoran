@@ -562,7 +562,6 @@ const DogLike = () => {
   };
 
   const fairytaleSearch = useRecoilValue(FairytaleSearchState);
-  console.log(fairytaleSearch);
   const usePostChildrenLike = useChildrenLike();
 
   const childrenLikeHandler = () => {
@@ -572,8 +571,6 @@ const DogLike = () => {
       console.log("api 오류 - childrenLikeHandler");
     }
   };
-
-  console.log(fairytaleSearch.bookId);
 
   return (
     <Background isHovered={isHovered} isDisliked={isDisliked}>

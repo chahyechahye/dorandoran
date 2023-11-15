@@ -49,8 +49,6 @@ const ChildrenProfilePage = () => {
 
   const usePostChildrenLogin = useChildrenLogin();
 
-  console.log(profileList);
-
   const postLoginHandler = async (profile: ChildrenProfileProps) => {
     playSound();
 
@@ -83,7 +81,6 @@ const ChildrenProfilePage = () => {
     }
   };
 
-  console.log("프로필:" + profileData.name);
   return (
     <Background>
       <ContentContainer>

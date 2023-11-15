@@ -64,8 +64,6 @@ const ChildrenCharacterPage = () => {
   const [profile, setProfile] = useRecoilState(profileState);
   const [profileList, setProfileList] = useRecoilState(profileListState);
 
-  console.log("1:" + JSON.stringify(profileList));
-  console.log("캐릭터플필아이디:" + profile.id);
   const settingAnimal = () => {
     const updatedProfile = {
       ...profile,
@@ -83,8 +81,6 @@ const ChildrenCharacterPage = () => {
     setProfileList((profileList) => {
       return profileList.map((profileItem) => {
         if (profileItem.id === profile.id) {
-          console.log("profileItem.id" + profileItem.id);
-          console.log("profile.id" + profile.id);
           return profile;
         } else {
           return profileItem;
@@ -96,9 +92,6 @@ const ChildrenCharacterPage = () => {
 
   const childrenCharacterHandler = () => {
     try {
-      console.log("2:" + JSON.stringify(profileList));
-      console.log("이건 잘나오나profile:" + profile.id);
-      console.log("이건 잘나오나selectAnimal:" + selectAnimal.id);
       usePostChildrenCharacter.mutateAsync(selectAnimal.id);
     } catch (error) {
       console.log("api 오류 - childrenCharacterHandler");

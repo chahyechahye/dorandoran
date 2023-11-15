@@ -129,7 +129,6 @@ const FairytaleReadPage = () => {
   setInfoFairytaleRead(fairytaleContentList);
   const { playBookSound } = useSoundBookEffect();
   const setSoundData = useSetRecoilState(MainSoundState);
-  // console.log(fairytaleContentList[0].voiceUrl);
 
   useEffect(() => {
     setSoundData(false);
@@ -170,28 +169,17 @@ const FairytaleReadPage = () => {
     }
   };
 
-  console.log("5-currentPageIndex:" + currentPageIndex);
-  console.log("5-currentContentIndex:" + currentContentIndex);
-
   const handleArrowLeft = () => {
     playBookSound();
     if (currentContentIndex === 0 && currentPageIndex > 0) {
-      console.log("2-currentPageIndex:" + currentPageIndex);
-      console.log("2-currentContentIndex:" + currentContentIndex);
       setCurrentPageIndex(currentPageIndex - 1);
       setCurrentContentIndex(
         fairytaleRead[currentPageIndex - 1].contentResDto.length - 1
       );
-      console.log("3-currentPageIndex:" + currentPageIndex);
-      console.log("3-currentContentIndex:" + currentContentIndex);
     } else if (currentContentIndex > 0) {
       setCurrentContentIndex(currentContentIndex - 1);
-      console.log("1-currentPageIndex:" + currentPageIndex);
-      console.log("1-currentContentIndex:" + currentContentIndex);
     } else if (currentContentIndex === 0 && currentPageIndex === 0) {
       toast("📖 첫장면이에요!");
-      console.log("4-currentPageIndex:" + currentPageIndex);
-      console.log("4-currentContentIndex:" + currentContentIndex);
     }
   };
 

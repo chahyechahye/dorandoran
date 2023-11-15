@@ -165,8 +165,6 @@ const ParentMainPage = () => {
   const [mainSound, setMainSound] = useRecoilState(SoundState);
   const { playSound } = useSoundEffect();
 
-  console.log(profileData);
-
   const [isOpenAlbum, setIsOpenAlbum] = useState(false);
   const [isOpenLikeBook, setIsOpenLikeBook] = useState(false);
   const [isLetter, setIsLetter] = useState(false);

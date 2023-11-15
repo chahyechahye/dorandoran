@@ -131,8 +131,6 @@ const FariytaleEnter = () => {
 
   const navigate = useNavigate();
 
-  console.log(fairytaleRead[0]);
-  console.log("패오라태알" + fairytale.title);
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsOpen(true);
