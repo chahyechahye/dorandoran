@@ -26,6 +26,7 @@ import { background } from "@/assets/img/background/backgroundMain.jpg";
 
 import letterSend from "@/assets/img/letter/letterSend.png";
 import { usePostAlbum } from "@/apis/common/album/Mutations/usePostAlbum";
+import { toast } from "react-toastify";
 
 const Body = styled.div`
   width: 100%;
@@ -496,6 +497,7 @@ const SketchPage = () => {
   }
 
   const capturePage = () => {
+    toast("📖 편지를 보내는 중이예요!");
     clearBufferCanvas();
     // 요소를 숨기기 전에 display 속성을 저장합니다.
     const coloursElement = document.querySelector(".colours");
