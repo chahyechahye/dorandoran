@@ -57,7 +57,7 @@ async def on_message_callback(message: aio_pika.IncomingMessage):
             # exchange_name = ""  # 적절한 익스체인지 이름으로 변경
             routing_key = selectQueue(queue_name)
             LogInfo(f"퍼블리셔 큐 이름 : {routing_key}")
-            send_message(routing_key, res)
+            await send_message(routing_key, res)
             LogInfo("퍼블리셔 전송 완료")
             # await channel.default_exchange.publish(
             #     aio_pika.Message(body=str(res).encode()),
@@ -67,6 +67,7 @@ async def on_message_callback(message: aio_pika.IncomingMessage):
 
         except Exception as e:
             LogError(e)
+            await message.reject(requeue=True)
 
 
 async def on_message(queue_name):
