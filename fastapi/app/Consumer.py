@@ -58,9 +58,8 @@ async def on_message_callback(message: aio_pika.IncomingMessage):
             routing_key = selectQueue(queue_name)
             LogInfo(f"퍼블리셔 큐 이름 : {routing_key}")
             await channel.basic_publish(
-                aio_pika.Message(body=str(res).encode()),
+                body=aio_pika.Message(body=str(res).encode()),
                 routing_key=routing_key,
-                exchange_name=exchange_name
             )
             # await message.ack()   
 
