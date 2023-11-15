@@ -29,6 +29,8 @@ import post from "@/assets/img/post.png";
 import Logo from "@/assets/img/Logo.png";
 import { usePostLetterRead } from "@/apis/common/letter/Mutations/usePostLetterRead";
 import { SoundState } from "@/states/common/voice";
+import music from "@/assets/img/music.png";
+import nomusic from "@/assets/img/nomusic.png";
 
 const Container = styled.div`
   position: fixed;
@@ -141,8 +143,8 @@ const ArrowRight = styled.img`
 `;
 
 const SoundBtn = styled.img`
-  width: 8vh;
-  height: 8vh;
+  width: 9vh;
+  height: 9vh;
 
   ${ButtonEffect}
 `;
@@ -295,9 +297,9 @@ const ParentMainPage = () => {
           />
           <LikeBook onClick={handleOpenLikeBook} />
           {mainSound ? (
-            <SoundBtn src={exitBtn} onClick={handleMainSound}></SoundBtn>
+            <SoundBtn src={music} onClick={handleMainSound}></SoundBtn>
           ) : (
-            <SoundBtn src={background} onClick={handleMainSound}></SoundBtn>
+            <SoundBtn src={nomusic} onClick={handleMainSound}></SoundBtn>
           )}
         </Header>
         <Image src={Logo} alt="Background" />

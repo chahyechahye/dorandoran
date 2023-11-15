@@ -7,6 +7,8 @@ const Container = styled.div`
   margin: 2vh;
   background-color: #fff;
   border-radius: 10vh;
+  width: 9vh;
+  height: 9vh;
 
   ${ButtonEffect}
 `;
