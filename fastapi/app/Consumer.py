@@ -45,7 +45,7 @@ async def on_message_callback(message: aio_pika.IncomingMessage):
             if queue_name == model_sub:
                 res = Model(body)
             elif queue_name == voice_sub:
-                res = Voice(body)
+                res = await Voice(body)
 
             LogInfo(f"RESULT BODY : {res}")
 
