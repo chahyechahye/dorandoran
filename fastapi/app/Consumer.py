@@ -5,7 +5,7 @@ from customLog import LogInfo
 from customLog import LogError
 from Voice import Voice
 from Model import Model
-from Publicher import message
+from Publicher import send_message
 
 model_pub = "model.res"
 model_sub = "model.req"
@@ -57,7 +57,7 @@ async def on_message_callback(message: aio_pika.IncomingMessage):
             # exchange_name = ""  # 적절한 익스체인지 이름으로 변경
             routing_key = selectQueue(queue_name)
             LogInfo(f"퍼블리셔 큐 이름 : {routing_key}")
-            message(routing_key, res)
+            send_message(routing_key, res)
             LogInfo("퍼블리셔 전송 완료")
             # await channel.default_exchange.publish(
             #     aio_pika.Message(body=str(res).encode()),

@@ -1,6 +1,6 @@
 import aio_pika
 
-async def message(queue_name, message):
+async def send_message(queue_name, message):
     try:
         connection = await aio_pika.connect_robust(
                 host="k9b108.p.ssafy.io",
