@@ -439,7 +439,7 @@ const Profile = styled.div`
   justify-content: center;
   z-index: 6;
   top: 2%;
-  left: 82%;
+  right: 2vh;
 `;
 
 const LetterGif = styled.div<{ isLetter: boolean }>`
@@ -554,7 +554,7 @@ const TextBalloon = styled.div`
   width: 40vh;
   height: 24vh;
   top: 67.2vh;
-  left: 81.5vh;
+  right: 30vh;
 
   background-image: url(${textballoon});
   background-size: cover;
@@ -565,7 +565,7 @@ const TextBalloonText = styled.div`
   width: 40vh;
   height: 24vh;
   top: 72vh;
-  left: 81.5vh;
+  right: 30vh;
   z-index: 7;
   font-size: 4vh;
   color: #503d00;
