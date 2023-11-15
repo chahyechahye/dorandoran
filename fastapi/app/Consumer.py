@@ -5,6 +5,7 @@ from customLog import LogInfo
 from customLog import LogError
 from Voice import Voice
 from Model import Model
+from Publicher import message
 
 model_pub = "model.res"
 model_sub = "model.req"
@@ -51,11 +52,13 @@ async def on_message_callback(message: aio_pika.IncomingMessage):
 
             # 응답을 보내는 부분
             LogInfo(f"메세지 : {message}")
-            channel = await message.channel
-            LogInfo(f"채널 정보 : {channel}")
-            exchange_name = ""  # 적절한 익스체인지 이름으로 변경
+            # channel = await message.channel()
+            # LogInfo(f"채널 정보 : {channel}")
+            # exchange_name = ""  # 적절한 익스체인지 이름으로 변경
             routing_key = selectQueue(queue_name)
-            LogInfo(routing_key)
+            LogInfo(f"퍼블리셔 큐 이름 : {routing_key}")
+            message(routing_key, res)
+            LogInfo("퍼블리셔 전송 완료")
             # await channel.default_exchange.publish(
             #     aio_pika.Message(body=str(res).encode()),
             #     routing_key=routing_key,
@@ -86,6 +89,7 @@ async def on_message(queue_name):
         # channel.queue_declare(queue=queue_name, durable=True)
         # channel.basic_qos(prefetch_count=1)
         # channel.basic_consume(queue=queue_name, on_message_callback=lambda *args: asyncio.run(on_message_callback(*args)), auto_ack=False)
+        await channel.set_qos(prefetch_count=1)
         queue = await channel.declare_queue(queue_name, durable=True)
         await queue.consume(on_message_callback)
 
