@@ -295,7 +295,6 @@ const FairyTalePage = () => {
     fairytaleContentListState
   );
   const [selectedGender, setSelectedGender] = useState("");
-  console.log(fairytale);
   // 동화책 리스트 담기 (여러권)
   const setFairytaleList = useFairytaleList();
   const fairytaleList = setFairytaleList.data.bookResDtoList;

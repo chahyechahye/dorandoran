@@ -87,7 +87,6 @@ const ClickEventComponent = () => {
         characters.charAt(Math.floor(Math.random() * charactersLength))
       );
     }
-    console.log("찍히긴해?2");
     return result.join("");
   };
 
@@ -97,7 +96,6 @@ const ClickEventComponent = () => {
     y: number,
     confettiItems: number
   ) {
-    console.log("찍히긴해?3");
     // createElement.classList.add("Confetti");
     const newDiv = document.createElement("div");
     newDiv.classList.add("confetti");
@@ -107,7 +105,6 @@ const ClickEventComponent = () => {
     const colors = ["#2162ff", "#9e21ff", "#21a9ff", "#a9ff21", "#ff2184"];
 
     for (let i = 0; i < confettiItems; ++i) {
-      console.log("찍히긴해?4");
       const color = Math.floor(Math.random() * colors.length);
       confettiHTML += `<div class="confetti-item" style="background-color: ${
         colors[color]
@@ -184,7 +181,6 @@ const ClickEventComponent = () => {
   };
 
   document.addEventListener("DOMContentLoaded", function (e) {
-    console.log("찍히긴해?5");
     (document as any)
       .getElementById("confetti-box")
       .addEventListener("pointerdown", function (e: any) {

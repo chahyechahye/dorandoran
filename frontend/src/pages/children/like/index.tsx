@@ -559,7 +559,6 @@ const DogLike = () => {
   };
 
   const fairytaleSearch = useRecoilValue(FairytaleSearchState);
-  console.log(fairytaleSearch);
   const usePostChildrenLike = useChildrenLike();
 
   const childrenLikeHandler = () => {
@@ -570,7 +569,6 @@ const DogLike = () => {
     }
   };
 
-  console.log(fairytaleSearch.bookId);
   return (
     <Background isHovered={isHovered} isDisliked={isDisliked}>
       <QuestionBook>동화책 재밌었나요?</QuestionBook>
