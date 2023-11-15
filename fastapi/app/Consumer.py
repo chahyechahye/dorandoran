@@ -93,7 +93,7 @@ async def on_message(queue_name):
         await channel.set_qos(prefetch_count=1)
         queue = await channel.declare_queue(queue_name, durable=True)
         LogInfo(f"Start consuming from queue: {queue_name}")
-        queue.consume(on_message_callback)
+        await queue.consume(on_message_callback)
         # async for data in queue.consume(on_message_callback):
         #     try:
         #         d = data['message']
