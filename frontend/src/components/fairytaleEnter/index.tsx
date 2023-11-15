@@ -131,6 +131,8 @@ const FariytaleEnter = () => {
 
   const navigate = useNavigate();
 
+  console.log(fairytaleRead[0]);
+  console.log("패오라태알" + fairytale.title);
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsOpen(true);
@@ -153,8 +155,6 @@ const FariytaleEnter = () => {
     }
   }, [isOpen, navigate]);
 
-  console.log(fairytaleRead[0]);
-
   return (
     <CardContainer>
       <Card className={isOpen ? "open" : ""}>
@@ -164,7 +164,7 @@ const FariytaleEnter = () => {
           {/* <Img src={fairytale.imgUrl} className={isOpen ? "open" : ""} /> */}
         </ImgBox>
         <Details
-          src={fairytaleRead[0].imgUrl}
+          src={fairytale.imgUrl}
           className={isOpen ? "open" : ""}
         ></Details>
       </Card>
