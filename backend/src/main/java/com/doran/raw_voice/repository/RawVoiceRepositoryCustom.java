@@ -11,5 +11,5 @@ public interface RawVoiceRepositoryCustom {
 
     void deleteRawVoice(List<String> list);
 
-    List<RawVoice> findRawVoiceByUserId(int userId);
+    List<RawVoice> findRawVoice(int userId, Genders genders);
 }

@@ -69,8 +69,8 @@ public class RawVoiceService {
     }
 
     @Transactional
-    public void delete(int userId) {
-        List<RawVoice> rawVoiceList = findRawVoiceList(userId);
+    public void delete(int userId, Genders genders) {
+        List<RawVoice> rawVoiceList = findRawVoiceList(userId, genders);
 
         List<String> list = rawVoiceMapper.toList(rawVoiceList);
 
@@ -81,8 +81,8 @@ public class RawVoiceService {
         }
     }
 
-    public List<RawVoice> findRawVoiceList(int userId) {
-        return rawVoiceRepository.findRawVoiceByUserId(userId);
+    public List<RawVoice> findRawVoiceList(int userId, Genders genders) {
+        return rawVoiceRepository.findRawVoice(userId, genders);
     }
 
     public void createRecordRedis(int userId, Genders gender) {

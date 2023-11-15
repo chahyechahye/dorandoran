@@ -40,12 +40,13 @@ public class RawVoiceRepositoryCustomImpl implements RawVoiceRepositoryCustom {
     }
 
     @Override
-    public List<RawVoice> findRawVoiceByUserId(int userId) {
+    public List<RawVoice> findRawVoice(int userId, Genders genders) {
         return jpaQueryFactory
             .select(rawVoice)
             .from(rawVoice)
             .join(rawVoice.user, user)
-            .where(user.id.eq(userId))
+            .where(user.id.eq(userId),
+                rawVoice.voiceGender.eq(genders))
             .fetch();
     }
 

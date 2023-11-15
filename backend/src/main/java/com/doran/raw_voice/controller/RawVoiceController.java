@@ -118,7 +118,7 @@ public class RawVoiceController {
     public ResponseEntity delete(@PathVariable("genders") Genders genders) {
         UserInfo info = Auth.getInfo();
 
-        rawVoiceService.delete(info.getUserId());
+        rawVoiceService.delete(info.getUserId(), genders);
 
         scriptService.delete(genders, info.getUserId());
 
