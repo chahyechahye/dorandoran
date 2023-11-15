@@ -89,7 +89,7 @@ const ExitContainer = styled.div`
   justify-content: center;
   align-items: center;
   top: 0;
-  left: 128vh;
+  right: 1vh;
   margin: 2vh 4vh;
   z-index: 5;
 
@@ -436,13 +436,15 @@ const ParentRecordPage = () => {
         <RecordBoxWrapper>
           {scriptData[currentPage].scriptList[currentScriptNum].script}
           <ArrowWrapper>
-            <ArrowIcon
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 25 32"
-              onClick={handleNextScript}
-            >
-              <path d="M0 0V31.5L24.75 15.75L0 0Z" fill="white" />
-            </ArrowIcon>
+            {isAudioAvailable && (
+              <ArrowIcon
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 25 32"
+                onClick={handleNextScript}
+              >
+                <path d="M0 0V31.5L24.75 15.75L0 0Z" fill="white" />
+              </ArrowIcon>
+            )}
           </ArrowWrapper>
         </RecordBoxWrapper>
         <div
