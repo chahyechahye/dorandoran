@@ -102,7 +102,7 @@ async def Voice(data):
                 upload_file_name = await Upload(userId=userId, fileName=temp['file_name']+".wav.wav", gender=userGender)
                 # voiceURL 변경
                 # 변경된 voiceURL 전달
-                PVQueRes = PVQueResDto(contentId=temp['content_id'], voiceUrl=f"https://storage.googleapis.com/ssafy-last-project/{upload_file_name}")
+                PVQueRes = PVQueResDto(contentId=temp['content_id'], voiceUrl=f"https://storage.googleapis.com/dorandoran/{upload_file_name}")
                 results.append(PVQueRes.model_dump())
 
             
