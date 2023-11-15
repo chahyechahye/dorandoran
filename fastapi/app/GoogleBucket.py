@@ -82,22 +82,27 @@ async def Upload(userId, fileName):
         directory = os.path.join("/", "app", "opt", str(userId), fileName)
         LogInfo(directory)
         destination_file_name = str(uuid.uuid1())
-        LogInfo(destination_file_name)
 
-        # bucket = client.bucket(bucket_name)
-        # blob = bucket.blob(destination_file_name)
-
-        async with aiohttp.ClientSession() as session:
-            async with session.put(
-                f"https://storage.googleapis.com/upload/storage/v1/b/{bucket_name}/o?uploadType=multipart&name={destination_file_name}",
-                data=open(directory, "rb")
-            ) as response:
-                if response.status == 200:
-                    print("Upload successful")
-                else:
-                    print(f"Upload failed with status code {response.status}")
-                    content = await response.text()
-                    print(f"Response content: {content}")
+        bucket = client.bucket(bucket_name)
+        blob = bucket.blob(destination_file_name)
+        generation_match_precondition = 0   
+        blob.upload_from_filename(directory, if_generation_match=generation_match_precondition)
+        # async with aiohttp.ClientSession() as session:
+        #     headers = {
+        #         "Authorization" : "Bearer" + 
+        #     }
+        #     async with session.put(
+        #         f"https://storage.googleapis.com/upload/storage/v1/b/{bucket_name}/o?uploadType=multipart&name={destination_file_name}",
+        #         data=open(directory, "rb"),
+        #         headers = headers
+        #     ) as response:
+        #         if response.status == 200:
+        #             LogInfo("Upload successful")
+        #         else:
+        #             LogInfo(f"Upload failed with status code {response.status}")
+        #             content = await response.text()
+        #             LogInfo(f"Response content: {content}")
+        LogInfo(f"구글 버킷 저장 이름 : {destination_file_name}")
 
         return destination_file_name
 
