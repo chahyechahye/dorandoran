@@ -587,8 +587,13 @@ const FairyTalePage = () => {
             <CardButton className="btn next">
               <span>Next</span>
             </CardButton>
-            {fairytaleList.map(
-              (fairytale: FairytaleListProps, index: number) => (
+            {fairytaleList
+              .filter(
+                (fairytale: FairytaleListProps) =>
+                  fairytale.title !== "미운오리새끼" &&
+                  fairytale.title !== "아기돼지 삼형제"
+              )
+              .map((fairytale: FairytaleListProps, index: number) => (
                 <div key={index} className={`card card0${index}`}>
                   <CardContent>
                     <CardCircle
@@ -606,8 +611,7 @@ const FairyTalePage = () => {
                     <p className="card-subtitle"></p>
                   </CardContent>
                 </div>
-              )
-            )}
+              ))}
           </Cards>
         </Wrapper>
 
