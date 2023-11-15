@@ -50,8 +50,9 @@ async def on_message_callback(message: aio_pika.IncomingMessage):
             LogInfo(f"RESULT BODY : {res}")
 
             # 응답을 보내는 부분
+            LogInfo("메세지 : ", message)
             channel = await message.channel()
-            LogInfo(channel)
+            LogInfo("채널 정보 : ",channel)
             exchange_name = ""  # 적절한 익스체인지 이름으로 변경
             routing_key = selectQueue(queue_name)
             LogInfo(routing_key)
