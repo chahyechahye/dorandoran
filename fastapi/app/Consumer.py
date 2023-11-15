@@ -1,5 +1,6 @@
 import asyncio
 import aio_pika
+import json
 
 from customLog import LogInfo
 from customLog import LogError
@@ -58,7 +59,7 @@ async def on_message_callback(message: aio_pika.IncomingMessage):
             routing_key = selectQueue(queue_name)
             LogInfo(f"퍼블리셔 큐 이름 : {routing_key}")
             await channel.basic_publish(
-                body=res,
+                body=aio_pika.Message(body=json.dumps(res).encode()),
                 routing_key=routing_key,
             )
             # await message.ack()   
