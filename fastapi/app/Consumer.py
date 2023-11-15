@@ -64,6 +64,7 @@ async def on_message_callback(message: aio_pika.IncomingMessage):
             #     routing_key=routing_key,
             #     exchange_name=exchange_name
             # )
+            asyncio.sleep(1)
 
         except Exception as e:
             LogError(e)
@@ -93,6 +94,7 @@ async def on_message(queue_name):
         await channel.set_qos(prefetch_count=1)
         queue = await channel.declare_queue(queue_name, durable=True)
         await queue.consume(on_message_callback)
+        await asyncio.Future()
 
         # await asyncio.to_thread(channel.start_consuming)
         LogInfo(f"Start consuming from queue: {queue_name}")
