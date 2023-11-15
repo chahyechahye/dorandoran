@@ -102,10 +102,10 @@ async def on_message(queue_name):
         # 기타 예외 처리
         LogInfo(f"Unexpected error: {e}")
 
-    finally:
-        # 여기서 필요한 정리 작업을 수행합니다.
-        if connection and not connection.is_closed:
-            await connection.close()
+    # finally:
+    #     # 여기서 필요한 정리 작업을 수행합니다.
+    #     if connection and not connection.is_closed:
+    #         await connection.close()
     # except Exception as e:
     #     LogError(f"{e}")
     #     channel.stop_consuming()
