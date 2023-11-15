@@ -77,9 +77,9 @@ def DownloadRaw(userId, gender, voiceUrl):
 #         LogError("Upload Fail")
 #         raise
 
-async def Upload(userId, fileName):
+async def Upload(userId, fileName, gender):
     try:
-        directory = os.path.join("/", "app", "opt", str(userId), fileName)
+        directory = os.path.join("/", "app", "opt", f"{str(userId)}_{gender}", fileName)
         LogInfo(directory)
         destination_file_name = str(uuid.uuid1())
 
@@ -87,14 +87,12 @@ async def Upload(userId, fileName):
         blob = bucket.blob(destination_file_name)
         generation_match_precondition = 0   
         blob.upload_from_filename(directory, if_generation_match=generation_match_precondition)
+
         # async with aiohttp.ClientSession() as session:
-        #     headers = {
-        #         "Authorization" : "Bearer" + 
-        #     }
+        #     LogInfo(f"구글 버킷 저장 이름 : {destination_file_name}")
         #     async with session.put(
         #         f"https://storage.googleapis.com/upload/storage/v1/b/{bucket_name}/o?uploadType=multipart&name={destination_file_name}",
         #         data=open(directory, "rb"),
-        #         headers = headers
         #     ) as response:
         #         if response.status == 200:
         #             LogInfo("Upload successful")
@@ -102,7 +100,6 @@ async def Upload(userId, fileName):
         #             LogInfo(f"Upload failed with status code {response.status}")
         #             content = await response.text()
         #             LogInfo(f"Response content: {content}")
-        LogInfo(f"구글 버킷 저장 이름 : {destination_file_name}")
 
         return destination_file_name
 

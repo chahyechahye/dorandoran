@@ -100,7 +100,7 @@ async def on_message(queue_name):
         # AMQP 예외 처리
         LogInfo(f"AMQP Error: {e}")
         # 여기서 연결을 다시 시도하거나, 로깅하거나 다른 적절한 조치를 취할 수 있습니다.
-        print("Reconnecting...")
+        LogInfo("Reconnecting...")
         await asyncio.sleep(5)
 
     except asyncio.CancelledError:
