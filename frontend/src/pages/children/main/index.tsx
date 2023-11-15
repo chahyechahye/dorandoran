@@ -29,6 +29,8 @@ import textballoon from "@/assets/img/childMain/textballoon.png";
 import { SoundState } from "@/states/common/voice";
 
 import movables from "@/assets/img/movables.png";
+import music from "@/assets/img/music.png";
+import nomusic from "@/assets/img/nomusic.png";
 
 const castleAnimation = keyframes`
   0%, 100% {
@@ -582,8 +584,8 @@ const Overlay = styled.div`
 `;
 
 const SoundBtn = styled.img`
-  width: 8vh;
-  height: 8vh;
+  width: 7vh;
+  height: 7vh;
 
   ${ButtonEffect}
 `;
@@ -880,9 +882,9 @@ const ChildrenMainPage = () => {
         </CastleContainer>
         <Profile>
           {mainSound ? (
-            <SoundBtn src={exitBtn} onClick={handleMainSound}></SoundBtn>
+            <SoundBtn src={music} onClick={handleMainSound}></SoundBtn>
           ) : (
-            <SoundBtn src={arrowLeft} onClick={handleMainSound}></SoundBtn>
+            <SoundBtn src={nomusic} onClick={handleMainSound}></SoundBtn>
           )}
           <ProfileCircle type="child" />
         </Profile>
