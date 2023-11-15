@@ -52,7 +52,7 @@ async def on_message_callback(message: aio_pika.IncomingMessage):
 
             # 응답을 보내는 부분
             LogInfo(f"메세지 : {message}")
-            channel = await message.channel()
+            channel = await message.channel_id()
             # LogInfo(f"채널 정보 : {channel}")
             exchange_name = ""  # 적절한 익스체인지 이름으로 변경
             routing_key = selectQueue(queue_name)
@@ -92,10 +92,19 @@ async def on_message(queue_name):
         # channel.basic_consume(queue=queue_name, on_message_callback=lambda *args: asyncio.run(on_message_callback(*args)), auto_ack=False)
         await channel.set_qos(prefetch_count=1)
         queue = await channel.declare_queue(queue_name, durable=True)
-        await queue.consume(on_message_callback)
+        LogInfo(f"Start consuming from queue: {queue_name}")
+        queue.consume(on_message_callback)
+        # async for data in queue.consume(on_message_callback):
+        #     try:
+        #         d = data['message']
+        #         res = data['res']
+        #         LogInfo(f"처리 완료 메세지 : {res}")
+        #         await d.ack()
+        #     except Exception as e:
+        #         LogInfo(f"처리 실패 : {e}")
+        #         await data['message'].nack(requeue=True)
 
         # await asyncio.to_thread(channel.start_consuming)
-        LogInfo(f"Start consuming from queue: {queue_name}")
     except aio_pika.exceptions.AMQPError as e:
         # AMQP 예외 처리
         LogInfo(f"AMQP Error: {e}")
