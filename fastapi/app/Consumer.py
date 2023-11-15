@@ -65,7 +65,6 @@ async def on_message_callback(message: aio_pika.IncomingMessage):
             #     routing_key=routing_key,
             #     exchange_name=exchange_name
             # )
-            asyncio.sleep(1)
 
         except Exception as e:
             LogError(e)
@@ -76,6 +75,7 @@ async def on_message(queue_name):
     # credentials = pika.PlainCredentials(username="username", password="password")
     # host = "k9b108.p.ssafy.io"
     # port = 5672
+    connection = None
     try:
         # connection = BlockingConnection(
         #     pika.ConnectionParameters(host=host, credentials=credentials, port=port)
@@ -95,7 +95,6 @@ async def on_message(queue_name):
         await channel.set_qos(prefetch_count=1)
         queue = await channel.declare_queue(queue_name, durable=True)
         await queue.consume(on_message_callback)
-        await asyncio.Future()
 
         # await asyncio.to_thread(channel.start_consuming)
         LogInfo(f"Start consuming from queue: {queue_name}")
@@ -113,10 +112,11 @@ async def on_message(queue_name):
         # 기타 예외 처리
         LogInfo(f"Unexpected error: {e}")
 
-    # finally:
-    #     # 여기서 필요한 정리 작업을 수행합니다.
-    #     if connection and not connection.is_closed:
-    #         await connection.close()
+    finally:
+        # 여기서 필요한 정리 작업을 수행합니다.
+        if connection and not connection.is_closed:
+            await connection.close()
+        # pass
     # except Exception as e:
     #     LogError(f"{e}")
     #     channel.stop_consuming()
