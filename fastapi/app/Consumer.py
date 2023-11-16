@@ -60,7 +60,7 @@ async def on_message_callback(message: aio_pika.IncomingMessage):
             LogInfo(f"퍼블리셔 큐 이름 : {routing_key}")
             LogInfo(f"res 타입 : {type(res)}")
             LogInfo(f"res.encode 타입 : {type(res.encode())}")
-            LogInfo(f"aio_pika 타입 : {type(aio_pika.Message(body=res))}")
+            # LogInfo(f"aio_pika 타입 : {type(aio_pika.Message(body=res))}")
             LogInfo(f"aio_pika(res.encode()) 타입 : {type(aio_pika.Message(body=res.encode()))}")
             LogInfo(f"aio_pika(res.encode(utf-8)) 타입 : {type(aio_pika.Message(body=res.encode('utf-8')))}")
             await channel.basic_publish(
