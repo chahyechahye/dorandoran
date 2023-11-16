@@ -11,7 +11,10 @@ from Consumer import on_message
 async def lifespan(app: FastAPI):
     # 시작 시 동작 부분
     LogInfo("Server Start")
-    await asyncio.gather(on_message(model_sub), on_message(voice_sub))
+    await asyncio.gather(
+        asyncio.create_task(on_message(model_sub)), 
+        asyncio.create_task(on_message(voice_sub))
+        )
     # await asyncio.gather(on_message(voice_sub))
     yield 
     # 종료 시 동작 부분

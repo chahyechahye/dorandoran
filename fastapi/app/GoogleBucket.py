@@ -60,7 +60,7 @@ def DownloadRaw(userId, gender, voiceUrl):
         blob.download_to_filename(save_location)
     return directory
 
-async def Upload(userId, fileName, gender):
+def Upload(userId, fileName, gender):
     try:
         directory = os.path.join("/", "app", "opt", f"{str(userId)}_{gender}", fileName)
         LogInfo(directory)
