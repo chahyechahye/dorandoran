@@ -1,6 +1,7 @@
 import asyncio
 import aio_pika
 import json
+import requests
 
 from customLog import LogInfo
 from customLog import LogError
@@ -50,6 +51,17 @@ async def on_message_callback(message: aio_pika.IncomingMessage):
         except Exception as e:
             LogError(e)
 
+rabbitmq_server_url = 'http://dorandoran.site:15672'
+rabbitmq_credentials = ('username', 'password')
+
+def get_queue_info(queue_name):
+    api_url = f"{rabbitmq_server_url}/api/queues/%2F/{queue_name}"
+    response = requests.get(api_url, auth=rabbitmq_credentials)
+    
+    if response.status_code == 200:
+        return response.json()
+    else:
+        return None
 
 async def on_message(queue_name):
     try:
@@ -60,11 +72,13 @@ async def on_message(queue_name):
             password="password"
         )
         channel = await connection.channel()
-        
-        await channel.set_qos(prefetch_count=1)
-        queue = await channel.declare_queue(queue_name, durable=True)
-        LogInfo(f"Start consuming from queue: {queue_name}")
-        await queue.consume(callback=on_message_callback)
+
+        queue_info = get_queue_info(queue_name)['consumer_details']
+        if len(queue_info) == 0:
+            await channel.set_qos(prefetch_count=1)
+            queue = await channel.declare_queue(queue_name, durable=True)
+            LogInfo(f"Start consuming from queue: {queue_name}")
+            await queue.consume(callback=on_message_callback)
 
     except aio_pika.exceptions.ChannelInvalidStateError:
         LogInfo(f"Channel is already connected. Skipping connection.") 
