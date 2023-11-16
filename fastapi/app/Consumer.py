@@ -77,7 +77,7 @@ async def on_message(queue_name):
         # 여기서 연결을 다시 시도하거나, 로깅하거나 다른 적절한 조치를 취할 수 있습니다.
         LogInfo("Reconnecting...")
         await asyncio.sleep(5)
-        on_message(queue_name)
+        await on_message(queue_name)
         
     except asyncio.CancelledError:
         LogInfo("Task cancelled. Exiting...")
