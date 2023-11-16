@@ -6,7 +6,6 @@ from customLog import LogInfo
 from customLog import LogError
 from Voice import Voice
 from Model import Model
-from Publicher import send_message
 
 model_pub = "model.res"
 model_sub = "model.req"
@@ -24,7 +23,6 @@ async def on_message_callback(message: aio_pika.IncomingMessage):
         try:
             queue_name = message.routing_key
             body = message.body.decode()  # 메시지 바이트를 문자열로 디코딩
-
             LogInfo(f"RoutingKey : {queue_name}")
             LogInfo(f"Received message : {body}")
 
@@ -52,7 +50,6 @@ async def on_message_callback(message: aio_pika.IncomingMessage):
 
 
 async def on_message(queue_name):
-    connection = None
     try:
         connection = await aio_pika.connect_robust(
             host="k9b108.p.ssafy.io",
@@ -66,7 +63,7 @@ async def on_message(queue_name):
         await channel.set_qos(prefetch_count=1)
         queue = await channel.declare_queue(queue_name, durable=True)
         LogInfo(f"Start consuming from queue: {queue_name}")
-        await queue.consume(on_message_callback)
+        await queue.consume(callback=on_message_callback, no_ack=True)
     except aio_pika.exceptions.AMQPError as e:
         # AMQP 예외 처리
         LogInfo(f"AMQP Error: {e}")
