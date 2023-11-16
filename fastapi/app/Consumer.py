@@ -45,7 +45,7 @@ async def on_message_callback(message: aio_pika.IncomingMessage):
                 routing_key=routing_key
             )
             # await channel.basic_ack(delivery_tag=message.delivery_tag)
-            await message.ack()
+            # await message.ack()
             await asyncio.sleep(0.5)
 
 

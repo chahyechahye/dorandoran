@@ -74,7 +74,7 @@ async def Upload(userId, fileName, gender):
 
         time.sleep(1)
 
-        blob.upload_from_filename(filename=directory, timeout=300)
+        blob.upload_from_filename(filename=directory, timeout=1000)
         
         return destination_file_name
 
