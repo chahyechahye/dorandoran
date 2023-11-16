@@ -43,6 +43,7 @@ async def on_message_callback(message: aio_pika.IncomingMessage):
                 body=res.encode('utf-8'),
                 routing_key=routing_key
             )
+            await channel.basic_ack(delivery_tag=message.delivery_tag)
 
 
         except Exception as e:
@@ -63,12 +64,13 @@ async def on_message(queue_name):
         await channel.set_qos(prefetch_count=1)
         queue = await channel.declare_queue(queue_name, durable=True)
         LogInfo(f"Start consuming from queue: {queue_name}")
-        while True:
-            try:
-                await queue.consume(callback=on_message_callback, no_ack=True)
-            except aio_pika.exceptions.ChannelInvalidStateError as e:
-                LogError(f"채널 연결 에러 : {e}")
-                await asyncio.sleep(5)
+        await queue.consume(callback=on_message_callback)
+        # while True:
+        #     try:
+        #         print()
+        #     except aio_pika.exceptions.ChannelInvalidStateError as e:
+        #         LogError(f"채널 연결 에러 : {e}")
+        #         await asyncio.sleep(5)
 
     except aio_pika.exceptions.AMQPError as e:
         # AMQP 예외 처리
