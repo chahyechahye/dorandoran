@@ -27,6 +27,8 @@ async def on_message_callback(ch, method, properties, body):
         ch.basic_ack(delivery_tag=method.delivery_tag)
     except Exception as e:
         LogError(e)
+        ch.basic_reject(delivery_tag=method.delivery_tag)
+        
 
 async def on_message(queue_name):
     credentials = pika.PlainCredentials(username="username", password="password")
@@ -46,8 +48,3 @@ async def on_message(queue_name):
         LogInfo(f"Start consuming from queue: {queue_name}")
     except Exception as e:
         LogError(f"{e}")
-        channel.stop_consuming()
-        connection.close()
-    finally:
-        channel.stop_consuming()
-        connection.close()
