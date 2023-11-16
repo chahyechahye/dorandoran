@@ -22,10 +22,10 @@ app = FastAPI(lifespan=lifespan)
 model_sub = "model.req"
 voice_sub = "voice.req"
 
-# @app.get("/")
-# def 테스트():
-#     print("테스트")
-#     return "테스트"
+@app.get("/")
+async def 테스트():
+    await asyncio.gather(on_message(model_sub), on_message(voice_sub))
+    return "테스트"
 
 if __name__ == "__main__":
     import uvicorn
