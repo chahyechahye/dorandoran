@@ -520,7 +520,7 @@ const ParentRecordPage = () => {
       {isAlarmModalOpen && (
         <Modal
           title="녹음이 완료되었어요!"
-          subtitle={`목소리 AI 학습 시간은 4~5 시간정도 소요됩니다. 
+          subtitle={`목소리 AI 학습 시간은 약 1시간정도 소요됩니다. 
           AI 목소리가 완성되면 문자를 통해서 알려드릴게요`}
           placeholder="전화번호를 입력해주세요"
           buttonText="알림받기"
