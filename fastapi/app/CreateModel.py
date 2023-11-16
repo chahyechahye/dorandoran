@@ -15,10 +15,10 @@ def trainStartAll(user, gender, trainPath):
                     0,	                                #5
                     4,	                                #6
                     "rmvpe_gpu",	                    #7
-                    40,	# 저장 주기                      #8
+                    50,	# 저장 주기                      #8
                     200, # 에포크 수                     #9
                     12,	# gpu 배치 크기                  #10
-                    "true", # 하드디스크 공간 절약        #11	
+                    "false", # 하드디스크 공간 절약        #11	
                     "assets/pretrained_v2/f0G40k.pth",	#12
                     "assets/pretrained_v2/f0D40k.pth",	#13
                     "0",	                            #14
