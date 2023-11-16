@@ -50,6 +50,7 @@ async def on_message_callback(message: aio_pika.IncomingMessage):
 
         except Exception as e:
             LogError(e)
+            # message.reject()
 
 rabbitmq_server_url = 'http://dorandoran.site:15672'
 rabbitmq_credentials = ('username', 'password')

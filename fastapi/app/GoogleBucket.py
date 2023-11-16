@@ -71,6 +71,9 @@ async def Upload(userId, fileName, gender):
         blob = bucket.blob(destination_file_name)
         # generation_match_precondition = 0 
         # blob.upload_from_filename(directory, if_generation_match=generation_match_precondition)
+
+        time.sleep(1)
+
         blob.upload_from_filename(directory)
         
         return destination_file_name
