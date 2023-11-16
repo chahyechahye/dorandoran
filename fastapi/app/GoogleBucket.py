@@ -1,5 +1,6 @@
 import uuid
 import os
+import time
 os.environ ["GOOGLE_APPLICATION_CREDENTIALS"] = "rd-ssafy-project-ebd0eea46d3e.json"
 
 from google.cloud import storage
@@ -68,12 +69,14 @@ async def Upload(userId, fileName, gender):
 
         bucket = client.bucket(bucket_name)
         blob = bucket.blob(destination_file_name)
-        generation_match_precondition = 0   
+        generation_match_precondition = 0 
         blob.upload_from_filename(directory, if_generation_match=generation_match_precondition)
+        
+        time.sleep(0.5)
 
         return destination_file_name
 
     except Exception as e:
         LogError(e)
-        LogError("Upload Fail")
+        LogError(f"Upload Fail : {destination_file_name}")
         raise
