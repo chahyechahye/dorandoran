@@ -86,16 +86,16 @@ async def Voice(data):
                 file['content_id'] = contentId
                 file_list.append(file)
 
-            data = inferRefresh(user=userId, gender=userGender)
+            data = await inferRefresh(user=userId, gender=userGender)
             transpose = check_gender(book, userGender)
             LogInfo(data)
-            inferClean()
+            await inferClean()
             LogInfo("1. Model Cleaning Success")
-            inferChangeVoice(data['pth'])
+            await inferChangeVoice(data['pth'])
             LogInfo("2. Model Select Success")
-            inferConvertBatch(data['index'], directory, save_location_list, f"/app/opt/{str(userId)}_{userGender}", transpose)
+            await inferConvertBatch(data['index'], directory, save_location_list, f"/app/opt/{str(userId)}_{userGender}", transpose)
             LogInfo("3. Inference Success")
-            inferClean()
+            await inferClean()
             LogInfo("4. Model Cleaning Success")
 
             for temp in file_list:
