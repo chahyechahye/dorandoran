@@ -63,7 +63,7 @@ async def Upload(userId, fileName, gender):
     try:
         directory = os.path.join("/", "app", "opt", f"{str(userId)}_{gender}", fileName)
         LogInfo(directory)
-        destination_file_name = str(uuid.uuid1())
+        destination_file_name = str(uuid.uuid4(uuid.uuid1()))
         LogInfo(f"버킷에 올라가는 이름 : {destination_file_name}")
 
         bucket = client.bucket(bucket_name)
