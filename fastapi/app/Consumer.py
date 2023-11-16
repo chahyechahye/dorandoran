@@ -45,12 +45,13 @@ async def on_message_callback(message: aio_pika.IncomingMessage):
                 routing_key=routing_key
             )
             # await channel.basic_ack(delivery_tag=message.delivery_tag)
-            # await message.ack()
+            await message.ack()
+            await asyncio.sleep(0.5)
 
 
         except Exception as e:
             LogError(e)
-            # message.reject()
+            message.reject(requeue=True)
 
 rabbitmq_server_url = 'http://dorandoran.site:15672'
 rabbitmq_credentials = ('username', 'password')
@@ -74,12 +75,12 @@ async def on_message(queue_name):
         )
         channel = await connection.channel()
 
-        queue_info = get_queue_info(queue_name)['consumer_details']
-        if len(queue_info) == 0:
-            await channel.set_qos(prefetch_count=1)
-            queue = await channel.declare_queue(queue_name, durable=True)
-            LogInfo(f"Start consuming from queue: {queue_name}")
-            await queue.consume(callback=on_message_callback)
+        # queue_info = get_queue_info(queue_name)['consumer_details']
+        # if len(queue_info) == 0:
+        await channel.set_qos(prefetch_count=1)
+        queue = await channel.declare_queue(queue_name, durable=True)
+        LogInfo(f"Start consuming from queue: {queue_name}")
+        await queue.consume(callback=on_message_callback)
 
     except aio_pika.exceptions.ChannelInvalidStateError:
         LogInfo(f"Channel is already connected. Skipping connection.") 
