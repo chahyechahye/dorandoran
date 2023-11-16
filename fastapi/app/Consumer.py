@@ -59,25 +59,21 @@ async def on_message(queue_name):
             password="password"
         )
         channel = await connection.channel()
-
+        
         await channel.set_qos(prefetch_count=1)
         queue = await channel.declare_queue(queue_name, durable=True)
         LogInfo(f"Start consuming from queue: {queue_name}")
         await queue.consume(callback=on_message_callback)
-        # while True:
-        #     try:
-        #         print()
-        #     except aio_pika.exceptions.ChannelInvalidStateError as e:
-        #         LogError(f"채널 연결 에러 : {e}")
-        #         await asyncio.sleep(5)
 
+    except aio_pika.exceptions.ChannelInvalidStateError:
+        LogInfo(f"Channel is already connected. Skipping connection.") 
+        return
     except aio_pika.exceptions.AMQPError as e:
         # AMQP 예외 처리
         LogInfo(f"AMQP Error: {e}")
         # 여기서 연결을 다시 시도하거나, 로깅하거나 다른 적절한 조치를 취할 수 있습니다.
         LogInfo("Reconnecting...")
         await asyncio.sleep(5)
-        await on_message(queue_name)
         
     except asyncio.CancelledError:
         LogInfo("Task cancelled. Exiting...")
