@@ -1,6 +1,5 @@
 package com.doran.utils.rabbitmq.service;
 
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
 
 import com.doran.processed_voice.service.ProcessedVoiceService;
@@ -8,7 +7,6 @@ import com.doran.redis.record.mapper.RecordMapper;
 import com.doran.redis.record.service.RecordService;
 import com.doran.redis.tel.service.TelService;
 import com.doran.utils.common.Genders;
-import com.doran.utils.rabbitmq.dto.res.ModelResMessage;
 import com.doran.utils.rabbitmq.dto.res.VoiceResMessage;
 import com.doran.utils.sens.MessageType;
 import com.doran.utils.sens.Naver_Sens_V2;
@@ -26,7 +24,7 @@ public class VoiceSubService {
     private final RecordService recordService;
     private final RecordMapper recordMapper;
 
-    @RabbitListener(queues = "voice.res")
+    // @RabbitListener(queues = "voice.res")
     public void subscribeVoiceQue(VoiceResMessage voiceResMessage) {
         // 목소리 갱신
         processedVoiceService.saveAll(voiceResMessage);
@@ -34,7 +32,7 @@ public class VoiceSubService {
         // 낭독 여부 갱신
         recordService.findById(String.valueOf(voiceResMessage.getUserId())).ifPresentOrElse(record -> {
             log.info("레디스 있어욧!!!!!!!!!!!!!!!!!");
-            recordService.update(voiceResMessage.getUserId(),record, voiceResMessage.getGenders());
+            recordService.update(voiceResMessage.getUserId(), record, voiceResMessage.getGenders());
         }, () -> {
             log.info("레디스 없어욧!!!!!!!!!!!!!!!!!!!!!!!!");
             boolean maleAble = false;
@@ -44,7 +42,8 @@ public class VoiceSubService {
                 maleAble = true;
             else
                 femaleAble = true;
-            recordService.save(recordMapper.toRecord(String.valueOf(voiceResMessage.getUserId()), maleAble, femaleAble));
+            recordService.save(
+                recordMapper.toRecord(String.valueOf(voiceResMessage.getUserId()), maleAble, femaleAble));
         });
 
         // 목소리 생성완료 알림
