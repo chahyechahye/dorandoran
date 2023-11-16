@@ -1,5 +1,6 @@
 import uuid
 import os
+import time
 os.environ ["GOOGLE_APPLICATION_CREDENTIALS"] = "rd-ssafy-project-ebd0eea46d3e.json"
 
 from google.cloud import storage
@@ -68,7 +69,10 @@ def Upload(userId, fileName):
 
         bucket = client.bucket(bucket_name)
         blob = bucket.blob(destination_file_name)
-        blob.upload_from_filename(directory)
+
+        time.sleep(0.5)
+
+        blob.upload_from_filename(filename=directory, content_type="audio/wav", timeout=180)
         return destination_file_name
     except Exception as e:
         LogError(e)
