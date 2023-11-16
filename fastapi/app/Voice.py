@@ -86,20 +86,20 @@ async def Voice(data):
                 file['content_id'] = contentId
                 file_list.append(file)
 
-            data = await inferRefresh(user=userId, gender=userGender)
+            data = inferRefresh(user=userId, gender=userGender)
             transpose = check_gender(book, userGender)
             LogInfo(data)
-            await inferClean()
+            inferClean()
             LogInfo("1. Model Cleaning Success")
-            await inferChangeVoice(data['pth'])
+            inferChangeVoice(data['pth'])
             LogInfo("2. Model Select Success")
-            await inferConvertBatch(data['index'], directory, save_location_list, f"/app/opt/{str(userId)}_{userGender}", transpose)
+            inferConvertBatch(data['index'], directory, save_location_list, f"/app/opt/{str(userId)}_{userGender}", transpose)
             LogInfo("3. Inference Success")
-            await inferClean()
+            inferClean()
             LogInfo("4. Model Cleaning Success")
 
             for temp in file_list:
-                upload_file_name = await Upload(userId=userId, fileName=temp['file_name']+".wav.wav", gender=userGender)
+                upload_file_name = Upload(userId=userId, fileName=temp['file_name']+".wav.wav", gender=userGender)
                 # voiceURL 변경
                 # 변경된 voiceURL 전달
                 PVQueRes = PVQueResDto(contentId=temp['content_id'], voiceUrl=f"https://storage.googleapis.com/dorandoran/{upload_file_name}")

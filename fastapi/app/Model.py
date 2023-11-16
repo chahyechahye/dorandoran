@@ -46,7 +46,7 @@ async def Model(data):
         directory = JoinWav(directory=download_path)
         LogInfo(f"join 결과 : {directory}")
         # 학습
-        await trainStartAll(user=userId, gender=userGender, trainPath=directory)
+        trainStartAll(user=userId, gender=userGender, trainPath=directory)
         res = ModelReq(
             userId=userId,
             genders=userGender
