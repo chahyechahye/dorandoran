@@ -6,7 +6,6 @@ from pika import BlockingConnection
 from customLog import LogInfo
 from customLog import LogError
 from Voice import Voice
-from Model import Model
 
 voice_pub = "voice.res"
 voice_sub = "voice.req"
