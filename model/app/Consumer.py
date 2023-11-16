@@ -15,7 +15,7 @@ def selectQueue(queueName):
         return model_pub
 
 
-async def on_message_callback(ch, method, properties, body):
+def on_message_callback(ch, method, properties, body):
     # 메시지를 처리하는 비동기 코드 작성
     try:
         queueName = method.routing_key
@@ -31,7 +31,7 @@ async def on_message_callback(ch, method, properties, body):
         LogError(e)
         ch.basic_reject(delivery_tag=method.delivery_tag)
 
-async def on_message(queue_name):
+def on_message(queue_name):
     credentials = pika.PlainCredentials(username="username", password="password")
     host = "k9b108.p.ssafy.io"
     port = 5672
@@ -43,9 +43,9 @@ async def on_message(queue_name):
 
         channel.queue_declare(queue=queue_name, durable=True)
         channel.basic_qos(prefetch_count=1)
-        channel.basic_consume(queue=queue_name, on_message_callback=lambda *args: asyncio.run(on_message_callback(*args)), auto_ack=False)
+        channel.basic_consume(queue=queue_name, on_message_callback=on_message_callback, auto_ack=False)
+        channel.start_consuming()
         
-        await asyncio.to_thread(channel.start_consuming)
         LogInfo(f"Start consuming from queue: {queue_name}")
     except Exception as e:
         LogError(f"{e}")
