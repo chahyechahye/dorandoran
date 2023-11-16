@@ -43,7 +43,8 @@ async def on_message_callback(message: aio_pika.IncomingMessage):
                 body=res.encode('utf-8'),
                 routing_key=routing_key
             )
-            await channel.basic_ack(delivery_tag=message.delivery_tag)
+            # await channel.basic_ack(delivery_tag=message.delivery_tag)
+            await message.ack()
 
 
         except Exception as e:

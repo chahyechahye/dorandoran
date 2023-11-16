@@ -99,7 +99,7 @@ async def Voice(data):
             LogInfo("4. Model Cleaning Success")
 
             for temp in file_list:
-                upload_file_name = Upload(userId=userId, fileName=temp['file_name']+".wav.wav", gender=userGender)
+                upload_file_name = await Upload(userId=userId, fileName=temp['file_name']+".wav.wav", gender=userGender)
                 # voiceURL 변경
                 # 변경된 voiceURL 전달
                 PVQueRes = PVQueResDto(contentId=temp['content_id'], voiceUrl=f"https://storage.googleapis.com/dorandoran/{upload_file_name}")
