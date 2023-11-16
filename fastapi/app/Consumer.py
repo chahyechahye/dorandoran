@@ -19,22 +19,6 @@ def selectQueue(queueName):
     elif queueName == voice_sub:
         return voice_pub
 
-# async def on_message_callback(ch, method, properties, body):
-#     # 메시지를 처리하는 비동기 코드 작성
-#     try:
-#         queueName = method.routing_key
-#         LogInfo(f"RoutingKey : {queueName}")
-#         LogInfo(f"Received message : {body}")
-#         if queueName == model_sub:
-#             res = Model(body)
-#         elif queueName == voice_sub:
-#             res = Voice(body)
-#         LogInfo(f"RESULT BODY : {res}")
-#         ch.basic_publish(exchange="", routing_key=selectQueue(queueName), body=res)
-#         ch.basic_ack(delivery_tag=method.delivery_tag)
-#     except Exception as e:
-#         LogError(e)
-
 async def on_message_callback(message: aio_pika.IncomingMessage):
      async with message.process():
         try:
@@ -45,7 +29,7 @@ async def on_message_callback(message: aio_pika.IncomingMessage):
             LogInfo(f"Received message : {body}")
 
             if queue_name == model_sub:
-                res = Model(body)
+                res = await Model(body)
             elif queue_name == voice_sub:
                 res = await Voice(body)
 
@@ -55,36 +39,21 @@ async def on_message_callback(message: aio_pika.IncomingMessage):
             LogInfo(f"메세지 : {message}")
             channel = message.channel
             LogInfo(f"채널 정보 : {channel}")
-            exchange_name = ""  # 적절한 익스체인지 이름으로 변경
             routing_key = selectQueue(queue_name)
             LogInfo(f"퍼블리셔 큐 이름 : {routing_key}")
-            # LogInfo(f"res 타입 : {type(res)}")
-            # LogInfo(f"res.encode 타입 : {type(res.encode())}")
-            # LogInfo(f"res.encode 길이 : {type(len(res.encode('utf-8')))}")
-            # LogInfo(f"aio_pika(res.encode()) 타입 : {type(aio_pika.Message(body=res.encode()))}")
-            # LogInfo(f"aio_pika(res.encode(utf-8)) 타입 : {type(aio_pika.Message(body=res.encode('utf-8')))}")
             await channel.basic_publish(
-                # body=aio_pika.Message(body=res.encode('utf-8')),
                 body=res.encode('utf-8'),
                 routing_key=routing_key
             )
 
-            # await message.ack()   
 
         except Exception as e:
             LogError(e)
-            # await message.reject(requeue=True)
 
 
 async def on_message(queue_name):
-    # credentials = pika.PlainCredentials(username="username", password="password")
-    # host = "k9b108.p.ssafy.io"
-    # port = 5672
     connection = None
     try:
-        # connection = BlockingConnection(
-        #     pika.ConnectionParameters(host=host, credentials=credentials, port=port)
-        # )
         connection = await aio_pika.connect_robust(
             host="k9b108.p.ssafy.io",
             port=5672,
@@ -94,24 +63,10 @@ async def on_message(queue_name):
         )
         channel = await connection.channel()
 
-        # channel.queue_declare(queue=queue_name, durable=True)
-        # channel.basic_qos(prefetch_count=1)
-        # channel.basic_consume(queue=queue_name, on_message_callback=lambda *args: asyncio.run(on_message_callback(*args)), auto_ack=False)
         await channel.set_qos(prefetch_count=1)
         queue = await channel.declare_queue(queue_name, durable=True)
         LogInfo(f"Start consuming from queue: {queue_name}")
         await queue.consume(on_message_callback)
-        # async for data in queue.consume(on_message_callback):
-        #     try:
-        #         d = data['message']
-        #         res = data['res']
-        #         LogInfo(f"처리 완료 메세지 : {res}")
-        #         await d.ack()
-        #     except Exception as e:
-        #         LogInfo(f"처리 실패 : {e}")
-        #         await data['message'].nack(requeue=True)
-
-        # await asyncio.to_thread(channel.start_consuming)
     except aio_pika.exceptions.AMQPError as e:
         # AMQP 예외 처리
         LogInfo(f"AMQP Error: {e}")
@@ -125,16 +80,3 @@ async def on_message(queue_name):
     except Exception as e:
         # 기타 예외 처리
         LogInfo(f"Unexpected error: {e}")
-
-    # finally:
-        # 여기서 필요한 정리 작업을 수행합니다.
-        # if connection and not connection.is_closed:
-        #     await connection.close()
-        # pass
-    # except Exception as e:
-    #     LogError(f"{e}")
-    #     channel.stop_consuming()
-    #     connection.close()
-    # finally:
-    #     channel.stop_consuming()
-    #     connection.close()

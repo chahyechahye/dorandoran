@@ -22,7 +22,7 @@ class ModelReq(BaseModel):
     userId: int
     genders: str
 
-def Model(data):
+async def Model(data):
     try:
         modelRes_dict = json.loads(data)
         userId = modelRes_dict['userId']
