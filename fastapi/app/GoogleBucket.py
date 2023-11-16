@@ -69,11 +69,10 @@ async def Upload(userId, fileName, gender):
 
         bucket = client.bucket(bucket_name)
         blob = bucket.blob(destination_file_name)
-        generation_match_precondition = 0 
-        blob.upload_from_filename(directory, if_generation_match=generation_match_precondition)
+        # generation_match_precondition = 0 
+        # blob.upload_from_filename(directory, if_generation_match=generation_match_precondition)
+        blob.upload_from_filename(directory)
         
-        time.sleep(0.5)
-
         return destination_file_name
 
     except Exception as e:
