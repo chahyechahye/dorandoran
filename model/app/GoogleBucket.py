@@ -69,10 +69,8 @@ def Upload(userId, fileName):
 
         bucket = client.bucket(bucket_name)
         blob = bucket.blob(destination_file_name)
-
-        time.sleep(0.5)
-
         blob.upload_from_filename(filename=directory, content_type="audio/wav", timeout=180)
+        time.sleep(0.5)
         return destination_file_name
     except Exception as e:
         LogError(e)
