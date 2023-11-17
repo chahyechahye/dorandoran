@@ -33,7 +33,7 @@ def on_message_callback(ch, method, properties, body):
 
 def on_message(queue_name):
     credentials = pika.PlainCredentials(username="username", password="password")
-    host = "k9b108.p.ssafy.io"
+    host = "" # ip 지웟음 체크할것
     port = 5672
     try:
         connection = BlockingConnection(

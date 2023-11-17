@@ -68,7 +68,7 @@ def get_queue_info(queue_name):
 async def on_message(queue_name):
     try:
         connection = await aio_pika.connect_robust(
-            host="k9b108.p.ssafy.io",
+            host="", # ip 지웟음 체크할것
             port=5672,
             login="username",
             password="password"

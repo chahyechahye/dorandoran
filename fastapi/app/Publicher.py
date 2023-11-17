@@ -3,7 +3,7 @@ import aio_pika
 async def send_message(queue_name, message):
     try:
         connection = await aio_pika.connect_robust(
-                host="k9b108.p.ssafy.io",
+                host="", # ip 지웟음 체크할것
                 port=5672,
                 login="username",
                 password="password",
