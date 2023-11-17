@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "rd-ssafy-project",
+  "private_key_id": "ebd0eea46d3ed1804142fdc7e87ceea7d2f18631",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCircHWLskbD8Ni\nHqA+eUeUo1G+h87RIvOzFBNN5VkUIJjhiKLdk/Z+S+rbAMT43EumAras8wfYUALQ\nZt8wo+kh2eQMoTvUYWvXh9k5Dzi7YrUIemJz6FpBgRW3DLwIWWYpwiv8etvLlzyt\n6+G+c/qlVzfNCG+fQasVzYLNrHie4aG97Wbfuqo/sUikfn/fOvzeO2g8nu/IuR0X\nDY1CPTjH2YMA+uFog9bZCtjs2v3slj5qlgohTQSvbi7en5iIC3guJdWHetEZRYlK\nho2vx+3P/YXXMT3N2QAsDjx1fVmfZrV1saiNZ2uTgSyRkPn6YsG8BbPn7jOa+cSe\nTvJezRwLAgMBAAECggEAMz/nVZkWrSpZpOM+G4BsvxR2r74sNzG6MbwM2tj6p78f\nOsoneQPgv2geXJFQ/I+2W132e+Tyn0CRqmMGRFYXH5173Ui8RwvMBDIdin7ToiEW\nJE4eDyLvsDxBAZKG+GBlsZkk710rOmfya15pF22FVKp1/2d9duAizHMalr4ToAW3\nM+Ivb/e8yTn6mxHaMhEHlpYIPJsqUewESK+xBTEVr02otvnkHyCZbYkph/9lKrYl\nJwitQlvIDpyam/8e7cQPu2JgjB6yHC4O3y2SHaYnQ9UPFkuHzKQLlf210WSsx4PT\nVyiD702iuO9+oTgnqvU+H9d1LbXc7N5pZ6I9MoXD1QKBgQDemNvwcoAg4wnTE4Oc\n2L8IUFOQQVtDtt0Bu3V+EYOc8RTRwksLNVTYnNBxeReGVuW6fqhTtSYsKW00t5WW\nDBdwG+UK1uLrWwSKsTbL4Mfp6ymkp5abGWDEMD0jrDWx7E2lUNy2lqrr0diKD8uu\ndI4269S6Bh77FWMzmvhQNxMNbQKBgQC7Fx1DPatcIuU4wpPL7s4d3F3DIWr6f/K1\nQqJ8CCwSze3811HUvJHzTb9BJJVL81yP4nUrkD01c1dNxxKacBACpbcjAMz86aFh\nCH1Z+ZmxISCLfAmVGD93zZnvZxQPVGj/C6tgLrlZbf+oYajQwcZ312gYsrxCv5AH\nWB26uiY8VwKBgFTWia0A1tix74KlQ1o6OcTfaJnobvJF9cG9QrCD2FeugrLXjGZ/\nMxFD4yX8cvzejbwgneMZfa0DNP4MolSH0z8FQqx47g+ppvd9R1c5GriKylpZDUub\nxoe/ou2/qs9fMtC5GwX0MryiRBeKoaSiA7nm9DLaNmCX7DE09UMNWpOZAoGBAK0V\nwk3OBPXVlsk/QmreALShheEbzpP3wTwubJJhIR04hR9wuNUeq8wzNmh3BuRgPlcj\nRBFMfUQw9CkRrkVQvY8lbtukRwEIx/M0XnvaLnUv16MT2u2jpDwa63oPnABesFCc\npCz0rSduW6KUzxBq5UlD8JtA6Gi8Pux8eeyhgPQ7AoGBAKHurFau1E+lAgDzxcJR\nELAxzYBV7/p+OFbba+pExzTE6HT/y8LpKmycmx3xrYg1AnCiXSdt9OIZheNTzXsA\nfs65H30STqk3ofPjoCFmrFI4CgAK2TkbYadESfhjGAvauppsWL4efnI66nsh7/Oj\nqkCvuu7SBFhLwD8SWB6x1tuE\n-----END PRIVATE KEY-----\n",
+  "client_email": "springboot-storage-access@rd-ssafy-project.iam.gserviceaccount.com",
+  "client_id": "114942716355870134806",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/springboot-storage-access%40rd-ssafy-project.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
