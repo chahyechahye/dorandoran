@@ -9,7 +9,7 @@
 
 ## ✅ 멤버소개
 
-![Untitled](assets/Untitled%201.png)
+![Untitled](assets/팀원.png)
 
 ## ✅ 기술스택
 <table>
@@ -62,7 +62,7 @@
 
 ## ✅ 아키텍쳐
 
-![Untitled](assets/Untitled%202.png)
+![Untitled](assets/아키텍처.png)
 
 ## ✅ 프로젝트 소개
 
@@ -130,7 +130,7 @@
 </details>
 <details>
 <summary>RabbitMq를 활용한 트래픽 완화</summary>
-    ![Untitled](assets/Untitled%203.png)
+    <img src="assets/플로우.png">
 
     **개요**
 
