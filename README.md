@@ -104,21 +104,218 @@
 
 ## ✅ 기능 소개
 
+### 스플래시
+<table>    
+    <tr align="center" > 
+        <td><strong>스플래시</strong></td>
+    </tr>
+    <tr align="center"> 
+        <td> <img src= "assets/공통/스플래시.gif"> </td>
+    </tr>
+    <tr> 
+        <td>
+            1. 해당 월에 할인, 소비한 금액을 확인 가능<br>
+            2. 하단 바코드를 통해 오프라인 결제 가능<br>
+            3. 스와이핑을 통해 오프라인 결제 카드 선택 가능
+        </td>
+</table>
+
 ### 회원가입, 로그인
 
-[gif]
+<table>    
+    <tr align="center" > 
+        <td><strong>아이 로그인</strong></td>
+        <td><strong>부모 로그인</strong></td>
+    </tr>
+    <tr align="center"> 
+        <td> <img src= "assets/아이/아이로그인.gif"> </td>
+        <td> <img src= "assets/부모/부모로그인.gif"> </td>
+    </tr>
+    <tr> 
+        <td>
+            1. 해당 월에 할인, 소비한 금액을 확인 가능<br>
+            2. 하단 바코드를 통해 오프라인 결제 가능<br>
+            3. 스와이핑을 통해 오프라인 결제 카드 선택 가능
+        </td>
+        <td>
+            1. 해당 월에 할인, 소비한 금액을 확인 가능<br>
+            2. 하단 바코드를 통해 오프라인 결제 가능<br>
+            3. 스와이핑을 통해 오프라인 결제 카드 선택 가능
+        </td>
+</table>
 
-### 목소리 녹음 (부모)
+### 메인 화면
 
-[gif]
+<table>    
+    <tr align="center" > 
+        <td><strong>아이 메인</strong></td>
+        <td><strong>부모 메인</strong></td>
+    </tr>
+    <tr align="center"> 
+        <td> <img src= "assets/아이/아이메인.gif"> </td>
+        <td> <img src= "assets/부모/부모메인.gif"> </td>
+    </tr>
+    <tr> 
+        <td>
+            1. 해당 월에 할인, 소비한 금액을 확인 가능<br>
+            2. 하단 바코드를 통해 오프라인 결제 가능<br>
+            3. 스와이핑을 통해 오프라인 결제 카드 선택 가능
+        </td>
+        <td>
+            1. 해당 월에 할인, 소비한 금액을 확인 가능<br>
+            2. 하단 바코드를 통해 오프라인 결제 가능<br>
+            3. 스와이핑을 통해 오프라인 결제 카드 선택 가능
+        </td>
+</table>
 
-### 동화 낭독 (아이)
+## 아이 기능
 
-[gif]
+### 동화 낭독
 
-### 편지, 앨범
+<table>    
+    <tr align="center" > 
+        <td><strong>동화 낭독</strong></td>
+        <td><strong>동화 낭독</strong></td>
+    </tr>
+    <tr align="center"> 
+        <td> <img src= "assets/아이/토끼와거북이.gif"> </td>
+        <td> <img src= "assets/아이/금도끼은도끼.gif"> </td>
+    </tr>
+    <tr> 
+        <td>
+            1. 해당 월에 할인, 소비한 금액을 확인 가능<br>
+            2. 하단 바코드를 통해 오프라인 결제 가능<br>
+            3. 스와이핑을 통해 오프라인 결제 카드 선택 가능
+        </td>
+        <td>
+            1. 해당 월에 할인, 소비한 금액을 확인 가능<br>
+            2. 하단 바코드를 통해 오프라인 결제 가능<br>
+            3. 스와이핑을 통해 오프라인 결제 카드 선택 가능
+        </td>
+</table>
 
-[gif]
+### 도서관 기능
+<table>    
+    <tr align="center" > 
+        <td><strong>동화 리스트</strong></td>
+        <td><strong>좋아요</strong></td>
+    </tr>
+    <tr align="center"> 
+        <td> <img src= "assets/아이/동화리스트.gif"> </td>
+        <td> <img src= "assets/아이/재밌나요.gif"> </td>
+    </tr>
+    <tr> 
+        <td>
+            1. 해당 월에 할인, 소비한 금액을 확인 가능<br>
+            2. 하단 바코드를 통해 오프라인 결제 가능<br>
+            3. 스와이핑을 통해 오프라인 결제 카드 선택 가능
+        </td>
+        <td>
+            1. 해당 월에 할인, 소비한 금액을 확인 가능<br>
+            2. 하단 바코드를 통해 오프라인 결제 가능<br>
+            3. 스와이핑을 통해 오프라인 결제 카드 선택 가능
+        </td>
+</table>
+
+### 아이 친화 기능
+<table>    
+    <tr align="center" > 
+        <td><strong>동물 고르기</strong></td>
+        <td><strong>튜토리얼</strong></td>
+    </tr>
+    <tr align="center"> 
+        <td> <img src= "assets/아이/동물고르기.gif"> </td>
+        <td> <img src= "assets/아이/튜토리얼.gif"> </td>
+    </tr>
+    <tr> 
+        <td>
+            1. 해당 월에 할인, 소비한 금액을 확인 가능<br>
+            2. 하단 바코드를 통해 오프라인 결제 가능<br>
+            3. 스와이핑을 통해 오프라인 결제 카드 선택 가능
+        </td>
+        <td>
+            1. 해당 월에 할인, 소비한 금액을 확인 가능<br>
+            2. 하단 바코드를 통해 오프라인 결제 가능<br>
+            3. 스와이핑을 통해 오프라인 결제 카드 선택 가능
+        </td>
+</table>
+
+## 부모 기능
+
+### 음성 녹음 주의사항 및 중간저장
+<table>    
+    <tr align="center" > 
+        <td><strong>주의사항</strong></td>
+        <td><strong>중간저장</strong></td>
+    </tr>
+    <tr align="center"> 
+        <td> <img src= "assets/부모/주의사항.gif"> </td>
+        <td> <img src= "assets/부모/중간저장.gif"> </td>
+    </tr>
+    <tr> 
+        <td>
+            1. 해당 월에 할인, 소비한 금액을 확인 가능<br>
+            2. 하단 바코드를 통해 오프라인 결제 가능<br>
+            3. 스와이핑을 통해 오프라인 결제 카드 선택 가능
+        </td>
+        <td>
+            1. 해당 월에 할인, 소비한 금액을 확인 가능<br>
+            2. 하단 바코드를 통해 오프라인 결제 가능<br>
+            3. 스와이핑을 통해 오프라인 결제 카드 선택 가능
+        </td>
+</table>
+
+### 음성 녹음
+<table>    
+    <tr align="center" > 
+        <td><strong>녹음 및 다시 듣기</strong></td>
+        <td><strong>녹음 완료</strong></td>
+    </tr>
+    <tr align="center"> 
+        <td> <img src= "assets/부모/녹음및다시듣기.gif"> </td>
+        <td> <img src= "assets/부모/녹음완.gif"> </td>
+    </tr>
+    <tr> 
+        <td>
+            1. 해당 월에 할인, 소비한 금액을 확인 가능<br>
+            2. 하단 바코드를 통해 오프라인 결제 가능<br>
+            3. 스와이핑을 통해 오프라인 결제 카드 선택 가능
+        </td>
+        <td>
+            1. 해당 월에 할인, 소비한 금액을 확인 가능<br>
+            2. 하단 바코드를 통해 오프라인 결제 가능<br>
+            3. 스와이핑을 통해 오프라인 결제 카드 선택 가능
+        </td>
+</table>
+
+### 공통 기능 (편지, 사진첩)
+<table>    
+    <tr align="center" > 
+        <td><strong>그림 편지 쓰기</strong></td>
+        <td><strong>그림 편지 받기</strong></td>
+        <td><strong>사진첩</strong></td>
+    </tr>
+    <tr align="center">
+        <td> <img src= "assets/공통/편지보내기.gif"> </td>
+        <td> <img src= "assets/공통/편지확인.gif"> </td>
+        <td> <img src= "assets/공통/사진첩.gif"> </td>
+    </tr>
+    <tr> 
+        <td>
+          1. 이번 달에 받은 총 할인 혜택 금액 확인<br>
+          2. 이미지를 통해 상위 4개 확인<br>
+          3. 그래프를 통해 카테고리별 세부 금액 확인
+        </td>
+        <td>
+            1. 달력을 통해 다른 월 확인<br>
+            2. 내 소비, 혜택 전환 
+        </td>
+        <td>
+            1. 달력을 통해 다른 월 확인<br>
+            2. 내 소비, 혜택 전환 
+        </td>
+</table>
+
 
 ## ✅ 활용기술, 기술 설명
 
